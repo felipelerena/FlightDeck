@@ -1,0 +1,10 @@
+FlightDeck is deployed using Fabric (http://www.fabfile.org)
+Install it on your development system
+
+All *_local-default* files are shared over the version control system.
+These should be copied to corresponding *_local* files and edited to suit the running
+operating system.
+$ cp settings_local-default.py settings_local.py
+$ # change database settings
+
+A bash script automating above is in the scripts directory
