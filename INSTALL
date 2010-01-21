@@ -1,10 +1,79 @@
-FlightDeck is deployed using Fabric (http://www.fabfile.org)
-Install it on your development system
+####################
+First Installation
 
-All *_local-default* files are shared over the version control system.
-These should be copied to corresponding *_local* files and edited to suit the running
-operating system.
-$ cp settings_local-default.py settings_local.py
-$ # change database settings
+Virtualenv is providing a stable environment for Django
+Installation of VirtualEnv under Ubuntu is described in detail in this post: 
+http://www.saltycrane.com/blog/2009/05/notes-using-pip-and-virtualenv-django/
 
-A bash script automating above is in the scripts directory
+Assuming Python 2.5+ is already installed it should be enough to follow these 
+steps (some commands are specific to Ubuntu with Bash):
+
+1. Install python-setuptools python-dev build-essential
+   $ sudo apt-get install python-setuptools python-dev build-essential
+
+2. Install Pip and VirtualEnv
+   $ sudo easy_install -U pip
+   $ sudo pip install -U virtualenv
+
+3. Create directory for Python environments
+   $ sudo mkdir /srv; sudo mkdir /srv/python-environments
+   $ cd /srv/python-environments
+   $ sudo virtualenv --no-site-packages flightdeck
+
+4. Clear PYTHONPATH (could be optional, but it's working for me)
+   $ export PYTHONPATH=
+
+5. Install from requirements.txt (#XXX: This is untested due to not accesible server)
+   $ sudo pip install -E flightdeck/ -r /path/to/projects/FlightDeck/pip-requirements.txt
+
+6. Check if everything is working
+   * activate flightdeck environment
+     $ source flightdeck/bin/activate
+     the PS1 may change (regarding on the settings) to
+     (flightdeck)zalun@localhost $
+   * display the Django version
+     $ django-admin.py --version
+     1.1.1 
+   * check if the same as in requirements file 
+     $ grep Django /path/to/projects/FlightDeck/pip-requirements.txt
+     Django==1.1.1
+   * display list of packages
+     $ yolk -l
+     Django          - 1.1.1        - active 
+     Python          - 2.6.4        - active development (/usr/lib/python2.6/lib-dynload)
+     pip             - 0.6.2        - active 
+     setuptools      - 0.6c11       - active 
+     wsgiref         - 0.1.2        - active development (/usr/lib/python2.6)
+     yolk            - 0.4.1        - active 
+   * Check if contains everything from requirements file in the right version plus 
+     Python, pip and setuptools
+     $ cat /path/to/projects/FlightDeck/pip-requirements.txt
+     Django==1.1.1
+     wsgiref==0.1.2
+     yolk==0.4.1
+
+7. Clone FlightDeck from github
+   $ cd /path/to/projects/
+   $ git clone git@github.com:zalun/FlightDeck.git
+   $ git remote add zalun git@github.com:zalun/FlightDeck.git
+
+8. Configure the Django application
+   $ chmod a+x scripts/*sh
+   $ ./scripts/install.sh
+   $ vi flightdeck/settings_local.py # **
+
+9. Initiate database*
+   $ ./scripts/syncdb.sh
+   
+9. Run Server*
+   $ ./scripts/runserver.sh
+   FlightDeck may be accessed by loading http://127.0.0.1:8090/
+
+----
+*  Scripts assume one has installed the FlightDeck environment in 
+   /srv/python-envirenments/flightdeck/ if it is a different one
+   please edit the scripts/config_local.sh
+
+** No *_local.py file should be shared between users, they contain
+   informations relevant only to the local installation of FlightDeck.
+   The exclude file is provided by default.
