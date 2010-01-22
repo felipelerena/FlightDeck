@@ -1,39 +1,11 @@
 FlightDeck is a SDK for creating JetPack
 (c) Mozilla Foundation
 
-
-
 Uses following third-party software:
  * Python (http://www.python.org/) [GPL-compatible]
  * Django (http://www.djangoproject.com/) [BSD]
- * Fabric (http://docs.fabfile.org/) [GPL]
  * VirtualEnv (http://pypi.python.org/pypi/virtualenv) [MIT]
+ * Pip (http://pip.openplans.org/) [TBC]
+ * Yolk (http://tools.assembla.com/yolk/) [GPL-2]
  * Mootools (http://mootools.net/) [MIT]
 
-Directory structure:
-.
-|-- INSTALL
-|-- README
-|-- apache
-|   `-- config_local-default.wsgi
-|-- dev.db
-|-- flightdeck
-|   |-- __init__.py
-|   |-- fabfile_local-default.py
-|   |-- manage.py
-|   |-- settings.py
-|   |-- settings_local-default.py
-|   |-- settings_local.py
-|   `-- urls.py
-|-- logs
-|-- pip-requirements.txt
-|-- scripts
-|   |-- config_local-default.sh
-|   |-- environment.sh
-|   |-- install.sh
-|   |-- runserver.sh
-|   `-- syncdb.sh
-`-- tools
-    `-- git-exclude
-
-5 directories, 25 files
