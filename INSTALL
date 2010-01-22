@@ -24,7 +24,7 @@ steps (some commands are specific to Ubuntu with Bash):
    $ export PYTHONPATH=
 
 5. Install from requirements.txt (#XXX: This is untested due to not accesible server)
-   $ sudo pip install -E flightdeck/ -r /path/to/projects/FlightDeck/pip-requirements.txt
+   $ sudo pip install -E flightdeck/ -r /path/to/projects/FlightDeck/tools/pip-requirements.txt
 
 6. Check if everything is working
    * activate flightdeck environment
@@ -35,7 +35,7 @@ steps (some commands are specific to Ubuntu with Bash):
      $ django-admin.py --version
      1.1.1 
    * check if the same as in requirements file 
-     $ grep Django /path/to/projects/FlightDeck/pip-requirements.txt
+     $ grep Django /path/to/projects/FlightDeck/tools/pip-requirements.txt
      Django==1.1.1
    * display list of packages
      $ yolk -l
@@ -47,7 +47,7 @@ steps (some commands are specific to Ubuntu with Bash):
      yolk            - 0.4.1        - active 
    * Check if contains everything from requirements file in the right version plus 
      Python, pip and setuptools
-     $ cat /path/to/projects/FlightDeck/pip-requirements.txt
+     $ cat /path/to/projects/FlightDeck/tools/pip-requirements.txt
      Django==1.1.1
      wsgiref==0.1.2
      yolk==0.4.1
