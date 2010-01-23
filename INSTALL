@@ -1,9 +1,7 @@
 ####################
 First Installation
 
-Virtualenv is providing a stable environment for Django
-Installation of VirtualEnv under Ubuntu is described in detail in this post: 
-http://www.saltycrane.com/blog/2009/05/notes-using-pip-and-virtualenv-django/
+Virtualenv is providing a stable environment for Django. (1)
 
 Assuming Python 2.5+ is already installed it should be enough to follow these 
 steps (some commands are specific to Ubuntu with Bash):
@@ -68,11 +66,46 @@ steps (some commands are specific to Ubuntu with Bash):
    $ ./scripts/runserver.sh
    FlightDeck may be accessed by loading http://127.0.0.1:8090/
 
-----
-*  Scripts assume one has installed the FlightDeck environment in 
-   /srv/python-envirenments/flightdeck/ if it is a different one
-   please edit the scripts/config_local.sh
 
-** No *_local.py file should be shared between users, they contain
-   informations relevant only to the local installation of FlightDeck.
-   The exclude file is provided by default.
+##############################
+Extending the Python codebase
+
+1. Install the package
+   $ cd /srv/python-environments
+   $ pip install -E flightdeck/ pil
+
+2. Save the requirements
+   $ pip freeze -E flightdeck/ > /path/to/projects/FlightDeck/tools/pip-requirements.txt
+
+
+##############################
+Adding third party projects
+DOC: http://pip.openplans.org/requirement-format.html
+
+
+#####################
+Updating requirements
+
+1. Clear PYTHONPATH (could be optional, but it's working for me)
+   $ export PYTHONPATH=
+
+2. Install from pip-requirements.txt
+   $ cd /srv/python-environments
+   $ sudo pip install -E flightdeck/ -r /path/to/projects/FlightDeck/tools/pip-requirements.txt
+
+
+----
+*   Scripts assume one has installed the FlightDeck environment in 
+    /srv/python-envirenments/flightdeck/ if it is a different one
+    please edit the scripts/config_local.sh
+
+**  No *_local.py file should be shared between users, they contain
+    informations relevant only to the local installation of FlightDeck.
+    The exclude file is provided by default.
+
+----
+(1) Installation of VirtualEnv under Ubuntu is described in detail in this post: 
+    http://www.saltycrane.com/blog/2009/05/notes-using-pip-and-virtualenv-django/
+
+(2) Pip requirements file format
+    http://pip.openplans.org/requirement-format.html
