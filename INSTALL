@@ -8,25 +8,29 @@ http://www.saltycrane.com/blog/2009/05/notes-using-pip-and-virtualenv-django/
 Assuming Python 2.5+ is already installed it should be enough to follow these 
 steps (some commands are specific to Ubuntu with Bash):
 
-1. Install python-setuptools python-dev build-essential
+1. Clone FlightDeck from github
+   $ cd /path/to/projects/
+   $ git clone git@github.com:zalun/FlightDeck.git
+
+2. Install python-setuptools python-dev build-essential
    $ sudo apt-get install python-setuptools python-dev build-essential
 
-2. Install Pip and VirtualEnv
+3. Install Pip and VirtualEnv
    $ sudo easy_install -U pip
    $ sudo pip install -U virtualenv
 
-3. Create directory for Python environments
+4. Create directory for Python environments
    $ sudo mkdir /srv; sudo mkdir /srv/python-environments
    $ cd /srv/python-environments
    $ sudo virtualenv --no-site-packages flightdeck
 
-4. Clear PYTHONPATH (could be optional, but it's working for me)
+5. Clear PYTHONPATH (could be optional, but it's working for me)
    $ export PYTHONPATH=
 
-5. Install from requirements.txt (#XXX: This is untested due to not accesible server)
+6. Install from requirements.txt (tested on EEE PC running Ubuntu)
    $ sudo pip install -E flightdeck/ -r /path/to/projects/FlightDeck/tools/pip-requirements.txt
 
-6. Check if everything is working
+7. Check if everything is working
    * activate flightdeck environment
      $ source flightdeck/bin/activate
      the PS1 may change (regarding on the settings) to
@@ -52,13 +56,8 @@ steps (some commands are specific to Ubuntu with Bash):
      wsgiref==0.1.2
      yolk==0.4.1
 
-7. Clone FlightDeck from github
-   $ cd /path/to/projects/
-   $ git clone git@github.com:zalun/FlightDeck.git
-   $ git remote add zalun git@github.com:zalun/FlightDeck.git
-
 8. Configure the Django application
-   $ chmod a+x scripts/*sh
+   $ cd /path/to/projects/FlightDeck
    $ ./scripts/install.sh
    $ vi flightdeck/settings_local.py # **
 
