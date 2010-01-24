@@ -4,14 +4,18 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
+from flightdeck.base import views as base_views
+
 urlpatterns = patterns('',
-    # Example:
-    (r'^/', include('flightdeck.urls_local')),
- 
+
+	# Example:
+	url(r'^$',base_views.placeholder, name='placeholder'),
+
+	### admin
 	# grappelli
 	(r'^grappelli/', include('grappelli.urls')),
-
-    # admin
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/', include(admin.site.urls)),
+	# docutils
+	(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+	# application
+	(r'^admin/', include(admin.site.urls)),
 )
