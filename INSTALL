@@ -8,6 +8,7 @@ installed it should be enough to follow these steps (some
 commands are specific to Ubuntu with Bash):
 
 1. Clone FlightDeck from github
+   $ sudo apt-get install git-core
    $ cd /path/to/projects/
    $ git clone git@github.com:zalun/FlightDeck.git
 
@@ -16,7 +17,7 @@ commands are specific to Ubuntu with Bash):
    $ ./scripts/initiate.sh
 
 3. Install python-setuptools python-dev build-essential libmysqlclient-dev
-   $ sudo apt-get install python-setuptools python-dev build-essential libmysqlclient-dev
+   $ sudo apt-get install subversion mercurial python-setuptools python-dev build-essential libmysqlclient-dev
 
 4. Install Pip and VirtualEnv
    $ sudo easy_install -U pip
@@ -33,6 +34,7 @@ commands are specific to Ubuntu with Bash):
 
 7. Check if everything is working
    * activate flightdeck environment
+     $ cd /srv/python-environments
      $ source flightdeck/bin/activate
      the PS1 may change (regarding on the settings) to
      (flightdeck)zalun@localhost $
