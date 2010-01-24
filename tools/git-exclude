@@ -4,10 +4,12 @@
 # exclude patterns (uncomment them if you want to use them):
 # *.[oa]
 # *~
+logs
+adminmedia
+dev.db
+pip-log.txt
 *local.py
 *local.wsgi
 *local.sh
-dev.db
-logs
 *.pyc
 .*swp

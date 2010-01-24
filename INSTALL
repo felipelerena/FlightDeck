@@ -3,30 +3,33 @@ First Installation
 
 Virtualenv is providing a stable environment for Django. (1)
 
-Assuming Python 2.5+ is already installed it should be enough to follow these 
-steps (some commands are specific to Ubuntu with Bash):
+Assuming that svn/git/mercurial and Python 2.5+ is already 
+installed it should be enough to follow these steps (some 
+commands are specific to Ubuntu with Bash):
 
 1. Clone FlightDeck from github
    $ cd /path/to/projects/
    $ git clone git@github.com:zalun/FlightDeck.git
 
-2. Install python-setuptools python-dev build-essential
-   $ sudo apt-get install python-setuptools python-dev build-essential
+2. Initiate configuration files
+   $ cd /path/to/projects/FlightDeck
+   $ ./scripts/initiate.sh
 
-3. Install Pip and VirtualEnv
+3. Install python-setuptools python-dev build-essential libmysqlclient-dev
+   $ sudo apt-get install python-setuptools python-dev build-essential libmysqlclient-dev
+
+4. Install Pip and VirtualEnv
    $ sudo easy_install -U pip
    $ sudo pip install -U virtualenv
 
-4. Create directory for Python environments
+5. Create directory for Python environments
    $ sudo mkdir /srv; sudo mkdir /srv/python-environments
    $ cd /srv/python-environments
    $ sudo virtualenv --no-site-packages flightdeck
 
-5. Clear PYTHONPATH (could be optional, but it's working for me)
-   $ export PYTHONPATH=
-
-6. Install from requirements.txt (tested on EEE PC running Ubuntu)
-   $ sudo pip install -E flightdeck/ -r /path/to/projects/FlightDeck/tools/pip-requirements.txt
+6. Install via pip from requirements.txt and custom packages
+   $ cd /path/to/project/FlightDeck
+   $ ./scripts/install.sh 
 
 7. Check if everything is working
    * activate flightdeck environment
@@ -55,22 +58,26 @@ steps (some commands are specific to Ubuntu with Bash):
      yolk==0.4.1
 
 8. Configure the Django application
-   $ cd /path/to/projects/FlightDeck
-   $ ./scripts/install.sh
    $ vi flightdeck/settings_local.py # **
 
-9. Initiate database*
+9. Check local scripts configuration
+   $ vi scripts/config_local.sh
+
+10. Initiate database*
    $ ./scripts/syncdb.sh
+   Choose your superadmin username and password
    
-9. Run Server*
+11. Run Server*
    $ ./scripts/runserver.sh
-   FlightDeck may be accessed by loading http://127.0.0.1:8090/
+   FlightDeck may be accessed by loading http://localhost:8090/
+   Administration from http://localhost:8090/admin/
+
 
 
 ##############################
 Extending the Python codebase
 
-1. Install the package
+1. Install the package (example of installing PIL - graphics operations for Python)
    $ cd /srv/python-environments
    $ pip install -E flightdeck/ pil
 
@@ -78,18 +85,36 @@ Extending the Python codebase
    $ pip freeze -E flightdeck/ > /path/to/projects/FlightDeck/tools/pip-requirements.txt
 
 
+
 ##############################
 Adding third party projects
-DOC: http://pip.openplans.org/requirement-format.html
+
+1. Install using subversion/git/mercurial if module configured as an egg (2)
+   # South is used as an example however we will use pip to install this module
+   # Change requirements 
+   # add following line to FlightDeck/tools/pip-requirements.txt
+   # add line
+     -e hg+http://bitbucket.org/andrewgodwin/south/@0.6.2#egg=south
+   # update environment 
+   $ cd /srv/python-environments
+   $ sudo pip install -E flightdeck/ -r /path/to/projects/FlightDeck/tools/pip-requirements.txt
+   
+2. Install custom packages
+   # Add to the scripts/install.sh
+   # checkout the right revisions into $SRC
+   sudo svn checkout http://django-grappelli.googlecode.com/svn/trunk/grappelli/ $SRC/grappelli
+   # Link module from #SRC to to $SITE_PACKAGES
+   if [ ! -e $SITE_PACKAGES/grappelli ] 
+   then
+       $ sudo ln -fs $SRC/grappelli $SITE_PACKAGES/grappelli
+   fi
+
 
 
 #####################
-Updating requirements
+Updating environment
 
-1. Clear PYTHONPATH (could be optional, but it's working for me)
-   $ export PYTHONPATH=
-
-2. Install from pip-requirements.txt
+1. Install from pip-requirements.txt
    $ cd /srv/python-environments
    $ sudo pip install -E flightdeck/ -r /path/to/projects/FlightDeck/tools/pip-requirements.txt
 

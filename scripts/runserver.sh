@@ -1,8 +1,7 @@
 #!/bin/bash
 
-source scripts/config_local.sh
 source scripts/environment.sh
 
 # run server
-cd $PROJECT_DIR/flightdeck/
-$PYTHON_COMMAND ./manage.py runserver 8090
+cd $PROJECT_DIR/$PROJECT_NAME/
+$PYTHON_COMMAND ./manage.py runserver localhost:8090 --adminmedia=$PROJECT_DIR/$PROJECT_NAME/adminmedia/
