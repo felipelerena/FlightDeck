@@ -88,8 +88,16 @@ INSTALLED_APPS = (
 	# TODO: fix grappelli media
 	'grappelli',
 	'django.contrib.admin',
-	# real apps
-	'flightdeck.base'
+	# FlightDeck apps
+	'base',				# basic flightdeck things (utils, urls)
+	'person',			# user related stuff (profile etc.)
+	'amo'				# addons.mozilla.org integration (authentication state updates)
+)
+
+AUTH_PROFILE_MODULE = 'person.Profile'
+
+AUTHENTICATION_BACKENDS = ( 
+   'amo.authentication.AMOAuthentication',
 )
 
 # overwrite default settings with the ones from settings_local.py
