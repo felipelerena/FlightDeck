@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from person.models import Profile
 
+DEFAULT_AMO_PASSWORD = 'saved in AMO'
+
 class AMOAuthentication:
 
 	def authenticate(self, username, password):
@@ -11,11 +13,17 @@ class AMOAuthentication:
 		# Try to retrieve AMO session info from db
 		try:
 			user = User.objects.get(username=username)
+			if user.password != DEFAULT_AMO_PASSWORD:
+				" standard authorisation "		
+				if user.check_password(password):
+					return user
+				return None
+			amo_session = user.get_profile().amo_session
 		except User.DoesNotExist:
 			user = None
-		amo_session = None
-		if user:
-			amo_session = user.get_profile().amo_session
+			amo_session = None
+
+
 
 		# TODO: here contact AMO and receive authentication status
 		authenticated = False
@@ -26,25 +34,28 @@ class AMOAuthentication:
 		amo_session = "fake"
 		
 		if not authenticated:
-			return False
+			return None
 
 		# save user into the database
 		if not user:
 			user = User(
 				username=username,
-				password='saved in AMO',
+				password=DEFAULT_AMO_PASSWORD,
 				# TODO: retrieve from AMO
 				first_name="John",
 				last_name="Doe",
 				email='fake@email.com' 
 			)
 			user.save()
+		
+		# save current amo_session if different
 		try:
 			profile = user.get_profile()
 		except Profile.DoesNotExist:
-			profile = Profile()
-
-		profile.amo_session = amo_session
-		profile.save()
+			profile = Profile(user=user)
+		
+		if amo_session != profile.amo_session:
+			profile.amo_session = amo_session
+			profile.save()
 
 		return user
