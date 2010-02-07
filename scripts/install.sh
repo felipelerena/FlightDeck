@@ -12,16 +12,16 @@ done
 
 ### PIP packages installation
 export PYTHONPATH=
-sudo pip install -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
+pip install -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
 # TODO: write a proper bash script which will install from configurable files
 
 ### Grappelli section
 # checkout the repository
-sudo svn checkout http://django-grappelli.googlecode.com/svn/trunk/grappelli/ $SRC/grappelli
+svn checkout -r 680 http://django-grappelli.googlecode.com/svn/trunk/grappelli/ $SRC/grappelli
 # link to site-packages
 if [ ! -e $SITE_PACKAGES/grappelli ]
 then
-	sudo ln -fs $SRC/grappelli $SITE_PACKAGES/grappelli
+	ln -fs $SRC/grappelli $SITE_PACKAGES/grappelli
 fi
 # link adminmedia within project
 if [ ! -e $PROJECT_DIR/$PROJECT_NAME/adminmedia ]

@@ -24,25 +24,23 @@ commands are specific to Ubuntu with Bash):
    $ sudo pip install -U virtualenv
 
 5. Create directory for Python environments
-   $ sudo mkdir /srv; sudo mkdir /srv/python-environments
-   $ cd /srv/python-environments
-   $ sudo virtualenv --no-site-packages flightdeck
+   # current directory: /path/to/projects/FlightDeck
+   $ mkdir flightdeckenv
+   $ virtualenv --no-site-packages flightdeckenv
 
 6. Install via pip from requirements.txt and custom packages
-   $ cd /path/to/project/FlightDeck
    $ ./scripts/install.sh 
 
 7. Check if everything is working
    * activate flightdeck environment
-     $ cd /srv/python-environments
-     $ source flightdeck/bin/activate
+     $ source flightdeckenv/bin/activate
      the PS1 may change (regarding on the settings) to
-     (flightdeck)zalun@localhost $
+     (flightdeckenv)username@localhost $
    * display the Django version
      $ django-admin.py --version
      1.1.1 
    * check if the same as in requirements file 
-     $ grep Django /path/to/projects/FlightDeck/tools/pip-requirements.txt
+     $ grep Django tools/pip-requirements.txt
      Django==1.1.1
    * display list of packages
      $ yolk -l
@@ -80,11 +78,11 @@ commands are specific to Ubuntu with Bash):
 Extending the Python codebase
 
 1. Install the package (example of installing PIL - graphics operations for Python)
-   $ cd /srv/python-environments
-   $ pip install -E flightdeck/ pil
+   $ cd /path/to/projects/FlightDeck
+   $ pip install -E flightdeckenv/ pil
 
 2. Save the requirements
-   $ pip freeze -E flightdeck/ > /path/to/projects/FlightDeck/tools/pip-requirements.txt
+   $ pip freeze -E flightdeckenv/ > tools/pip-requirements.txt
 
 
 
@@ -98,8 +96,8 @@ Adding third party projects
    # add line
      -e hg+http://bitbucket.org/andrewgodwin/south/@0.6.2#egg=south
    # update environment 
-   $ cd /srv/python-environments
-   $ sudo pip install -E flightdeck/ -r /path/to/projects/FlightDeck/tools/pip-requirements.txt
+   $ cd /path/to/projects/FlightDeck
+   $ sudo pip install -E flightdeckenv/ -r tools/pip-requirements.txt
    
 2. Install custom packages
    # Add to the scripts/install.sh

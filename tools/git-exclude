@@ -8,6 +8,7 @@ logs
 adminmedia
 dev.db
 pip-log.txt
+flightdeckenv
 *local.py
 *local.wsgi
 *local.sh
