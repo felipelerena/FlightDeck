@@ -109,6 +109,21 @@ Adding third party projects
        $ sudo ln -fs $SRC/grappelli $SITE_PACKAGES/grappelli
    fi
 
+###################
+Configuring Apache
+
+1. Edit WSGI script
+   * /path/to/projects/FlightDeck/apache/config_local.wsgi
+   * replace /path/to/projects to real path
+
+2. Edit Apache config (Ubuntu way)
+   # copy config file
+   $ sudo cp /path/to/projects/FlightDeck/tools/apache-example.conf /etc/apache2/sites-available/flightdeck
+   # edit and change paths in /etc/apache2/sites-available
+   # enable site
+   $ sudo a2ensite flightdeck
+   $ sudo /etc/init.d/apache2 reload
+   # browse http://flightdeck.localhost
 
 
 #####################
