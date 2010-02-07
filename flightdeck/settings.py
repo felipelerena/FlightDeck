@@ -48,6 +48,8 @@ MEDIA_URL = ''
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/adminmedia/'
 
+ADMIN_TITLE = "FlightDeck administration"
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'somesecretkey'
 
@@ -77,22 +79,25 @@ TEMPLATE_DIRS = (
 	# Don't forget to use absolute paths, not relative paths.
 )
 
-INSTALLED_APPS = (
+try:
+	import grappelli
+	INSTALLED_APPS = ['grappelli']
+except:
+	INSTALLED_APPS = []
+
+INSTALLED_APPS.extend([
+	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
 	'django.contrib.sites',
 	# database migrations
 	'south',
-	# admin
-	# TODO: fix grappelli media
-	'grappelli',
-	'django.contrib.admin',
 	# FlightDeck apps
 	'base',				# basic flightdeck things (utils, urls)
 	'person',			# user related stuff (profile etc.)
 	'amo'				# addons.mozilla.org integration (authentication state updates)
-)
+])
 
 AUTH_PROFILE_MODULE = 'person.Profile'
 
