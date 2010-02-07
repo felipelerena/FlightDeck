@@ -96,7 +96,8 @@ INSTALLED_APPS.extend([
 	# FlightDeck apps
 	'base',				# basic flightdeck things (utils, urls)
 	'person',			# user related stuff (profile etc.)
-	'amo'				# addons.mozilla.org integration (authentication state updates)
+	'amo',				# addons.mozilla.org integration (authentication state updates)
+	'jetpack',			# Jetpack functionality
 ])
 
 AUTH_PROFILE_MODULE = 'person.Profile'
