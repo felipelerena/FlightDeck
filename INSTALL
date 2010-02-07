@@ -25,7 +25,6 @@ commands are specific to Ubuntu with Bash):
 
 5. Create directory for Python environments
    # current directory: /path/to/projects/FlightDeck
-   $ mkdir flightdeckenv
    $ virtualenv --no-site-packages flightdeckenv
 
 6. Install via pip from requirements.txt and custom packages
@@ -65,7 +64,7 @@ commands are specific to Ubuntu with Bash):
 
 10. Initiate database*
    $ ./scripts/syncdb.sh
-   Choose your superadmin username and password
+   # Choose your superadmin username and password
    
 11. Run Server*
    $ ./scripts/runserver.sh
@@ -123,6 +122,9 @@ Configuring Apache
    # enable site
    $ sudo a2ensite flightdeck
    $ sudo /etc/init.d/apache2 reload
+   # change permissions to database file (if using sqlite3)
+   $ sudo chown :www-data ../FlightDeck dev.db
+   $ chmod g+w ../FlightDeck dev.db
    # browse http://flightdeck.localhost
 
 
