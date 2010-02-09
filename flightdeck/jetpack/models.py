@@ -12,12 +12,12 @@ class Jetpack(models.Model):
 		(2, 'edit'),
 	)
 
-	slug = models.CharField(max_length=20)
+	slug = models.CharField(max_length=20, blank=True)
 	name = models.CharField(max_length=255)
 	decription = models.TextField(blank=True, null=True)
 	author = models.ForeignKey(User, related_name="authored_jetpacks")
-	managers = models.ManyToManyField(User, related_name="managed_jetpacks")
-	developers = models.ManyToManyField(User, related_name="developed_jetpacks")
+	managers = models.ManyToManyField(User, related_name="managed_jetpacks", blank=True)
+	developers = models.ManyToManyField(User, related_name="developed_jetpacks", blank=True)
 	public_permission = models.IntegerField(choices=PERMISSIONS_CHOICES, default=2, blank=True)
 	group_permission  = models.IntegerField(choices=PERMISSIONS_CHOICES, default=2, blank=True)
 
