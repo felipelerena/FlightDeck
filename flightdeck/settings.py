@@ -107,4 +107,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # overwrite default settings with the ones from settings_local.py
-from settings_local import *
+try:
+	from settings_local import *
+except:
+	pass

@@ -1,43 +1,11 @@
 from django.db.models.signals import pre_save, post_save
-from django.db import models
-from django.contrib.auth.models import User
 
 from jetpack import settings
+from jetpack.models import Jetpack, Version
 
 
-class Jetpack(models.Model):
-	PERMISSIONS_CHOICES = (
-		(0, 'denied'),
-		(1, 'view'),
-		(2, 'edit'),
-	)
-
-	slug = models.CharField(max_length=20)
-	name = models.CharField(max_length=255)
-	decription = models.TextField(blank=True, null=True)
-	author = models.ForeignKey(User, related_name="authored_jetpacks")
-	managers = models.ManyToManyField(User, related_name="managed_jetpacks")
-	developers = models.ManyToManyField(User, related_name="developed_jetpacks")
-	public_permission = models.IntegerField(choices=PERMISSIONS_CHOICES, default=2, blank=True)
-	group_permission  = models.IntegerField(choices=PERMISSIONS_CHOICES, default=2, blank=True)
-
-	def set_slug(self):
-		from utils import random_string
-		check_slug = True
-		while check_slug:
-			self.slug = random_string(settings.JETPACK_SLUG_LENGTH)
-			try:
-				Jetpack.objects.get(slug=self.slug)
-			except:
-				check_slug = False
-
-	@property
-	def base_version(self):
-		try:
-			return Version.objects.get(jetpack__id=self.id, is_base=True)
-		except: 
-			return None
-
+# ------------------------------------------
+# Jetpack signals
 		
 def make_slug_on_create(instance, **kwargs):
 	if kwargs.get('raw',False): return
@@ -45,23 +13,8 @@ def make_slug_on_create(instance, **kwargs):
 		instance.set_slug()
 pre_save.connect(make_slug_on_create, sender=Jetpack)
 
-
-
-STATUS_CHOICES = (
-	('a', 'alpha'),
-	('b', 'beta'),
-	('p', 'production')
-)
-
-class Version(models.Model):
-	jetpack = models.ForeignKey(Jetpack, related_name="versions")
-	name = models.CharField(max_length=255, blank=True)
-	decription = models.TextField(blank=True, null=True)
-	code = models.TextField(blank=True, null=True)
-	status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='a', blank=True) 
-	published = models.BooleanField(default=False, blank=True)
-	is_base = models.BooleanField(default=False, blank=True)
-
+# ------------------------------------------
+# Version signals
 
 def default_name(instance, **kwargs):
 	"""
