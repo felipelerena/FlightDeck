@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{# load some css and javascript here #}
+	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
+</head>
+<body>
+	{# some menus default for editing #}
+	<h1>{{ version }}</h1>
+	<p>
+		{% if jetpack_page %}<a href="{{ version.get_absolute_url }}">version {{ version.name }}</a>
+		{% else %}<a href="{{ jetpack.get_absolute_url }}">jetpack base</a>
+		{% endif %}
+	</p>
+	<pre>{{ version.code }}</pre>
+	{# footer? #}
+</body>
