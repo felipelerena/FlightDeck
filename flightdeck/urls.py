@@ -17,9 +17,11 @@ urls.extend([
 	# Example:
 	url(r'^$',base_views.placeholder, name='placeholder'),
 
-	# docutils
+	# admin
 	(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-	# application
 	(r'^admin/', include(admin.site.urls)),
+
+	# Jetpack
+	(r'^', include('jetpack.urls')),
 ])
 urlpatterns = patterns('', *urls)

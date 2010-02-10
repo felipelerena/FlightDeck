@@ -21,6 +21,10 @@ class Jetpack(models.Model):
 	public_permission = models.IntegerField(choices=PERMISSIONS_CHOICES, default=2, blank=True)
 	group_permission  = models.IntegerField(choices=PERMISSIONS_CHOICES, default=2, blank=True)
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('jetpack_edit_base',[self.slug])
+
 	def set_slug(self):
 		from utils import random_string
 		check_slug = True
@@ -61,6 +65,13 @@ class Version(models.Model):
 	status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='a', blank=True) 
 	published = models.BooleanField(default=False, blank=True)
 	is_base = models.BooleanField(default=False, blank=True)
+
+	def __unicode__(self):
+		return "%s v%s" % (self.jetpack.name, self.name)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('jetpack_edit_version',[self.jetpack.slug, self.name])
 
 
 def default_name(instance, **kwargs):
