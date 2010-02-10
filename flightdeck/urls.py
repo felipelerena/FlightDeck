@@ -22,6 +22,7 @@ urls.extend([
 	(r'^admin/', include(admin.site.urls)),
 
 	# Jetpack
+	(r'^user/', include('person.urls')),
 	(r'^', include('jetpack.urls')),
 ])
 urlpatterns = patterns('', *urls)
