@@ -12,6 +12,8 @@ Uses following third-party software:
  * MySQL-python (http://mysql-python.sourceforge.net/) [?]
  * South (http://south.aeracode.org/) [Apache 2.0]
  * Grappelli (http://code.google.com/p/django-grappelli/) [New BSD]
+ * DevServer (http://github.com/dcramer/django-devserver) [?]
+ * Haystack (http://haystacksearch.org/) [BSD]
  * PIL (http://www.pythonware.com/products/pil/) [free custom - http://www.pythonware.com/products/pil/license.htm]
  * Mootools (http://mootools.net/) [MIT]
  
