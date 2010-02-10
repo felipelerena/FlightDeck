@@ -3,6 +3,7 @@
 <head>
 	{# load some css and javascript here #}
 	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
+	<link href="/media/jetpack/css/edit.css" rel="stylesheet" type="text/css">
 	<link href="/media/bespin/BespinEmbedded.css" rel="stylesheet" type="text/css">
 	<script src="/media/bespin/BespinEmbedded.js"></script>
 </head>
@@ -15,6 +16,6 @@
 		{% else %}switch to: <a href="{{ jetpack.get_absolute_url }}">jetpack base</a>
 		{% endif %}
 	</p>
-	<pre class='bespin'>{{ version.code }}</pre>
+	<div id='edit_code' class='bespin'  data-bespinoptions='{ "stealFocus":true }'>{{ version.code }}</div>
 	{# footer? #}
 </body>
