@@ -7,3 +7,4 @@ def placeholder(req):
 	@return HttpResponse: "<h1>Flightdeck</h1>"
 	"""
 	return HttpResponse("<h1>Flightdeck</h1>")
+

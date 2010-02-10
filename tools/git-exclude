@@ -9,6 +9,8 @@ adminmedia
 dev.db
 pip-log.txt
 flightdeckenv
+flightdeck/media/jetpack
+flightdeck/media/bespin
 *local.py
 *local.wsgi
 *local.sh

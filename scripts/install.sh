@@ -13,7 +13,35 @@ done
 ### PIP packages installation
 export PYTHONPATH=
 pip install -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
-# TODO: write a proper bash script which will install from configurable files
+
+### flightdeck media dir 
+if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/ ]
+then
+	mkdir $PROJECT_DIR/$PROJECT_NAME/media/
+fi
+
+### Bespin installation
+cd $V_ENV/lib/
+if [ ! -e $V_ENV/lib/BespinEmbedded-0.5.2 ]
+then
+	wget http://ftp.mozilla.org/pub/mozilla.org/labs/bespin/Embedded/BespinEmbedded-0.5.2.tar.gz
+	tar xfz BespinEmbedded-0.5.2.tar.gz
+	rm BespinEmbedded-0.5.2.tar.gz
+fi
+if [ ! -e $V_ENV/lib/BespinEmbedded ]
+then
+	ln -fs $V_ENV/lib/BespinEmbedded-0.5.2/ $V_ENV/lib/BespinEmbedded
+fi
+if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/bespin ]
+then
+	ln -fs $V_ENV/lib/BespinEmbedded/ $PROJECT_DIR/$PROJECT_NAME/media/bespin
+fi
+
+### link jetpack application 
+if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/jetpack ]
+then
+	ln -fs $PROJECT_DIR/$PROJECT_NAME/jetpack/media/ $PROJECT_DIR/$PROJECT_NAME/media/jetpack
+fi
 
 ### Grappelli section
 # checkout the repository
