@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import Http404, HttpResponseRedirect, HttpResponse
-from django.template import Template,RequestContext
+#from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.template import RequestContext#,Template
 
 from jetpack.models import Jetpack, Version
 from jetpack.default_settings import settings

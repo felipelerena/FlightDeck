@@ -21,6 +21,10 @@ class Jetpack(models.Model):
 	public_permission = models.IntegerField(choices=PERMISSIONS_CHOICES, default=2, blank=True)
 	group_permission  = models.IntegerField(choices=PERMISSIONS_CHOICES, default=2, blank=True)
 
+
+	def __unicode__(self):
+		return self.name
+
 	@models.permalink
 	def get_absolute_url(self):
 		return ('jetpack_edit_base',[self.slug])
@@ -59,6 +63,7 @@ STATUS_CHOICES = (
 
 class Version(models.Model):
 	jetpack = models.ForeignKey(Jetpack, related_name="versions")
+	commited_by = models.ForeignKey(User, related_name="commits")
 	name = models.CharField(max_length=255, blank=True)
 	decription = models.TextField(blank=True, null=True)
 	code = models.TextField(blank=True, null=True)
