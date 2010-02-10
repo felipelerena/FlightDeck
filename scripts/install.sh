@@ -17,14 +17,15 @@ pip install -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
 
 ### Grappelli section
 # checkout the repository
-svn checkout -r 680 http://django-grappelli.googlecode.com/svn/trunk/grappelli/ $SRC/grappelli
+# TODO: wait with grappelli for the newer Django
+#svn checkout -r 680 http://django-grappelli.googlecode.com/svn/trunk/grappelli/ $SRC/grappelli
 # link to site-packages
-if [ ! -e $SITE_PACKAGES/grappelli ]
-then
-	ln -fs $SRC/grappelli $SITE_PACKAGES/grappelli
-fi
+#if [ ! -e $SITE_PACKAGES/grappelli ]
+#then
+#	ln -fs $SRC/grappelli $SITE_PACKAGES/grappelli
+#fi
 # link adminmedia within project
-if [ ! -e $PROJECT_DIR/$PROJECT_NAME/adminmedia ]
-then
-	ln -fs $SRC/grappelli/media $PROJECT_DIR/$PROJECT_NAME/adminmedia
-fi
+#if [ ! -e $PROJECT_DIR/$PROJECT_NAME/adminmedia ]
+#then
+#	ln -fs $SRC/grappelli/media $PROJECT_DIR/$PROJECT_NAME/adminmedia
+#fi

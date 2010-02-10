@@ -50,6 +50,8 @@ ADMIN_MEDIA_PREFIX = '/adminmedia/'
 
 ADMIN_TITLE = "FlightDeck administration"
 
+SITE_TITLE = "FlightDeck - Jetpack development"
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'somesecretkey'
 
@@ -69,6 +71,7 @@ MIDDLEWARE_CLASSES = (
 TEMPLATE_CONTEXT_PROCESSORS = (
 	"django.core.context_processors.auth",
 	"django.core.context_processors.request",
+	"base.context_processors.settings",
 )
 
 ROOT_URLCONF = 'flightdeck.urls'
@@ -79,6 +82,16 @@ TEMPLATE_DIRS = (
 	# Don't forget to use absolute paths, not relative paths.
 )
 
+DEVSERVER_MODULES = (
+    'devserver.modules.sql.SQLRealTimeModule',
+    'devserver.modules.sql.SQLSummaryModule',
+    'devserver.modules.profile.ProfileSummaryModule',
+
+    # Modules not enabled by default
+    'devserver.modules.cache.CacheSummaryModule',
+)
+
+
 try:
 	import grappelli
 	INSTALLED_APPS = ['grappelli']
@@ -86,6 +99,7 @@ except:
 	INSTALLED_APPS = []
 
 INSTALLED_APPS.extend([
+	'devserver',
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
