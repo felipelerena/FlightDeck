@@ -98,8 +98,14 @@ try:
 except:
 	INSTALLED_APPS = []
 
+# protect from not recognizing devserver
+try:
+	import devserver
+	INSTALLED_APPS.append('devserver')
+except:
+	pass
+
 INSTALLED_APPS.extend([
-	'devserver',
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
