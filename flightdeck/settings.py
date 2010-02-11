@@ -112,7 +112,7 @@ INSTALLED_APPS.extend([
 	'django.contrib.sessions',
 	'django.contrib.sites',
 	# database migrations
-	'south',
+	# 'south',
 	# FlightDeck apps
 	'base',				# basic flightdeck things (utils, urls)
 	'person',			# user related stuff (profile etc.)
