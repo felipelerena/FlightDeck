@@ -6,6 +6,28 @@
 	<link href="/media/jetpack/css/edit.css" rel="stylesheet" type="text/css">
 	<link href="/media/bespin/BespinEmbedded.css" rel="stylesheet" type="text/css">
 	<script src="/media/bespin/BespinEmbedded.js"></script>
+	<script src="/media/js/lib/mootools-1.2.4-core-nc.js"></script>
+	<script src="/media/js/lib/mootools-1.2.4.4-more.js"></script>
+	<script src="/media/jetpack/js/Editor.js"></script>
+	<script src="/media/jetpack/js/Jetpack.js"></script>
+	<script type='text/javascript'>
+		var user = "{{ request.user }}";
+		window.addEvent('load', function() {
+			var jetpack = new Jetpack({
+				slug: "{{ jetpack.slug }}",
+				name: "{{ jetpack.name }}",
+				description: "{{ jetpack.description }}",
+				author: "{{ jetpack.author }}",
+				version: {
+					commited_by: "{{ version.commited_by }}",
+					name: "{{ version.name }}",
+					description: "{{ version.description }}",
+					code: "{{ version.code }}",
+					is_base: {{ version.is_base|yesno:"true,false" }}
+				}
+			});
+		});
+	</script>
 </head>
 <body>
 	{# some menus default for editing #}
@@ -16,6 +38,12 @@
 		{% else %}switch to: <a href="{{ jetpack.get_absolute_url }}">jetpack base</a>
 		{% endif %}
 	</p>
-	<div id='edit_code' class='bespin'  data-bespinoptions='{ "stealFocus":true }'>{{ version.code }}</div>
+	<textarea id='version_code'>{{ version.code }}</textarea>
+	<ul>
+		<li><a href='#' id='try'>Try in a browser</a></li>
+		<li><a href='#' id='save'>Save</a></li>
+		<li><a href='#' id='newversion'>Save as new version</a></li>
+	</ul>
 	{# footer? #}
 </body>
+</html>
