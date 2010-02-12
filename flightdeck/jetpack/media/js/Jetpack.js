@@ -30,6 +30,11 @@ var Jetpack = new Class({
 		this.setOptions(options)
 		this.version = new Version(this.options.version);
 		
+		this.data = {
+			slug: this.options.slug,
+			name: this.options.name,
+			description: this.options.description
+		};
 		// initiate actions
 		$('save').addEvent('click', function(e) {
 			e.stop();
@@ -49,37 +54,24 @@ var Jetpack = new Class({
 	 * Prepare data and send Request to the back-end
 	 */
 	save: function() {
-		console.log('saving in the same version', this.getCode());
+		var data = { version: this.version.prepareData() };
+		console.log('saving in the same version', data);
 	},
 	/*
 	 * Method: newversion
 	 * Prepare data and send Request - create a new version
 	 */
 	newversion: function() {
-		console.log('saving new version', this.getCode());
+		var data = { version: this.version.prepareData() };
+		console.log('saving new version', data);
 	},
 	/*
 	 * Method: try
 	 * Prepare Jetpack using saved code and install temporary in the browser
 	 */
 	try: function() {
-		console.log('try in browser');
-	},
-	/*
-	 * Method: prepareData
-	 * Take all available data and return jetpack and version
-	 */
-	prepareData: function() {
-		var data = {
-			jetpack: {
-				slug: this.options.slug,
-				name: this.options.name,
-				description: this.options.description
-				// author will be saved on the backend
-			},
-			version: this.version.prepareData()
-		};
-		return data;	
+		var data = this.getFullData();
+		console.log('trying in browser', data);
 	},
 	/*
 	 * Method: getCode
@@ -94,6 +86,31 @@ var Jetpack = new Class({
 	 */
 	getVersionName: function() {
 		return this.version.getName()
+	},
+	/*
+	 * Method: prepareData
+	 * Take all jetpack available data and return
+	 */
+	prepareData: function() {
+		this.updateFromDOM();
+		return this.data;
+	},
+	/*
+	 * Method: updateFromDOM
+	 * get all jetpack editable fields from DOM and set parameters in model
+	 */
+	updateFromDOM: function() {
+		// here update name/description whatever
+	},
+	/*
+	 * Method: getFullData
+	 * get all data to save Jetpack and Version models
+	 */
+	getFullData: function() {
+		return {
+			jetpack: this.prepareData(),
+			version: this.version.prepareData()
+		}
 	}
 	
 });
@@ -122,6 +139,13 @@ var Version = new Class({
 	initialize: function(options) {
 		this.setOptions(options);
 		this.editor = new Editor(this.options.editor);
+		// this.data is everything which may be set in the frontend
+		this.data = {
+			name: this.options.name,
+			description: this.options.description,
+			code: this.options.code,
+			is_base: this.options.is_base
+		};
 	},
 	/*
 	 * Method: getCode
@@ -139,16 +163,17 @@ var Version = new Class({
 	},
 	/*
 	 * Method: prepareData
-	 * Prepare all version specifi available data
+	 * Prepare all version specific available data
 	 */
 	prepareData: function() {
-		var data = {
-			// commited_by will be added in the backend
-			name: this.options.name,
-			description: this.options.description,
-			code: this.options.code,
-			is_base: this.options.is_base
-		};
-		return data
+		this.updateFromDOM();
+		return this.data;
+	},
+	/*
+	 * Method: updateFromDOM
+	 * get all version editable fields from DOM and set parameters in model
+	 */
+	updateFromDOM: function() {
+		this.data.code = this.editor.getCode();
 	}
 });
