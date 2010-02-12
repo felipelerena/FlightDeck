@@ -14,7 +14,7 @@ class JetpackTest(TestCase):
 		self.user = create_test_user(username=TEST_USERNAME)
 		self.jetpack = Jetpack(name=TEST_JETPACK_NAME, author=self.user)
 		self.jetpack.save()
-		self.version = Version(jetpack=self.jetpack, name='first')
+		self.version = Version(jetpack=self.jetpack, name='first', commited_by=self.user)
 		self.version.save()
 
 	def tearDown(self):
@@ -44,7 +44,9 @@ class JetpackTest(TestCase):
 		"""
 		# next base version 
 		first_base_id = self.jetpack.base_version.id
-		second_base = Version(jetpack=self.jetpack, name='second', is_base=True)
+		second_base = Version(
+			jetpack=self.jetpack, name='second', is_base=True, commited_by=self.user
+		)
 		second_base.save()
 		jetpack = Jetpack.objects.get(name=TEST_JETPACK_NAME)
 		self.assertEqual(second_base.name, self.jetpack.base_version.name)
