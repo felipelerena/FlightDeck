@@ -5,6 +5,12 @@ from django.template import RequestContext#,Template
 from jetpack.models import Jetpack, Version
 from jetpack.default_settings import settings
 
+
+def edit_new(r):
+	return render_to_response('edit_new.html', {}, 
+				context_instance=RequestContext(r))
+	
+
 def edit_base(r, slug):
 	jetpack = get_object_or_404(Jetpack, slug=slug)
 	version = jetpack.base_version

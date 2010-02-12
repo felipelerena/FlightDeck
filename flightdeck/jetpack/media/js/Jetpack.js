@@ -181,5 +181,6 @@ var Version = new Class({
 	 */
 	updateFromDOM: function() {
 		this.data.code = this.editor.getCode();
+		// add more fields here
 	}
 });

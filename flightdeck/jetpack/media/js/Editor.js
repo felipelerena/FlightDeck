@@ -1,19 +1,17 @@
 /*
  * Class which provides basic wrapper.
- * It's functionalities should be overwritten in specific classes (Bespin.js, etc.)
+ * Its functionalities should be overwritten in specific classes (Bespin.js, etc.)
  * Otherwise standard textarea will be used.
  */
 
 var Editor = new Class({
-	Implements: [Options, Events, Class.Occlude],
+	Implements: [Options, Events],
 	options: {
-		element_id: "version_code"
+		element: "version_code"
 	},
-	property: "editor",
 	initialize: function(options) {
 		this.setOptions(options);
-		this.element = $(this.options.element_id);
-		if (this.occlude()) return this.occluded;
+		this.element = $(this.options.element);
 	},
 	toElement: function() {
 		return this.element;
