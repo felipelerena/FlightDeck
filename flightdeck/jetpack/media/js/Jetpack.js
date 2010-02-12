@@ -17,7 +17,10 @@ var Jetpack = new Class({
 		//managers: [],
 		//developers: [],
 		//public_permission: 2,
-		//group_permission: 2
+		//group_permission: 2,
+		save_el: 'save',
+		newversion_el: 'newversion',
+		try_el: 'try'
 	},
 	/*
 	 * Method: initialize
@@ -36,15 +39,18 @@ var Jetpack = new Class({
 			description: this.options.description
 		};
 		// initiate actions
-		$('save').addEvent('click', function(e) {
+		var save_el = $(this.options.save_el);
+		if (save_el) save_el.addEvent('click', function(e) {
 			e.stop();
 			this.save();
 		}.bind(this));
-		$('newversion').addEvent('click', function(e) {
+		var newversion_el = $(this.options.newversion_el);
+		if (newversion_el) newversion_el.addEvent('click', function(e) {
 			e.stop();
 			this.newversion();
 		}.bind(this));
-		$('try').addEvent('click', function(e) {
+		var try_el = $(this.options.try_el);
+		if (try_el) try_el.addEvent('click', function(e) {
 			e.stop();
 			this.try();
 		}.bind(this));
