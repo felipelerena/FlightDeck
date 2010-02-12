@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "base.html" %}
+{% block head %}
 	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
 	{% include "_edit_head.html" %}
 	<script type='text/javascript'>
@@ -21,8 +20,8 @@
 			});
 		});
 	</script>
-</head>
-<body>
+{% endblock %}
+{% block content %}
 	{# some menus default for editing #}
 	<h1>{{ jetpack }} by <a href="{% url person_public_profile jetpack.author.username %}">{{ jetpack.author.username }}</a></h1>
 	<p>
@@ -37,6 +36,4 @@
 		<li><a href='#' id='save'>Save</a></li>
 		<li><a href='#' id='newversion'>Save as new version</a></li>
 	</ul>
-	{# footer? #}
-</body>
-</html>
+{% endblock %}

@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "base.html" %}
+{% block head %}
 	<title>Create new Jetpack - {{ settings.SITE_TITLE }}</title>
 	{% include "_edit_head.html" %}
 	<script type='text/javascript'>
@@ -9,8 +8,8 @@
 			var jetpack = new Jetpack({});
 		});
 	</script>
-</head>
-<body>
+{% endblock %}
+{% block content %}
 	{# some menus default for editing #}
 	<h1>Create New Jetpack</h1>
 	<p><label for='jetpack_name'>Name</label><input type='text' id='jetpack_name' name='jetpack_name'/></p>
@@ -21,6 +20,4 @@
 		<li><a href='#' id='save'>Save</a></li>
 		<li><a href='#' id='newversion'>Save as new version</a></li>
 	</ul>
-	{# footer? #}
-</body>
-</html>
+{% endblock %}
