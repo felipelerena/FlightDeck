@@ -1,7 +1,7 @@
-{% extends "base.html" %}
-{% block head %}
+{% extends "editor.html" %}
+{% block editor_head %}
 	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
-	{% include "_edit_head.html" %}
+	<script src="/media/jetpack/js/Jetpack.js"></script>
 	<script type='text/javascript'>
 		var user = "{{ request.user }}";
 		window.addEvent('load', function() {
@@ -21,7 +21,7 @@
 		});
 	</script>
 {% endblock %}
-{% block content %}
+{% block editor_content %}
 	{# some menus default for editing #}
 	<h1>{% if jetpack_page %}{{ jetpack }}{% else %}{{ version }}{% endif %} 
 		by <a href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator.username }}</a>

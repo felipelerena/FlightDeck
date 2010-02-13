@@ -72,6 +72,9 @@ class Cap(models.Model):
 	##################
 	# Methods
 
+	def __unicode__(self):
+		return self.name
+
 	def set_slug(self):
 		self.slug = self.get_slug()
 
