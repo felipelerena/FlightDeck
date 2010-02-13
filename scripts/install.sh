@@ -20,6 +20,19 @@ then
 	mkdir $PROJECT_DIR/$PROJECT_NAME/media/
 fi
 
+### link jetpack application 
+if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/jetpack ]
+then
+	ln -fs $PROJECT_DIR/$PROJECT_NAME/jetpack/media/ $PROJECT_DIR/$PROJECT_NAME/media/jetpack
+fi
+
+### adminmedia dir
+if [ ! -e $PROJECT_DIR/$PROJECT_NAME/adminmedia ]
+then
+	ln -fs $SITE_PACKAGES/django/contrib/admin/media/ $PROJECT_NAME/adminmedia
+fi
+
+
 ### Bespin installation
 cd $V_ENV/lib/
 if [ ! -e $V_ENV/lib/BespinEmbedded-0.5.2 ]
@@ -35,12 +48,6 @@ fi
 if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/bespin ]
 then
 	ln -fs $V_ENV/lib/BespinEmbedded/ $PROJECT_DIR/$PROJECT_NAME/media/bespin
-fi
-
-### link jetpack application 
-if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/jetpack ]
-then
-	ln -fs $PROJECT_DIR/$PROJECT_NAME/jetpack/media/ $PROJECT_DIR/$PROJECT_NAME/media/jetpack
 fi
 
 ### Grappelli section

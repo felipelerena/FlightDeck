@@ -1,19 +1,24 @@
 FlightDeck is a SDK for creating JetPack
 (c) Mozilla Foundation
 
-Uses following third-party software:
+Production uses following third-party software:
  * Python (http://www.python.org/) [GPL-compatible]
  * Docutils (http://docutils.sourceforge.net/) [Python compatible]
  * WSGIRef (http://www.python.org/doc/2.5.2/lib/module-wsgiref.html) [Python compatible]
  * Django (http://www.djangoproject.com/) [BSD]
+ * django-extensions (http://github.com/django-extensions/django-extensions/issues) [Python compatible]
  * VirtualEnv (http://pypi.python.org/pypi/virtualenv) [MIT]
  * Pip (http://pip.openplans.org/) [?]
  * Yolk (http://tools.assembla.com/yolk/) [GPL-2]
  * MySQL-python (http://mysql-python.sourceforge.net/) [?]
  * South (http://south.aeracode.org/) [Apache 2.0]
  * Grappelli (http://code.google.com/p/django-grappelli/) [New BSD]
- * DevServer (http://github.com/dcramer/django-devserver) [?]
  * Haystack (http://haystacksearch.org/) [BSD]
  * PIL (http://www.pythonware.com/products/pil/) [free custom - http://www.pythonware.com/products/pil/license.htm]
  * Mootools (http://mootools.net/) [MIT]
+
+Following third-party software is used only for development:
+ * GraphViz (http://www.graphviz.org/) [GPL]
+ * PyGraphViz (http://networkx.lanl.gov/pygraphviz/) [?]
+ * DevServer (http://github.com/dcramer/django-devserver) [?]
  
