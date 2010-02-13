@@ -3,7 +3,14 @@
 	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
 	<script src="/media/jetpack/js/Capability.js"></script>
 	<script type='text/javascript'>
-		var user = "{{ request.user }}";
+		var settings = {
+			user: "{{ request.user }}",
+			jp_capability_update_version_url: "{{ version.get_update_url }}",
+			jp_capability_save_new_version_url: "{{ capability.get_save_url }}",
+			jp_capability_base_url: "{{ capability.get_absolute_url }}",
+			jp_capability_version_url: "{{ version.get_absolute_url }}",
+			jp_capability_version_set_as_base: "{{ version.get_set_as_base_url }}"
+		};
 		window.addEvent('load', function() {
 			var capability = new Capability({
 				slug: "{{ capability.slug }}",

@@ -86,6 +86,9 @@ class Cap(models.Model):
 	def get_absolute_url(self):
 		return ('jp_capability_edit_base',[self.slug])
 
+	@models.permalink
+	def get_save_url(self):
+		return ('jp_capability_save_new_version',[self.slug])
 
 
 class CapVersion(models.Model):
@@ -154,6 +157,19 @@ class CapVersion(models.Model):
 		"""
 		return ('jp_capability_edit_version',[self.capability.slug, self.name, self.counter])
 
+	@models.permalink
+	def get_update_url(self):
+		"""
+		@returns str: url to update the same version (no url changed afterwards)
+		"""
+		return ('jp_capability_update_version',[self.capability.slug, self.name, self.counter])
+
+	@models.permalink
+	def get_set_as_base_url(self):
+		"""
+		@returns str: url to switch the is_base to True
+		"""
+		return ('jp_capability_version_save_as_base',[self.capability.slug, self.name, self.counter])
 
 
 class Jet(models.Model):
@@ -206,12 +222,6 @@ class Jet(models.Model):
 	def __unicode__(self):
 		return self.name
 
-
-	@models.permalink
-	def get_absolute_url(self):
-		return ('jp_jetpack_edit_base',[self.slug])
-
-
 	def set_slug(self):
 		self.slug = self.get_slug()
 
@@ -222,6 +232,15 @@ class Jet(models.Model):
 		"""
 		from django.template.defaultfilters import slugify
 		return slugify(self.name)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('jp_jetpack_edit_base',[self.slug])
+
+	@models.permalink
+	def get_save_url(self):
+		return ('jp_jetpack_save_new_version',[self.slug])
+
 
 
 
@@ -294,6 +313,20 @@ class JetVersion(models.Model):
 		@returns str: url to the edit page of this version
 		"""
 		return ('jp_jetpack_edit_version',[self.jetpack.slug, self.name, self.counter])
+
+	@models.permalink
+	def get_update_url(self):
+		"""
+		@returns str: url to update the same version (no url changed afterwards)
+		"""
+		return ('jp_jetpack_update_version',[self.jetpack.slug, self.name, self.counter])
+
+	@models.permalink
+	def get_set_as_base_url(self):
+		"""
+		@returns str: url to switch the is_base to True
+		"""
+		return ('jp_jetpack_version_save_as_base',[self.jetpack.slug, self.name, self.counter])
 
 
 ########################################################################################

@@ -1,0 +1,1 @@
+{ "version_absolute_url": "{{ version.get_absolute_url }}" }

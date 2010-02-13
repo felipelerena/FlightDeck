@@ -2,9 +2,17 @@
 {% block editor_head %}
 	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
 	<script src="/media/jetpack/js/Jetpack.js"></script>
-	<script type='text/javascript'>
-		var user = "{{ request.user }}";
-		window.addEvent('load', function() {
+	<script type="text/javascript">
+		var settings = {
+			user: "{{ request.user }}",
+			jp_jetpack_update_version_url: "{{ version.get_update_url }}",
+			jp_jetpack_save_new_version_url: "{{ jetpack.get_save_url }}",
+			jp_jetpack_base_url: "{{ jetpack.get_absolute_url }}",
+			jp_jetpack_version_url: "{{ version.get_absolute_url }}",
+			jp_jetpack_version_set_as_base: "{{ version.get_set_as_base_url }}"
+		};
+		
+		window.addEvent("load", function() {
 			var jetpack = new Jetpack({
 				slug: "{{ jetpack.slug }}",
 				name: "{{ jetpack.name }}",
