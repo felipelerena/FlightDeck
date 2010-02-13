@@ -46,11 +46,11 @@ fi
 ### Grappelli section
 # checkout the repository
 # TODO: wait with grappelli for the newer Django
-#svn checkout -r 680 http://django-grappelli.googlecode.com/svn/trunk/grappelli/ $SRC/grappelli
+#svn checkout http://django-grappelli.googlecode.com/svn/trunk/grappelli/ $SRC/django-grappelli
 # link to site-packages
 #if [ ! -e $SITE_PACKAGES/grappelli ]
 #then
-#	ln -fs $SRC/grappelli $SITE_PACKAGES/grappelli
+#	ln -fs $SRC/django-grappelli $SITE_PACKAGES/grappelli
 #fi
 # link adminmedia within project
 #if [ ! -e $PROJECT_DIR/$PROJECT_NAME/adminmedia ]

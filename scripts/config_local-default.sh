@@ -7,3 +7,5 @@ PYTHON_COMMAND=python
 # define directories
 PROJECT_DIR=`pwd`
 V_ENV=$PROJECT_DIR/flightdeckenv
+# that's for graphviz
+export TMP=/tmp/

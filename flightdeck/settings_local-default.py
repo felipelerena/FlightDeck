@@ -28,3 +28,7 @@ ADMIN_MEDIA_ROOT = os.path.join(FRAMEWORK_PATH, 'flightdeck/adminmedia/')
 #MEDIA_URL = '/sitemedia/'
 #MEDIA_SERVER = ''
 #ADMIN_MEDIA_PREFIX = ''.join([MEDIA_SERVER,'/adminmedia/'])
+
+# dot command path (for the graphviz app)
+GRAPHVIZ_DOT_CMD = '/usr/bin/dot'
+

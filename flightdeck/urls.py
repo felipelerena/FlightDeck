@@ -13,7 +13,6 @@ try:
 except:
 	urls = []
 
-
 urls.extend([
 	# Example:
 	url(r'^$',base_views.placeholder, name='placeholder'),

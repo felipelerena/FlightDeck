@@ -100,19 +100,14 @@ try:
 except:
 	INSTALLED_APPS = []
 
-# protect from not recognizing devserver
-try:
-	import devserver
-	INSTALLED_APPS.append('devserver')
-except:
-	pass
-
 INSTALLED_APPS.extend([
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
 	'django.contrib.sites',
+	# extensions
+	'django_extensions',
 	# database migrations
 	# 'south',
 	# FlightDeck apps
@@ -121,6 +116,13 @@ INSTALLED_APPS.extend([
 	'amo',				# addons.mozilla.org integration (authentication state updates)
 	'jetpack',			# Jetpack functionality
 ])
+
+# devserver is optional
+try:
+	import devserver
+	INSTALLED_APPS.append('devserver')
+except:
+	pass
 
 AUTH_PROFILE_MODULE = 'person.Profile'
 
