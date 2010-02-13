@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from jetpack import settings
+from jetpack.managers import JetVersionManager, CapVersionManager
 
 PERMISSION_CHOICE = {
 	0: 'denied',
@@ -25,27 +26,33 @@ for key,value in STATUS_CHOICE.items():
 
 
 class Cap(models.Model):
-	slug = models.CharField(max_length=255, blank=True, unique=True, primary_key=True)
+	"""
+	Representation of Capability metadata in the database
+	"""
+	# name of the Capability - it will be used in manifest
 	name = models.CharField(max_length=255, unique=True)
+	# unified id made from the name used to identify Capability data in the database
+	slug = models.CharField(max_length=255, blank=True, unique=True, primary_key=True)
+	# description of the Capability itself - high level
 	description = models.TextField(blank=True, null=True)
 
-	author = models.ForeignKey(User, related_name="authored_capabilities")
+	# Creator of the Capability - the person who created the Jetpack
+	creator = models.ForeignKey(User, related_name="authored_capabilities")
+	# group of people who may change Capability identity (Cap data)
 	managers = models.ManyToManyField(User, related_name="managed_capabilities", blank=True)
+	# users to whom the group permission applies
 	developers = models.ManyToManyField(User, related_name="developed_capabilities", blank=True)
 
+	# permission applied to all FlightDeck users
 	public_permission = models.IntegerField(choices=PERMISSION_CHOICES, default=2, blank=True)
+	# permission applied to all developers
 	group_permission  = models.IntegerField(choices=PERMISSION_CHOICES, default=2, blank=True)
+
+	added_at = models.DateTimeField(auto_now_add=True) 
+	last_update = models.DateTimeField(auto_now=True) 
 	
-	def set_slug(self):
-		self.slug = self.get_slug()
-
-	def get_slug(self):
-		from django.template.defaultfilters import slugify
-		return slugify(self.name)
-
-	@models.permalink
-	def get_absolute_url(self):
-		return ('capability_edit_base',[self.slug])
+	###################
+	# Properties
 
 	@property
 	def base_version(self):
@@ -62,65 +69,8 @@ class Cap(models.Model):
 	def group_permission_name(self):
 		return PERMISSION_CHOICE[self.group_permission]
 
-
-
-
-
-class CapVersion(models.Model):
-	capability = models.ForeignKey(Cap, related_name='versions')
-
-	name = models.CharField(max_length=255, default='0.0', blank=True)
-	counter = models.IntegerField(blank=True)
-	content = models.TextField(blank=True)
-	description = models.TextField(blank=True, null=True)
-
-	capabilities = models.ManyToManyField('CapVersion', blank=True, null=True)
-
-	author = models.ForeignKey(User, related_name="capability_versions")
-	status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='a', blank=True) 
-	is_base = models.BooleanField(default=False, blank=True)
-
-	
-	class Meta:
-		unique_together = ('capability', 'name', 'counter')
-
-	def __unicode__(self):
-		return "%s %s" % (self.jetpack.name, self.fullname)
-
-	@models.permalink
-	def get_absolute_url(self):
-		return ('capability_edit_version',[self.capability.slug, self.name, self.counter])
-
-	@property
-	def fullname(self):
-		return "%s.%d" % (self.name, self.counter)
-
-	@property
-	def status_name(self):
-		return STATUS_CHOICE[self.status]
-
-
-
-class Jet(models.Model):
-	slug = models.CharField(max_length=255, blank=True, unique=True, primary_key=True)
-	name = models.CharField(max_length=255, unique=True)
-	description = models.TextField(blank=True, null=True)
-	
-	author = models.ForeignKey(User, related_name="authored_jetpacks")
-	managers = models.ManyToManyField(User, related_name="managed_jetpacks", blank=True)
-	developers = models.ManyToManyField(User, related_name="developed_jetpacks", blank=True)
-
-	public_permission = models.IntegerField(choices=PERMISSION_CHOICES, default=2, blank=True)
-	group_permission  = models.IntegerField(choices=PERMISSION_CHOICES, default=2, blank=True)
-
-	def __unicode__(self):
-		return self.name
-
-
-	@models.permalink
-	def get_absolute_url(self):
-		return ('jetpack_edit_base',[self.slug])
-
+	##################
+	# Methods
 
 	def set_slug(self):
 		self.slug = self.get_slug()
@@ -129,13 +79,115 @@ class Jet(models.Model):
 		from django.template.defaultfilters import slugify
 		return slugify(self.name)
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('jp_capability_edit_base',[self.slug])
+
+
+
+class CapVersion(models.Model):
+	"""
+	Version of the Cap - it defines Capability entity (together with the Cap)
+	"""
+	# which Capability is this version assigned to
+	capability = models.ForeignKey(Cap, related_name='versions')
+
+	# who authored this particular version (same as creator if first version)
+	author = models.ForeignKey(User, related_name="capability_versions")
+
+	# Name of the version - it will be extended with the counter in fullname property
+	name = models.CharField(max_length=255, default='0.0', blank=True)
+	# version counter - automatically changed value (set in signals)
+	counter = models.IntegerField(blank=True)
+	# Capability Content - main code of the Capability
+	content = models.TextField(blank=True)
+	# This version only description
+	description = models.TextField(blank=True, null=True)
+
+	# List of CapVersions this CapVersion relies on
+	capabilities = models.ManyToManyField('CapVersion', blank=True, null=True)
+
+	# alpha/beta/production
+	status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='a', blank=True) 
+	# is this version the base one for the Capability
+	is_base = models.BooleanField(default=False, blank=True)
+
+	added_at = models.DateTimeField(auto_now_add=True) 
+	last_update = models.DateTimeField(auto_now=True) #
+
+	
+	class Meta:
+		# there may be only one version with the same name and counter for the Capability
+		unique_together = ('capability', 'name', 'counter')
+
+	###################
+	# Properties
+
+	@property
+	def fullname(self):
+		"""
+		@returns str: full version number (name and counter after a dot)
+		"""
+		return "%s.%d" % (self.name, self.counter)
+
+	@property
+	def status_name(self):
+		return STATUS_CHOICE[self.status]
+
+
+	##################
+	# Methods
+
+	def __unicode__(self):
+		"""
+		@returns str: jetpack name and its full version number
+		"""
+		return "%s %s" % (self.capability.name, self.fullname)
+
+	@models.permalink
+	def get_absolute_url(self):
+		"""
+		@returns str: url to the edit page of this version
+		"""
+		return ('jp_capability_edit_version',[self.capability.slug, self.name, self.counter])
+
+
+
+class Jet(models.Model):
+	"""
+	Representation of Jetpack metadata in the database
+	"""
+	# name of the Jetpack - it will be used in manifest
+	name = models.CharField(max_length=255, unique=True)
+	# unified name used to identify Jetpack data in the database
+	slug = models.CharField(max_length=255, blank=True, unique=True, primary_key=True)
+	# description of the Jetpack itself - high level
+	description = models.TextField(blank=True, null=True)
+	
+	# Creator of the Jetpack - the person who created the Jetpack
+	creator = models.ForeignKey(User, related_name="authored_jetpacks")
+	# group of people who may change Jetpack identity (Jet data)
+	managers = models.ManyToManyField(User, related_name="managed_jetpacks", blank=True)
+	# users to whom the group permission applies
+	developers = models.ManyToManyField(User, related_name="developed_jetpacks", blank=True)
+
+	# permission applied to all FlightDeck users
+	public_permission = models.IntegerField(choices=PERMISSION_CHOICES, default=2, blank=True)
+	# permission applied to all developers
+	group_permission  = models.IntegerField(choices=PERMISSION_CHOICES, default=2, blank=True)
+
+	added_at = models.DateTimeField(auto_now_add=True) 
+	last_update = models.DateTimeField(auto_now=True) 
+
+	###################
+	# Properties
 
 	@property
 	def base_version(self):
-		try:
-			return JetVersion.objects.get(jetpack__slug=self.slug, is_base=True)
-		except: 
-			return None
+		"""
+		Get the only Version which is base (there may be only one)
+		"""
+		return JetVersion.objects.get_base(self.slug)			
 
 	@property
 	def public_permission_name(self):
@@ -145,43 +197,101 @@ class Jet(models.Model):
 	def group_permission_name(self):
 		return PERMISSION_CHOICE[self.group_permission]
 
-
-
-class JetVersion(models.Model):
-	jetpack = models.ForeignKey(Jet, related_name="versions")
-
-	author = models.ForeignKey(User, related_name="jetpack_versions")
-
-	name = models.CharField(max_length=255, default='0.0', blank=True)
-	counter = models.IntegerField(blank=True)
-	manifest = models.TextField(blank=True, null=True)
-	content = models.TextField(blank=True, null=True)
-	description = models.TextField(blank=True, null=True)
-
-	capabilities = models.ManyToManyField(CapVersion, blank=True, null=True)
-
-	status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='a', blank=True) 
-	published = models.BooleanField(default=False, blank=True)
-	is_base = models.BooleanField(default=False, blank=True)
-
+	##################
+	# Methods
 	
-	class Meta:
-		unique_together = ('jetpack', 'name', 'counter')
-
 	def __unicode__(self):
-		return "%s %s" % (self.jetpack.name, self.fullname)
+		return self.name
+
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('jetpack_edit_version',[self.jetpack.slug, self.name, self.counter])
+		return ('jp_jetpack_edit_base',[self.slug])
+
+
+	def set_slug(self):
+		self.slug = self.get_slug()
+
+
+	def get_slug(self):
+		"""
+		@returns str: slugified the name
+		"""
+		from django.template.defaultfilters import slugify
+		return slugify(self.name)
+
+
+
+class JetVersion(models.Model):
+	"""
+	Version of the Jet - it defines Jetpack entity (together with the Jet)
+	"""
+	# which jetpack is this version assigned to
+	jetpack = models.ForeignKey(Jet, related_name="versions")
+
+	# who authored this particular version (same as creator if first version)
+	author = models.ForeignKey(User, related_name="jetpack_versions")
+
+	# Name of the version - it will be extended with the counter in fullname property
+	name = models.CharField(max_length=255, default='0.0', blank=True)
+	# version counter - automatically changed value (set in signals)
+	counter = models.IntegerField(blank=True)
+	# Jetpack Manifest - JSON object defining Jetpack metadata and assigned capabilities
+	manifest = models.TextField(blank=True, null=True)
+	# Jetpack Content - main code of the Jetpack
+	content = models.TextField(blank=True, null=True)
+	# This version only description
+	description = models.TextField(blank=True, null=True)
+
+	# List of CapVersions this JetVersion relies on
+	capabilities = models.ManyToManyField(CapVersion, blank=True, null=True)
+
+	# alpha/beta/production
+	status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='a', blank=True) 
+	# is the Jetpack published to AMO with this version
+	published = models.BooleanField(default=False, blank=True)
+	# is this version the base one for the Jetpack
+	is_base = models.BooleanField(default=False, blank=True)
+
+	added_at = models.DateTimeField(auto_now_add=True) 
+	last_update = models.DateTimeField(auto_now=True) 
+
+	objects = JetVersionManager()
+	
+	class Meta:
+		# there may be only one version with the same name and counter for the Jetpack
+		unique_together = ('jetpack', 'name', 'counter')
+
+	###################
+	# Properties
 
 	@property
 	def fullname(self):
+		"""
+		@returns str: full version number (name and counter after a dot)
+		"""
 		return "%s.%d" % (self.name, self.counter)
 
 	@property
 	def status_name(self):
 		return STATUS_CHOICE[self.status]
+
+	##################
+	# Methods
+
+	def __unicode__(self):
+		"""
+		@returns str: jetpack name and its full version number
+		"""
+		return "%s %s" % (self.jetpack.name, self.fullname)
+
+	@models.permalink
+	def get_absolute_url(self):
+		"""
+		@returns str: url to the edit page of this version
+		"""
+		return ('jp_jetpack_edit_version',[self.jetpack.slug, self.name, self.counter])
+
 
 ########################################################################################
 ## Catching Signals

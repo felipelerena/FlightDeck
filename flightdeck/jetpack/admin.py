@@ -11,3 +11,12 @@ class JetVersionAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(JetVersion, JetVersionAdmin)
 
+class CapAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(Cap, CapAdmin)
+
+
+class CapVersionAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(CapVersion, CapVersionAdmin)
+

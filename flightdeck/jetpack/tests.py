@@ -13,7 +13,7 @@ class JetpackTest(TestCase):
 	def setUp(self):
 		self.to_delete = []
 		self.user = create_test_user(username=TEST_USERNAME)
-		self.jetpack = Jet(name=TEST_JETPACK_NAME, author=self.user)
+		self.jetpack = Jet(name=TEST_JETPACK_NAME, creator=self.user)
 		self.jetpack.save()
 		self.version = JetVersion(jetpack=self.jetpack, name='first', author=self.user)
 		self.version.save()
@@ -57,7 +57,7 @@ class JetpackTest(TestCase):
 		self.assertEqual(first_base.is_base, False)
 
 	def test_assign_capability(self):
-		capability = Cap(name="Capability assigned", author=self.user)
+		capability = Cap(name="Capability assigned", creator=self.user)
 		capability.save()
 		version = CapVersion(capability=capability, name='0.0', author=self.user)
 		version.save()
@@ -75,7 +75,7 @@ class CapabilityTest(TestCase):
 	def setUp(self):
 		self.to_delete = []
 		self.user = create_test_user(username=TEST_USERNAME)
-		self.capability = Cap(name=TEST_CAP_NAME, author=self.user)
+		self.capability = Cap(name=TEST_CAP_NAME, creator=self.user)
 		self.capability.save()
 		self.version = CapVersion(capability=self.capability, name='first', author=self.user)
 		self.version.save()
@@ -120,7 +120,7 @@ class CapabilityTest(TestCase):
 
 
 	def test_assign_capability(self):
-		capability = Cap(name="Capability assigned", author=self.user)
+		capability = Cap(name="Capability assigned", creator=self.user)
 		capability.save()
 		version = CapVersion(capability=capability, name='0.0', author=self.user)
 		version.save()

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block head %}
+	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
+	{% include "_edit_head.html" %}
+	<script type='text/javascript'>
+		var user = "{{ request.user }}";
+		window.addEvent('load', function() {
+			var capability = new Capability({
+				slug: "{{ capability.slug }}",
+				name: "{{ capability.name }}",
+				description: "{{ capability.description }}",
+				creator: "{{ capability.creator }}",
+				version: {
+					author: "{{ version.author }}",
+					name: "{{ version.name }}",
+					description: "{{ version.description }}",
+					content: "{{ version.content }}",
+					is_base: {{ version.is_base|yesno:"true,false" }}
+				}
+			});
+		});
+	</script>
+{% endblock %}
+{% block content %}
+	{# some menus default for editing #}
+	<h1>{% if capability_page %}{{ capability }}{% else %}{{ version }}{% endif %} 
+		by <a href="{% url person_public_profile capability.creator.username %}">{{ capability.creator.username }}</a>
+	</h1>
+	<p>
+		Version by: <a href="{% url person_public_profile version.author.username %}">{{ version.author.username }}</a>, 
+		{% if capability_page %}switch to: <a href="{{ version.get_absolute_url }}">version {{ version.fullname }}</a>
+		{% else %}switch to: <a href="{{ capability.get_absolute_url }}">capability base</a>
+		{% endif %}
+	</p>
+	<textarea id='version_content'>{{ version.content }}</textarea>
+	<ul>
+		<li><a href='#' id='try'>Try in a browser</a></li>
+		<li><a href='#' id='save'>Save</a></li>
+		<li><a href='#' id='newversion'>Save as new version</a></li>
+	</ul>
+{% endblock %}
