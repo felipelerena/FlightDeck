@@ -7,7 +7,7 @@
 var Editor = new Class({
 	Implements: [Options, Events],
 	options: {
-		element: "version_code"
+		element: "version_content"
 	},
 	initialize: function(options) {
 		this.setOptions(options);
@@ -16,10 +16,10 @@ var Editor = new Class({
 	toElement: function() {
 		return this.element;
 	},
-	getCode: function() {
+	getContent: function() {
 		return this.element.value;
 	},
-	setCode: function(value) {
+	setContent: function(value) {
 		this.element.set('value', value);
 	},
 	destroy: function() {

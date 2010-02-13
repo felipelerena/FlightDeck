@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from models import Jetpack, Version
+from models import Jet, JetVersion, Cap, CapVersion
 
-class JetpackAdmin(admin.ModelAdmin):
+class JetAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(Jetpack, JetpackAdmin)
+admin.site.register(Jet, JetAdmin)
 
 
-class VersionAdmin(admin.ModelAdmin):
+class JetVersionAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(Version, VersionAdmin)
+admin.site.register(JetVersion, JetVersionAdmin)
 

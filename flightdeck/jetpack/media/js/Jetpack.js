@@ -73,18 +73,18 @@ var Jetpack = new Class({
 	},
 	/*
 	 * Method: try
-	 * Prepare Jetpack using saved code and install temporary in the browser
+	 * Prepare Jetpack using saved content and install temporary in the browser
 	 */
 	try: function() {
 		var data = this.getFullData();
 		console.log('trying in browser', data);
 	},
 	/*
-	 * Method: getCode
-	 * Wrapper for getting code from the Editor
+	 * Method: getContent
+	 * Wrapper for getting content from the Editor
 	 */
-	getCode: function() {
-		return this.version.getCode();
+	getContent: function() {
+		return this.version.getContent();
 	},
 	/*
 	 * Method: getVersionName
@@ -133,7 +133,7 @@ var Version = new Class({
 		commited_by: '',
 		name: '',
 		description: '',
-		code: '',
+		content: '',
 		status: '',
 		published: false,
 		is_base: false
@@ -149,16 +149,16 @@ var Version = new Class({
 		this.data = {
 			name: this.options.name,
 			description: this.options.description,
-			code: this.options.code,
+			content: this.options.content,
 			is_base: this.options.is_base
 		};
 	},
 	/*
-	 * Method: getCode
-	 * Wrapper for getting code from the Editor
+	 * Method: getContent
+	 * Wrapper for getting content from the Editor
 	 */
-	getCode: function() {
-		return this.editor.getCode();
+	getContent: function() {
+		return this.editor.getContent();
 	},
 	/*
 	 * Method: getName
@@ -180,7 +180,7 @@ var Version = new Class({
 	 * get all version editable fields from DOM and set parameters in model
 	 */
 	updateFromDOM: function() {
-		this.data.code = this.editor.getCode();
+		this.data.content = this.editor.getContent();
 		// add more fields here
 	}
 });

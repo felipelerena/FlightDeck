@@ -11,10 +11,10 @@
 				description: "{{ jetpack.description }}",
 				author: "{{ jetpack.author }}",
 				version: {
-					commited_by: "{{ version.commited_by }}",
+					author: "{{ version.author }}",
 					name: "{{ version.name }}",
 					description: "{{ version.description }}",
-					code: "{{ version.code }}",
+					content: "{{ version.content }}",
 					is_base: {{ version.is_base|yesno:"true,false" }}
 				}
 			});
@@ -23,14 +23,16 @@
 {% endblock %}
 {% block content %}
 	{# some menus default for editing #}
-	<h1>{{ jetpack }} by <a href="{% url person_public_profile jetpack.author.username %}">{{ jetpack.author.username }}</a></h1>
+	<h1>{% if jetpack_page %}{{ jetpack }}{% else %}{{ version }}{% endif %} 
+		by <a href="{% url person_public_profile jetpack.author.username %}">{{ jetpack.author.username }}</a>
+	</h1>
 	<p>
-		Version commited by: <a href="{% url person_public_profile version.commited_by.username %}">{{ version.commited_by.username }}</a>, 
-		{% if jetpack_page %}switch to: <a href="{{ version.get_absolute_url }}">version {{ version.name }}</a>
+		Version by: <a href="{% url person_public_profile version.author.username %}">{{ version.commited_by.username }}</a>, 
+		{% if jetpack_page %}switch to: <a href="{{ version.get_absolute_url }}">version {{ version.fullname }}</a>
 		{% else %}switch to: <a href="{{ jetpack.get_absolute_url }}">jetpack base</a>
 		{% endif %}
 	</p>
-	<textarea id='version_code'>{{ version.code }}</textarea>
+	<textarea id='version_content'>{{ version.content }}</textarea>
 	<ul>
 		<li><a href='#' id='try'>Try in a browser</a></li>
 		<li><a href='#' id='save'>Save</a></li>
