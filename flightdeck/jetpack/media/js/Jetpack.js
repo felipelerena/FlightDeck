@@ -42,40 +42,40 @@ var Jetpack = new Class({
 		var save_el = $(this.options.save_el);
 		if (save_el) save_el.addEvent('click', function(e) {
 			e.stop();
-			this.save();
+			this.update_version();
 		}.bind(this));
 		var newversion_el = $(this.options.newversion_el);
 		if (newversion_el) newversion_el.addEvent('click', function(e) {
 			e.stop();
-			this.newversion();
+			this.save_new_version();
 		}.bind(this));
 		var try_el = $(this.options.try_el);
 		if (try_el) try_el.addEvent('click', function(e) {
 			e.stop();
-			this.try();
+			this.try_in_browser();
 		}.bind(this));
 	},
 	/*
-	 * Method: save
+	 * Method: update_version
 	 * Prepare data and send Request to the back-end
 	 */
-	save: function() {
+	update_version: function() {
 		var data = { version: this.version.prepareData() };
-		console.log('saving in the same version', data);
+		console.log('update_version', settings.jp_jetpack_update_version_url, data);
 	},
 	/*
 	 * Method: newversion
 	 * Prepare data and send Request - create a new version
 	 */
-	newversion: function() {
+	save_new_version: function() {
 		var data = { version: this.version.prepareData() };
-		console.log('saving new version', data);
+		console.log('save_new_version', settings.jp_jetpack_save_new_version_url, data);
 	},
 	/*
 	 * Method: try
 	 * Prepare Jetpack using saved content and install temporary in the browser
 	 */
-	try: function() {
+	try_in_browser: function() {
 		var data = this.getFullData();
 		console.log('trying in browser', data);
 	},
@@ -132,8 +132,9 @@ var Version = new Class({
 		},
 		commited_by: '',
 		name: '',
-		description: '',
+		manifest: '',
 		content: '',
+		description: '',
 		status: '',
 		published: false,
 		is_base: false
@@ -150,6 +151,7 @@ var Version = new Class({
 			name: this.options.name,
 			description: this.options.description,
 			content: this.options.content,
+			manifest: this.options.manifest,
 			is_base: this.options.is_base
 		};
 	},

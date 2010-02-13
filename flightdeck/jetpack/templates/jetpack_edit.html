@@ -21,8 +21,9 @@
 				version: {
 					author: "{{ version.author }}",
 					name: "{{ version.name }}",
-					description: "{{ version.description }}",
+					manifest: "{{ version.manifest }}",
 					content: "{{ version.content }}",
+					description: "{{ version.description }}",
 					is_base: {{ version.is_base|yesno:"true,false" }}
 				}
 			});
