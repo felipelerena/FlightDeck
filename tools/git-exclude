@@ -16,3 +16,5 @@ flightdeck/media/bespin
 *local.sh
 *.pyc
 .*swp
+.log
+*.log
