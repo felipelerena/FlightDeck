@@ -210,7 +210,7 @@ var CapVersion = new Class({
 	 */
 	update: function() {
 		data = this.prepareData();
-		console.log('version.update', data);
+		console.log('version.update', this.options.update_url, data);
 	},
 	/*
 	 * Method: getContent
