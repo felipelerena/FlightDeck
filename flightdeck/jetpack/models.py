@@ -1,6 +1,7 @@
 from django.db.models.signals import pre_save, post_save
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 from jetpack import settings
 from jetpack.managers import JetVersionManager, CapVersionManager
@@ -89,6 +90,13 @@ class Cap(models.Model):
 	@models.permalink
 	def get_save_url(self):
 		return ('jp_capability_save_new_version',[self.slug])
+
+	@staticmethod
+	def get_create_url():
+		"""
+		@returns str: create new jetpack url
+		"""
+		return reverse('jp_capability_create')
 
 
 class CapVersion(models.Model):
@@ -235,11 +243,29 @@ class Jet(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('jp_jetpack_edit_base',[self.slug])
+		return ('jp_jetpack_edit',[self.slug])
 
 	@models.permalink
-	def get_save_url(self):
-		return ('jp_jetpack_save_new_version',[self.slug])
+	def get_update_url(self):
+		return ('jp_jetpack_update',[self.slug])
+
+	@models.permalink
+	def get_version_create_url(self):
+		return ('jp_jetpack_version_create',[self.slug])
+
+	def can_be_updated_by(self, user):
+		"""
+		Can user save Jetpack's metadata
+		@returns boolean: 
+		"""
+		return (self.creator.username == user.username or user in self.managers.all())
+
+	@staticmethod
+	def get_create_url():
+		"""
+		@returns str: create new jetpack url
+		"""
+		return reverse('jp_jetpack_create')
 
 
 
@@ -312,14 +338,14 @@ class JetVersion(models.Model):
 		"""
 		@returns str: url to the edit page of this version
 		"""
-		return ('jp_jetpack_edit_version',[self.jetpack.slug, self.name, self.counter])
+		return ('jp_jetpack_version_edit',[self.jetpack.slug, self.name, self.counter])
 
 	@models.permalink
 	def get_update_url(self):
 		"""
 		@returns str: url to update the same version (no url changed afterwards)
 		"""
-		return ('jp_jetpack_update_version',[self.jetpack.slug, self.name, self.counter])
+		return ('jp_jetpack_version_update',[self.jetpack.slug, self.name, self.counter])
 
 	@models.permalink
 	def get_set_as_base_url(self):

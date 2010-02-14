@@ -5,11 +5,8 @@
 	<script type="text/javascript">
 		var settings = {
 			user: "{{ request.user }}",
-			jp_jetpack_update_version_url: "{{ version.get_update_url }}",
-			jp_jetpack_save_new_version_url: "{{ jetpack.get_save_url }}",
-			jp_jetpack_base_url: "{{ jetpack.get_absolute_url }}",
-			jp_jetpack_version_url: "{{ version.get_absolute_url }}",
-			jp_jetpack_version_set_as_base: "{{ version.get_set_as_base_url }}"
+			jp_jetpack_create_url: "{{ jetpack_create_url }}",
+			jp_capability_create_url: "{{ capability_create_url }}"
 		};
 		
 		window.addEvent("load", function() {
@@ -18,13 +15,19 @@
 				name: "{{ jetpack.name }}",
 				description: "{{ jetpack.description }}",
 				creator: "{{ jetpack.creator }}",
+				edit_url: "{{ jetpack.get_absolute_url }}",
+				update_url: "{{ jetpack.get_update_url }}",
+				version_create_url: "{{ jetpack.get_version_create_url }}",
 				version: {
 					author: "{{ version.author }}",
 					name: "{{ version.name }}",
 					manifest: "{{ version.manifest }}",
 					content: "{{ version.content }}",
 					description: "{{ version.description }}",
-					is_base: {{ version.is_base|yesno:"true,false" }}
+					is_base: {{ version.is_base|yesno:"true,false" }},
+					edit_url: "{{ version.get_absolute_url }}",
+					update_url: "{{ version.get_update_url }}",
+					set_as_base_url: "{{ version.get_set_as_base_url }}"
 				}
 			});
 		});
@@ -43,8 +46,8 @@
 	</p>
 	<textarea id='version_content'>{{ version.content }}</textarea>
 	<ul>
-		<li><a href='#' id='try'>Try in a browser</a></li>
-		<li><a href='#' id='save'>Save</a></li>
-		<li><a href='#' id='newversion'>Save as new version</a></li>
+		<li><a href='#' id='try_in_browser'>Try in a browser</a></li>
+		<li><a href='#' id='update'>Update</a></li>
+		<li><a href='#' id='version_create'>Save as new Version</a></li>
 	</ul>
 {% endblock %}

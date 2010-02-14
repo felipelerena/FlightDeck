@@ -12,6 +12,13 @@ var Editor = new Class({
 	initialize: function(options) {
 		this.setOptions(options);
 		this.element = $(this.options.element);
+		this.changed = false;
+		this.element.addEvents({
+			'change': function() {
+				this.fireEvent('change');
+				this.changed = true;
+			}.bind(this)
+		});
 	},
 	toElement: function() {
 		return this.element;

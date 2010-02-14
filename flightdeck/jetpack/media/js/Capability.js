@@ -6,21 +6,22 @@
 var Capability = new Class({
 	Implements: [Options, Events],
 	options: {
-		editor: {
-		},
-		version: {
-		},
-		slug: '',
-		name: '',
-		description: '',
-		author: '',
+		editor: {},
+		version: {},
+		//slug: null,
+		//name: null,
+		//description: null,
+		//author: null,
 		//managers: [],
 		//developers: [],
 		//public_permission: 2,
 		//group_permission: 2,
-		save_el: 'save',
-		newversion_el: 'newversion',
-		try_el: 'try'
+		update_el: 'update',
+		version_create_el: 'version_create',
+		try_in_browser_el: 'try_in_browser',
+		edit_url: '',
+		update_url: '',
+		version_create_url: ''
 	},
 	/*
 	 * Method: initialize
@@ -31,53 +32,83 @@ var Capability = new Class({
 	 */
 	initialize: function(options) {
 		this.setOptions(options)
-		this.version = new CapVersion(this.options.version);
+		this.initializeVersion();
+		// TODO: add hooks for changing the Jetpack itself
+		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
+		this.boundAfterVersionChanged = this.afterVersionChanged.bind(this);
+		this.version.addEvents({
+			// #TODO: using change is wrong here 
+			'change': this.boundAfterVersionChanged
+		});
+		// one may try even not edited data
+		$(this.options.try_in_browser_el).addEvent('click', function(e) {
+			e.stop();
+			this.try_in_browser();
+		}.bind(this));
 		
 		this.data = {
 			slug: this.options.slug,
 			name: this.options.name,
 			description: this.options.description
 		};
-		// initiate actions
-		var save_el = $(this.options.save_el);
-		if (save_el) save_el.addEvent('click', function(e) {
+		// #TODO: remove these - it's just to switch the buttons all the time
+		this.afterVersionChanged();
+		this.afterDataChanged();
+	},
+	/* 
+	 * Method: afterVersionChanged
+	 * assign version_create with the $('version_create') click event
+	 */
+	afterDataChanged: function() {
+		$(this.options.update_el).addEvent('click', function(e) {
 			e.stop();
-			this.save();
+			this.update();
 		}.bind(this));
-		var newversion_el = $(this.options.newversion_el);
-		if (newversion_el) newversion_el.addEvent('click', function(e) {
-			e.stop();
-			this.newversion();
+		// TODO: stop listening the data changing event
+	},
+	/* 
+	 * Method: afterVersionChanged
+	 * assign version_create with the $('version_create') click event
+	 */
+	afterVersionChanged: function() {
+		// TODO: discover if change was actually an undo and there is 
+		//       no change to the original content
+		$(this.options.version_create_el).addEvent('click', function(e) {
+			e.stop(); 
+			this.version_create();
 		}.bind(this));
-		var try_el = $(this.options.try_el);
-		if (try_el) try_el.addEvent('click', function(e) {
-			e.stop();
-			this.try();
-		}.bind(this));
+		this.version.removeEvent('change', this.boundAfterVersionChanged);
 	},
 	/*
-	 * Method: save
+	 * Method: initializeVersion
+	 * assigns CapVersion to this.version
+	 */
+	initializeVersion: function() {
+		this.version = new CapVersion(this.options.version);
+	},
+	/*
+	 * Method: update
 	 * Prepare data and send Request to the back-end
 	 */
-	save: function() {
+	update: function() {
 		var data = { version: this.version.prepareData() };
-		console.log('saving in the same version', data);
+		console.log('update', this.options.update_url, data);
 	},
 	/*
-	 * Method: newversion
+	 * Method: version_create
 	 * Prepare data and send Request - create a new version
 	 */
-	newversion: function() {
+	version_create: function() {
 		var data = { version: this.version.prepareData() };
-		console.log('saving new version', data);
+		console.log('version_create', this.options.version_create_url, data);
 	},
 	/*
-	 * Method: try
+	 * Method: try_in_browser
 	 * Prepare Capability using saved content and install temporary in the browser
 	 */
-	try: function() {
+	try_in_browser: function() {
 		var data = this.getFullData();
-		console.log('trying in browser', data);
+		console.log('try_in_browser', data);
 	},
 	/*
 	 * Method: getContent
@@ -106,7 +137,7 @@ var Capability = new Class({
 	 * get all jetpack editable fields from DOM and set parameters in model
 	 */
 	updateFromDOM: function() {
-		// here update name/description whatever
+		// here update metadata from its editors
 	},
 	/*
 	 * Method: getFullData
@@ -126,16 +157,19 @@ var Capability = new Class({
  * Prepare the editor, save, update
  */
 var CapVersion = new Class({
-	Implements: [Options],
+	Implements: [Options, Events],
 	options: {
-		editor: {
-		},
-		commited_by: '',
-		name: '',
-		description: '',
-		content: '',
-		status: '',
-		is_base: false
+		editor: {},
+		//commited_by: null,
+		//name: null,
+		//description: null,
+		//content: null,
+		//status: null,
+		//is_base: null,
+		update_el: 'update',
+		edit_url: '',
+		update_url: '',
+		set_as_base_url: ''
 	},
 	/*
 	 * Method: initialize
@@ -144,13 +178,39 @@ var CapVersion = new Class({
 	initialize: function(options) {
 		this.setOptions(options);
 		this.editor = new Editor(this.options.editor);
-		// this.data is everything which may be set in the frontend
+		this.changed = false;
+		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
+		this.editor.addEvents({
+			'change': this.boundAfterDataChanged
+		});
+		// this.data is everything we send to the backend
 		this.data = {
 			name: this.options.name,
 			description: this.options.description,
 			content: this.options.content,
 			is_base: this.options.is_base
 		};
+		// #TODO: remove these - it's just to switch the buttons all the time
+		this.afterDataChanged();
+	},
+	afterDataChanged: function() {
+		this.fireEvent('change');
+		// TODO: discover if change was actually an undo and there is 
+		//       no change to the original content
+		this.changed = true;
+		$(this.options.update_el).addEvent('click', function(e) {
+			e.stop();
+			this.update();
+		}.bind(this));
+		this.editor.removeEvent('change', this.boundAfterDataChanged);
+	},
+	/*
+	 * Method: update
+	 * get current data and send Request to the backend
+	 */
+	update: function() {
+		data = this.prepareData();
+		console.log('version.update', data);
 	},
 	/*
 	 * Method: getContent
@@ -180,6 +240,7 @@ var CapVersion = new Class({
 	 */
 	updateFromDOM: function() {
 		this.data.content = this.editor.getContent();
-		// add more fields here
+		// #TODO: add more fields here
 	}
 });
+
