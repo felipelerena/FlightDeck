@@ -9,6 +9,16 @@ from base.shortcuts import get_object_or_create
 from jetpack.models import Jet, JetVersion, Cap, CapVersion
 from jetpack.default_settings import settings
 
+@login_required
+def create(r):
+	"""
+	Discplay create form
+	"""
+	jetpack_create_url = Jet.get_create_url()
+	capability_create_url = Cap.get_create_url()
+	return render_to_response('create.html', locals(), 
+				context_instance=RequestContext(r))
+	
 
 @login_required
 def jetpack_edit(r, slug):
@@ -44,6 +54,7 @@ def jetpack_create(r):
 	Version will be saved in the jetpack_save_new_version
 	"""
 	jetpack = Jet(
+		creator=r.user,
 		name=r.POST.get("jetpack_name"),
 		description=r.POST.get("jetpack_description")
 	)
@@ -169,8 +180,9 @@ def capability_create(r):
 	"""
 	# TODO: consider adding empty version here
 	capability = Cap(
+		creator=r.user,
 		name=r.POST.get("capability_name"),
-		description=r.POST.get("jetpackcapability")
+		description=r.POST.get("capability_description")
 	)
 	# TODO: validate
 	capability.save()

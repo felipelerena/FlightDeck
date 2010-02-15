@@ -7,23 +7,8 @@ var Jetpack = new Class({
 	Implements: [Options, Events],
 	type: 'jetpack',
 	options: {
-		editor: {},
-		version: {},
-		//slug: null,
-		//name: null,
-		//description: null,
-		//author: null,
-		//managers: [],
-		//developers: [],
-		//public_permission: 2,
-		//group_permission: 2,
 		description_el: 'jetpack_description',
-		update_el: 'update',
-		version_create_el: 'version_create',
 		try_in_browser_el: 'try_in_browser',
-		edit_url: '',
-		update_url: '',
-		version_create_url: ''
 	},
 	/*
 	 * Method: initialize
@@ -61,22 +46,9 @@ var JetVersion = new Class({
 	Implements: [Options],
 	type: 'jetpack',
 	options: {
-		editor: {},
-		//commited_by: null,
-		//name: null,
 		//manifest: null,
-		//content: null,
-		//description: null,
-		//status: null,
 		//published: null,
-		//is_base: null,
-		description_el: 'version_description',
-		content_el: 'version_content',
-		manifest_el: 'version_manifest',
-		update_el: 'update',
-		edit_url: '',
-		update_url: '',
-		set_as_base_url: ''
+		manifest_el: 'version_manifest'
 	},
 	/*
 	 * Method: initialize
@@ -92,6 +64,7 @@ var JetVersion = new Class({
 	 * get all version editable fields from DOM and set parameters in model
 	 */
 	updateFromDOM: function() {
+		this.data.version_name = this.name_el.get('value');
 		this.data.version_content = this.editor.getContent();
 		this.data.version_description = this.description_el.get('value');
 		this.data.version_manifest = this.manifest_el.get('value');

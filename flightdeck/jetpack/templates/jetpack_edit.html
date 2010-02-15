@@ -8,9 +8,10 @@
 			jp_jetpack_create_url: "{{ jetpack_create_url }}",
 			jp_capability_create_url: "{{ capability_create_url }}"
 		};
+		var jetpack;
 		
 		window.addEvent("load", function() {
-			var jetpack = new Jetpack({
+			jetpack = new Jetpack({
 				slug: "{{ jetpack.slug }}",
 				name: "{{ jetpack.name }}",
 				description: "{{ jetpack.description }}",
@@ -38,16 +39,18 @@
 	<h1>{% if jetpack_page %}{{ jetpack }}{% else %}{{ version }}{% endif %} 
 		by <a href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator.username }}</a>
 	</h1>
+	{% if version %}
 	<p>
 		Version by: <a href="{% url person_public_profile version.author.username %}">{{ version.author.username }}</a>, 
 		{% if jetpack_page %}switch to: <a href="{{ version.get_absolute_url }}">version {{ version.fullname }}</a>
 		{% else %}switch to: <a href="{{ jetpack.get_absolute_url }}">jetpack base</a>
 		{% endif %}
 	</p>
+	{% endif %}
 	<label for='jetpack_description'>Jetpack Description</label>
 	<textarea id='jetpack_description' name='jetpack_description'>{{ jetpack.description }}</textarea>
 	<label for='version_name'>Version</label>
-	<input type='text' id='version_name' name='version_name' value="{{ version.name }}"/>.{{ version.counter }}<br/>
+	<input type='text' id='version_name' name='version_name' value="{{ version.name|default:"0.0" }}"/>{% if version %}.{{ version.counter }}{% endif %}<br/>
 	<label for='version_description'>version Description</label>
 	<textarea id='version_description' name='version_description'>{{ version.description }}</textarea>
 	<label for='version_content'>Content</label>

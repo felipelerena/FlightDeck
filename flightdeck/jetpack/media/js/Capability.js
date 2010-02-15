@@ -34,6 +34,7 @@ var Capability = new Class({
 	 */
 	initialize: function(options) {
 		this.setOptions(options)
+		// XXX: It looks weird (a bit)
 		this.initializeVersion();
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
 		this.boundAfterVersionChanged = this.afterVersionChanged.bind(this);
@@ -102,14 +103,13 @@ var Capability = new Class({
 				console.log(response.message);
 			}
 		}).send();
-		console.log('update', this.options.update_url, data);
 	},
 	/*
 	 * Method: version_create
 	 * Prepare data and send Request - create a new version
 	 */
-	version_create: function() {
-		var data = this.version.prepareData();
+	version_create: function(data) {
+		var data = $pick(data, this.version.prepareData());
 		new Request.JSON({
 			url: this.options.version_create_url,
 			data: data,
@@ -118,7 +118,6 @@ var Capability = new Class({
 				window.location.href = response.version_absolute_url;
 			}
 		}).send();
-		console.log('version_create', this.options.version_create_url, data);
 	},
 	/*
 	 * Method: try_in_browser
@@ -184,6 +183,7 @@ var CapVersion = new Class({
 		//content: null,
 		//status: null,
 		//is_base: null,
+		name_el: 'version_name',
 		description_el: 'version_description',
 		content_el: 'version_content',
 		update_el: 'update',
@@ -201,6 +201,7 @@ var CapVersion = new Class({
 		this.changed = false;
 		// listen to change events
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
+		this.name_el = $(this.options.name_el);
 		this.description_el = $(this.options.description_el);
 		this.description_el.addEvent('change', this.boundAfterDataChanged);
 		this.editor.addEvent('change', this.boundAfterDataChanged);
@@ -230,6 +231,11 @@ var CapVersion = new Class({
 	 */
 	update: function() {
 		var data = this.prepareData();
+		// prevent from updating a version with different name
+		if (data.version_name != this.options.name) {
+			// # TODO: create version
+			return window[this.type].version_create(data);
+		}
 		new Request.JSON({
 			url: this.options.update_url,
 			data: data,
@@ -238,7 +244,6 @@ var CapVersion = new Class({
 				console.log(response.message);
 			}
 		}).send();
-		console.log('version.update', this.options.update_url, data);
 	},
 	/*
 	 * Method: getContent
@@ -267,6 +272,7 @@ var CapVersion = new Class({
 	 * get all version editable fields from DOM and set parameters in model
 	 */
 	updateFromDOM: function() {
+		this.data.version_name = this.name_el.get('value');
 		this.data.version_content = this.editor.getContent();
 		this.data.version_description = this.description_el.get('value');
 	}
