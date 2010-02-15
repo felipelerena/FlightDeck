@@ -33,17 +33,33 @@ then
 fi
 
 
+### Roar
+cd $V_ENV/lib/
+if [ ! -e $V_ENV/lib/Roar1.0 ]
+then 
+	mkdir Roar1.0
+	cd Roar1.0
+	wget http://digitarald.de/project/roar/1-0/source/Roar.js
+	wget http://digitarald.de/project/roar/1-0/assets/Roar.css
+	rm $V_ENV/lib/Roar
+	ln -fs $V_ENV/lib/Roar1.0 $V_ENV/lib/Roar
+fi
+if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/roar ]
+then
+	ln -fs $V_ENV/lib/Roar/ $PROJECT_DIR/$PROJECT_NAME/media/roar
+fi
+
+
 ### Bespin installation
 cd $V_ENV/lib/
-if [ ! -e $V_ENV/lib/BespinEmbedded-0.5.2 ]
+if [ ! -e $V_ENV/lib/BespinEmbedded-0.6 ]
 then
-	wget http://ftp.mozilla.org/pub/mozilla.org/labs/bespin/Embedded/BespinEmbedded-0.5.2.tar.gz
-	tar xfz BespinEmbedded-0.5.2.tar.gz
-	rm BespinEmbedded-0.5.2.tar.gz
-fi
-if [ ! -e $V_ENV/lib/BespinEmbedded ]
-then
-	ln -fs $V_ENV/lib/BespinEmbedded-0.5.2/ $V_ENV/lib/BespinEmbedded
+	mkdir BespinEmbedded-0.6
+	cd BespinEmbedded-0.6
+	wget https://bespin.mozilla.com/embedded/BespinEmbedded.css --no-check-certificate
+	wget https://bespin.mozilla.com/embedded/BespinEmbedded.js --no-check-certificate
+	rm $V_ENV/lib/BespinEmbedded
+	ln -fs $V_ENV/lib/BespinEmbedded-0.6/ $V_ENV/lib/BespinEmbedded
 fi
 if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/bespin ]
 then
