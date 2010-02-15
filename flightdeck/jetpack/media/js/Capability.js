@@ -92,7 +92,16 @@ var Capability = new Class({
 	 * Prepare data and send Request to the back-end
 	 */
 	update: function() {
-		var data = { version: this.version.prepareData() };
+		var data = this.prepareData();
+		new Request.JSON({
+			url: this.options.update_url,
+			data: data,
+			method: 'post',
+			onSuccess: function(response) {
+				// display notification from response
+				console.log(response.message);
+			}
+		}).send();
 		console.log('update', this.options.update_url, data);
 	},
 	/*
@@ -106,7 +115,7 @@ var Capability = new Class({
 			data: data,
 			method: 'post',
 			onSuccess: function(response) {
-				//window.location.href = response.version_absolute_url;
+				window.location.href = response.version_absolute_url;
 			}
 		}).send();
 		console.log('version_create', this.options.version_create_url, data);
@@ -220,7 +229,15 @@ var CapVersion = new Class({
 	 * get current data and send Request to the backend
 	 */
 	update: function() {
-		data = this.prepareData();
+		var data = this.prepareData();
+		new Request.JSON({
+			url: this.options.update_url,
+			data: data,
+			method: 'post',
+			onSuccess: function(response) {
+				console.log(response.message);
+			}
+		}).send();
 		console.log('version.update', this.options.update_url, data);
 	},
 	/*

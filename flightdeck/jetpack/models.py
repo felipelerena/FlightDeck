@@ -85,11 +85,15 @@ class Cap(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('jp_capability_edit_base',[self.slug])
+		return ('jp_capability_edit',[self.slug])
 
 	@models.permalink
-	def get_save_url(self):
-		return ('jp_capability_save_new_version',[self.slug])
+	def get_update_url(self):
+		return ('jp_capability_update',[self.slug])
+
+	@models.permalink
+	def get_version_create_url(self):
+		return ('jp_capability_version_create',[self.slug])
 
 	@staticmethod
 	def get_create_url():
@@ -97,6 +101,13 @@ class Cap(models.Model):
 		@returns str: create new jetpack url
 		"""
 		return reverse('jp_capability_create')
+
+	def can_be_updated_by(self, user):
+		"""
+		Can user save Capability's metadata
+		@returns boolean: 
+		"""
+		return (self.creator.username == user.username or user in self.managers.all())
 
 
 class CapVersion(models.Model):
@@ -163,14 +174,14 @@ class CapVersion(models.Model):
 		"""
 		@returns str: url to the edit page of this version
 		"""
-		return ('jp_capability_edit_version',[self.capability.slug, self.name, self.counter])
+		return ('jp_capability_version_edit',[self.capability.slug, self.name, self.counter])
 
 	@models.permalink
 	def get_update_url(self):
 		"""
 		@returns str: url to update the same version (no url changed afterwards)
 		"""
-		return ('jp_capability_update_version',[self.capability.slug, self.name, self.counter])
+		return ('jp_capability_version_update',[self.capability.slug, self.name, self.counter])
 
 	@models.permalink
 	def get_set_as_base_url(self):
