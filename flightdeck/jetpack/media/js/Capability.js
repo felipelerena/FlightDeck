@@ -34,7 +34,6 @@ var Capability = new Class({
 	 */
 	initialize: function(options) {
 		this.setOptions(options)
-		// XXX: It looks weird (a bit)
 		this.initializeVersion();
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
 		this.boundAfterVersionChanged = this.afterVersionChanged.bind(this);
@@ -100,7 +99,7 @@ var Capability = new Class({
 			method: 'post',
 			onSuccess: function(response) {
 				// display notification from response
-				console.log(response.message);
+				fd.message.alert('Success', response.message);
 			}
 		}).send();
 	},
@@ -125,7 +124,8 @@ var Capability = new Class({
 	 */
 	try_in_browser: function() {
 		var data = this.getFullData();
-		console.log('try_in_browser', data);
+		fd.warning.alert('Not implemented','try_in_browser');
+		console.log(data);
 	},
 	/*
 	 * Method: getContent
@@ -242,7 +242,7 @@ var CapVersion = new Class({
 			data: data,
 			method: 'post',
 			onSuccess: function(response) {
-				console.log(response.message);
+				fd.message.alert('Success', response.message);
 			}
 		}).send();
 	},

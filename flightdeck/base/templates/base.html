@@ -3,12 +3,24 @@
 <html>
 <head>
 	<script src="/media/js/lib/mootools-1.2.4-core-nc.js"></script>
-{% block head %}
-{% endblock %}
+	<script src="/media/js/lib/mootools-1.2.4.4-more.js"></script>
+	<script src="/media/roar/Roar.js"></script>
+	{% block head %}
+	{% endblock %}
+	{% block roar_css %}<link href="/media/roar/Roar.css" rel="stylesheet" type="text/css">{% endblock %}
+	<script src="/media/js/FlightDeck.js"></script>
+	<script src="/media/js/FlightDeck.Roar.js"></script>
+	<script type='text/javascript'>
+		var fd;
+		window.addEvent('domready', function() {
+			fd = new FlightDeck();
+			{% block domready %}{% endblock %}
+		});
+	</script>
 </head>
 <body>
-{% block content %}
-{% endblock %}
+	{% block content %}
+	{% endblock %}
 </body>
 </html>
 
