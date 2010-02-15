@@ -66,7 +66,7 @@ var Capability = new Class({
 			e.stop();
 			this.update();
 		}.bind(this));
-		// TODO: stop listening the data changing event
+		this.description_el.removeEvent('change', this.boundAfterDataChanged);
 	},
 	/* 
 	 * Method: afterVersionChanged
@@ -224,6 +224,7 @@ var CapVersion = new Class({
 			this.update();
 		}.bind(this));
 		this.editor.removeEvent('change', this.boundAfterDataChanged);
+		this.description_el.removeEvent('change', this.boundAfterDataChanged);
 	},
 	/*
 	 * Method: update
