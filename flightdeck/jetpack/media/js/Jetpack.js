@@ -5,6 +5,26 @@
 var Jetpack = new Class({
 	Extends: Capability,
 	Implements: [Options, Events],
+	type: 'jetpack',
+	options: {
+		editor: {},
+		version: {},
+		//slug: null,
+		//name: null,
+		//description: null,
+		//author: null,
+		//managers: [],
+		//developers: [],
+		//public_permission: 2,
+		//group_permission: 2,
+		description_el: 'jetpack_description',
+		update_el: 'update',
+		version_create_el: 'version_create',
+		try_in_browser_el: 'try_in_browser',
+		edit_url: '',
+		update_url: '',
+		version_create_url: ''
+	},
 	/*
 	 * Method: initialize
 	 * @attribute object options: 
@@ -13,7 +33,8 @@ var Jetpack = new Class({
 	 * assign actions to the buttons
 	 */
 	initialize: function(options) {
-		this.parent(options);
+		this.setOptions(options)
+		this.parent(this.options);
 	},
 	/*
 	 * Method: initializeVersion
@@ -38,6 +59,7 @@ var Jetpack = new Class({
 var JetVersion = new Class({
 	Extends: CapVersion,
 	Implements: [Options],
+	type: 'jetpack',
 	options: {
 		editor: {},
 		//commited_by: null,
@@ -48,7 +70,13 @@ var JetVersion = new Class({
 		//status: null,
 		//published: null,
 		//is_base: null,
-		update_el: 'update'
+		description_el: 'version_description',
+		content_el: 'version_content',
+		manifest_el: 'version_manifest',
+		update_el: 'update',
+		edit_url: '',
+		update_url: '',
+		set_as_base_url: ''
 	},
 	/*
 	 * Method: initialize
@@ -65,6 +93,7 @@ var JetVersion = new Class({
 	 */
 	updateFromDOM: function() {
 		this.data.content = this.editor.getContent();
-		// #TODO: add more fields here
+		this.data.version_description = this.description_el.get('value');
+		this.data.version_manifest = this.manifest_el.get('value');
 	},
 });

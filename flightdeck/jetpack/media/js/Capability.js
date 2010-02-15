@@ -5,6 +5,7 @@
 
 var Capability = new Class({
 	Implements: [Options, Events],
+	type: 'capability',
 	options: {
 		editor: {},
 		version: {},
@@ -16,6 +17,7 @@ var Capability = new Class({
 		//developers: [],
 		//public_permission: 2,
 		//group_permission: 2,
+		description_el: 'capability_description',
 		update_el: 'update',
 		version_create_el: 'version_create',
 		try_in_browser_el: 'try_in_browser',
@@ -33,24 +35,23 @@ var Capability = new Class({
 	initialize: function(options) {
 		this.setOptions(options)
 		this.initializeVersion();
-		// TODO: add hooks for changing the Jetpack itself
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
 		this.boundAfterVersionChanged = this.afterVersionChanged.bind(this);
-		this.version.addEvents({
-			// #TODO: using change is wrong here 
-			'change': this.boundAfterVersionChanged
-		});
+		// TODO: add more hooks for changing the Jetpack itself
+		this.description_el = $(this.options.description_el);
+		// #TODO: using change is wrong here 
+		this.description_el.addEvent('change', this.boundAfterDataChanged);
+		this.version.addEvent('change', this.boundAfterVersionChanged);
 		// one may try even not edited data
 		$(this.options.try_in_browser_el).addEvent('click', function(e) {
 			e.stop();
 			this.try_in_browser();
 		}.bind(this));
 		
-		this.data = {
-			slug: this.options.slug,
-			name: this.options.name,
-			description: this.options.description
-		};
+		this.data = {};
+		this.data[this.type+'_slug'] = this.options.slug;
+		this.data[this.type+'_name'] = this.options.name;
+		this.data[this.type+'_description'] = this.options.description;
 		// #TODO: remove these - it's just to switch the buttons all the time
 		this.afterVersionChanged();
 		this.afterDataChanged();
@@ -144,10 +145,9 @@ var Capability = new Class({
 	 * get all data to save Jetpack and Version models
 	 */
 	getFullData: function() {
-		return {
-			capability: this.prepareData(),
-			version: this.version.prepareData()
-		}
+		var data = $H(this.prepareData());
+		data.extend(this.version.prepareData());
+		return data.getClean();
 	}
 	
 });
@@ -158,6 +158,7 @@ var Capability = new Class({
  */
 var CapVersion = new Class({
 	Implements: [Options, Events],
+	type: 'capability',
 	options: {
 		editor: {},
 		//commited_by: null,
@@ -166,6 +167,8 @@ var CapVersion = new Class({
 		//content: null,
 		//status: null,
 		//is_base: null,
+		description_el: 'version_description',
+		content_el: 'version_content',
 		update_el: 'update',
 		edit_url: '',
 		update_url: '',
@@ -179,16 +182,17 @@ var CapVersion = new Class({
 		this.setOptions(options);
 		this.editor = new Editor(this.options.editor);
 		this.changed = false;
+		// listen to change events
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
-		this.editor.addEvents({
-			'change': this.boundAfterDataChanged
-		});
+		this.description_el = $(this.options.description_el);
+		this.description_el.addEvent('change', this.boundAfterDataChanged);
+		this.editor.addEvent('change', this.boundAfterDataChanged);
 		// this.data is everything we send to the backend
 		this.data = {
-			name: this.options.name,
-			description: this.options.description,
-			content: this.options.content,
-			is_base: this.options.is_base
+			version_name: this.options.name,
+			version_description: this.options.description,
+			version_content: this.options.content,
+			version_is_base: this.options.is_base
 		};
 		// #TODO: remove these - it's just to switch the buttons all the time
 		this.afterDataChanged();
@@ -239,8 +243,8 @@ var CapVersion = new Class({
 	 * get all version editable fields from DOM and set parameters in model
 	 */
 	updateFromDOM: function() {
-		this.data.content = this.editor.getContent();
-		// #TODO: add more fields here
+		this.data.version_content = this.editor.getContent();
+		this.data.version_description = this.description_el.get('value');
 	}
 });
 

@@ -44,7 +44,14 @@
 		{% else %}switch to: <a href="{{ jetpack.get_absolute_url }}">jetpack base</a>
 		{% endif %}
 	</p>
-	<textarea id='version_content'>{{ version.content }}</textarea>
+	<label for='jetpack_description'>Jetpack Description</label>
+	<textarea id='jetpack_description' name='jetpack_description'>{{ jetpack.description }}</textarea>
+	<label for='version_description'>version Description</label>
+	<textarea id='version_description' name='version_description'>{{ version.description }}</textarea>
+	<label for='version_content'>Content</label>
+	<textarea id='version_content' name='version_content'>{{ version.content }}</textarea>
+	<label for='version_manifest'>Manifest</label>
+	<textarea id='version_manifest' name='version_manifest'>{{ version.manifest }}</textarea>
 	<ul>
 		<li><a href='#' id='try_in_browser'>Try in a browser</a></li>
 		<li><a href='#' id='update'>Update</a></li>
