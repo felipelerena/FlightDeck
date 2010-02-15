@@ -76,7 +76,7 @@ def jetpack_update(r, slug):
 		#TODO: raise NotAllowed or something
 		return None
 
-	jetpack.description = r.POST.get('ijetpack_description')
+	jetpack.description = r.POST.get('jetpack_description')
 	if 'jetpack_public_permission' in r.POST:
 		jetpack.public_permission = r.POST.get('jetpack_public_permission')
 	if 'jetpack_group_permission' in r.POST:
