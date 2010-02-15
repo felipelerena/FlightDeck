@@ -41,7 +41,7 @@ var Jetpack = new Class({
 	 * assigns JetVersion to this.version
 	 */
 	initializeVersion: function() {
-		this.version = new CapVersion(this.options.version);
+		this.version = new JetVersion(this.options.version);
 	},
 	/*
 	 * Method: updateFromDOM
@@ -84,15 +84,15 @@ var JetVersion = new Class({
 	 */
 	initialize: function(options) {
 		this.parent(options);
-		this.data.manifest = this.options.manifest;
-		this.published = this.options.published;
+		this.data.version_manifest = this.options.manifest;
+		this.manifest_el = $(this.options.manifest_el);
 	},
 	/*
 	 * Method: updateFromDOM
 	 * get all version editable fields from DOM and set parameters in model
 	 */
 	updateFromDOM: function() {
-		this.data.content = this.editor.getContent();
+		this.data.version_content = this.editor.getContent();
 		this.data.version_description = this.description_el.get('value');
 		this.data.version_manifest = this.manifest_el.get('value');
 	},

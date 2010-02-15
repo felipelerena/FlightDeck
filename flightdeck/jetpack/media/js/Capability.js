@@ -100,7 +100,15 @@ var Capability = new Class({
 	 * Prepare data and send Request - create a new version
 	 */
 	version_create: function() {
-		var data = { version: this.version.prepareData() };
+		var data = this.version.prepareData();
+		new Request.JSON({
+			url: this.options.version_create_url,
+			data: data,
+			method: 'post',
+			onSuccess: function(response) {
+				//window.location.href = response.version_absolute_url;
+			}
+		}).send();
 		console.log('version_create', this.options.version_create_url, data);
 	},
 	/*
@@ -192,7 +200,6 @@ var CapVersion = new Class({
 			version_name: this.options.name,
 			version_description: this.options.description,
 			version_content: this.options.content,
-			version_is_base: this.options.is_base
 		};
 		// #TODO: remove these - it's just to switch the buttons all the time
 		this.afterDataChanged();

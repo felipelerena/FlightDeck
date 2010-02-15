@@ -30,6 +30,7 @@ def jetpack_edit(r, slug):
 
 @login_required
 def jetpack_version_edit(r, slug, version, counter):
+	print 'slug', slug, ',version', version, ',counter', counter
 	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
 	jetpack = version.jetpack
 	return render_to_response('jetpack_edit.html', locals(), 
