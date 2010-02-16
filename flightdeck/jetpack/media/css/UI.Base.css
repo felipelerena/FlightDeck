@@ -12,3 +12,5 @@ authors:
 @import url('UI.Layout.css');
 @import url('UI.Sidebar.css');
 @import url('UI.File_Listing.css');
+@import url('UI.Forms.css');
+@import url('UI.Modal.css');

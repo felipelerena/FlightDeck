@@ -1,0 +1,81 @@
+/*
+---
+filename: UI.Forms.css
+decription: Provides styles for forms
+license: MIT-style license.
+authors:
+ - Oskar Krawczyk (http://nouincolor.com/)
+...
+*/
+
+.UI_Forms {
+   font-size: .9em;
+}
+
+   .UI_Forms legend {
+      display: none;
+   }
+   
+   .UI_Forms fieldset {
+      padding: 14px;
+   }
+   
+   .UI_Forms .UI_Field {
+      border-top: solid 1px #EBEBEB;
+      padding: 14px 0 0;
+      margin: 14px 0 0;
+   }
+
+   .UI_Forms .UI_Field label {
+      float: left;
+      padding: 5px 0;
+      width: 30%;
+   }
+   
+   .UI_Forms .UI_Field input,
+   .UI_Forms .UI_Field textarea {
+      border: solid 1px #CBCFD4;
+      float: right;
+      padding: 5px;
+      width: 65%;
+      
+      background: url(../img/input-shadow-bg.png) 0 0 repeat-x;
+   }
+   
+   .UI_Forms .UI_Field textarea {
+      height: 60px;
+   }
+
+
+   .UI_Forms .UI_Choice {
+
+   }
+   
+      .UI_Forms .UI_Choice li {
+         float: left;
+         margin-right: 15px;
+         
+      }
+      
+      .UI_Forms .UI_Choice label {
+         float: left;
+         color: #4D5860;
+         text-shadow: 0 1px 0 #fff;
+         background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+         -moz-border-radius: 4px;
+         padding: 2px 7px;
+         margin-left: 5px;
+         cursor: pointer;
+      }
+      
+         /* .UI_Forms .UI_Choice .selected label, */
+         .UI_Forms .UI_Choice input:checked ~ label {
+            background: -moz-linear-gradient(270deg, #5AA2F3, #3E81D2);
+            color: #fff;
+            text-shadow: 0 1px 0 #011E4F;
+         }
+      
+      .UI_Forms .UI_Choice input {
+         float: left;
+         margin: 4px 0 0;
+      }

@@ -1,0 +1,76 @@
+/*
+---
+filename: UI.Modal.css
+decription: Provides styles for the modal window
+license: MIT-style license.
+authors:
+ - Oskar Krawczyk (http://nouincolor.com/)
+...
+*/
+
+/* START TEMP*/
+.UI_Modal {
+   width: 400px;
+   position: relative;
+   left: 150px;
+   top: 0px;
+}
+/* END TEMP*/
+
+.UI_Modal_Wrapper {
+   overflow: hidden;
+   position: relative;
+   padding-bottom: 15px;
+}
+
+.UI_Modal {
+   border: solid 1px #AFB6BD;
+   border-top: none;
+   background: #fff;
+   
+   -moz-border-radius-bottomleft: 7px;
+   -moz-border-radius-bottomright: 7px;
+   -moz-box-shadow: 0 1px 15px #888;
+}
+                              
+      .UI_Modal .UI_Modal_Actions {
+         border-top: solid 1px #fff;
+         padding: 7px 14px;
+         background: #E5E9EE;
+         
+         -moz-border-radius-bottomleft: 5px;
+         -moz-border-radius-bottomright: 5px;
+         -moz-box-shadow: 0 -1px 0 #BEC5CC;         
+      }
+      
+      .UI_Modal .UI_Modal_Actions li {
+         background: #BEC5CC;
+         border-bottom: solid 1px #fff;
+         padding: 1px;
+         float: right;
+         position: relative;
+         margin-left: 7px;
+         -moz-border-radius: 5px;
+      }
+      
+      .UI_Modal .UI_Modal_Actions input {
+         background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+         border-top: solid 1px #fff;
+         display: block;
+         padding: 7px;
+         text-shadow: 0 1px 0 #fff;
+         color: #4D5860;
+         
+         -moz-border-radius: 4px;
+      }
+      
+      .UI_Modal .UI_Modal_Actions input:hover {
+         background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+         text-decoration: none;
+      }
+
+      .UI_Modal .UI_Modal_Actions input:active {
+         background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
+         border-top: solid 1px transparent;
+         color: #6D7880;
+      }

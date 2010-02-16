@@ -8,7 +8,7 @@ authors:
 ...
 */
 
-body, form, fieldset, input, textarea, p, ul, ol, li, h1, h2, h3, h4, h5, h6, dd, dt, dl, strong {
+body, form, fieldset, input, button, textarea, p, ul, ol, li, h1, h2, h3, h4, h5, h6, dd, dt, dl, strong {
    padding: 0;
    margin: 0;
    border: none;
@@ -24,9 +24,18 @@ header, aside, section, footer, nav, input, textarea {
    display: block;
 }
 
+input,
+select,
+textarea {
+   font-family: 'Lucida Grande', 'Lucida Sans', 'Lucida Sans Unicode', 'Myriad', Tahoma, Verdana, Arial, sans-serif;
+}
+
 /* Clearfix */
 #app-body:after, 
-.UI_Editor_Menu:after {   
+.UI_Editor_Menu:after,
+.UI_Forms .UI_Field:after,
+.UI_Forms .UI_Choice:after, 
+.UI_Modal .UI_Modal_Actions:after {   
    content: ' ';
    display: block;
    height: 0;
