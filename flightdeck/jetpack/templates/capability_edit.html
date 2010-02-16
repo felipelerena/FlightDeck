@@ -35,6 +35,7 @@
 
 
 {% block app_sidebar %}
+	{% if not version %}<p class='fd_message' title='New Capability Created'>Please update or create a new Version after adding some content</p>{% endif %}
 	<section id="jetpack-info" class="UI_Sidebar_Item">
 		<h3 id="ji-toggler">
 			<a title="{{ capability.name }}" href="#">{{ capability.name }} <span></span></a>
