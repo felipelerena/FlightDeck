@@ -16,8 +16,8 @@ commands are specific to Ubuntu with Bash):
    $ cd /path/to/projects/FlightDeck
    $ ./scripts/initiate.sh
 
-3. Install python-setuptools python-dev build-essential libmysqlclient-dev graphviz
-   $ sudo apt-get install subversion mercurial python-setuptools python-dev build-essential libmysqlclient-dev 
+3. Install python-setuptools python-dev build-essential libmysqlclient-dev graphviz wget
+   $ sudo apt-get install subversion mercurial python-setuptools python-dev build-essential libmysqlclient-dev wget
    # install graphviz (optional)
    $ sudo apt-get install graphviz graphviz-dev
 

@@ -22,4 +22,5 @@ Following third-party software is used only for development:
  * GraphViz (http://www.graphviz.org/) [GPL]
  * PyGraphViz (http://networkx.lanl.gov/pygraphviz/) [?]
  * DevServer (http://github.com/dcramer/django-devserver) [?]
+ * wget (http://www.gnu.org/software/wget/) [GPL]
  
