@@ -234,6 +234,7 @@ var CapVersion = new Class({
 		description_el: {element: 'version_description'},
 		content_el: {element: 'version_content'},
 		update_el: 'update',
+		set_as_base_el: 'set_as_base',
 		edit_url: '',
 		update_url: '',
 		set_as_base_url: ''
@@ -316,6 +317,25 @@ var CapVersion = new Class({
 		}.bind(this));
 		this.content_el.removeEvent('change', this.boundAfterDataChanged);
 		this.description_el.removeEvent('change', this.boundAfterDataChanged);
+		this.set_as_base_el = $(this.options.set_as_base_el)
+		this.set_as_base_el.addEvent('click', function(e) {
+			e.stop();
+			this.setAsBase();
+		}.bind(this));
+	},
+	/*
+	 * Method: setAsBase
+	 * set current version as Base
+	 */
+	setAsBase: function() {
+		new Request.JSON({
+			url: this.options.set_as_base_url,
+			method: 'post',
+			onSuccess: function(response) {
+				fd.message.alert('Success', response.message);
+				this.set_as_base_el.set('text', 'Base version')
+			}.bind(this)
+		}).send()
 	},
 	/*
 	 * Method: update

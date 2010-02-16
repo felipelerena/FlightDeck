@@ -149,7 +149,7 @@ def jetpack_version_save_as_base(r, slug, version, counter):
 		return None
 	version.is_base = True
 	version.save()
-	return render_to_response('json/version_absolute_url.json', {'version': version},
+	return render_to_response('json/version_saved_as_base.json', {'version': version},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 
