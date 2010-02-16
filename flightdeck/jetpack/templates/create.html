@@ -1,5 +1,5 @@
 {% extends "editor.html" %}
-{% block editor_head %}
+{% block app_head %}
 	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
 	<script type='text/javascript'>
 		var settings = {
@@ -27,7 +27,7 @@
 	</script>
 {% endblock %}
 
-{% block editor_content %}
+{% block app_content %}
 	<h1>Create</h1>
 	<ul>
 		<li><input type='radio' value='jetpack' id='jetpack' name='choice'/>

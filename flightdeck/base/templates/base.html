@@ -1,7 +1,11 @@
-{# Base HTML every page will use #}
 <!DOCTYPE html>
-<html>
+{# Base HTML every page will use #}
+<html lang="en">
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Mozilla Corporation" />
+
+	<link rel="stylesheet" href="/media/jetpack/css/UI.Base.css" type="text/css" media="screen" />
 	<script src="/media/js/lib/mootools-1.2.4-core-nc.js"></script>
 	<script src="/media/js/lib/mootools-1.2.4.4-more.js"></script>
 	<script src="/media/roar/Roar.js"></script>
@@ -18,9 +22,24 @@
 		});
 	</script>
 </head>
-<body>
-	{% block content %}
-	{% endblock %}
-</body>
+<body id="{{ body_id }}">
+	<div id="wrapper">
+		
+		<header id="app-header">
+			<h1><a title="FlightDeck" href="#">FlightDeck</a></h1>
+			<nav>
+			</nav>
+		</header> <!-- /main-header -->
+
+		<div id="app-body">
+			{% block app_body %}
+			{% endblock %}
+		</div> <!-- /app-body -->
+		<footer id="app-footer"></footer> <!-- /page-info -->
+		
+	</div> <!-- /wrapper -->
+		
+</body><!-- /{{ body_id }} -->
+
 </html>
 

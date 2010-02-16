@@ -1,0 +1,76 @@
+/*
+---
+filename: UI.Sidebar.css
+decription: Provides base layout for FlightDeck
+license: MIT-style license.
+authors:
+ - Oskar Krawczyk (http://nouincolor.com/)
+...
+*/
+
+.UI_Sidebar {
+   
+}
+
+.UI_Sidebar_Item {
+   
+}
+
+.UI_Sidebar_Toggler {
+   position: relative;
+}
+
+   .UI_Sidebar_Toggler a {
+      display: block;
+      background: #E5E9EE;
+      border-top: solid 1px #fff;
+      border-bottom: solid 1px #AFB6BD;
+      border-right: solid 1px #F2F4F7;
+      color: #4D5860;
+      text-shadow: 0 1px 0 #fff;
+      padding: 16px 0 16px 45px; 
+   }
+      
+      .UI_Sidebar_Toggler a .UI_OC,
+      .UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
+         display: block;
+         position: absolute;
+         top: 50%;
+         background-repeat: no-repeat;
+      }
+      
+      /* Open/close triangle */
+      .UI_Sidebar_Toggler a .UI_OC {
+         right: 10px;
+         margin-top: -5px;
+         height: 11px;
+         width: 11px;
+         background-image: url(../img/toggle-arrows.png);
+      }
+      
+         /* Opened open/close */
+         .UI_Sidebar_Toggler.opened a .UI_OC {
+            background-position: 0 -23px;
+         }
+      
+         /* Closed open/close */
+         .UI_Sidebar_Toggler.closed a .UI_OC {
+            background-position: 0 -34px;
+         }
+      
+      /* Right hand-side icon for the toggler */
+      .UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
+         left: 10px;
+         margin-top: -13px;
+         height: 27px;
+         width: 26px;
+         background-image: url(../img/toggle-icons.png);
+      }
+      
+         .UI_Sidebar_Toggler.capabilities a .UI_Sidebar_Toggler_Icon {
+            background-position: 0 0;
+         }
+      
+         .UI_Sidebar_Toggler.recentlyModified a .UI_Sidebar_Toggler_Icon {
+            background-position: 0 -27px;
+         }

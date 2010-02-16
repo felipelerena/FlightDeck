@@ -1,0 +1,131 @@
+/*
+---
+filename: UI.Layout.css
+decription: Provides base layout for FlightDeck
+license: MIT-style license.
+authors:
+ - Oskar Krawczyk (http://nouincolor.com/)
+...
+*/
+
+body {
+   background: #fff url(../img/sidebar-bg.png) 0 0 repeat-y;
+   
+   font-family: 'Lucida Grande', 'Lucida Sans', 'Lucida Sans Unicode', 'Myriad', Tahoma, Verdana, Arial, sans-serif;
+   font-size: .8em;
+   color: #4D5860;
+}
+
+a,
+a:link {
+   text-decoration: none;
+   color: #4D5860;
+   outline: none;
+}
+
+a:hover,
+a:focus {
+   text-decoration: underline;
+}
+
+/*
+ =========================================================================== */
+#wrapper {
+   min-width: 1020px;
+}
+
+/*
+ =========================================================================== */
+#app-header {
+   background: #3F4652 url(../img/header-bg.png) 0 0 repeat-x;
+   height: 90px;
+}
+
+/*
+ =========================================================================== */
+#app-body {
+   margin-left: 190px;   
+}
+
+/*
+ =========================================================================== */
+#app-content {
+   float: right;
+   width: 100%;   
+}
+
+/*
+ =========================================================================== */
+#editor-menu-wrapper {
+   background: #E5E9EE;
+   border-top: solid 1px #EFF2F5;
+   border-bottom: solid 1px #AFB6BD;
+   padding: 7px;
+}
+
+/*
+ =========================================================================== */
+#editor-wrapper {
+   background: url(../img/shadow.png) 0 0 repeat-x;
+   height: 200px;
+}
+
+/*
+ =========================================================================== */
+#app-sidebar {
+   float: left;
+   width: 190px;
+   margin-left: -191px;
+   border-right: solid 1px #AFB6BD;
+}
+
+#jetpack-info {
+   
+}
+
+   #jetpack-info #ji-toggler {
+      background: -moz-linear-gradient(270deg, #3A86DA, #022052);
+      padding-right: 1px;
+      position: relative;
+      right: -1px;
+   }
+   
+   #jetpack-info #ji-toggler a {
+      display: block;
+      background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
+      border-top: solid 1px #9CC7F8;
+      border-bottom: solid 1px #022052;
+      color: #fff;
+      text-shadow: 0 1px 0 #011E4F;
+      padding: 16px 0 16px 10px; 
+   }
+   
+   #jetpack-info #ji-toggler a span {
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      margin-top: -5px;
+      height: 11px;
+      width: 11px;
+      background-image: url(../img/toggle-arrows.png);
+      background-repeat: no-repeat;
+   }
+   
+   #jetpack-info #ji-toggler.opened a span {
+      background-position: 0 0;
+   }
+   
+   #jetpack-info #ji-toggler.closed a span {
+      background-position: 0 -11px;
+   }
+   
+
+/*
+ =========================================================================== */
+ #app-footer {
+    background: #3F4652;
+    height: 30px;
+    
+    display: none;
+ }

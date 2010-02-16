@@ -1,0 +1,36 @@
+/*
+---
+filename: UI.Reset.css
+decription: Sets default values for common elements
+license: MIT-style license.
+authors:
+ - Oskar Krawczyk (http://nouincolor.com/)
+...
+*/
+
+body, form, fieldset, input, textarea, p, ul, ol, li, h1, h2, h3, h4, h5, h6, dd, dt, dl, strong {
+   padding: 0;
+   margin: 0;
+   border: none;
+   list-style: none;
+   text-align: left;
+   text-indent: 0;
+   font-size: 1em;
+   font-weight: normal;
+   
+}
+
+header, aside, section, footer, nav, input, textarea {
+   display: block;
+}
+
+/* Clearfix */
+#app-body:after, 
+.UI_Editor_Menu:after {   
+   content: ' ';
+   display: block;
+   height: 0;
+   overflow: hidden;
+   width: 100%;
+   clear: both;
+}

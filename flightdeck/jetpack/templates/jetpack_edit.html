@@ -1,5 +1,6 @@
 {% extends "editor.html" %}
-{% block editor_head %}
+{% load jetpack_extras %}
+{% block app_head %}
 	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
 	<script src="/media/jetpack/js/Jetpack.js"></script>
 	<script type="text/javascript">
@@ -38,8 +39,133 @@
 	});
 {% endblock %}</script>
 
-{% block editor_content %}
-	{# some menus default for editing #}
+
+
+{% block app_sidebar %}
+	<section id="jetpack-info" class="UI_Sidebar_Item">
+		<h3 id="ji-toggler">
+			<a title="{{ jetpack.name }}" href="#">{{ jetpack.name }} <span></span></a>
+		</h3>
+		<ul class="UI_File_Listing">
+			<li class="UI_File_Selected" id="{{ jetpack|tab_link_id:"content" }}">
+				<a title="" href="#">Content <span></span></a>
+			</li>
+			<li class="UI_File_Normal" id="{{ jetpack|tab_link_id:"manifest" }}">
+				<a title="" href="#">Manifest <span></span></a>
+			</li>
+			<li class="UI_File_Normal" id="{{ jetpack|tab_link_id:"description" }}">
+				<a title="" href="#">Description <span></span></a>
+			</li>
+		</ul>
+	</section>
+
+	<section id="capabilities" class="UI_Side_Item">
+		<h3 class="UI_Sidebar_Toggler capabilities opened"><a title="Capabilities" href="#">
+			Capabilities 
+			<span class="UI_OC"></span>
+			<span class="UI_Sidebar_Toggler_Icon"></span>
+		</a></h3>
+		<ul class="UI_File_Listing">
+			{% for cap in version.capabilitiesi.all %}
+				<li class="UI_File_Normal" id="{{ cap|dependency_link_id }}">
+					<a title="" href="#">{{ cap.name }} <span></span></a>
+				</li>
+			{% endfor %}
+		</ul>
+	</section>
+
+	<section id="info" class="UI_Side_Item">
+		<h3 class="UI_Sidebar_Toggler info opened"><a title="Info" href="#">
+			Info 
+			<span class="UI_OC"></span>
+			<span class="UI_Sidebar_Toggler_Icon"></span>
+		</a></h3>
+		{% if version %}
+			{% if jetpack_page %}switch to: <a href="{{ version.get_absolute_url }}">version {{ version.fullname }}</a>
+			{% else %}switch to: <a href="{{ jetpack.get_absolute_url }}">jetpack base</a>
+			{% endif %}
+		{% endif %}
+		<p class='cretor'>Origin by: <a href="">{{ jetpack.creator }}</a></p>
+		{% ifequal jetpack.creator.username version.author.username %}
+		{% else %}
+			<p class="author">{{ version.fullname }} by: 
+				<a href="">{{ version.author }}</a>
+			</p>
+		{% endifequal %}
+	</section>
+
+	<section id="recently-modified" class="UI_Side_Item">
+		<h3 class="UI_Sidebar_Toggler recentlyModified opened"><a title="Recently modified" href="#">
+			Recently modified 
+			<span class="UI_OC"></span>
+			<span class="UI_Sidebar_Toggler_Icon"></span>
+		</a></h3>
+		
+		<ul class="UI_File_Listing UI_Recent_Files">
+			{% for file in recently_modified %}
+				<li class="UI_File_Normal" id="{{ file|recently_modified_link_id }}">
+					<a title="" href="#">{{ file|render_fullname }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+		
+		<label for='jetpack_description'>Jetpack Description</label>
+		<textarea id='jetpack_description' name='jetpack_description'>{{ jetpack.description }}</textarea>
+		<label for='version_name'>Version</label>
+		<input type='text' id='version_name' name='version_name' value="{{ version.name|default:"0.0" }}"/>{% if version %}.{{ version.counter }}{% endif %}<br/>
+		<label for='version_description'>version Description</label>
+		<textarea id='version_description' name='version_description'>{{ version.description }}</textarea>
+		<label for='version_manifest'>Manifest</label>
+		<textarea id='version_manifest' name='version_manifest'>{{ version.manifest }}</textarea>
+	</section>
+{% endblock %}
+
+
+
+{% block app_content %}
+	<div id="editor-menu-wrapper">
+		<ul class="UI_Editor_Menu">
+			<li class="UI_Editor_Menu_Button Icon_new">
+				<a id="create" title="" href="#">New <span class="UI_Editor_Icon"></span></a>
+			</li>
+			<li class="UI_Editor_Menu_Button Icon_saveNewVersion">
+				<a id="version_create" title="" href="#">Save new version 
+					<span class="UI_Editor_Icon"></span>
+				</a>
+			</li>
+			<li class="UI_Editor_Menu_Button Icon_update">
+				<a id="update" title="" href="#">Update <span class="UI_Editor_Icon"></span></a>
+			</li>
+			{% if version.is_base %}
+				{# here something special for a base version #}
+			{% else %}
+				<li class="UI_Editor_Menu_Button Icon_setAsBase">
+					<a id="version_set_as_base" title="" href="#">Set as base 
+						<span class="UI_Editor_Icon"></span>
+					</a>
+				</li>
+			{% endif %}
+			<li class="UI_Editor_Menu_Button Icon_try_in_browser">
+				<a id="try_in_browser" title="" href="#">Try in browser 
+					<span class="UI_Editor_Icon"></span>
+				</a>
+			</li>
+			<li class="UI_Editor_Menu_Button Icon_lock">
+				<a title="" href="#">Lock <span class="UI_Editor_Icon"></span></a>
+			</li>
+			<li class="UI_Editor_Menu_Button Icon_delete">
+				<a title="" href="#">Delete <span class="UI_Editor_Icon"></span></a>
+			</li>
+		</ul>
+	</div> <!-- /editor-menu-wrapper -->
+	
+	<div id="editor-wrapper">
+		<div id="version_content" class="bespin" data-bespinoptions='{ "stealFocus":true }'>{{ version.content }}</div>
+	</div>
+	
+{% endblock %}
+
+{% comment %}
 	<h1>{% if jetpack_page %}{{ jetpack }}{% else %}{{ version }}{% endif %} 
 		by <a href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator.username }}</a>
 	</h1>
@@ -51,19 +177,4 @@
 		{% endif %}
 	</p>
 	{% endif %}
-	<label for='jetpack_description'>Jetpack Description</label>
-	<textarea id='jetpack_description' name='jetpack_description'>{{ jetpack.description }}</textarea>
-	<label for='version_name'>Version</label>
-	<input type='text' id='version_name' name='version_name' value="{{ version.name|default:"0.0" }}"/>{% if version %}.{{ version.counter }}{% endif %}<br/>
-	<label for='version_description'>version Description</label>
-	<textarea id='version_description' name='version_description'>{{ version.description }}</textarea>
-	<label for='version_content'>Content</label>
-	<textarea id='version_content' name='version_content'>{{ version.content }}</textarea>
-	<label for='version_manifest'>Manifest</label>
-	<textarea id='version_manifest' name='version_manifest'>{{ version.manifest }}</textarea>
-	<ul>
-		<li><a href='#' id='try_in_browser'>Try in a browser</a></li>
-		<li><a href='#' id='update'>Update</a></li>
-		<li><a href='#' id='version_create'>Save as new Version</a></li>
-	</ul>
-{% endblock %}
+{% endcomment %}

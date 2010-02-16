@@ -1,0 +1,88 @@
+/*
+---
+filename: UI.File_Listing.css
+decription: Provides base layout for FlightDeck
+license: MIT-style license.
+authors:
+ - Oskar Krawczyk (http://nouincolor.com/)
+...
+*/
+
+.UI_File_Listing {
+   
+}
+
+   .UI_File_Listing li {
+      margin: 1px 0;
+      position: relative;
+   }
+      
+      .UI_File_Listing li a {
+         display: block;
+         color: #666;
+         padding: 4px 0 4px 23px;
+         font-size: .8em;
+      }
+      
+      /* Alterations for the Recent Files section */
+      .UI_File_Listing.UI_Recent_Files li a {
+         padding-left: 10px;
+      }
+      
+      .UI_File_Listing li:hover {
+         background: #EFEFEF;
+      }
+      
+         .UI_File_Listing li:hover a {
+            text-decoration: none;
+         }
+         
+         /* Modification indicator */
+         .UI_File_Listing li a span {
+            display: block;
+            height: 7px;
+            width: 7px;
+            position: absolute;
+            top: 50%;
+            margin-top: -4px;
+            left: 10px;
+            -moz-border-radius: 7px;
+         }
+         
+         .UI_File_Listing li a em {
+            font-size: .8em;
+            font-style: normal;
+            background: #4E5861;
+            color: #E4E4E4;
+            -moz-border-radius: 3px;
+            padding: 1px 3px;
+            margin-left: 2px;
+         }
+
+      /* Modified file */
+      .UI_File_Listing li.UI_File_Modified a {
+         
+      }
+         
+         /* Modification indicator of a modified file */
+         .UI_File_Listing li.UI_File_Modified a span {
+            background: -moz-linear-gradient(270deg, #5AA2F3, #3E81D2);
+         }
+      
+      /* Selected file */
+      .UI_File_Listing li.UI_File_Selected a {
+         background: -moz-linear-gradient(270deg, #5AA2F3, #3E81D2);
+         color: #fff;
+         text-shadow: 0 1px 0 #011E4F;
+      }
+      
+         /* Modification indicator of a modified & selected file */
+         .UI_File_Listing li.UI_File_Selected a span {
+            background: #fff;
+            -moz-box-shadow: 0 1px 0 #011E4F;
+         }
+   
+      /* Normal file */
+      .UI_File_Listing li.UI_File_Normal a {
+         
+      }

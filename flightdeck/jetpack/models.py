@@ -156,6 +156,14 @@ class CapVersion(models.Model):
 		return "%s.%d" % (self.name, self.counter)
 
 	@property
+	def listname(self):
+		return self.capability.name
+
+	@property
+	def slug(self):
+		return self.capability.slug
+
+	@property
 	def status_name(self):
 		return STATUS_CHOICE[self.status]
 
@@ -330,6 +338,14 @@ class JetVersion(models.Model):
 		@returns str: full version number (name and counter after a dot)
 		"""
 		return "%s.%d" % (self.name, self.counter)
+
+	@property
+	def listname(self):
+		return self.jetpack.name
+
+	@property
+	def slug(self):
+		return self.jetpack.slug
 
 	@property
 	def status_name(self):
