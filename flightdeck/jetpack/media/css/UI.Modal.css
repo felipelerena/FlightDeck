@@ -21,6 +21,7 @@ authors:
    overflow: hidden;
    position: relative;
    padding-bottom: 15px;
+   z-index: 100;
 }
 
 .UI_Modal {

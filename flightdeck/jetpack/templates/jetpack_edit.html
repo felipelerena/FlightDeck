@@ -3,20 +3,12 @@
 {% block app_head %}
 	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
 	<script src="/media/jetpack/js/Jetpack.js"></script>
-	<script type="text/javascript">
-		var settings = {
-			user: "{{ request.user }}",
-			jp_jetpack_create_url: "{{ jetpack_create_url }}",
-			jp_capability_create_url: "{{ capability_create_url }}"
-		};
-		var jetpack;
-		
-	</script>
 {% endblock %}
 
 {# everything which is outside of the block will not be used #}
 {# <script></script> is there for syntax highlighting #}
-<script>{% block domready %}
+<script>{% block javascript %}var jetpack;{% endblock %}</script>
+<script>{% block app_domready %}
 	jetpack = new Jetpack({
 		slug: '{{ jetpack.slug }}',
 		name: '{{ jetpack.name }}',
@@ -36,9 +28,9 @@
 			edit_url: '{{ version.get_absolute_url }}',
 			update_url: '{{ version.get_update_url }}',
 			set_as_base_url: '{{ version.get_set_as_base_url }}',
-			switch_content_id: '{{ jetpack|tab_link_id:"content" }}',
-			switch_description_id: '{{ jetpack|tab_link_id:"version_description" }}',
-			switch_manifest_id: '{{ jetpack|tab_link_id:"manifest" }}'
+			switch_content_id: '{{ version|tab_link_id:"content" }}',
+			switch_description_id: '{{ version|tab_link_id:"version_description" }}',
+			switch_manifest_id: '{{ version|tab_link_id:"manifest" }}'
 		}
 	});
 {% endblock %}</script>
@@ -52,10 +44,10 @@
 		</h3>
 		<ul class="UI_File_Listing">
 			<li class="UI_File_Selected">
-				<a title="" href="#" id="{{ jetpack|tab_link_id:"content" }}">Content <span></span></a>
+				<a title="" href="#" id="{{ version|tab_link_id:"content" }}">Content <span></span></a>
 			</li>
 			<li class="UI_File_Normal">
-				<a title="" href="#" id="{{ jetpack|tab_link_id:"manifest" }}">Manifest <span></span></a>
+				<a title="" href="#" id="{{ version|tab_link_id:"manifest" }}">Manifest <span></span></a>
 			</li>
 			<li class="UI_File_Normal">
 				<a title="" href="#" id="{{ jetpack|tab_link_id:"description" }}">Description <span></span></a>
@@ -96,9 +88,11 @@
 		<p class='cretor'>Origin by: <a href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator }}</a></p>
 		{% ifequal jetpack.creator.username version.author.username %}
 		{% else %}
-			<p class="author">{{ version.fullname }} by: 
-				<a href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
-			</p>
+			{% if version %}
+				<p class="author">{{ version.fullname }} by: 
+					<a href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
+				</p>
+			{% endif %}
 		{% endifequal %}
 	</section>
 

@@ -3,18 +3,12 @@
 
 {% block app_head %}
 	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
-	<script type='text/javascript'>
-		var settings = {
-			user: "{{ request.user }}",
-			jp_capability_create_url: "{{ capability_create_url }}"
-		};
-		var capability;
-	</script>
 {% endblock %}
 
 {# everything which is outside of the block will not be used #}
 {# <script></script> is there for syntax highlighting #}
-<script>{% block domready %}
+<script>{% block javascript %}var capability;{% endblock %}</script>
+<script>{% block app_domready %}
 	capability = new Capability({
 		slug: '{{ capability.slug }}',
 		name: '{{ capability.name }}',
@@ -46,11 +40,9 @@
 			<a title="{{ capability.name }}" href="#">{{ capability.name }} <span></span></a>
 		</h3>
 		<ul class="UI_File_Listing">
-			{% if version %}
-				<li class="UI_File_Selected">
-					<a title="" href="#" id="{{ capability|tab_link_id:"content" }}">Content <span></span></a>
-				</li>
-			{% endif %}
+			<li class="UI_File_Selected">
+				<a title="" href="#" id="{{ version|tab_link_id:"content" }}">Content <span></span></a>
+			</li>
 			<li class="UI_File_Normal">
 				<a title="" href="#" id="{{ capability|tab_link_id:"description" }}">Description <span></span></a>
 			</li>

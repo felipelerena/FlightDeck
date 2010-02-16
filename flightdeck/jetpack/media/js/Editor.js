@@ -1,4 +1,8 @@
 /*
+ * File: jetpack/Editor.js
+ * Provides functionality for the Jetpack/Capability Editor
+ */
+/*
  * Class which provides basic wrapper.
  * Its functionalities should be overwritten in specific classes (Bespin.js, etc.)
  * Otherwise standard textarea will be used.

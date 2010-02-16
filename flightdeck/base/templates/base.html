@@ -14,11 +14,13 @@
 	{% block roar_css %}<link href="/media/roar/Roar.css" rel="stylesheet" type="text/css">{% endblock %}
 	<script src="/media/js/FlightDeck.js"></script>
 	<script src="/media/js/FlightDeck.Roar.js"></script>
+	<script src="/media/js/FlightDeck.Modal.js"></script>
 	<script type='text/javascript'>
 		var fd;
 		window.addEvent('domready', function() {
 			fd = new FlightDeck();
-			{% block domready %}{% endblock %}
+			{% block app_domready %}{% endblock %}
+			{% block page_domready %}{% endblock %}
 		});
 	</script>
 </head>

@@ -1,13 +1,26 @@
 {% extends "base.html" %}
+{% load jetpack_extras %}
 {% block head %}
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Editor.css" type="text/css" media="screen" />
 	{# <link rel="stylesheet" href="/media/bespin/BespinEmbedded.css" type="text/css" media="screen" /> #}
 	{# <script src="/media/bespin/BespinEmbedded.js"></script> #}
+	<script src="/media/jetpack/js/Create.js"></script>
 	<script src="/media/jetpack/js/Editor.js"></script>
 	<script src="/media/jetpack/js/Capability.js"></script>
 	{# <script src="/media/jetpack/js/Bespin.js"></script>#}
+	<script type="text/javascript">
+		var settings = {
+			user: "{{ request.user }}",
+			jp_jetpack_create_url: "{% url jp_jetpack_create %}",
+			jp_capability_create_url: "{% url jp_capability_create %}",
+			create_modal_template: '{% escape_template "_create.html" %}'
+		};
+		{% block javascript %}{% endblock %}
+	</script>
 	{% block app_head %}{% endblock %}
 {% endblock %}
+
+{% block page_domready %}create.init('create','editor-wrapper');{% endblock %}
 
 {% block app_body %}
 	{# here sidebar #}
