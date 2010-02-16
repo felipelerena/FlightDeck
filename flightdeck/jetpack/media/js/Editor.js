@@ -28,7 +28,16 @@ var Editor = new Class({
 	},
 	setContent: function(value) {
 		this.element.set('value', value);
+		return this;
 	},
 	destroy: function() {
+	},
+	hide: function() {
+		this.element.hide();
+		return this;
+	},
+	show: function() {
+		this.element.show();
+		return this;
 	}
 });

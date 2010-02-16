@@ -7,7 +7,6 @@ var Capability = new Class({
 	Implements: [Options, Events],
 	type: 'capability',
 	options: {
-		editor: {},
 		version: {},
 		//slug: null,
 		//name: null,
@@ -17,13 +16,14 @@ var Capability = new Class({
 		//developers: [],
 		//public_permission: 2,
 		//group_permission: 2,
-		description_el: 'capability_description',
+		description_el: {element: 'capability_description'},
+		//switch_description_id: '',
 		update_el: 'update',
 		version_create_el: 'version_create',
 		try_in_browser_el: 'try_in_browser',
-		edit_url: '',
-		update_url: '',
-		version_create_url: ''
+		//edit_url: '',
+		//update_url: '',
+		//version_create_url: ''
 	},
 	/*
 	 * Method: initialize
@@ -35,18 +35,10 @@ var Capability = new Class({
 	initialize: function(options) {
 		this.setOptions(options)
 		this.initializeVersion();
-		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
-		this.boundAfterVersionChanged = this.afterVersionChanged.bind(this);
-		// TODO: add more hooks for changing the Jetpack itself
-		this.description_el = $(this.options.description_el);
-		// #TODO: using change is wrong here 
-		this.description_el.addEvent('change', this.boundAfterDataChanged);
-		this.version.addEvent('change', this.boundAfterVersionChanged);
-		// one may try even not edited data
-		$(this.options.try_in_browser_el).addEvent('click', function(e) {
-			e.stop();
-			this.try_in_browser();
-		}.bind(this));
+		this.instantiateEditors();
+
+		this.listenToEvents();
+		this.initializeEditorSwitches();
 		
 		this.data = {};
 		this.data[this.type+'_slug'] = this.options.slug;
@@ -55,6 +47,60 @@ var Capability = new Class({
 		// #TODO: remove these - it's just to switch the buttons all the time
 		this.afterVersionChanged();
 		this.afterDataChanged();
+	},
+	/*
+	 * Method: instantiateEditors
+	 */
+	instantiateEditors: function() {
+		this.description_el = new Editor(this.options.description_el).hide();
+		fd.editors.push(this.description_el);
+	},
+	/*
+	 * Method: initializeEditorSwitches
+	 */
+	initializeEditorSwitches: function() {
+		$$('.UI_File_Listing li').each(function(file_el) {
+			file_el.switch_mode_on = function() {
+				this.removeClass('UI_File_Normal')
+					.addClass('UI_File_Selected')
+					.getSiblings('.UI_File_Selected').each(function(el) {
+						el.switch_mode_off();
+					});
+			};
+			file_el.switch_mode_off = function() {
+				this.removeClass('UI_File_Selected')
+					.addClass('UI_File_Normal')
+			}
+		});
+		$$('.UI_File_Listing li a').addEvent('click', function() {
+			this.getParent('li').switch_mode_on();
+		});;
+		this.switch_description_el = $(this.options.switch_description_id);
+		if (this.switch_description_el) {
+			this.switch_description_el.addEvent('click', this.switchToDescription.bind(this));
+		}	
+	},
+	/*
+	 * Method: switchToDescription
+	 */
+	switchToDescription: function() {
+		fd.hideEditors();
+		this.description_el.show();
+	},
+	/*
+	 * Method: listenToEvents
+	 */
+	listenToEvents: function() {
+		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
+		this.boundAfterVersionChanged = this.afterVersionChanged.bind(this);
+		// #TODO: using change is wrong here 
+		this.description_el.addEvent('change', this.boundAfterDataChanged);
+		this.version.addEvent('change', this.boundAfterVersionChanged);
+		// one may try even not edited data
+		$(this.options.try_in_browser_el).addEvent('click', function(e) {
+			e.stop();
+			this.try_in_browser();
+		}.bind(this));
 	},
 	/* 
 	 * Method: afterVersionChanged
@@ -155,6 +201,7 @@ var Capability = new Class({
 	 */
 	updateFromDOM: function() {
 		// here update metadata from its editors
+		this.data[this.type+'_description'] = this.description_el.getContent();
 	},
 	/*
 	 * Method: getFullData
@@ -176,7 +223,6 @@ var CapVersion = new Class({
 	Implements: [Options, Events],
 	type: 'capability',
 	options: {
-		editor: {},
 		//commited_by: null,
 		//name: null,
 		//description: null,
@@ -184,8 +230,9 @@ var CapVersion = new Class({
 		//status: null,
 		//is_base: null,
 		name_el: 'version_name',
-		description_el: 'version_description',
-		content_el: 'version_content',
+		// TODO: move to new Editor
+		description_el: {element: 'version_description'},
+		content_el: {element: 'version_content'},
 		update_el: 'update',
 		edit_url: '',
 		update_url: '',
@@ -197,14 +244,10 @@ var CapVersion = new Class({
 	 */
 	initialize: function(options) {
 		this.setOptions(options);
-		this.editor = new Editor(this.options.editor);
-		this.changed = false;
-		// listen to change events
-		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
-		this.name_el = $(this.options.name_el);
-		this.description_el = $(this.options.description_el);
-		this.description_el.addEvent('change', this.boundAfterDataChanged);
-		this.editor.addEvent('change', this.boundAfterDataChanged);
+		this.instantiateEditors();
+		this.listenToEvents();
+		this.initializeEditorSwitches();
+
 		// this.data is everything we send to the backend
 		this.data = {
 			version_name: this.options.name,
@@ -213,6 +256,54 @@ var CapVersion = new Class({
 		};
 		// #TODO: remove these - it's just to switch the buttons all the time
 		this.afterDataChanged();
+	},
+	/*
+	 * Method: instantiateEditors
+	 */
+	instantiateEditors: function() {
+		this.name_el = $(this.options.name_el);
+		this.content_el = new Editor(this.options.content_el);
+		this.description_el = new Editor(this.options.description_el).hide();
+		fd.editors.push(this.content_el);
+		fd.editors.push(this.description_el);
+	},
+	/*
+	 * Method: initializeEditorSwitches
+	 */
+	initializeEditorSwitches: function() {
+		this.switch_content_el = $(this.options.switch_content_id);
+		this.switch_description_el = $(this.options.switch_description_id);
+		if (this.switch_content_el) {
+			this.switch_content_el.addEvent('click', this.switchToContent.bind(this));
+		}
+		if (this.switch_description_el) {
+			this.switch_description_el.addEvent('click', this.switchToDescription.bind(this));
+		}	
+	},
+	/*
+	 * Method: switchToContent
+	 */
+	switchToContent: function(e) {
+		e.stop();
+		fd.hideEditors();
+		this.content_el.show();
+	},
+	/*
+	 * Method: switchToDescription
+	 */
+	switchToDescription: function(e) {
+		e.stop();
+		fd.hideEditors();
+		this.description_el.show();
+	},
+	/*
+	 * Method: listenToCapabilityEvents
+	 */
+	listenToEvents: function() {
+		this.changed = false;
+		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
+		this.description_el.addEvent('change', this.boundAfterDataChanged);
+		this.content_el.addEvent('change', this.boundAfterDataChanged);
 	},
 	afterDataChanged: function() {
 		this.fireEvent('change');
@@ -223,7 +314,7 @@ var CapVersion = new Class({
 			e.stop();
 			this.update();
 		}.bind(this));
-		this.editor.removeEvent('change', this.boundAfterDataChanged);
+		this.content_el.removeEvent('change', this.boundAfterDataChanged);
 		this.description_el.removeEvent('change', this.boundAfterDataChanged);
 	},
 	/*
@@ -251,7 +342,7 @@ var CapVersion = new Class({
 	 * Wrapper for getting content from the Editor
 	 */
 	getContent: function() {
-		return this.editor.getContent();
+		return this.content_el.getContent();
 	},
 	/*
 	 * Method: getName
@@ -274,8 +365,8 @@ var CapVersion = new Class({
 	 */
 	updateFromDOM: function() {
 		this.data.version_name = this.name_el.get('value');
-		this.data.version_content = this.editor.getContent();
-		this.data.version_description = this.description_el.get('value');
+		this.data.version_content = this.content_el.getContent();
+		this.data.version_description = this.description_el.getContent();
 	}
 });
 

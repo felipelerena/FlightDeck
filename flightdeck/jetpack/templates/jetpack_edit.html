@@ -18,23 +18,27 @@
 {# <script></script> is there for syntax highlighting #}
 <script>{% block domready %}
 	jetpack = new Jetpack({
-		slug: "{{ jetpack.slug }}",
-		name: "{{ jetpack.name }}",
-		description: "{{ jetpack.description }}",
-		creator: "{{ jetpack.creator }}",
-		edit_url: "{{ jetpack.get_absolute_url }}",
-		update_url: "{{ jetpack.get_update_url }}",
-		version_create_url: "{{ jetpack.get_version_create_url }}",
+		slug: '{{ jetpack.slug }}',
+		name: '{{ jetpack.name }}',
+		description: '{{ jetpack.description }}',
+		creator: '{{ jetpack.creator }}',
+		edit_url: '{{ jetpack.get_absolute_url }}',
+		update_url: '{{ jetpack.get_update_url }}',
+		version_create_url: '{{ jetpack.get_version_create_url }}',
+		switch_description_id: '{{ jetpack|tab_link_id:"description" }}',
 		version: {
-			author: "{{ version.author }}",
-			name: "{{ version.name }}",
-			manifest: "{{ version.manifest }}",
-			content: "{{ version.content }}",
-			description: "{{ version.description }}",
+			author: '{{ version.author }}',
+			name: '{{ version.name }}',
+			manifest: '{{ version.manifest }}',
+			content: '{{ version.content }}',
+			description: '{{ version.description }}',
 			is_base: {{ version.is_base|yesno:"true,false" }},
-			edit_url: "{{ version.get_absolute_url }}",
-			update_url: "{{ version.get_update_url }}",
-			set_as_base_url: "{{ version.get_set_as_base_url }}"
+			edit_url: '{{ version.get_absolute_url }}',
+			update_url: '{{ version.get_update_url }}',
+			set_as_base_url: '{{ version.get_set_as_base_url }}',
+			switch_content_id: '{{ jetpack|tab_link_id:"content" }}',
+			switch_description_id: '{{ jetpack|tab_link_id:"version_description" }}',
+			switch_manifest_id: '{{ jetpack|tab_link_id:"manifest" }}'
 		}
 	});
 {% endblock %}</script>
@@ -47,14 +51,17 @@
 			<a title="{{ jetpack.name }}" href="#">{{ jetpack.name }} <span></span></a>
 		</h3>
 		<ul class="UI_File_Listing">
-			<li class="UI_File_Selected" id="{{ jetpack|tab_link_id:"content" }}">
-				<a title="" href="#">Content <span></span></a>
+			<li class="UI_File_Selected">
+				<a title="" href="#" id="{{ jetpack|tab_link_id:"content" }}">Content <span></span></a>
 			</li>
-			<li class="UI_File_Normal" id="{{ jetpack|tab_link_id:"manifest" }}">
-				<a title="" href="#">Manifest <span></span></a>
+			<li class="UI_File_Normal">
+				<a title="" href="#" id="{{ jetpack|tab_link_id:"manifest" }}">Manifest <span></span></a>
 			</li>
-			<li class="UI_File_Normal" id="{{ jetpack|tab_link_id:"description" }}">
-				<a title="" href="#">Description <span></span></a>
+			<li class="UI_File_Normal">
+				<a title="" href="#" id="{{ jetpack|tab_link_id:"description" }}">Description <span></span></a>
+			</li>
+			<li class="UI_File_Normal">
+				<a title="" href="#" id="{{ version|tab_link_id:"version_description" }}">Version Description <span></span></a>
 			</li>
 		</ul>
 	</section>
@@ -80,16 +87,17 @@
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
 		</a></h3>
+		<input type='text' id='version_name' name='version_name' value="{{ version.name|default:"0.0" }}"/>{% if version %}.{{ version.counter }}{% endif %}<br/>
 		{% if version %}
 			{% if jetpack_page %}switch to: <a href="{{ version.get_absolute_url }}">version {{ version.fullname }}</a>
 			{% else %}switch to: <a href="{{ jetpack.get_absolute_url }}">jetpack base</a>
 			{% endif %}
 		{% endif %}
-		<p class='cretor'>Origin by: <a href="">{{ jetpack.creator }}</a></p>
+		<p class='cretor'>Origin by: <a href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator }}</a></p>
 		{% ifequal jetpack.creator.username version.author.username %}
 		{% else %}
 			<p class="author">{{ version.fullname }} by: 
-				<a href="">{{ version.author }}</a>
+				<a href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
 			</p>
 		{% endifequal %}
 	</section>
@@ -109,14 +117,7 @@
 			{% endfor %}
 		</ul>
 		
-		<label for='jetpack_description'>Jetpack Description</label>
-		<textarea id='jetpack_description' name='jetpack_description'>{{ jetpack.description }}</textarea>
-		<label for='version_name'>Version</label>
-		<input type='text' id='version_name' name='version_name' value="{{ version.name|default:"0.0" }}"/>{% if version %}.{{ version.counter }}{% endif %}<br/>
-		<label for='version_description'>version Description</label>
-		<textarea id='version_description' name='version_description'>{{ version.description }}</textarea>
-		<label for='version_manifest'>Manifest</label>
-		<textarea id='version_manifest' name='version_manifest'>{{ version.manifest }}</textarea>
+		<label for='version_name'>Version Name</label>
 	</section>
 {% endblock %}
 
@@ -160,7 +161,10 @@
 	</div> <!-- /editor-menu-wrapper -->
 	
 	<div id="editor-wrapper">
-		<textarea id="version_content" class="bespin" data-bespinoptions='{ "stealFocus":true }'>{{ version.content }}</textarea>
+		<textarea id='jetpack_description' class="bespin" name='jetpack_description'>{{ jetpack.description }}</textarea>
+		<textarea id="version_content" class="bespin" data-bespinoptions='{ "stealFocus":true }' name='version_content'>{{ version.content }}</textarea>
+		<textarea id='version_manifest' class="bespin" name='version_manifest'>{{ version.manifest }}</textarea>
+		<textarea id='version_description' class='bespin'>{{ version.description }}</textarea>
 	</div>
 	
 {% endblock %}

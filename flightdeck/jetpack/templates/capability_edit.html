@@ -16,22 +16,25 @@
 {# <script></script> is there for syntax highlighting #}
 <script>{% block domready %}
 	capability = new Capability({
-		slug: "{{ capability.slug }}",
-		name: "{{ capability.name }}",
-		description: "{{ capability.description }}",
-		creator: "{{ capability.creator }}",
-		edit_url: "{{ capability.get_absolute_url }}",
-		update_url: "{{ capability.get_update_url }}",
-		version_create_url: "{{ capability.get_version_create_url }}",
+		slug: '{{ capability.slug }}',
+		name: '{{ capability.name }}',
+		description: '{{ capability.description }}',
+		creator: '{{ capability.creator }}',
+		edit_url: '{{ capability.get_absolute_url }}',
+		update_url: '{{ capability.get_update_url }}',
+		version_create_url: '{{ capability.get_version_create_url }}',
+		switch_description_id: '{{ capability|tab_link_id:"description" }}',
 		version: {
-			author: "{{ version.author }}",
-			name: "{{ version.name }}",
-			description: "{{ version.description }}",
-			content: "{{ version.content }}",
+			author: '{{ version.author }}',
+			name: '{{ version.name }}',
+			description: '{{ version.description }}',
+			content: '{{ version.content }}',
 			is_base: {{ version.is_base|yesno:"true,false" }},
-			edit_url: "{{ version.get_absolute_url }}",
-			update_url: "{{ version.get_update_url }}",
-			set_as_base_url: "{{ version.get_set_as_base_url }}"
+			edit_url: '{{ version.get_absolute_url }}',
+			update_url: '{{ version.get_update_url }}',
+			set_as_base_url: '{{ version.get_set_as_base_url }}',
+			switch_description_id: '{{ version|tab_link_id:"version_description" }}',
+			switch_content_id: '{{ version|tab_link_id:"content" }}'
 		}
 	});
 {% endblock %}</script>
@@ -43,14 +46,16 @@
 			<a title="{{ capability.name }}" href="#">{{ capability.name }} <span></span></a>
 		</h3>
 		<ul class="UI_File_Listing">
-			<li class="UI_File_Selected" id="{{ capability|tab_link_id:"content" }}">
-				<a title="" href="#">Content <span></span></a>
+			{% if version %}
+				<li class="UI_File_Selected">
+					<a title="" href="#" id="{{ capability|tab_link_id:"content" }}">Content <span></span></a>
+				</li>
+			{% endif %}
+			<li class="UI_File_Normal">
+				<a title="" href="#" id="{{ capability|tab_link_id:"description" }}">Description <span></span></a>
 			</li>
-			<li class="UI_File_Normal" id="{{ capability|tab_link_id:"manifest" }}">
-				<a title="" href="#">Manifest <span></span></a>
-			</li>
-			<li class="UI_File_Normal" id="{{ capability|tab_link_id:"description" }}">
-				<a title="" href="#">Description <span></span></a>
+			<li class="UI_File_Normal">
+				<a title="" href="#" id="{{ version|tab_link_id:"version_description" }}">Version Description <span></span></a>
 			</li>
 		</ul>
 	</section>
@@ -62,7 +67,7 @@
 			<span class="UI_Sidebar_Toggler_Icon"></span>
 		</a></h3>
 		<ul class="UI_File_Listing">
-			{% for cap in version.capabilitiesi.all %}
+			{% for cap in version.capabilities.all %}
 				<li class="UI_File_Normal" id="{{ cap|dependency_link_id }}">
 					<a title="" href="#">{{ cap.name }} <span></span></a>
 				</li>
@@ -76,6 +81,7 @@
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
 		</a></h3>
+		<input type='text' id='version_name' name='version_name' value="{{ version.name|default:"0.0" }}"/>{% if version %}.{{ version.counter }}{% endif %}<br/>
 		{% if version %}
 			{% if capability_page %}switch to: <a href="{{ version.get_absolute_url }}">version {{ version.fullname }}</a>
 			{% else %}switch to: <a href="{{ capability.get_absolute_url }}">capability base</a>
@@ -105,12 +111,6 @@
 			{% endfor %}
 		</ul>
 
-		<label for='capability_description'>capability Description</label>
-		<textarea id='capability_description' name='capability_description'>{{ capability.description }}</textarea>
-		<label for='version_name'>Version</label>
-		<input type='text' id='version_name' name='version_name' value="{{ version.name|default:"0.0" }}"/>{% if version %}.{{ version.counter }}{% endif %}<br/>
-		<label for='version_description'>version Description</label>
-		<textarea id='version_description' name='version_description'>{{ version.description }}</textarea>
 	</section>
 {% endblock %}
 
@@ -154,7 +154,9 @@
 	</div> <!-- /editor-menu-wrapper -->
 	
 	<div id="editor-wrapper">
-		<textarea id='version_content' name='version_content'class="bespin" data-bespinoptions='{ "stealFocus":true }'>{{ version.content }}</textarea>
+		<textarea id='capability_description' name='capability_description' class="bespin">{{ capability.description }}</textarea>
+		<textarea id='version_content' name='version_content' class="bespin" data-bespinoptions='{"stealFocus":true}'>{{ version.content }}</textarea>
+		<textarea id='version_description' name='version_description' class="bespin">{{ version.description }}</textarea>
 	</div>
 	
 {% endblock %}

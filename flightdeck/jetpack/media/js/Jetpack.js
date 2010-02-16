@@ -2,12 +2,10 @@
  * Class representing the Jetpack only 
  * Prepare the editor, save, update
  */
-var Jetpack = new Class({
-	Extends: Capability,
-	Implements: [Options, Events],
+var Jetpack = Class.refactor(Capability, {
 	type: 'jetpack',
 	options: {
-		description_el: 'jetpack_description',
+		description_el: {element: 'jetpack_description'},
 		try_in_browser_el: 'try_in_browser',
 	},
 	/*
@@ -19,7 +17,7 @@ var Jetpack = new Class({
 	 */
 	initialize: function(options) {
 		this.setOptions(options)
-		this.parent(this.options);
+		this.previous(this.options);
 	},
 	/*
 	 * Method: initializeVersion
@@ -33,7 +31,7 @@ var Jetpack = new Class({
 	 * get all jetpack editable fields from DOM and set parameters in model
 	 */
 	updateFromDOM: function() {
-		// here update name/description whatever
+		this.previous();
 	},
 });
 
@@ -41,32 +39,61 @@ var Jetpack = new Class({
  * Class representing the Version only 
  * Prepare the editor, save, update
  */
-var JetVersion = new Class({
-	Extends: CapVersion,
-	Implements: [Options],
+var JetVersion = Class.refactor(CapVersion, {
 	type: 'jetpack',
 	options: {
 		//manifest: null,
 		//published: null,
-		manifest_el: 'version_manifest'
+		manifest_el: {element: 'version_manifest'},
+		//switch_manifest_id: ''
 	},
 	/*
 	 * Method: initialize
 	 * instantiate Editor
 	 */
 	initialize: function(options) {
-		this.parent(options);
+		this.setOptions(options);
+		this.previous(options);
 		this.data.version_manifest = this.options.manifest;
-		this.manifest_el = $(this.options.manifest_el);
+	},
+	/*
+	 * Method: instantiateEditors
+	 */
+	instantiateEditors: function() {
+		this.previous();
+		this.manifest_el = new Editor(this.options.manifest_el).hide();
+		fd.editors.push(this.manifest_el);
+	},
+	/*	
+	 * Method: listenToJetpackEvents
+	 */
+	listenToEvents: function() {
+		this.previous()
+	},
+	/*
+	 * Method: initializeEditorSwitches
+	 */
+	initializeEditorSwitches: function() {
+		this.previous();
+		this.switch_manifest_el = $(this.options.switch_manifest_id);
+		if (this.switch_manifest_el) {
+			this.switch_manifest_el.addEvent('click', this.switchToManifest.bind(this));
+		}
+	},
+	/*
+	 * Method: switchToManifest
+	 */
+	switchToManifest: function(e) {
+		e.stop();
+		fd.hideEditors();
+		this.manifest_el.show();
 	},
 	/*
 	 * Method: updateFromDOM
 	 * get all version editable fields from DOM and set parameters in model
 	 */
 	updateFromDOM: function() {
-		this.data.version_name = this.name_el.get('value');
-		this.data.version_content = this.editor.getContent();
-		this.data.version_description = this.description_el.get('value');
-		this.data.version_manifest = this.manifest_el.get('value');
+		this.previous();
+		this.data.version_manifest = this.manifest_el.getContent();
 	},
 });
