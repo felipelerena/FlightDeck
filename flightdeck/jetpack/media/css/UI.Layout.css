@@ -41,6 +41,24 @@ a:focus {
    height: 90px;
 }
 
+#flightdeck-logo {
+   display: none;
+}
+
+#mozillalabs-logo {
+   position: absolute;
+   top: 20px;
+   left: 10px;
+}
+
+   #mozillalabs-logo a {
+      display: block;
+      width: 161px;
+      height: 34px;
+      text-indent: -900em;
+      background: url(../img/mozilla-labs-logo.png) 0 0 repeat-x;
+   }
+   
 /*
  =========================================================================== */
 #app-body {
