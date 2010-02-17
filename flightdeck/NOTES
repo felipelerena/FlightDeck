@@ -1,0 +1,21 @@
+This is a document which will carry notes while coding offline
+This content will be send to goplanapp into discussions.
+Please delete only your staff.
+Start coding on the top.
+-------------------------------------------------------------
+
+zalun - 2010-02-17 - Saving dependencies
+----------------------------------------
+There is a problem with editing dependencies and saving them together 
+with the main edited file. It just doesn't seem to work well to force 
+user to use the same save action for all edited files.
+
+What I suggest is to display a popUp onAnySave if any capability was changed.
+Whithin that popUp there will be a list of changed elements. User will have 
+an if item should be saved and in which way (new version/update).
+
+The system is designed to connect saving of the model only if its content
+has been changed - however it will to wait until proper onChange event will 
+be written. Currently the system will send the onChange event after onBlur,
+which may bring some problems. I guess using the BespinEmbedded will solve
+this issue.
