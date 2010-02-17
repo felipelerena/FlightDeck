@@ -75,6 +75,10 @@ authors:
             background-position: 0 -27px;
          }
          
+         .UI_Sidebar_Toggler.info a .UI_Sidebar_Toggler_Icon {
+            background-position: 0 -54px;
+         }
+         
    .UI_Sidebar_Creator,
    .UI_Sidebar_Author,
    .UI_Sidebar_SwitchTo {
