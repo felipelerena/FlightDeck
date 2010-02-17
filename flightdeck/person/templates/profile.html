@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load jetpack_extras %}
+
+{% block app_body %}
+	<h1>Profile of {{ person }}</h1>
+	{% if person.authored_jetpacks.all %}
+		Created Jetpacks:
+		<ul>
+		{% for jet in person.authored_jetpacks.all %}
+			<li>{{ jet|render_base_link }}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+	
+	{% if person.authored_capabilities.all %}
+		Created Modules:
+		<ul>
+		{% for cap in person.authored_capabilities.all %}
+			<li>{{ cap|render_base_link }}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+{% endblock %}
+
