@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponseRedirect, HttpResponse, HttpResponseNotAllowed
 from django.template import RequestContext#,Template
 from django.utils import simplejson
 from django.contrib.auth.decorators import login_required
@@ -73,8 +73,11 @@ def jetpack_update(r, slug):
 	"""
 	jetpack = get_object_or_404(Jet, slug=slug)
 	if not jetpack.can_be_updated_by(r.user):
-		#TODO: raise NotAllowed or something
-		return None
+		return HttpResponseNotAllowed(HttpResponse(""))
+
+	# this is making too serious error 
+	#assert jetpack.can_be_updated_by(r.user), \
+	#	"You're not allowed to update this Jetpack"
 
 	jetpack.description = r.POST.get('jetpack_description')
 	if 'jetpack_public_permission' in r.POST:
@@ -121,8 +124,7 @@ def jetpack_version_update(r, slug, version, counter):
 	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
 	# permission check
 	if not (r.user.id == version.author.id or r.user in r.managers):
-		# this should raise an error (HttpNotAllowed?)
-		return None
+		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.author = r.user
 	version.name = r.POST.get("version_name", version.name)
@@ -145,8 +147,8 @@ def jetpack_version_save_as_base(r, slug, version, counter):
 	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
 	# permission check
 	if not (r.user.id == version.author.id or r.user in r.managers):
-		# this should raise an error (HttpNotAllowed?)
-		return None
+		return HttpResponseNotAllowed(HttpResponse(""))
+
 	version.is_base = True
 	version.save()
 	return render_to_response('json/version_saved_as_base.json', {'version': version},
@@ -197,8 +199,7 @@ def capability_update(r, slug):
 	"""
 	capability = get_object_or_404(Cap, slug=slug)
 	if not capability.can_be_updated_by(r.user):
-		#TODO: raise NotAllowed or something
-		return None
+		return HttpResponseNotAllowed(HttpResponse(""))
 
 	capability.description = r.POST.get('capability_description')
 	if 'capability_public_permission' in r.POST:
@@ -242,8 +243,7 @@ def capability_version_update(r, slug, version, counter):
 	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
 	# permission check
 	if not (r.user.id == version.author.id or r.user in r.managers):
-		# this should raise an error (HttpNotAllowed?)
-		return None
+		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.author = r.user
 	version.name = r.POST.get("version_name", version.name)
@@ -264,8 +264,8 @@ def capability_version_save_as_base(r, slug, version, counter):
 	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
 	# permission check
 	if not (r.user.id == version.author.id or r.user in r.managers):
-		# this should raise an error (HttpNotAllowed?)
-		return None
+		return HttpResponseNotAllowed(HttpResponse(""))
+
 	version.is_base = True
 	version.save()
 	return render_to_response('json/version_absolute_url.json', {'version': version},
@@ -288,3 +288,28 @@ def gallery(r, page=None):
 		context_instance=RequestContext(r))
 	
 
+@login_required
+def capabilities_autocomplete(r):
+	"""
+	Display names of the modules (capabilities) which mark the pattern
+	"""
+	
+@login_required
+def add_dependency(r, slug, version, counter):
+	"""
+	Add dependency to the item represented by slug
+	"""
+	try:
+		item = JetVersion.objects.get(jetpack__slug=slug, name=version, counter=counter)
+	except:
+		item = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
+
+	dependency_slug = r.POST.get("dependency_slug")
+	dependency_version = r.POST.get("dependency_version")
+	dependency_counter = r.POST.get("dependency_counter")
+	dependency = CapVersion.objects.get(slug=dependency_slug)
+
+	item.capabilities.add(dependency)
+	item.save()
+
+	
