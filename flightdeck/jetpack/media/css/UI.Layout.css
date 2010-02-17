@@ -67,7 +67,7 @@ a:focus {
  =========================================================================== */
 #editor-wrapper {
    background: url(../img/shadow.png) 0 0 repeat-x;
-   height: 200px;
+   position: relative;
 }
 
 /*

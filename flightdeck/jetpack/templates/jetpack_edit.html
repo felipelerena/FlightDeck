@@ -80,21 +80,33 @@
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
 		</a></h3>
-		<input type='text' id='version_name' name='version_name' value="{{ version.name|default:"0.0" }}"/>{% if version %}.{{ version.counter }}{% endif %}<br/>
-		{% if version %}
-			{% if jetpack_page %}switch to: <a href="{{ version.get_absolute_url }}">version {{ version.fullname }}</a>
-			{% else %}switch to: <a href="{{ jetpack.get_absolute_url }}">jetpack base</a>
-			{% endif %}
-		{% endif %}
-		<p class='cretor'>Origin by: <a href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator }}</a></p>
-		{% ifequal jetpack.creator.username version.author.username %}
-		{% else %}
+		
+		<div class="UI_Sidebar_ItemCont">
+			<div class="UI_Field_Cont">
+				<label for="version_name">Version Name</label>
+				<input type="text" id="version_name" name="version_name" value="{{ version.name|default:"0.0" }}" /> {% if version %}.{{ version.counter }}{% endif %}
+			</div>
+
 			{% if version %}
-				<p class="author">{{ version.fullname }} by: 
-					<a href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
+				<p class="UI_Sidebar_SwitchTo">
+					Switch to: 
+					{% if jetpack_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
+					{% else %}<a title="Jetpack base" href="{{ jetpack.get_absolute_url }}">Jetpack base</a>
+					{% endif %}
 				</p>
 			{% endif %}
-		{% endifequal %}
+
+			<p class="UI_Sidebar_Creator">Origin by: <a title="{{ jetpack.creator }}" href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator }}</a></p>
+
+			{% ifequal jetpack.creator.username version.author.username %}
+			{% else %}
+				{% if version %}
+					<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
+						<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
+					</p>
+				{% endif %}
+			{% endifequal %}
+		</div>
 	</section>
 
 	<section id="recently-modified" class="UI_Side_Item">
@@ -107,12 +119,10 @@
 		<ul class="UI_File_Listing UI_Recent_Files">
 			{% for file in recently_modified %}
 				<li class="UI_File_Normal" id="{{ file|recently_modified_link_id }}">
-					<a title="" href="#">{{ file|render_fullname }}</a>
+					<a title="{{ file|render_fullname }}" href="#">{{ file|render_fullname }}</a>
 				</li>
 			{% endfor %}
-		</ul>
-		
-		<label for='version_name'>Version Name</label>
+		</ul>		
 	</section>
 {% endblock %}
 
@@ -121,10 +131,10 @@
 {% block app_content %}
 	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
-		<textarea id='jetpack_description' class="bespin" name='jetpack_description'>{{ jetpack.description }}</textarea>
-		<textarea id="version_content" class="bespin" data-bespinoptions='{ "stealFocus":true }' name='version_content'>{{ version.content }}</textarea>
-		<textarea id='version_manifest' class="bespin" name='version_manifest'>{{ version.manifest }}</textarea>
-		<textarea id='version_description' class='bespin'>{{ version.description }}</textarea>
+		<textarea id='jetpack_description' class="UI_Editor_Area bespin" name='jetpack_description'>{{ jetpack.description }}</textarea>
+		<textarea id="version_content" class="UI_Editor_Area bespin" data-bespinoptions='{ "stealFocus":true }' name='version_content'>{{ version.content }}</textarea>
+		<textarea id='version_manifest' class="UI_Editor_Area bespin" name='version_manifest'>{{ version.manifest }}</textarea>
+		<textarea id='version_description' class='UI_Editor_Area bespin'>{{ version.description }}</textarea>
 	</div>
 	
 {% endblock %}

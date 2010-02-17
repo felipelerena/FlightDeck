@@ -10,16 +10,24 @@ authors:
 
 /* START TEMP*/
 .UI_Modal {
-   width: 400px;
    position: relative;
-   left: 150px;
    top: 0px;
 }
+
+.UI_Modal_Wrapper {
+   position: absolute;
+   width: 400px;
+   
+   left: 50%;
+   margin-left: -200px;
+   padding: 0 15px 15px 15px;
+   z-index: 100;
+}
+
 /* END TEMP*/
 
 .UI_Modal_Wrapper {
    overflow: hidden;
-   position: relative;
    padding-bottom: 15px;
    z-index: 100;
 }
