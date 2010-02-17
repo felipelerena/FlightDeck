@@ -51,6 +51,9 @@ class Cap(models.Model):
 
 	added_at = models.DateTimeField(auto_now_add=True) 
 	last_update = models.DateTimeField(auto_now=True) 
+
+	class Meta:
+		ordering = ('-last_update',)
 	
 	###################
 	# Properties
@@ -144,6 +147,8 @@ class CapVersion(models.Model):
 	class Meta:
 		# there may be only one version with the same name and counter for the Capability
 		unique_together = ('capability', 'name', 'counter')
+		ordering = ('-last_update',)
+
 
 	###################
 	# Properties
@@ -224,6 +229,9 @@ class Jet(models.Model):
 
 	added_at = models.DateTimeField(auto_now_add=True) 
 	last_update = models.DateTimeField(auto_now=True) 
+
+	class Meta:
+		ordering = ('-last_update',)
 
 	###################
 	# Properties
@@ -328,6 +336,8 @@ class JetVersion(models.Model):
 	class Meta:
 		# there may be only one version with the same name and counter for the Jetpack
 		unique_together = ('jetpack', 'name', 'counter')
+		ordering = ('-last_update',)
+
 
 	###################
 	# Properties

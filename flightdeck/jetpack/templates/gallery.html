@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load jetpack_extras %}
+
+{% block app_body %}
+	<ul>
+	{% for item in items %}
+		<li>{{ item|render_base_link }}</li>
+	{% endfor %}
+	</ul>
+{% endblock %}

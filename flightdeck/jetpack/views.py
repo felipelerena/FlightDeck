@@ -271,3 +271,20 @@ def capability_version_save_as_base(r, slug, version, counter):
 	return render_to_response('json/version_absolute_url.json', {'version': version},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+
+
+def gallery(r, page=None):
+	"""
+	Display mixed list (Jetpacks with Capabilities)
+	"""
+	items = list(Jet.objects.all()[0:20])
+	items.extend(list(Cap.objects.all()[0:20]))
+	items = filter(lambda i: i.base_version, items)
+	items.sort(lambda i, j: (j.base_version.last_update - i.base_version.last_update).seconds) 
+	
+	return render_to_response(
+		'gallery.html', 
+		locals(),
+		context_instance=RequestContext(r))
+	
+

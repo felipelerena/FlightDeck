@@ -25,6 +25,16 @@ def render_fullname(item):
 	return mark_safe("%s <em>%s</em>" % (item.listname, item.fullname))
 
 
+@register.filter
+def render_base_link(item):
+	return mark_safe("<a href=\"%s\">%s</a> <em>%s</em> %s" % (
+		item.get_absolute_url(), 
+		item.name, 
+		item.base_version.status_name, 
+		item.base_version.last_update.strftime('%x')
+	))
+
+
 @register.simple_tag
 def escape_template(template_name):
 	t = loader.get_template(template_name)
