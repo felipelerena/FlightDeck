@@ -1,0 +1,16 @@
+/*
+---
+filename: UI.Editor_Area.css
+decription: Includes stylesheets for FlightDeck.Editor 
+license: MIT-style license.
+authors:
+ - Oskar Krawczyk (http://nouincolor.com/)
+...
+*/
+
+.UI_Editor_Area {
+   width: 98%;
+   min-height: 400px;
+   background: url(../img/shadow.png) 0 0 repeat-x;
+   padding: 5px;
+}

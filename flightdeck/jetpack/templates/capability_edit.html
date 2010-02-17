@@ -73,21 +73,35 @@
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
 		</a></h3>
-		<input type='text' id='version_name' name='version_name' value="{{ version.name|default:"0.0" }}"/>{% if version %}.{{ version.counter }}{% endif %}<br/>
-		{% if version %}
-			{% if capability_page %}switch to: <a href="{{ version.get_absolute_url }}">version {{ version.fullname }}</a>
-			{% else %}switch to: <a href="{{ capability.get_absolute_url }}">capability base</a>
-			{% endif %}
-		{% endif %}
-		<p class='cretor'>Origin by: <a href="">{{ capability.creator }}</a></p>
-		{% ifequal capability.creator.username version.author.username %}
-		{% else %}
-			<p class="author">{{ version.fullname }} by: 
-				<a href="">{{ version.author }}</a>
-			</p>
-		{% endifequal %}
-	</section>
+		
+		<div class="UI_Sidebar_ItemCont">
+			<div class="UI_Field_Cont">
+				<label for="version_name">Version Name</label>
+				<input type="text" id="version_name" name="version_name" value="{{ version.name|default:"0.0" }}" /> {% if version %}.{{ version.counter }}{% endif %}
+			</div>
 
+			{% if version %}
+				<p class="UI_Sidebar_SwitchTo">
+					Switch to: 
+					{% if capability_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
+					{% else %}<a title="Capability base" href="{{ capability.get_absolute_url }}">Capability base</a>
+					{% endif %}
+				</p>
+			{% endif %}
+
+			<p class="UI_Sidebar_Creator">Origin by: <a title="{{ capability.creator }}" href="{% url person_public_profile capability.creator.username %}">{{ capability.creator }}</a></p>
+
+			{% ifequal capability.creator.username version.author.username %}
+			{% else %}
+				{% if version %}
+					<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
+						<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
+					</p>
+				{% endif %}
+			{% endifequal %}
+		</div>
+	</section>
+	
 	<section id="recently-modified" class="UI_Side_Item">
 		<h3 class="UI_Sidebar_Toggler recentlyModified opened"><a title="Recently modified" href="#">
 			Recently modified 
@@ -111,9 +125,9 @@
 {% block app_content %}
 	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
-		<textarea id='capability_description' name='capability_description' class="bespin">{{ capability.description }}</textarea>
-		<textarea id='version_content' name='version_content' class="bespin" data-bespinoptions='{"stealFocus":true}'>{{ version.content }}</textarea>
-		<textarea id='version_description' name='version_description' class="bespin">{{ version.description }}</textarea>
+		<textarea id='capability_description' name='capability_description' class="UI_Editor_Area bespin">{{ capability.description }}</textarea>
+		<textarea id='version_content' name='version_content' class="UI_Editor_Area bespin" data-bespinoptions='{"stealFocus":true}'>{{ version.content }}</textarea>
+		<textarea id='version_description' name='version_description' class="UI_Editor_Area bespin">{{ version.description }}</textarea>
 	</div>
 	
 {% endblock %}

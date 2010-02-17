@@ -74,3 +74,49 @@ authors:
          .UI_Sidebar_Toggler.recentlyModified a .UI_Sidebar_Toggler_Icon {
             background-position: 0 -27px;
          }
+         
+   .UI_Sidebar_Creator,
+   .UI_Sidebar_Author,
+   .UI_Sidebar_SwitchTo {
+      margin: 6px 0 0;
+      font-size: .9em;
+      
+   }
+   
+      .UI_Sidebar_Creator a,
+      .UI_Sidebar_Author a,
+      .UI_Sidebar_SwitchTo a {
+         color: #4D5860;
+         text-shadow: 0 1px 0 #fff;
+         background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+         -moz-border-radius: 4px;
+         padding: 2px 7px;
+         margin-left: 2px;
+         display: inline-block;
+      }
+   
+   .UI_Sidebar_ItemCont {
+      font-size: .9em;
+      padding: 10px;
+   }
+   
+      .UI_Sidebar_ItemCont .UI_Field_Cont {
+         padding: 0 0 5px;
+      }
+      
+      .UI_Sidebar_ItemCont .UI_Field_Cont label {
+         display: block;
+         padding: 0 0 3px;
+         cursor: pointer;
+         font-size: .9em;
+      }
+      
+      .UI_Sidebar_ItemCont .UI_Field_Cont input {
+         border: solid 1px #CBCFD4;
+         padding: 3px;
+         width: 140px;
+         display: inline-block;
+         background: url(../img/input-shadow-bg.png) 0 0 repeat-x;
+      }
+      
+      

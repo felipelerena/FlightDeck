@@ -77,7 +77,7 @@ authors:
       }
       
          /* Modification indicator of a modified & selected file */
-         .UI_File_Listing li.UI_File_Selected a span {
+         .UI_File_Listing li.UI_File_Selected.UI_File_Modified a span {
             background: #fff;
             -moz-box-shadow: 0 1px 0 #011E4F;
          }
