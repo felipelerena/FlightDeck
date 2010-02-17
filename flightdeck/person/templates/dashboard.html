@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load jetpack_extras %}
+
+{% block app_body %}
+	<h1>Your dashboard</h1>
+	<p>Welcome {{ user }}<p>
+	<p>
+		Go to your <a href="{% url person_public_profile_forced user.username %}">public profile</a>
+	</p>
+	{% if user.authored_jetpacks.all %}
+		Your Jetpacks:
+		<ul>
+		{% for jet in user.authored_jetpacks.all %}
+			<li>{{ jet|render_base_link }}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+	
+	{% if user.authored_capabilities.all %}
+		Your Modules:
+		<ul>
+		{% for cap in user.authored_capabilities.all %}
+			<li>{{ cap|render_base_link }}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+{% endblock %}
+
