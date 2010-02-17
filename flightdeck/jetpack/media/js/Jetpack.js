@@ -6,7 +6,7 @@ var Jetpack = Class.refactor(Capability, {
 	type: 'jetpack',
 	options: {
 		description_el: {element: 'jetpack_description'},
-		try_in_browser_el: 'try_in_browser',
+		try_in_browser_el: 'try_in_browser'
 	},
 	/*
 	 * Method: initialize
@@ -16,7 +16,7 @@ var Jetpack = Class.refactor(Capability, {
 	 * assign actions to the buttons
 	 */
 	initialize: function(options) {
-		this.setOptions(options)
+		this.setOptions(options);
 		this.previous(this.options);
 	},
 	/*
@@ -32,7 +32,7 @@ var Jetpack = Class.refactor(Capability, {
 	 */
 	updateFromDOM: function() {
 		this.previous();
-	},
+	}
 });
 
 /*
@@ -44,7 +44,7 @@ var JetVersion = Class.refactor(CapVersion, {
 	options: {
 		//manifest: null,
 		//published: null,
-		manifest_el: {element: 'version_manifest'},
+		manifest_el: {element: 'version_manifest'}
 		//switch_manifest_id: ''
 	},
 	/*
@@ -68,7 +68,7 @@ var JetVersion = Class.refactor(CapVersion, {
 	 * Method: listenToJetpackEvents
 	 */
 	listenToEvents: function() {
-		this.previous()
+		this.previous();
 	},
 	/*
 	 * Method: initializeEditorSwitches
@@ -95,5 +95,5 @@ var JetVersion = Class.refactor(CapVersion, {
 	updateFromDOM: function() {
 		this.previous();
 		this.data.version_manifest = this.manifest_el.getContent();
-	},
+	}
 });
