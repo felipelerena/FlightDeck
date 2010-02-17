@@ -14,14 +14,17 @@ var create = {
 			$('create_form').addEvent('submit', this.submit.bind(this));
 			$('create_form_cancel').addEvent('click', function(e) {
 				e.stop();
-				this.destroy();
+				this.fade('out');
+				(function(){
+					this.destroy();
+				}).delay(600, this);
 			}.bind(modal));
-		}.bind(this))
+		}.bind(this));
 	},
 	submit: function(e) { 
 		e.stop();
 		var prefix = $$('input[name=choice]:checked')[0].get('value');
-		var data = {}
+		var data = {};
 		data[prefix+'_name'] = $('create-name').get('value');
 		data[prefix+'_description'] = $('create-description').get('value');
 		new Request.JSON({
@@ -29,7 +32,7 @@ var create = {
 			data: data,
 			method: 'post',
 			onSuccess: function(response) {
-				window.location.href=response.absolute_url
+				window.location.href=response.absolute_url;
 			}
 		}).send();
 		return false;
