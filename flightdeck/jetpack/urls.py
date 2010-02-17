@@ -1,7 +1,6 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('jetpack.views',
-	url(r'^create/$', 'create', name='create'),
 	url(r'^gallery/$', 'gallery', name='gallery'),
 	# Jetpacks
     url(r'^jp_(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/$',
