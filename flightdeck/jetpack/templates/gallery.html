@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% load jetpack_extras %}
 
+{% block head %}
+	<link rel="stylesheet" href="/media/jetpack/css/UI.Browser.css" type="text/css" media="screen" />
+{% endblock %}
+
 {% block app_body %}
 	<ul class="UI_Browser">
 	{% for item in items %}
-		<li class="UI_Item">{{ item|render_base_link }}</li>
-		<li class="UI_Item">{{ item|render_base_link }}</li>
-		<li class="UI_Item">{{ item|render_base_link }}</li>
 		<li class="UI_Item">{{ item|render_base_link }}</li>
 	{% endfor %}
 	</ul>

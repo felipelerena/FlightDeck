@@ -123,7 +123,7 @@ def jetpack_version_update(r, slug, version, counter):
 	"""
 	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
 	# permission check
-	if not (r.user.id == version.author.id or r.user in r.managers):
+	if not (r.user.id == version.author.id or r.user in version.jetpack.managers.all()):
 		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.author = r.user

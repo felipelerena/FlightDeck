@@ -1,0 +1,16 @@
+<input type="text" name="add_dependency" id="add_dependency"/>
+<button id="add_dependecy_action">+</button>
+{% with version.capabilities.all as modules %}
+	{% if modules %}
+		<ul class="UI_File_Listing">
+			{% for mod in modules %}
+				{% if mod %}
+					<li class="UI_File_Normal" id="{# TODO: mod|dependency_link_id #}">
+						<a title="" href="#">{{ mod.name }} <span></span></a>
+					</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	{% endif %}
+{% endwith %}
+

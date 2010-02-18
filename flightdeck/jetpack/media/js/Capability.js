@@ -23,7 +23,8 @@ var Capability = new Class({
 		try_in_browser_el: 'try_in_browser',
 		//edit_url: '',
 		//update_url: '',
-		//version_create_url: ''
+		//version_create_url: '',
+		is_dependency: false // was the Capability loaded as dependency?
 	},
 	/*
 	 * Method: initialize
@@ -38,7 +39,10 @@ var Capability = new Class({
 		this.instantiateEditors();
 
 		this.listenToEvents();
-		this.initializeEditorSwitches();
+		if (!this.options.is_dependency) {
+			// TODO: this should probably be moved to the Flightdeck.Editor.js
+			this.initializeEditorSwitches();
+		}
 		
 		this.data = {};
 		this.data[this.type+'_slug'] = this.options.slug;
@@ -52,13 +56,18 @@ var Capability = new Class({
 	 * Method: instantiateEditors
 	 */
 	instantiateEditors: function() {
-		this.description_el = new Editor(this.options.description_el).hide();
-		fd.editors.push(this.description_el);
+		// do not create an editor for the description if loaded as dependency
+		if (! this.options.is_dependency) {
+			this.description_el = new Editor(this.options.description_el).hide();
+			fd.editors.push(this.description_el);
+		}
 	},
 	/*
 	 * Method: initializeEditorSwitches
 	 */
 	initializeEditorSwitches: function() {
+		// TODO: this should be done with the event broadcast
+		// 		 to not bother about new dependencies added
 		$$('.UI_File_Listing li').each(function(file_el) {
 			file_el.switch_mode_on = function() {
 				this.removeClass('UI_File_Normal')
@@ -74,11 +83,14 @@ var Capability = new Class({
 		});
 		$$('.UI_File_Listing li a').addEvent('click', function() {
 			this.getParent('li').switch_mode_on();
-		});;
-		this.switch_description_el = $(this.options.switch_description_id);
-		if (this.switch_description_el) {
-			this.switch_description_el.addEvent('click', this.switchToDescription.bind(this));
-		}	
+		});
+		// "there is no spoon" if dependency
+		if (!this.options.dependency_id) {
+			this.switch_description_el = $(this.options.switch_description_id);
+			if (this.switch_description_el) {
+				this.switch_description_el.addEvent('click', this.switchToDescription.bind(this));
+			}	
+		}
 	},
 	/*
 	 * Method: switchToDescription

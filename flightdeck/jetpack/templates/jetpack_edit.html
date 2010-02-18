@@ -67,7 +67,7 @@
 		</a></h3>
 		<div class="UI_Sidebar_ItemCont">
 			<ul class="UI_File_Listing">
-				{% for cap in version.capabilitiesi.all %}
+				{% for cap in version.capabilities.all %}
 					<li class="UI_File_Normal" id="{{ cap|dependency_link_id }}">
 						<a title="" href="#">{{ cap.name }} <span></span></a>
 					</li>

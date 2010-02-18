@@ -10,14 +10,20 @@ def tab_link_id(item, value):
 	slug = item.slug if item else ''
 	return "%s_%s" % (slug, value)
 
+
 @register.filter
 def dependency_link_id(item):
-	return "dependency_%s" % item.slug
+	try:
+		slug = item.slug
+	except: 
+		slug = ''
+	return "dependency_%s" % slug
 
 
 @register.filter
 def recently_modified_link_id(item):
-	return "modified_%s" % item.slug
+	slug = item.slug if item else ''
+	return "modified_%s" % slug
 
 
 @register.filter
@@ -29,6 +35,7 @@ def render_fullname(item):
 def render_base_link(item):
 	t = loader.get_template('_gallery_item_link.html')
 	return mark_safe(t.render(Context(locals())))
+
 
 @register.simple_tag
 def escape_template(template_name):
