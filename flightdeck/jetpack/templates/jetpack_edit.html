@@ -65,13 +65,15 @@
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
 		</a></h3>
-		<ul class="UI_File_Listing">
-			{% for cap in version.capabilitiesi.all %}
-				<li class="UI_File_Normal" id="{{ cap|dependency_link_id }}">
-					<a title="" href="#">{{ cap.name }} <span></span></a>
-				</li>
-			{% endfor %}
-		</ul>
+		<div class="UI_Sidebar_ItemCont">
+			<ul class="UI_File_Listing">
+				{% for cap in version.capabilitiesi.all %}
+					<li class="UI_File_Normal" id="{{ cap|dependency_link_id }}">
+						<a title="" href="#">{{ cap.name }} <span></span></a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</section>
 
 	<section id="info" class="UI_Side_Item">
@@ -116,17 +118,17 @@
 			<span class="UI_Sidebar_Toggler_Icon"></span>
 		</a></h3>
 		
-		<ul class="UI_File_Listing UI_Recent_Files">
-			{% for file in recently_modified %}
-				<li class="UI_File_Normal" id="{{ file|recently_modified_link_id }}">
-					<a title="{{ file|render_fullname }}" href="#">{{ file|render_fullname }}</a>
-				</li>
-			{% endfor %}
-		</ul>		
+		<div class="UI_Sidebar_ItemCont">
+			<ul class="UI_File_Listing UI_Recent_Files">
+				{% for file in recently_modified %}
+					<li class="UI_File_Normal" id="{{ file|recently_modified_link_id }}">
+						<a title="{{ file|render_fullname }}" href="#">{{ file|render_fullname }}</a>
+					</li>
+				{% endfor %}
+			</ul>		
+		</div>
 	</section>
 {% endblock %}
-
-
 
 {% block app_content %}
 	{% include "_editor_menu.html" %}

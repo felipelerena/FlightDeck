@@ -1,0 +1,116 @@
+/*
+---
+filename: UI.Browser.css
+decription: Provides base layout for FlightDeck
+license: MIT-style license.
+authors:
+ - Oskar Krawczyk (http://nouincolor.com/)
+...
+*/
+
+/* start TEMP */
+body {
+   background-image: none;
+}
+
+#app-body {
+   margin-left: 0;   
+}
+
+/* end TEMP */
+
+.UI_Browser {
+   margin: 20px 0 0 20px;
+}
+
+   .UI_Browser .UI_Item {
+      width: 300px;
+      min-height: 100px;
+      float: left;
+      padding: 0 0 20px 115px;
+      margin: 0 20px 20px 0;
+      border-bottom: solid 1px #E9EDF0;
+      background: url(../img/_temp-browse-icon.png) 0 0 no-repeat;
+   }
+   
+   .UI_Browser .UI_Item h3 {
+      margin: 0 0 0;
+      font-weight: bold;
+      font-size: 1.1em;
+   }   
+   
+   .UI_Browser .UI_Item h4 {
+      font-size: .8em;
+      font-style: normal;
+      background: #A6AEB5;
+      color: #F8F8F8;
+      -moz-border-radius: 3px;
+      padding: 1px 3px;
+      margin: 4px 0 10px;
+      display: inline-block;
+   }
+   
+   .UI_Browser .UI_Item p {
+      font-size: .9em;
+      color: #999;
+   }
+   
+   .UI_Browser .UI_Actions {
+      margin: 15px 0 0;
+   }
+   
+      .UI_Browser .UI_Actions li {
+         background: #BEC5CC;
+         border-bottom: solid 1px #fff;
+         padding: 1px;
+         margin: 0 -1px 1px 0;
+         float: left;
+         position: relative;
+      }
+      
+         .UI_Browser .UI_Actions li a {
+            background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+            border-top: solid 1px #fff;
+            display: block;
+            padding: 7px 10px;
+            font-size: .9em;
+            text-shadow: 0 1px 0 #fff;      
+         }
+      
+      /* Starting element */
+      .UI_Browser .UI_Actions li:first-child {
+         -moz-border-radius: 6px;
+         -moz-border-radius-topright: 0;
+         -moz-border-radius-bottomright: 0;      
+      }
+
+         .UI_Browser .UI_Actions li:first-child a {
+            -moz-border-radius: 5px;
+            -moz-border-radius-topright: 0;
+            -moz-border-radius-bottomright: 0;
+         }
+
+      /* Ending element */
+      .UI_Browser .UI_Actions li:last-child {
+         -moz-border-radius: 6px;
+         -moz-border-radius-topleft: 0;
+         -moz-border-radius-bottomleft: 0;      
+      }
+
+         .UI_Browser .UI_Actions li:last-child a {
+            -moz-border-radius: 5px;
+            -moz-border-radius-topleft: 0;
+            -moz-border-radius-bottomleft: 0;
+         }
+
+      .UI_Browser .UI_Actions li a:hover {
+         background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+         text-decoration: none;
+      }
+
+      .UI_Browser .UI_Actions li a:active {
+         background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
+         border-top: solid 1px transparent;
+         color: #6D7880;
+      }
+      

@@ -2,9 +2,12 @@
 {% load jetpack_extras %}
 
 {% block app_body %}
-	<ul>
+	<ul class="UI_Browser">
 	{% for item in items %}
-		<li>{{ item|render_base_link }}</li>
+		<li class="UI_Item">{{ item|render_base_link }}</li>
+		<li class="UI_Item">{{ item|render_base_link }}</li>
+		<li class="UI_Item">{{ item|render_base_link }}</li>
+		<li class="UI_Item">{{ item|render_base_link }}</li>
 	{% endfor %}
 	</ul>
 {% endblock %}
