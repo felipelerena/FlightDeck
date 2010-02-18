@@ -146,7 +146,7 @@ def jetpack_version_save_as_base(r, slug, version, counter):
 	"""
 	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
 	# permission check
-	if not (r.user.id == version.author.id or r.user in r.managers):
+	if not (r.user.id == version.author.id or r.user in version.jetpack.managers.all()):
 		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.is_base = True
@@ -242,7 +242,7 @@ def capability_version_update(r, slug, version, counter):
 	"""
 	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
 	# permission check
-	if not (r.user.id == version.author.id or r.user in r.managers):
+	if not (r.user.id == version.author.id or r.user in version.capability.managers.all()):
 		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.author = r.user
@@ -263,12 +263,12 @@ def capability_version_save_as_base(r, slug, version, counter):
 	"""
 	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
 	# permission check
-	if not (r.user.id == version.author.id or r.user in r.managers):
+	if not (r.user.id == version.author.id or r.user in version.capability.managers.all()):
 		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.is_base = True
 	version.save()
-	return render_to_response('json/version_absolute_url.json', {'version': version},
+	return render_to_response('json/version_saved_as_base.json', {'version': version},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 
