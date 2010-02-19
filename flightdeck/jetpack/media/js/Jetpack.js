@@ -2,7 +2,8 @@
  * Class representing the Jetpack only 
  * Prepare the editor, save, update
  */
-var Jetpack = Class.refactor(Capability, {
+var Jetpack = new Class({
+	Extends: Capability,
 	type: 'jetpack',
 	options: {
 		description_el: {element: 'jetpack_description'},
@@ -17,7 +18,7 @@ var Jetpack = Class.refactor(Capability, {
 	 */
 	initialize: function(options) {
 		this.setOptions(options);
-		this.previous(this.options);
+		this.parent(this.options);
 	},
 	/*
 	 * Method: initializeVersion
@@ -31,7 +32,7 @@ var Jetpack = Class.refactor(Capability, {
 	 * get all jetpack editable fields from DOM and set parameters in model
 	 */
 	updateFromDOM: function() {
-		this.previous();
+		this.parent();
 	}
 });
 
@@ -39,7 +40,8 @@ var Jetpack = Class.refactor(Capability, {
  * Class representing the Version only 
  * Prepare the editor, save, update
  */
-var JetVersion = Class.refactor(CapVersion, {
+var JetVersion = new Class({
+	Extends: CapVersion, 
 	type: 'jetpack',
 	options: {
 		//manifest: null,
@@ -53,14 +55,14 @@ var JetVersion = Class.refactor(CapVersion, {
 	 */
 	initialize: function(options) {
 		this.setOptions(options);
-		this.previous(options);
+		this.parent(options);
 		this.data.version_manifest = this.options.manifest;
 	},
 	/*
 	 * Method: instantiateEditors
 	 */
 	instantiateEditors: function() {
-		this.previous();
+		this.parent();
 		this.manifest_el = new Editor(this.options.manifest_el).hide();
 		fd.editors.push(this.manifest_el);
 	},
@@ -68,13 +70,13 @@ var JetVersion = Class.refactor(CapVersion, {
 	 * Method: listenToJetpackEvents
 	 */
 	listenToEvents: function() {
-		this.previous();
+		this.parent();
 	},
 	/*
 	 * Method: initializeEditorSwitches
 	 */
 	initializeEditorSwitches: function() {
-		this.previous();
+		this.parent();
 		this.switch_manifest_el = $(this.options.switch_manifest_id);
 		if (this.switch_manifest_el) {
 			this.switch_manifest_el.addEvent('click', this.switchToManifest.bind(this));
@@ -93,7 +95,7 @@ var JetVersion = Class.refactor(CapVersion, {
 	 * get all version editable fields from DOM and set parameters in model
 	 */
 	updateFromDOM: function() {
-		this.previous();
+		this.parent();
 		this.data.version_manifest = this.manifest_el.getContent();
 	}
 });

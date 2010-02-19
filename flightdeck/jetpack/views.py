@@ -201,7 +201,8 @@ def capability_update(r, slug):
 	if not capability.can_be_updated_by(r.user):
 		return HttpResponseNotAllowed(HttpResponse(""))
 
-	capability.description = r.POST.get('capability_description')
+	if 'capability_description' in r.POST:
+		capability.description = r.POST.get('capability_description')
 	if 'capability_public_permission' in r.POST:
 		capability.public_permission = r.POST.get('capability_public_permission')
 	if 'capability_group_permission' in r.POST:
@@ -246,9 +247,11 @@ def capability_version_update(r, slug, version, counter):
 		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.author = r.user
-	version.name = r.POST.get("version_name", version.name)
+	if "version_name" in r.POST:
+		version.name = r.POST.get("version_name", version.name)
 	version.content = r.POST.get("version_content", version.content)
-	version.description = r.POST.get("version_description", version.description)
+	if "version_description" in r.POST:
+		version.description = r.POST.get("version_description", version.description)
 	version.status = r.POST.get("version_status", version.status)
 	version.is_base = r.POST.get("version_is_base", version.is_base)
 	version.save()
