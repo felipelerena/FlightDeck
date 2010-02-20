@@ -113,10 +113,13 @@ var Capability = new Class({
 		this.version.addEvent('change', this.boundAfterVersionChanged);
 		this.description_el.addEvent('change', this.boundAfterDataChanged);
 		// one may try even not edited data
-		$(this.options.try_in_browser_el).addEvent('click', function(e) {
-			e.stop();
-			this.try_in_browser();
-		}.bind(this));
+		this.try_in_browser_el = $(this.options.try_in_browser_el)
+		if (this.try_in_browser_el) {
+			this.try_in_browser_el.addEvent('click', function(e) {
+				e.stop();
+				this.try_in_browser();
+			}.bind(this));
+		}
 	},
 	/* 
 	 * Method: afterVersionChanged

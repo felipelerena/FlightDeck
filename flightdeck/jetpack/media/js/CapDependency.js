@@ -17,7 +17,6 @@ var CapDependency = new Class({
 		this.setOptions(options);
 		this.initializeVersion();
 		this.listenToEvents();
-		console.log(this.version_create)
 	},
 	initializeVersion: function() {
 		this.version = new CapVersionDependency(this.options.version);
@@ -31,7 +30,6 @@ var CapDependency = new Class({
 	},
 	afterVersionChanged: function() {
 		item = jetpack || capability;
-		console.log(item)
 		$(item.options.version_create_el).addEvent('click', function(e) {
 			e.stop();
 			this.version_create();

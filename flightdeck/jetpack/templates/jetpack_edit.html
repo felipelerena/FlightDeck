@@ -127,12 +127,12 @@
 {% block app_content %}
 	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
-		<textarea id='jetpack_description' class="UI_Editor_Area bespin" name='jetpack_description'>{{ jetpack.description }}</textarea>
-		<textarea id="version_content" class="UI_Editor_Area bespin" data-bespinoptions='{ "stealFocus":true }' name='version_content'>{{ version.content }}</textarea>
-		<textarea id='version_manifest' class="UI_Editor_Area bespin" name='version_manifest'>{{ version.manifest }}</textarea>
-		<textarea id='version_description' class='UI_Editor_Area bespin'>{{ version.description }}</textarea>
+		<textarea id='jetpack_description' class="UI_Editor_Area" name='jetpack_description'>{{ jetpack.description }}</textarea>
+		<textarea id="version_content" class="UI_Editor_Area" data-bespinoptions='{ "stealFocus":true }' name='version_content'>{{ version.content }}</textarea>
+		<textarea id='version_manifest' class="UI_Editor_Area" name='version_manifest'>{{ version.manifest }}</textarea>
+		<textarea id='version_description' class='UI_Editor_Area'>{{ version.description }}</textarea>
 		{% for cap in version.capabilities.all %}
-			<textarea id="dependency_content_{{ cap.slug }}" class="UI_Editor_Area bespin" name="dependency_content_{{ cap.slug }}">{{ cap.version.content }}</textarea>
+			<textarea id="dependency_content_{{ cap.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap.slug }}">{{ cap.version.content }}</textarea>
 		{% endfor %}
 			
 	</div>
