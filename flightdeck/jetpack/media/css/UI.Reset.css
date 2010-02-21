@@ -37,6 +37,7 @@ textarea {
 .UI_Forms .UI_Choice:after, 
 .UI_Modal .UI_Modal_Actions:after,
 .UI_Browser .UI_Actions:after,
+.UI_Field_Cont:after,
 .UI_Browser:after {
    content: ' ';
    display: block;

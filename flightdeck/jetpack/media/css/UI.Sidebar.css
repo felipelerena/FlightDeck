@@ -123,4 +123,35 @@ authors:
          background: url(../img/input-shadow-bg.png) 0 0 repeat-x;
       }
       
+   .UI_Sidebar_ItemCont .UI_New_Dependency {
       
+   }
+   
+      .UI_Sidebar_ItemCont .UI_New_Dependency input {
+         width: 127px;
+         float: left;
+      }
+      
+      .UI_Sidebar_ItemCont .UI_New_Dependency button {
+         width: 35px;
+         padding: 2px 0;
+         float: right;
+         text-align: center;
+         color: #4D5860;
+         text-shadow: 0 1px 0 #fff;
+         background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+         border: solid 1px #CBCFD4;
+         border-left: none;
+      }
+      
+      .UI_Sidebar_ItemCont .UI_New_Dependency button:hover {
+         background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+         text-decoration: none;
+      }
+      
+      .UI_Sidebar_ItemCont .UI_New_Dependency button:active {
+         background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
+         color: #6D7880;
+         outline: none;
+         
+      }

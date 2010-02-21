@@ -35,36 +35,39 @@
 
 
 {% block app_sidebar %}
-	{% if not version %}<p class='fd_message' title='New Capability Created'>Please update or create a new Version after adding some content</p>{% endif %}
+	{% if not version %}
+		<p class="fd_message">Please update or create a new Version after adding some content</p>
+	{% endif %}
+	
 	<section id="jetpack-info" class="UI_Sidebar_Item">
 		<h3 id="ji-toggler">
 			<a title="{{ capability.name }}" href="#">{{ capability.name }} <span></span></a>
 		</h3>
 		<ul class="UI_File_Listing">
 			<li class="UI_File_Selected">
-				<a title="" href="#" id="{{ version|tab_link_id:"content" }}">Content <span></span></a>
+				<a title="Content" href="#" id="{{ version|tab_link_id:"content" }}">Content <span></span></a>
 			</li>
 			<li class="UI_File_Normal">
-				<a title="" href="#" id="{{ capability|tab_link_id:"description" }}">Description <span></span></a>
+				<a title="Description" href="#" id="{{ capability|tab_link_id:"description" }}">Description <span></span></a>
 			</li>
 			<li class="UI_File_Normal">
-				<a title="" href="#" id="{{ version|tab_link_id:"version_description" }}">Version Description <span></span></a>
+				<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span></span></a>
 			</li>
 		</ul>
 	</section>
 
 	<section id="capabilities" class="UI_Side_Item">
 		<h3 class="UI_Sidebar_Toggler capabilities opened"><a title="Capabilities" href="#">
-			Capabilities 
+			Capabilities
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
 		</a></h3>
 		
-		<div class="UI_Sidebar_ItemCont">		
+		<div class="UI_Sidebar_ItemCont">
 			<ul class="UI_File_Listing">
 				{% for cap in version.capabilities.all %}
 					<li class="UI_File_Normal" id="{{ cap|dependency_link_id }}">
-						<a title="" href="#">{{ cap.name }} <span></span></a>
+						<a title="{{ cap.name }}" href="#">{{ cap.name }} <span></span></a>
 					</li>
 				{% endfor %}
 			</ul>
@@ -72,7 +75,7 @@
 	</section>
 
 	<section id="info" class="UI_Side_Item">
-		<h3 class="UI_Sidebar_Toggler info opened"><a title="Info" href="#">
+		<h3 class="UI_Sidebar_Toggler info opened closed"><a title="Info" href="#">
 			Info 
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
@@ -107,7 +110,7 @@
 	</section>
 	
 	<section id="recently-modified" class="UI_Side_Item">
-		<h3 class="UI_Sidebar_Toggler recentlyModified opened"><a title="Recently modified" href="#">
+		<h3 class="UI_Sidebar_Toggler recentlyModified opened closed"><a title="Recently modified" href="#">
 			Recently modified 
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
@@ -117,7 +120,7 @@
 			<ul class="UI_File_Listing UI_Recent_Files">
 				{% for file in recently_modified %}
 					<li class="UI_File_Normal" id="{{ file|recently_modified_link_id }}">
-						<a title="" href="#">{{ file|render_fullname }}</a>
+						<a title="{{ file|render_fullname }}" href="#">{{ file|render_fullname }}</a>
 					</li>
 				{% endfor %}
 			</ul>
@@ -125,14 +128,11 @@
 	</section>
 {% endblock %}
 
-
-	
 {% block app_content %}
 	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
-		<textarea id='capability_description' name='capability_description' class="UI_Editor_Area bespin">{{ capability.description }}</textarea>
-		<textarea id='version_content' name='version_content' class="UI_Editor_Area bespin" data-bespinoptions='{"stealFocus":true}'>{{ version.content }}</textarea>
-		<textarea id='version_description' name='version_description' class="UI_Editor_Area bespin">{{ version.description }}</textarea>
+		<textarea id="capability_description" name="capability_description" class="UI_Editor_Area bespin">{{ capability.description }}</textarea>
+		<textarea id="version_content" name="version_content" class="UI_Editor_Area bespin" data-bespinoptions='{"stealFocus":true}'>{{ version.content }}</textarea>
+		<textarea id="version_description" name="version_description" class="UI_Editor_Area bespin">{{ version.description }}</textarea>
 	</div>
-	
 {% endblock %}
