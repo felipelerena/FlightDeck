@@ -70,29 +70,29 @@ var Capability = new Class({
 	initializeEditorSwitches: function() {
 		// TODO: this should be done with the event broadcast
 		// 		 to not bother about new dependencies added
+		var switch_mode_on  = function() {
+			$$('.UI_File_Selected').each(function(el) {
+				el.switch_mode_off();
+			});
+			this.removeClass('UI_File_Normal')
+				.addClass('UI_File_Selected')
+		};
+		var switch_mode_off = function() {
+			this.removeClass('UI_File_Selected')
+				.addClass('UI_File_Normal')
+		}
 		$$('.UI_File_Listing li').each(function(file_el) {
-			file_el.switch_mode_on = function() {
-				$$('.UI_File_Selected').each(function(el) {
-					el.switch_mode_off();
-				});
-				this.removeClass('UI_File_Normal')
-					.addClass('UI_File_Selected')
-			};
-			file_el.switch_mode_off = function() {
-				this.removeClass('UI_File_Selected')
-					.addClass('UI_File_Normal')
-			}
+			file_el.switch_mode_on = switch_mode_on;
+			file_el.switch_mode_off = switch_mode_off;
 		});
 		$$('.UI_File_Listing li a').addEvent('click', function() {
 			this.getParent('li').switch_mode_on();
 		});
-		// "there is no spoon" if dependency
-		if (!this.options.dependency_id) {
-			this.switch_description_el = $(this.options.switch_description_id);
-			if (this.switch_description_el) {
-				this.switch_description_el.addEvent('click', this.switchToDescription.bind(this));
-			}	
-		}
+
+		this.switch_description_el = $(this.options.switch_description_id);
+		if (this.switch_description_el) {
+			this.switch_description_el.addEvent('click', this.switchToDescription.bind(this));
+		}	
 	},
 	/*
 	 * Method: switchToDescription
