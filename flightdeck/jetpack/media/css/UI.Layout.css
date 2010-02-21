@@ -37,9 +37,55 @@ a:focus {
 /*
  =========================================================================== */
 #app-header {
-   background: #3F4652 url(../img/header-bg.png) 0 0 repeat-x;
+   background: -moz-linear-gradient(270deg, #424A52, #4E5861);
    height: 90px;
 }
+
+   #app-header nav {
+      float: right;
+      margin: 15px 15px 0 0;
+      padding: 1px;
+      border-bottom: solid 1px #7A7E86;
+      -moz-border-radius: 6px;
+      background: -moz-linear-gradient(270deg, #2C3137, #3E454D);
+   }
+   
+   #app-header nav li {
+      float: left;
+   }
+   
+      #app-header nav li a {
+         display: block;
+         padding: 8px 7px 7px;
+         font-size: .9em;
+         text-shadow: 0 1px 0 #000;
+         color: #D4D9DF;
+      }
+   
+      #app-header nav li a:hover {
+         color: #fff;
+      }
+      
+      #app-header nav li.active a {
+         background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
+         border-top: solid 1px #9CC7F8;
+         color: #fff;
+         text-shadow: 0 1px 0 #011E4F;
+         padding-top: 7px;
+      }
+
+         #app-header nav li:first-child a {
+            -moz-border-radius: 5px;
+            -moz-border-radius-topright: 0;
+            -moz-border-radius-bottomright: 0;
+         }
+
+         #app-header nav li:last-child a {
+            -moz-border-radius: 5px;
+            -moz-border-radius-topleft: 0;
+            -moz-border-radius-bottomleft: 0;
+         }
+   
 
 #flightdeck-logo {
    display: none;
