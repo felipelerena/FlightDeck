@@ -56,7 +56,7 @@ a:focus {
    
       #app-header nav li a {
          display: block;
-         padding: 8px 7px 7px;
+         padding: 8px 10px 7px;
          font-size: .9em;
          text-shadow: 0 1px 0 #000;
          color: #D4D9DF;
@@ -71,7 +71,7 @@ a:focus {
          border-top: solid 1px #9CC7F8;
          color: #fff;
          text-shadow: 0 1px 0 #011E4F;
-         padding-top: 7px;
+         padding-top: 7px 10px;
       }
 
          #app-header nav li:first-child a {
