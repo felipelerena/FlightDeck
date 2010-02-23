@@ -56,8 +56,8 @@ if [ ! -e $V_ENV/lib/BespinEmbedded-0.6 ]
 then
 	mkdir BespinEmbedded-0.6
 	cd BespinEmbedded-0.6
-	wget https://bespin.mozilla.com/embedded/BespinEmbedded.css --no-check-certificate
-	wget https://bespin.mozilla.com/embedded/BespinEmbedded.js --no-check-certificate
+	wget https://bespin.mozillalabs.com/embedded/BespinEmbedded.css --no-check-certificate
+	wget https://bespin.mozillalabs.com/embedded/BespinEmbedded.js --no-check-certificate
 	rm $V_ENV/lib/BespinEmbedded
 	ln -fs $V_ENV/lib/BespinEmbedded-0.6/ $V_ENV/lib/BespinEmbedded
 fi

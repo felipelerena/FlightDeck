@@ -29,29 +29,44 @@ Class.refactor(Editor, {
 	},
 	initialize: function(options) {
 		this.previous(options);
-		if (this.options.version < 0.6) {
-			this.embed = tiki.require("bespin:embed");
-		} else {
-			this.embed = tiki.require("Embedded");
-		}	
-		this.textarea = this.element;
+	},
+	initEditor: function() {
+		console.log('FD: instantiating ',this.options.element)
+		this.textarea = $(this.options.element);
+		var editor_id = this.textarea.get('id');
+		console.log('FD: changing ', this.textarea);
+		this.textarea.set('id',editor_id+'_textarea')
+		console.log('FD: textarea id changed ', this.textarea.get('id'));
 		this.element = new Element('div',{
-			'text': this.element.get('text'),
-			'id': this.element.get('id'),
-			'class': 'bespin' 
-		});
-		this.textarea.set('id',this.textarea.get('id')+'_textarea')
-		this.element.inject(this.textarea, 'after');
+			'text': this.textarea.get('text'),
+			'id': editor_id,
+		}).inject(this.textarea, 'before');
+		console.log('FD: div element created ', this.element);
+
 		if (this.textarea.isHidden()) {
 			this.element.hide();
+			console.log('div hidden');
 		}
 		this.textarea.hide();
+		console.log('FD: textarea hidden');
+		this.bespin = tiki
+			.require("Embedded")
+			.useBespin(this.element,{syntax: "js"});
+		console.log('FD: bespin instantiated');
 
-		this.embed.useBespin(this.element);
-		this.element.addClass("bespin");
+		var boundOnBespinChange = this.onBespinChange.bind(this);
+		this.bespin._editorView.getPath('layoutManager.textStorage')
+			.addDelegate(SC.Object.create({
+				textStorageEdited: boundOnBespinChange
+			}));
+		console.log('FD: bespin onChange hooked');
+	},
+	onBespinChange: function() {
+		this.fireEvent('change');
+		this.changed = true;
 	},
 	getContent: function() {
-		this.textarea.set('text', this.element.value);
-		return this.element.value;
+		this.textarea.set('text', this.bespin.value);
+		return this.bespin.value;
 	}
 });
