@@ -364,7 +364,7 @@ var CapVersion = new Class({
 		var data = this.prepareData();
 		// prevent from updating a version with different name
 		if (data.version_name && data.version_name != this.options.name) {
-			return window[this.type].version_create(data);
+			return item.version_create(data);
 		}
 		new Request.JSON({
 			url: this.options.update_url,

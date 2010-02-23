@@ -7,9 +7,8 @@
 
 {# everything which is outside of the block will not be used #}
 {# <script></script> is there for syntax highlighting #}
-<script>{% block javascript %}var jetpack;{% endblock %}</script>
 <script>{% block app_domready %}
-	jetpack = new Jetpack({
+	item = new Jetpack({
 		slug: '{{ jetpack.slug }}',
 		name: '{{ jetpack.name }}',
 		description: '{{ jetpack.description }}',
