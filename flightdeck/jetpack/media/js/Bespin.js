@@ -40,26 +40,30 @@ Class.refactor(Editor, {
 		this.element = new Element('div',{
 			'text': this.textarea.get('text'),
 			'id': editor_id,
+			'class': 'UI_Editor_Area'
 		}).inject(this.textarea, 'before');
 		console.log('FD: div element created ', this.element, 'with content ', this.element.get('text'));
 
 		if (this.textarea.isHidden()) {
 			this.element.hide();
+			this.hidden = true;
 			console.log('div hidden');
 		}
 		this.textarea.hide();
 		console.log('FD: textarea hidden');
-		this.bespin = tiki
-			.require("Embedded")
-			.useBespin(this.element,{syntax: "js"});
-		console.log('FD: bespin instantiated');
+		(function() {
+			this.bespin = tiki
+				.require("Embedded")
+				.useBespin(this.element, {syntax: "js"});
+			console.log('FD: bespin instantiated');
 
-		var boundOnBespinChange = this.onBespinChange.bind(this);
-		this.bespin._editorView.getPath('layoutManager.textStorage')
-			.addDelegate(SC.Object.create({
-				textStorageEdited: boundOnBespinChange
-			}));
-		console.log('FD: bespin onChange hooked');
+			var boundOnBespinChange = this.onBespinChange.bind(this);
+			this.bespin._editorView.getPath('layoutManager.textStorage')
+				.addDelegate(SC.Object.create({
+					textStorageEdited: boundOnBespinChange
+				}));
+			console.log('FD: bespin onChange hooked');
+		}.bind(this)).delay(10);
 	},
 	onBespinChange: function() {
 		this.fireEvent('change');
