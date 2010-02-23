@@ -54,16 +54,9 @@ fi
 cd $V_ENV/lib/
 if [ ! -e $V_ENV/lib/BespinEmbedded-0.6.1 ]
 then
-<<<<<<< HEAD:scripts/install.sh
 	wget http://ftp.mozilla.org/pub/mozilla.org/labs/bespin/Embedded/BespinEmbedded-DropIn-0.6.1.tar.gz --no-check-certificate
 	tar xfvz BespinEmbedded-DropIn-0.6.1.tar.gz
 	rm BespinEmbedded-DropIn-0.6.1.tar.gz
-=======
-	mkdir BespinEmbedded-0.6
-	cd BespinEmbedded-0.6
-	wget https://bespin.mozillalabs.com/embedded/BespinEmbedded.css --no-check-certificate
-	wget https://bespin.mozillalabs.com/embedded/BespinEmbedded.js --no-check-certificate
->>>>>>> 0ea03fe6c5b211d45f8a91b8bc7cef2bfdbf8e3a:scripts/install.sh
 	rm $V_ENV/lib/BespinEmbedded
 	ln -fs $V_ENV/lib/BespinEmbedded-DropIn-0.6.1/ $V_ENV/lib/BespinEmbedded
 	rm $PROJECT_DIR/$PROJECT_NAME/media/bespin
