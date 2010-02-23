@@ -15,14 +15,19 @@ var Editor = new Class({
 	},
 	initialize: function(options) {
 		this.setOptions(options);
-		this.element = $(this.options.element);
 		this.changed = false;
+		this.initEditor();
+	},
+	initEditor: function() {
+		this.element = $(this.options.element);
+		var boundOnChange = this.onChange.bind(this);
 		this.element.addEvents({
-			'change': function() {
-				this.fireEvent('change');
-				this.changed = true;
-			}.bind(this)
+			'change': boundOnChange 
 		});
+	},
+	onChange: function () {
+		this.fireEvent('change');
+		this.changed = true;
 	},
 	toElement: function() {
 		return this.element;
