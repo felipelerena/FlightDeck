@@ -41,7 +41,7 @@ Class.refactor(Editor, {
 			'text': this.textarea.get('text'),
 			'id': editor_id,
 		}).inject(this.textarea, 'before');
-		console.log('FD: div element created ', this.element);
+		console.log('FD: div element created ', this.element, 'with content ', this.element.get('text'));
 
 		if (this.textarea.isHidden()) {
 			this.element.hide();
