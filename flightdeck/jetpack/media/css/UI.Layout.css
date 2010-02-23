@@ -71,7 +71,7 @@ a:focus {
          border-top: solid 1px #9CC7F8;
          color: #fff;
          text-shadow: 0 1px 0 #011E4F;
-         padding-top: 7px 10px;
+         padding-top: 7px;
       }
 
          #app-header nav li:first-child a {
