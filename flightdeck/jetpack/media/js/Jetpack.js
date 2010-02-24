@@ -89,7 +89,7 @@ var JetVersion = new Class({
 	 * Method: switchToManifest
 	 */
 	switchToManifest: function(e) {
-		e.stop();
+		e.preventDefault();
 		fd.hideEditors();
 		this.manifest_el.show();
 	},

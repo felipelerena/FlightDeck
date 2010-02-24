@@ -78,6 +78,7 @@ var Capability = new Class({
 	 * Method: switchToDescription
 	 */
 	switchToDescription: function(e) {
+		e.preventDefault();
 		fd.hideEditors();
 		this.description_el.show();
 	},
@@ -296,7 +297,7 @@ var CapVersion = new Class({
 	 * Method: switchToContent
 	 */
 	switchToContent: function(e) {
-		e.stop();
+		e.preventDefault();
 		fd.hideEditors();
 		this.content_el.show();
 	},
@@ -304,7 +305,7 @@ var CapVersion = new Class({
 	 * Method: switchToDescription
 	 */
 	switchToDescription: function(e) {
-		e.stop();
+		e.preventDefault();
 		fd.hideEditors();
 		this.description_el.show();
 	},
