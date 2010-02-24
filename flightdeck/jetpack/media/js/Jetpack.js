@@ -46,7 +46,10 @@ var JetVersion = new Class({
 	options: {
 		//manifest: null,
 		//published: null,
-		manifest_el: {element: 'version_manifest'}
+		manifest_el: {
+			element: 'version_manifest',
+			type: 'json'
+		}
 		//switch_manifest_id: ''
 	},
 	/*
