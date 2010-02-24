@@ -298,21 +298,29 @@ def capabilities_autocomplete(r):
 	"""
 	
 @login_required
-def add_dependency(r, slug, version, counter):
+def add_dependency(r, slug, type, version=None, counter=None):
 	"""
 	Add dependency to the item represented by slug
 	"""
-	try:
+	if type == 'jetpack':
 		item = JetVersion.objects.get(jetpack__slug=slug, name=version, counter=counter)
-	except:
+	elif type == 'capability':
 		item = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
 
 	dependency_slug = r.POST.get("dependency_slug")
-	dependency_version = r.POST.get("dependency_version")
-	dependency_counter = r.POST.get("dependency_counter")
-	dependency = CapVersion.objects.get(slug=dependency_slug)
+	dependency_version = r.POST.get("dependency_version", None)
+	dependency_counter = r.POST.get("dependency_counter", None)
+	if version:
+		dependency = CapVersion.objects.get(capability__slug=dependency_slug, name=version, counter=counter)
+	else:
+		cap = Cap.objects.get(slug=dependency_slug)
+		dependency = cap.base_version
 
 	item.capabilities.add(dependency)
 	item.save()
 
+	return render_to_response('json/dependency_added.json', 
+				{'item': item, 'version': dependency, 'cap': dependency.capability},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
 	
