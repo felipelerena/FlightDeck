@@ -126,8 +126,8 @@
 		<textarea id="capability_description" name="capability_description" class="UI_Editor_Area bespin">{{ capability.description }}</textarea>
 		<textarea id="version_content" name="version_content" class="UI_Editor_Area bespin">{{ version.content }}</textarea>
 		<textarea id="version_description" name="version_description" class="UI_Editor_Area bespin">{{ version.description }}</textarea>
-		{% for cap in version.capabilities.all %}
-			<textarea id="dependency_content_{{ cap.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap.slug }}">{{ cap.version.content }}</textarea>
+		{% for cap_version in version.capabilities.all %}
+			<textarea id="dependency_content_{{ cap_version.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap_version.slug }}">{{ cap_version.content }}</textarea>
 		{% endfor %}
 	</div>
 {% endblock %}
