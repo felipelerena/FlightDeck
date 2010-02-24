@@ -14,7 +14,6 @@ FlightDeck = Class.refactor(FlightDeck,{
 		var file_selected_class = this.options.file_selected_class;
 		var file_normal_class = this.options.file_normal_class;
 		var switch_mode_on  = function() {
-			console.log('yeah');
 			$$('.' + file_selected_class).each(function(el) {
 				el.switch_mode_off();
 			});
@@ -30,8 +29,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 			file_el.switch_mode_off = switch_mode_off;
 		});
 		$$('.'+this.options.file_listing_class).each(function(container) { 
-			container.addEvent('relay:click(li a)', function(e, el) {
-				console.log(el);
+			container.addEvent('click:relay(li a)', function(e, el) {
 				$(el).getParent('li').switch_mode_on();
 			});
 		});
