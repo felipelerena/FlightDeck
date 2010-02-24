@@ -26,6 +26,9 @@
 			edit_url: '{{ version.get_absolute_url }}',
 			update_url: '{{ version.get_update_url }}',
 			set_as_base_url: '{{ version.get_set_as_base_url }}',
+			{% if version %}
+				add_dependency_url: '{% url jp_capability_add_dependency capability.slug version.name version.counter %}',
+			{% endif %}
 			switch_description_id: '{{ version|tab_link_id:"version_description" }}',
 			switch_content_id: '{{ version|tab_link_id:"content" }}'
 		}
@@ -55,16 +58,18 @@
 		</ul>
 	</section>
 
-	<section id="capabilities" class="UI_Side_Item">
-		<h3 class="UI_Sidebar_Toggler capabilities opened"><a title="Capabilities" href="#">
-			Capabilities
-			<span class="UI_OC"></span>
-			<span class="UI_Sidebar_Toggler_Icon"></span>
-		</a></h3>
-		<div class="UI_Sidebar_ItemCont">
-			{% include "_dependency_list.html" %}
-		</div>
-	</section>
+	{% if version %}
+		<section id="capabilities" class="UI_Side_Item">
+			<h3 class="UI_Sidebar_Toggler capabilities opened"><a title="Capabilities" href="#">
+				Capabilities
+				<span class="UI_OC"></span>
+				<span class="UI_Sidebar_Toggler_Icon"></span>
+			</a></h3>
+			<div class="UI_Sidebar_ItemCont">
+				{% include "_dependency_list.html" %}
+			</div>
+		</section>
+	{% endif %}
 
 	<section id="info" class="UI_Side_Item">
 		<h3 class="UI_Sidebar_Toggler info opened"><a title="Info" href="#">

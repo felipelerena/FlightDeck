@@ -94,9 +94,9 @@ var Capability = new Class({
 		this.version.addEvent('change', this.boundAfterVersionChanged);
 		this.description_el.addEvent('change', this.boundAfterDataChanged);
 		// one may try even not edited data
-		this.try_in_browser_el = $(this.options.try_in_browser_el)
-		if (this.try_in_browser_el) {
-			this.try_in_browser_el.addEvent('click', function(e) {
+		var try_in_browser_el = $(this.options.try_in_browser_el)
+		if (try_in_browser_el) {
+			try_in_browser_el.addEvent('click', function(e) {
 				e.stop();
 				this.try_in_browser();
 			}.bind(this));
@@ -242,6 +242,9 @@ var CapVersion = new Class({
 		},
 		update_el: 'update',
 		set_as_base_el: 'set_as_base',
+		add_dependency_el: 'add_dependency_action',
+		add_dependency_input: 'add_dependency',
+		add_dependency_url: '',
 		edit_url: '',
 		update_url: '',
 		set_as_base_url: '',
@@ -269,6 +272,12 @@ var CapVersion = new Class({
 			e.stop();
 			this.setAsBase();
 		}.bind(this));
+	},
+	/*
+	 * Method: addDependency
+	 */
+	addDependency: function() {
+		
 	},
 	/*
 	 * Method: instantiateEditors
@@ -317,6 +326,36 @@ var CapVersion = new Class({
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
 		this.description_el.addEvent('change', this.boundAfterDataChanged);
 		this.content_el.addEvent('change', this.boundAfterDataChanged);
+		// adding dependencies
+		var add_dependency_action = $(this.options.add_dependency_el);
+		if (add_dependency_action) {
+			add_dependency_action.addEvent('click', function(e) {
+				e.stop();
+				this.addDependencyFromInput();
+			}.bind(this));
+		}
+	},
+	/*
+	 * Method: addDependencyFromInput
+	 */
+	addDependencyFromInput: function() {
+		dependency_slug = $(this.options.add_dependency_input).get('value');
+		// TODO: some validation
+		// TODO: add not base version 
+		new Request.JSON({
+			url: this.options.add_dependency_url,
+			method: 'post',
+			data: {'dependency_slug': dependency_slug},
+			onSuccess: function(response) {
+				fd.message.alert('Success',response.message);
+				this.createDependency(response.dependency);
+			}.bind(this)
+		}).send();
+	},
+	createDependency: function(data) {
+		// TODO: create DOM
+		// TODO: create Item
+		console.dir(data);
 	},
 	afterDataChanged: function() {
 		// TODO: discover if change was actually an undo and there is 

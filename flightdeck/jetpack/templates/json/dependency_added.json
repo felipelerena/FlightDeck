@@ -1,0 +1,22 @@
+{
+	"message": "module \"{{ cap.fullname }}\" added as dependency to \"{{ item.fullname }}\"",
+	"dependency": {
+		"slug": "{{ cap.slug }}",
+		"name": "{{ cap.name }}",
+		"creator": "{{ cap.creator }}",
+		"version_create_url": "{{ cap.get_version_create_url }}",
+		"version": {
+			"author": "{{ version.author }}",
+			"name": "{{ version.name }}",
+			"description": "{{ version.description|escapejs }}",
+			"content": "{{ version.content|escapejs }}",
+			"is_base": {{ capversion.is_base|yesno:"true,false" }},
+			"edit_url": "{{ version.get_absolute_url }}",
+			"update_url": "{{ version.get_update_url }}",
+			"switch_content_id": "dependency_{{ cap.slug }}",
+			"content_el": {
+				"element": "dependency_content_{{ cap.slug }}"
+			}
+		}
+	}
+}
