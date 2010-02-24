@@ -21,7 +21,7 @@
 			author: '{{ version.author }}',
 			name: '{{ version.name }}',
 			manifest: '{{ version.manifest|escapejs }}',
-			content: '{{ version.content|escapejs }},
+			content: '{{ version.content|escapejs }}',
 			description: '{{ version.description|escapejs }}',
 			is_base: {{ version.is_base|yesno:"true,false" }},
 			edit_url: '{{ version.get_absolute_url }}',
