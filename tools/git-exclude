@@ -11,6 +11,7 @@ pip-log.txt
 flightdeckenv
 flightdeck/media/jetpack
 flightdeck/media/bespin
+flightdeck/media/codemirror
 flightdeck/media/roar
 flightdeck/jetpack/media/media
 *local.py

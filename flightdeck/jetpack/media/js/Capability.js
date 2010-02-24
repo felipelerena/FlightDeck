@@ -16,7 +16,10 @@ var Capability = new Class({
 		//developers: [],
 		//public_permission: 2,
 		//group_permission: 2,
-		description_el: {element: 'capability_description'},
+		description_el: {
+			element: 'capability_description',
+			type: 'text'
+		},
 		//switch_description_id: '',
 		update_el: 'update',
 		version_create_el: 'version_create',
@@ -251,8 +254,14 @@ var CapVersion = new Class({
 		//is_base: null,
 		name_el: 'version_name',
 		// TODO: move to new Editor
-		description_el: {element: 'version_description'},
-		content_el: {element: 'version_content'},
+		description_el: {
+			element: 'version_description',
+			type: 'text'
+		},
+		content_el: {
+			element: 'version_content',
+			type: 'js'
+		},
 		update_el: 'update',
 		set_as_base_el: 'set_as_base',
 		edit_url: '',
@@ -276,6 +285,12 @@ var CapVersion = new Class({
 			version_name: this.options.name,
 			version_description: this.options.description,
 		});
+		// set as base functionality
+		this.set_as_base_el = $(this.options.set_as_base_el);
+		this.set_as_base_el.addEvent('click', function(e) {
+			e.stop();
+			this.setAsBase();
+		}.bind(this));
 	},
 	/*
 	 * Method: instantiateEditors
@@ -335,11 +350,6 @@ var CapVersion = new Class({
 		}.bind(this));
 		this.content_el.removeEvent('change', this.boundAfterDataChanged);
 		this.description_el.removeEvent('change', this.boundAfterDataChanged);
-		this.set_as_base_el = $(this.options.set_as_base_el);
-		this.set_as_base_el.addEvent('click', function(e) {
-			e.stop();
-			this.setAsBase();
-		}.bind(this));
 		this.fireEvent('change');
 	},
 	/*
