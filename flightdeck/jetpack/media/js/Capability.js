@@ -16,7 +16,10 @@ var Capability = new Class({
 		//developers: [],
 		//public_permission: 2,
 		//group_permission: 2,
-		description_el: {element: 'capability_description'},
+		description_el: {
+			element: 'capability_description',
+			type: 'text'
+		},
 		//switch_description_id: '',
 		update_el: 'update',
 		version_create_el: 'version_create',
@@ -59,45 +62,23 @@ var Capability = new Class({
 	 */
 	instantiateEditors: function() {
 		// do not create an editor for the description if loaded as dependency
-		if (! this.options.is_dependency) {
-			this.description_el = new Editor(this.options.description_el).hide();
-			fd.editors.push(this.description_el);
-		}
+		this.description_el = new Editor(this.options.description_el).hide();
+		fd.editors.push(this.description_el);
 	},
 	/*
 	 * Method: initializeEditorSwitches
 	 */
 	initializeEditorSwitches: function() {
-		// TODO: this should be done with the event broadcast
-		// 		 to not bother about new dependencies added
-		$$('.UI_File_Listing li').each(function(file_el) {
-			file_el.switch_mode_on = function() {
-				$$('.UI_File_Selected').each(function(el) {
-					el.switch_mode_off();
-				});
-				this.removeClass('UI_File_Normal')
-					.addClass('UI_File_Selected')
-			};
-			file_el.switch_mode_off = function() {
-				this.removeClass('UI_File_Selected')
-					.addClass('UI_File_Normal')
-			}
-		});
-		$$('.UI_File_Listing li a').addEvent('click', function() {
-			this.getParent('li').switch_mode_on();
-		});
-		// "there is no spoon" if dependency
-		if (!this.options.dependency_id) {
-			this.switch_description_el = $(this.options.switch_description_id);
-			if (this.switch_description_el) {
-				this.switch_description_el.addEvent('click', this.switchToDescription.bind(this));
-			}	
-		}
+		this.switch_description_el = $(this.options.switch_description_id);
+		if (this.switch_description_el) {
+			this.switch_description_el.addEvent('click', this.switchToDescription.bind(this));
+		}	
 	},
 	/*
 	 * Method: switchToDescription
 	 */
-	switchToDescription: function() {
+	switchToDescription: function(e) {
+		e.preventDefault();
 		fd.hideEditors();
 		this.description_el.show();
 	},
@@ -251,8 +232,14 @@ var CapVersion = new Class({
 		//is_base: null,
 		name_el: 'version_name',
 		// TODO: move to new Editor
-		description_el: {element: 'version_description'},
-		content_el: {element: 'version_content'},
+		description_el: {
+			element: 'version_description',
+			type: 'text'
+		},
+		content_el: {
+			element: 'version_content',
+			type: 'js'
+		},
 		update_el: 'update',
 		set_as_base_el: 'set_as_base',
 		edit_url: '',
@@ -276,6 +263,12 @@ var CapVersion = new Class({
 			version_name: this.options.name,
 			version_description: this.options.description,
 		});
+		// set as base functionality
+		this.set_as_base_el = $(this.options.set_as_base_el);
+		this.set_as_base_el.addEvent('click', function(e) {
+			e.stop();
+			this.setAsBase();
+		}.bind(this));
 	},
 	/*
 	 * Method: instantiateEditors
@@ -304,7 +297,7 @@ var CapVersion = new Class({
 	 * Method: switchToContent
 	 */
 	switchToContent: function(e) {
-		e.stop();
+		e.preventDefault();
 		fd.hideEditors();
 		this.content_el.show();
 	},
@@ -312,7 +305,7 @@ var CapVersion = new Class({
 	 * Method: switchToDescription
 	 */
 	switchToDescription: function(e) {
-		e.stop();
+		e.preventDefault();
 		fd.hideEditors();
 		this.description_el.show();
 	},
@@ -335,11 +328,6 @@ var CapVersion = new Class({
 		}.bind(this));
 		this.content_el.removeEvent('change', this.boundAfterDataChanged);
 		this.description_el.removeEvent('change', this.boundAfterDataChanged);
-		this.set_as_base_el = $(this.options.set_as_base_el);
-		this.set_as_base_el.addEvent('click', function(e) {
-			e.stop();
-			this.setAsBase();
-		}.bind(this));
 		this.fireEvent('change');
 	},
 	/*
@@ -364,7 +352,7 @@ var CapVersion = new Class({
 		var data = this.prepareData();
 		// prevent from updating a version with different name
 		if (data.version_name && data.version_name != this.options.name) {
-			return window[this.type].version_create(data);
+			return item.version_create(data);
 		}
 		new Request.JSON({
 			url: this.options.update_url,

@@ -7,12 +7,11 @@
 
 {# everything which is outside of the block will not be used #}
 {# <script></script> is there for syntax highlighting #}
-<script>{% block javascript %}var jetpack;{% endblock %}</script>
 <script>{% block app_domready %}
-	jetpack = new Jetpack({
+	item = new Jetpack({
 		slug: '{{ jetpack.slug }}',
 		name: '{{ jetpack.name }}',
-		description: '{{ jetpack.description }}',
+		description: '{{ jetpack.description|escapejs }}',
 		creator: '{{ jetpack.creator }}',
 		edit_url: '{{ jetpack.get_absolute_url }}',
 		update_url: '{{ jetpack.get_update_url }}',
@@ -21,9 +20,9 @@
 		version: {
 			author: '{{ version.author }}',
 			name: '{{ version.name }}',
-			manifest: '{{ version.manifest }}',
-			content: '{{ version.content }}',
-			description: '{{ version.description }}',
+			manifest: '{{ version.manifest|escapejs }}',
+			content: '{{ version.content|escapejs }}',
+			description: '{{ version.description|escapejs }}',
 			is_base: {{ version.is_base|yesno:"true,false" }},
 			edit_url: '{{ version.get_absolute_url }}',
 			update_url: '{{ version.get_update_url }}',
@@ -74,7 +73,7 @@
 	</section>
 
 	<section id="info" class="UI_Side_Item">
-		<h3 class="UI_Sidebar_Toggler info opened closed"><a title="Info" href="#">
+		<h3 class="UI_Sidebar_Toggler info opened"><a title="Info" href="#">
 			Info 
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
@@ -130,12 +129,12 @@
 {% block app_content %}
 	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
-		<textarea id='jetpack_description' class="UI_Editor_Area" name='jetpack_description'>{{ jetpack.description }}</textarea>
-		<textarea id="version_content" class="UI_Editor_Area" data-bespinoptions='{ "stealFocus":true }' name='version_content'>{{ version.content }}</textarea>
+		<textarea id="version_content" class="UI_Editor_Area" name='version_content'>{{ version.content }}</textarea>
 		<textarea id='version_manifest' class="UI_Editor_Area" name='version_manifest'>{{ version.manifest }}</textarea>
+		<textarea id='jetpack_description' class="UI_Editor_Area" name='jetpack_description'>{{ jetpack.description }}</textarea>
 		<textarea id='version_description' class='UI_Editor_Area'>{{ version.description }}</textarea>
-		{% for cap in version.capabilities.all %}
-			<textarea id="dependency_content_{{ cap.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap.slug }}">{{ cap.version.content }}</textarea>
+		{% for cap_version in version.capabilities.all %}
+			<textarea id="dependency_content_{{ cap_version.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap_version.slug }}">{{ cap_version.content }}</textarea>
 		{% endfor %}
 	</div>
 {% endblock %}

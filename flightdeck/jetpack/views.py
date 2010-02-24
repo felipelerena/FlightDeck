@@ -123,7 +123,7 @@ def jetpack_version_update(r, slug, version, counter):
 	"""
 	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
 	# permission check
-	if not version.jetpack.can_be_updated_by(r.user):
+	if not version.author == r.user:
 		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.author = r.user
@@ -243,7 +243,7 @@ def capability_version_update(r, slug, version, counter):
 	"""
 	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
 	# permission check
-	if not version.capability.can_be_updated_by(r.user):
+	if not version.author == r.user:
 		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.author = r.user
