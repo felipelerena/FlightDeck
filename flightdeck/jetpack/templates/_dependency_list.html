@@ -14,15 +14,15 @@
 						<script type="text/javascript">
 							window.addEvent('domready', function() {
 								var cap = new CapDependency({
-									slug: "{{ cap.slug }}",
-									name: "{{ cap.name }}",
-									creator: "{{ cap.creator }}",
-									version_create_url: "{{ cap.get_version_create_url }}",
+									slug: '{{ cap.slug }}',
+									name: '{{ cap.name }}',
+									creator: '{{ cap.creator }}',
+									version_create_url: '{{ cap.get_version_create_url }}',
 									version: {
-										author: "{{ capversion.author }}",
-										name: "{{ capversion.name }}",
-										description: "{{ capversion.description }}",
-										content: "{{ capversion.content }}",
+										author: '{{ capversion.author }}',
+										name: '{{ capversion.name }}',
+										description: '{{ capversion.description|escapejs }}',
+										content: '{{ capversion.content|escapejs }}',
 										is_base: {{ capversion.is_base|yesno:"true,false" }},
 										edit_url: '{{ capversion.get_absolute_url }}',
 										update_url: '{{ capversion.get_update_url }}',

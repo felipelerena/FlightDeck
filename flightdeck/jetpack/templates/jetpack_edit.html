@@ -133,8 +133,8 @@
 		<textarea id='version_manifest' class="UI_Editor_Area" name='version_manifest'>{{ version.manifest }}</textarea>
 		<textarea id='jetpack_description' class="UI_Editor_Area" name='jetpack_description'>{{ jetpack.description }}</textarea>
 		<textarea id='version_description' class='UI_Editor_Area'>{{ version.description }}</textarea>
-		{% for cap in version.capabilities.all %}
-			<textarea id="dependency_content_{{ cap.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap.slug }}">{{ cap.version.content }}</textarea>
+		{% for cap_version in version.capabilities.all %}
+			<textarea id="dependency_content_{{ cap_version.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap_version.slug }}">{{ cap_version.content }}</textarea>
 		{% endfor %}
 	</div>
 {% endblock %}
