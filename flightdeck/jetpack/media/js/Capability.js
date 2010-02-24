@@ -62,36 +62,13 @@ var Capability = new Class({
 	 */
 	instantiateEditors: function() {
 		// do not create an editor for the description if loaded as dependency
-		if (! this.options.is_dependency) {
-			this.description_el = new Editor(this.options.description_el).hide();
-			fd.editors.push(this.description_el);
-		}
+		this.description_el = new Editor(this.options.description_el).hide();
+		fd.editors.push(this.description_el);
 	},
 	/*
 	 * Method: initializeEditorSwitches
 	 */
 	initializeEditorSwitches: function() {
-		// TODO: this should be done with the event broadcast
-		// 		 to not bother about new dependencies added
-		var switch_mode_on  = function() {
-			$$('.UI_File_Selected').each(function(el) {
-				el.switch_mode_off();
-			});
-			this.removeClass('UI_File_Normal')
-				.addClass('UI_File_Selected')
-		};
-		var switch_mode_off = function() {
-			this.removeClass('UI_File_Selected')
-				.addClass('UI_File_Normal')
-		}
-		$$('.UI_File_Listing li').each(function(file_el) {
-			file_el.switch_mode_on = switch_mode_on;
-			file_el.switch_mode_off = switch_mode_off;
-		});
-		$$('.UI_File_Listing li a').addEvent('click', function() {
-			this.getParent('li').switch_mode_on();
-		});
-
 		this.switch_description_el = $(this.options.switch_description_id);
 		if (this.switch_description_el) {
 			this.switch_description_el.addEvent('click', this.switchToDescription.bind(this));
@@ -100,7 +77,7 @@ var Capability = new Class({
 	/*
 	 * Method: switchToDescription
 	 */
-	switchToDescription: function() {
+	switchToDescription: function(e) {
 		fd.hideEditors();
 		this.description_el.show();
 	},

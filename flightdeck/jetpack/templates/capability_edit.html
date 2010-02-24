@@ -11,7 +11,7 @@
 	item = new Capability({
 		slug: '{{ capability.slug }}',
 		name: '{{ capability.name }}',
-		description: '{{ capability.description }}',
+		description: '{{ capability.description|escapejs }}',
 		creator: '{{ capability.creator }}',
 		edit_url: '{{ capability.get_absolute_url }}',
 		update_url: '{{ capability.get_update_url }}',
@@ -20,8 +20,8 @@
 		version: {
 			author: '{{ version.author }}',
 			name: '{{ version.name }}',
-			description: '{{ version.description }}',
-			content: '{{ version.content }}',
+			description: '{{ version.description|escapejs }}',
+			content: '{{ version.content|escapejs }}',
 			is_base: {{ version.is_base|yesno:"true,false" }},
 			edit_url: '{{ version.get_absolute_url }}',
 			update_url: '{{ version.get_update_url }}',
@@ -61,20 +61,13 @@
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
 		</a></h3>
-		
 		<div class="UI_Sidebar_ItemCont">
-			<ul class="UI_File_Listing">
-				{% for cap in version.capabilities.all %}
-					<li class="UI_File_Normal" id="{{ cap|dependency_link_id }}">
-						<a title="{{ cap.name }}" href="#">{{ cap.name }} <span></span></a>
-					</li>
-				{% endfor %}
-			</ul>
+			{% include "_dependency_list.html" %}
 		</div>
 	</section>
 
 	<section id="info" class="UI_Side_Item">
-		<h3 class="UI_Sidebar_Toggler info opened closed"><a title="Info" href="#">
+		<h3 class="UI_Sidebar_Toggler info opened"><a title="Info" href="#">
 			Info 
 			<span class="UI_OC"></span>
 			<span class="UI_Sidebar_Toggler_Icon"></span>
@@ -131,7 +124,10 @@
 	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
 		<textarea id="capability_description" name="capability_description" class="UI_Editor_Area bespin">{{ capability.description }}</textarea>
-		<textarea id="version_content" name="version_content" class="UI_Editor_Area bespin" data-bespinoptions='{"stealFocus":true}'>{{ version.content }}</textarea>
+		<textarea id="version_content" name="version_content" class="UI_Editor_Area bespin">{{ version.content }}</textarea>
 		<textarea id="version_description" name="version_description" class="UI_Editor_Area bespin">{{ version.description }}</textarea>
+		{% for cap in version.capabilities.all %}
+			<textarea id="dependency_content_{{ cap.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap.slug }}">{{ cap.version.content }}</textarea>
+		{% endfor %}
 	</div>
 {% endblock %}
