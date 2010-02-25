@@ -302,7 +302,6 @@ def add_dependency(r, slug, type, version=None, counter=None):
 	"""
 	Add dependency to the item represented by slug
 	"""
-	print "add_dependency", slug, type, version, counter
 	if type == 'jetpack':
 		item = JetVersion.objects.get(jetpack__slug=slug, name=version, counter=counter)
 	elif type == 'capability':
@@ -311,7 +310,6 @@ def add_dependency(r, slug, type, version=None, counter=None):
 	dependency_slug = r.POST.get("dependency_slug")
 	dependency_version = r.POST.get("dependency_version", None)
 	dependency_counter = r.POST.get("dependency_counter", None)
-	print dependency_slug, 
 	if dependency_version:
 		dependency = CapVersion.objects.get(
 						capability__slug=dependency_slug, 
