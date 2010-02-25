@@ -24,9 +24,9 @@ body {
 }
 
    .UI_Browser .UI_Item {
-      width: 300px;
+      width: 260px;
       min-height: 100px;
-      padding: 0 0 20px 115px;
+      padding: 0 0 20px 110px;
       margin: 0 20px 20px 0;
       border-bottom: solid 1px #E9EDF0;
       display: inline-block;
@@ -38,7 +38,7 @@ body {
          position: absolute;
          top: 0;
          left: 0;
-         width: 106px;
+         width: 96px;
          height: 106px;
          background-image: url(../img/UI_Browser/browse-icons.png);
          background-repeat: no-repeat;
@@ -49,11 +49,11 @@ body {
          }
          
          .UI_Browser .UI_Icon.dependency {
-            background-position: -106px 0;
+            background-position: -96px 0;
          }
    
       .UI_Browser .UI_Item h3 {
-         margin: 0 0 0;
+         margin: 0 0 2px;
          font-weight: bold;
          font-size: 1.1em;
       }   
