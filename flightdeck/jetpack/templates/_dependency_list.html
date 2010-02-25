@@ -5,8 +5,8 @@
 </div>
 
 {% with version.capabilities.all as capabilities %}
-	{% if capabilities %}
-		<ul class="UI_File_Listing">
+	<ul class="UI_File_Listing" id='dependency_list_container'>
+		{% if capabilities %}
 			{% for capversion in capabilities %}
 				{% if capversion %}{% with capversion.capability as cap %}
 					{% include "_dependency_list_item.html" %}
@@ -33,6 +33,6 @@
 					</script>
 				{% endwith %}{% endif %}
 			{% endfor %}
-		</ul>
-	{% endif %}
+		{% endif %}
+	</ul>
 {% endwith %}
