@@ -42,10 +42,10 @@ def escape_template(parser, token):
     try:
         tag_name, template_name = token.split_contents()
     except ValueError:
-        raise TemplateSyntaxError, 
+        raise TemplateSyntaxError, \
 				"%r tag requires exactly one argument" % token.contents.split()[0]
     if not (template_name[0] == template_name[-1] and template_name[0] in ('"', "'")):
-        raise TemplateSyntaxError, 
+        raise TemplateSyntaxError, \
 				"%r tag's argument should be in quotes" % tag_name
     return EscapeTemplate(template_name[1:-1])
 

@@ -361,7 +361,11 @@ var CapVersion = new Class({
 	createDependency: function(options, create_elements) {
 		if (create_elements) {
 			// create whole DOM (code and triggers)
-			console.log(options);
+			Elements.from(options.dependency_link_html)
+				.inject($('dependency_list_container'), 'bottom');
+			Elements.from(options.dependency_textarea_html)
+				.inject($('editor-wrapper'), 'bottom');
+			$(options.version.content_el.element).hide();
 		}
 		this.addDependency(options);
 	},
