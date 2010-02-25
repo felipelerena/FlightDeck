@@ -137,7 +137,7 @@
 		<textarea id='jetpack_description' class="UI_Editor_Area" name='jetpack_description'>{{ jetpack.description }}</textarea>
 		<textarea id='version_description' class='UI_Editor_Area'>{{ version.description }}</textarea>
 		{% for cap_version in version.capabilities.all %}
-			<textarea id="dependency_content_{{ cap_version.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap_version.slug }}">{{ cap_version.content }}</textarea>
+			{% include "_dependency_content_textarea.html" %}
 		{% endfor %}
 	</div>
 {% endblock %}
