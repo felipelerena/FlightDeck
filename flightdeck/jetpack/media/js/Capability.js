@@ -194,6 +194,7 @@ var Capability = new Class({
 	 */
 	prepareData: function() {
 		this.updateFromDOM();
+		this.data['capabilities'] = $H(this.version.capabilities).getKeys();
 		return this.data;
 	},
 	/*
@@ -255,6 +256,7 @@ var CapVersion = new Class({
 	 * instantiate Editor
 	 */
 	initialize: function(options) {
+		this.capabilities = {};
 		this.setOptions(options);
 		this.instantiateEditors();
 		this.listenToEvents();
@@ -272,12 +274,6 @@ var CapVersion = new Class({
 			e.stop();
 			this.setAsBase();
 		}.bind(this));
-	},
-	/*
-	 * Method: addDependency
-	 */
-	addDependency: function() {
-		
 	},
 	/*
 	 * Method: instantiateEditors
@@ -348,14 +344,30 @@ var CapVersion = new Class({
 			data: {'dependency_slug': dependency_slug},
 			onSuccess: function(response) {
 				fd.message.alert('Success',response.message);
-				this.createDependency(response.dependency);
+				this.createDependency(response.dependency, true);
 			}.bind(this)
 		}).send();
 	},
-	createDependency: function(data) {
-		// TODO: create DOM
-		// TODO: create Item
-		console.dir(data);
+	/*
+	 * Method: addDependency
+	 */
+	addDependency: 	function(options){
+		this.capabilities[options.slug] = new CapDependency(options);
+	},
+	/*
+	 * Method: createDependency
+	 * add dependency and create whole DOM structure if needed
+	 */
+	createDependency: function(options, create_elements) {
+		if (create_elements) {
+			// create whole DOM (code and triggers)
+			Elements.from(options.dependency_link_html)
+				.inject($('dependency_list_container'), 'bottom');
+			Elements.from(options.dependency_textarea_html)
+				.inject($('editor-wrapper'), 'bottom');
+			$(options.version.content_el.element).hide();
+		}
+		this.addDependency(options);
 	},
 	afterDataChanged: function() {
 		// TODO: discover if change was actually an undo and there is 

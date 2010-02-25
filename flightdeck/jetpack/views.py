@@ -302,6 +302,7 @@ def add_dependency(r, slug, type, version=None, counter=None):
 	"""
 	Add dependency to the item represented by slug
 	"""
+	print "add_dependency", slug, type, version, counter
 	if type == 'jetpack':
 		item = JetVersion.objects.get(jetpack__slug=slug, name=version, counter=counter)
 	elif type == 'capability':
@@ -310,8 +311,12 @@ def add_dependency(r, slug, type, version=None, counter=None):
 	dependency_slug = r.POST.get("dependency_slug")
 	dependency_version = r.POST.get("dependency_version", None)
 	dependency_counter = r.POST.get("dependency_counter", None)
-	if version:
-		dependency = CapVersion.objects.get(capability__slug=dependency_slug, name=version, counter=counter)
+	print dependency_slug, 
+	if dependency_version:
+		dependency = CapVersion.objects.get(
+						capability__slug=dependency_slug, 
+						name=dependency_version, 
+						counter=dependency_counter)
 	else:
 		cap = Cap.objects.get(slug=dependency_slug)
 		dependency = cap.base_version
@@ -319,8 +324,11 @@ def add_dependency(r, slug, type, version=None, counter=None):
 	item.capabilities.add(dependency)
 	item.save()
 
-	return render_to_response('json/dependency_added.json', 
-				{'item': item, 'version': dependency, 'cap': dependency.capability},
+	return render_to_response('json/dependency_added.json', {
+					'item': item, 
+					'version': dependency, 
+					'cap': dependency.capability
+				},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 	
