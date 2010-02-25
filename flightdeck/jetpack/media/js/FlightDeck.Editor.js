@@ -30,7 +30,10 @@ FlightDeck = Class.refactor(FlightDeck,{
 		});
 		$$('.'+this.options.file_listing_class).each(function(container) { 
 			container.addEvent('click:relay(li a)', function(e, el) {
-				$(el).getParent('li').switch_mode_on();
+				var li = $(el).getParent('li');
+				if (!li.switch_mode_on) li.switch_mode_on = switch_mode_on;
+				if (!li.switch_mode_off) li.switch_mode_off = switch_mode_off;
+				li.switch_mode_on();
 			});
 		});
 

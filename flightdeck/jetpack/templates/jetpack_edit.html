@@ -26,6 +26,9 @@
 			is_base: {{ version.is_base|yesno:"true,false" }},
 			edit_url: '{{ version.get_absolute_url }}',
 			update_url: '{{ version.get_update_url }}',
+			{% if version %}
+				add_dependency_url: '{% url jp_jetpack_add_dependency jetpack.slug version.name version.counter %}',
+			{% endif %}
 			set_as_base_url: '{{ version.get_set_as_base_url }}',
 			switch_content_id: '{{ version|tab_link_id:"content" }}',
 			switch_description_id: '{{ version|tab_link_id:"version_description" }}',
@@ -61,16 +64,18 @@
 		</ul>
 	</section>
 
-	<section id="capabilities" class="UI_Side_Item">
-		<h3 class="UI_Sidebar_Toggler capabilities opened"><a title="Capabilities" href="#">
-			Capabilities 
-			<span class="UI_OC"></span>
-			<span class="UI_Sidebar_Toggler_Icon"></span>
-		</a></h3>
-		<div class="UI_Sidebar_ItemCont">
-			{% include "_dependency_list.html" %}
-		</div>
-	</section>
+	{% if version %}
+		<section id="capabilities" class="UI_Side_Item">
+			<h3 class="UI_Sidebar_Toggler capabilities opened"><a title="Capabilities" href="#">
+				Capabilities 
+				<span class="UI_OC"></span>
+				<span class="UI_Sidebar_Toggler_Icon"></span>
+			</a></h3>
+			<div class="UI_Sidebar_ItemCont">
+				{% include "_dependency_list.html" %}
+			</div>
+		</section>
+	{% endif %}
 
 	<section id="info" class="UI_Side_Item">
 		<h3 class="UI_Sidebar_Toggler info opened"><a title="Info" href="#">
@@ -83,7 +88,7 @@
 			<div class="UI_Field_Cont">
 				<label for="version_name">Version Name</label>
 				<input type="text" id="version_name" name="version_name" value="{{ version.name|default:"0.0" }}" /> {% if version %}.{{ version.counter }}{% endif %}
-			
+
 				{% if version %}
 					<p class="UI_Sidebar_SwitchTo">
 						Switch to: 
@@ -95,14 +100,12 @@
 
 				<p class="UI_Sidebar_Creator">Origin by: <a title="{{ jetpack.creator }}" href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator }}</a></p>
 
-				{% ifequal jetpack.creator.username version.author.username %}
+				{% if version %}{% ifequal jetpack.creator.username version.author.username %}
 				{% else %}
-					{% if version %}
 						<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
 							<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
 						</p>
-					{% endif %}
-				{% endifequal %}
+				{% endifequal %}{% endif %}
 			</div>
 		</div>
 	</section>
@@ -134,22 +137,7 @@
 		<textarea id='jetpack_description' class="UI_Editor_Area" name='jetpack_description'>{{ jetpack.description }}</textarea>
 		<textarea id='version_description' class='UI_Editor_Area'>{{ version.description }}</textarea>
 		{% for cap_version in version.capabilities.all %}
-			<textarea id="dependency_content_{{ cap_version.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap_version.slug }}">{{ cap_version.content }}</textarea>
+			{% include "_dependency_content_textarea.html" %}
 		{% endfor %}
 	</div>
 {% endblock %}
-
-{% comment %}
-	<h1>{% if jetpack_page %}{{ jetpack }}{% else %}{{ version }}{% endif %} 
-		by <a href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator.username }}</a>
-	</h1>
-	
-	{% if version %}
-	<p>
-		Version by: <a title="{{ version.author.username }}" href="{% url person_public_profile version.author.username %}">{{ version.author.username }}</a>, 
-		{% if jetpack_page %}switch to: <a title="{{ version.fullname }}" href="{{ version.get_absolute_url }}">version {{ version.fullname }}</a>
-		{% else %}switch to: <a title="" href="{{ jetpack.get_absolute_url }}">jetpack base</a>
-		{% endif %}
-	</p>
-	{% endif %}
-{% endcomment %}

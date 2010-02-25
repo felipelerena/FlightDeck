@@ -1,40 +1,38 @@
 <div class="UI_Field_Cont UI_New_Dependency">
 	<label for="add_dependency">Add dependency</label>
 	<input type="text" id="add_dependency" name="add_dependency" value="" />
-	<button id="add_dependecy_action">Add</button>
+	<button id="add_dependency_action">Add</button>
 </div>
 
 {% with version.capabilities.all as capabilities %}
-	{% if capabilities %}
-		<ul class="UI_File_Listing">
+	<ul class="UI_File_Listing" id='dependency_list_container'>
+		{% if capabilities %}
 			{% for capversion in capabilities %}
 				{% if capversion %}{% with capversion.capability as cap %}
-					<li class="UI_File_Normal">
-						<a title="" href="#" class="capability_dependency" id="dependency_{{ cap.slug }}">{{ cap.name }} {{ capversion.fullname }} <span class="File_status"></span><span class="File_close"></span></a>
-						<script type="text/javascript">
-							window.addEvent('domready', function() {
-								var cap = new CapDependency({
-									slug: '{{ cap.slug }}',
-									name: '{{ cap.name }}',
-									creator: '{{ cap.creator }}',
-									version_create_url: '{{ cap.get_version_create_url }}',
-									version: {
-										author: '{{ capversion.author }}',
-										name: '{{ capversion.name }}',
-										description: '{{ capversion.description|escapejs }}',
-										content: '{{ capversion.content|escapejs }}',
-										is_base: {{ capversion.is_base|yesno:"true,false" }},
-										edit_url: '{{ capversion.get_absolute_url }}',
-										update_url: '{{ capversion.get_update_url }}',
-										switch_content_id: 'dependency_{{ cap.slug }}',
-										content_el: {element: 'dependency_content_{{ cap.slug }}'},
-									}
-								});
+					{% include "_dependency_list_item.html" %}
+					<script type="text/javascript">
+						window.addEvent('domready', function() {
+							item.version.addDependency({
+								slug: '{{ cap.slug }}',
+								name: '{{ cap.name }}',
+								creator: '{{ cap.creator }}',
+								version_create_url: '{{ cap.get_version_create_url }}',
+								version: {
+									author: '{{ capversion.author }}',
+									name: '{{ capversion.name }}',
+									description: '{{ capversion.description|escapejs }}',
+									content: '{{ capversion.content|escapejs }}',
+									is_base: {{ capversion.is_base|yesno:"true,false" }},
+									edit_url: '{{ capversion.get_absolute_url }}',
+									update_url: '{{ capversion.get_update_url }}',
+									switch_content_id: 'dependency_{{ cap.slug }}',
+									content_el: {element: 'dependency_content_{{ cap.slug }}'},
+								}
 							});
-						</script>
-					</li>
+						});
+					</script>
 				{% endwith %}{% endif %}
 			{% endfor %}
-		</ul>
-	{% endif %}
+		{% endif %}
+	</ul>
 {% endwith %}
