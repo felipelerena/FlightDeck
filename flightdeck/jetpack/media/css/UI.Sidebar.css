@@ -101,11 +101,11 @@ authors:
    
    .UI_Sidebar_ItemCont {
       font-size: .9em;
-      padding: 10px;
+      padding: 0;
    }
-   
+      
       .UI_Sidebar_ItemCont .UI_Field_Cont {
-         padding: 0 0 5px;
+         padding: 10px;
       }
       
       .UI_Sidebar_ItemCont .UI_Field_Cont label {

@@ -1,8 +1,12 @@
 <h3>{{ item.name }}</h3>
-<h4>{{ item.base_version.last_update|date }}</h4>
-<p>{{ item.base_version.status_name }}</p>
+<h4>{{ item.base_version.name }}</h4>
+<p>{{ item.base_version.description }}</p>
 
 <ul class="UI_Actions">
 	<li><a title="Install {{ item.name }}" href="#">Install</a></li>
 	<li><a title="Edit {{ item.name }}" href="{{ item.get_absolute_url }}">Edit</a></li>
 </ul>
+
+<div class="UI_Icon jetpack">
+	
+</div>
