@@ -112,6 +112,16 @@ def jetpack_version_create(r, slug):
 		version_data["is_base"] = r.POST.get("version_is_base")
 	version = JetVersion(**version_data)
 	version.save()
+	dep_capabilities = simplejson.loads(r.POST.get('capabilities','[]'));
+	print dep_capabilities
+
+	for c in dep_capabilities:
+		dep_cap = CapVersion.objects.get(
+						capability__slug=c['slug'],
+						name=c['version'],
+						counter=c['counter'])
+		version.capabilities.add(dep_cap)
+
 	return render_to_response('json/version_absolute_url.json', {'version': version},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
