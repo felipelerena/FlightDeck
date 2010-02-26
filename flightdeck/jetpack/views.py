@@ -9,6 +9,21 @@ from base.shortcuts import get_object_or_create
 from jetpack.models import Jet, JetVersion, Cap, CapVersion
 from jetpack.default_settings import settings
 
+def gallery(r, page=None):
+	"""
+	Display mixed list (Jetpacks with Capabilities)
+	"""
+	items = list(Jet.objects.all()[0:20])
+	items.extend(list(Cap.objects.all()[0:20]))
+	items = filter(lambda i: i.base_version, items)
+	items.sort(lambda i, j: (j.base_version.last_update - i.base_version.last_update).seconds) 
+	
+	return render_to_response(
+		'gallery.html', 
+		locals(),
+		context_instance=RequestContext(r))
+
+
 @login_required
 def jetpack_edit(r, slug):
 	"""
@@ -152,22 +167,29 @@ def item_version_create(r, slug, type):
 				mimetype='application/json')
 
 @login_required
-def jetpack_version_update(r, slug, version, counter):
+def item_version_update(r, slug, version, counter, type):
 	"""
 	Update the given version - no counter change
 	"""
-	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
+	if type == "jetpack":
+		version = get_object_or_404(JetVersion, 
+						jetpack__slug=slug, name=version, counter=counter)
+	elif type == "capability":
+		version = get_object_or_404(CapVersion, 
+						capability__slug=slug, name=version, counter=counter)
+
 	# permission check
 	if not version.author == r.user:
 		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.author = r.user
 	version.name = r.POST.get("version_name", version.name)
-	version.manifest = r.POST.get("version_manifest", version.manifest)
+	if type == "jetpack":
+		version.manifest = r.POST.get("version_manifest", version.manifest)
+		version.published =  r.POST.get("version_published", version.published)
 	version.content = r.POST.get("version_content", version.content)
 	version.description = r.POST.get("version_description", version.description)
 	version.status = r.POST.get("version_status", version.status)
-	version.published =  r.POST.get("version_published", version.published)
 	version.is_base = r.POST.get("version_is_base", version.is_base)
 	version.save()
 	return render_to_response('json/version_updated.json', {'version': version},
@@ -175,13 +197,21 @@ def jetpack_version_update(r, slug, version, counter):
 				mimetype='application/json')
 	
 @login_required
-def jetpack_version_save_as_base(r, slug, version, counter):
+def item_version_save_as_base(r, slug, version, counter, type):
 	"""
 	Update the given version - no counter change
 	"""
-	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
+	if type == "jetpack":
+		version = get_object_or_404(JetVersion, 
+						jetpack__slug=slug, name=version, counter=counter)
+		item = version.jetpack
+	elif type == "capability":
+		version = get_object_or_404(CapVersion, 
+						capability__slug=slug, name=version, counter=counter)
+		item = version.capability
+
 	# permission check
-	if not version.jetpack.can_be_updated_by(r.user):
+	if not item.can_be_updated_by(r.user):
 		return HttpResponseNotAllowed(HttpResponse(""))
 
 	version.is_base = True
@@ -190,61 +220,6 @@ def jetpack_version_save_as_base(r, slug, version, counter):
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 
-
-@login_required
-def capability_version_update(r, slug, version, counter):
-	"""
-	Update the given version - no counter change
-	"""
-	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
-	# permission check
-	if not version.author == r.user:
-		return HttpResponseNotAllowed(HttpResponse(""))
-
-	version.author = r.user
-	if "version_name" in r.POST:
-		version.name = r.POST.get("version_name", version.name)
-	version.content = r.POST.get("version_content", version.content)
-	if "version_description" in r.POST:
-		version.description = r.POST.get("version_description", version.description)
-	version.status = r.POST.get("version_status", version.status)
-	version.is_base = r.POST.get("version_is_base", version.is_base)
-	version.save()
-	return render_to_response('json/version_updated.json', {'version': version},
-				context_instance=RequestContext(r),
-				mimetype='application/json')
-	
-@login_required
-def capability_version_save_as_base(r, slug, version, counter):
-	"""
-	Update the given version - no counter change
-	"""
-	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
-	# permission check
-	if not version.capability.can_be_updated_by(r.user):
-		return HttpResponseNotAllowed(HttpResponse(""))
-
-	version.is_base = True
-	version.save()
-	return render_to_response('json/version_saved_as_base.json', {'version': version},
-				context_instance=RequestContext(r),
-				mimetype='application/json')
-
-
-def gallery(r, page=None):
-	"""
-	Display mixed list (Jetpacks with Capabilities)
-	"""
-	items = list(Jet.objects.all()[0:20])
-	items.extend(list(Cap.objects.all()[0:20]))
-	items = filter(lambda i: i.base_version, items)
-	items.sort(lambda i, j: (j.base_version.last_update - i.base_version.last_update).seconds) 
-	
-	return render_to_response(
-		'gallery.html', 
-		locals(),
-		context_instance=RequestContext(r))
-	
 
 @login_required
 def capabilities_autocomplete(r):
