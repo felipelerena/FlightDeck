@@ -54,6 +54,7 @@ var CapVersionDependency = new Class({
 	},
 	initialize: function(options) {
 		this.setOptions(options);
+		this.switch_content_el = $(this.options.switch_content_id);
 		this.instantiateEditors();
 		this.listenToEvents();
 		this.initializeEditorSwitches();
@@ -75,6 +76,9 @@ var CapVersionDependency = new Class({
 			this.update();
 		}.bind(this));
 		this.content_el.removeEvent('change', this.boundAfterDataChanged);
+		if (this.switch_content_el) {
+			this.switch_content_el.getParent('li').addClass('UI_File_Modified');
+		}
 		this.fireEvent('change');
 	},
 	instantiateEditors: function() {
@@ -82,9 +86,10 @@ var CapVersionDependency = new Class({
 		fd.editors.push(this.content_el);
 	},
 	initializeEditorSwitches: function() {
-		this.switch_content_el = $(this.options.switch_content_id);
 		if (this.switch_content_el) {
 			this.switch_content_el.addEvent('click', this.switchToContent.bind(this));
+			this.switch_content_el.getChildren('.File_close').addEvent('click', function(e) {
+			});
 		}
 	},
 	updateFromDOM: function() {

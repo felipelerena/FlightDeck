@@ -74,6 +74,12 @@ var JetVersion = new Class({
 	 */
 	listenToEvents: function() {
 		this.parent();
+		this.manifest_el.addEvent('change', this.boundAfterDataChanged);
+		this.manifest_el.addEvent('change', function() {
+			if (this.switch_manifest_el) {
+				this.switch_manifest_el.getParent('li').addClass('UI_File_Modified');
+			}
+		}.bind(this));
 	},
 	/*
 	 * Method: initializeEditorSwitches
