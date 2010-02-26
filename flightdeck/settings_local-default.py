@@ -23,6 +23,8 @@ SECRET_KEY = '_878&mu1t!-d*u^*@l$afwe$p4r(=*$kyyjy37ibf9t8li5#lv'
 
 DEBUG = False
 
+INTERNAL_IPS = ('127.0.0.1',)
+
 MEDIA_ROOT =  os.path.join(FRAMEWORK_PATH, 'flightdeck/media/')
 ADMIN_MEDIA_ROOT = os.path.join(FRAMEWORK_PATH, 'flightdeck/adminmedia/')
 #MEDIA_URL = '/sitemedia/'
