@@ -143,6 +143,7 @@ class CapVersion(models.Model):
 	added_at = models.DateTimeField(auto_now_add=True) 
 	last_update = models.DateTimeField(auto_now=True) #
 
+	objects = CapVersionManager()
 	
 	class Meta:
 		# there may be only one version with the same name and counter for the Capability

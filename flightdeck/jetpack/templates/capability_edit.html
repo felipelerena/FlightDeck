@@ -93,9 +93,9 @@
 					</p>
 					<p>
 						{% endcomment %}
-						<select id='switch_to_other_version'>
+						<select id='switch_to_version'>
 							{% for v in other_versions %}
-								<option value='{{ v.name }}'>{{ v.name }}</option>
+								<option value='{{ v.fullname }}'>{{ v.fullname }}</option>
 							{% endfor %}
 						</select>
 					</p>
