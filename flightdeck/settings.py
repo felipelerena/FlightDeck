@@ -68,6 +68,7 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.common.CommonMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'debug_toolbar.middleware.DebugToolbarMiddleware',
 ) 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -108,6 +109,7 @@ INSTALLED_APPS.extend([
 	'django.contrib.sites',
 	# extensions
 	'django_extensions',
+	'debug_toolbar',
 	# database migrations
 	# 'south',
 	# FlightDeck apps
@@ -120,7 +122,8 @@ INSTALLED_APPS.extend([
 # devserver is optional
 try:
 	import devserver
-	INSTALLED_APPS.append('devserver')
+	# dev server does not play well with the debug_toolbar - switched off
+	#INSTALLED_APPS.append('devserver')
 except:
 	pass
 
