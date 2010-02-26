@@ -53,6 +53,11 @@ def item_edit(r, item, type):
 	except: 
 		#valid, as newly created item has no version yet
 		pass
+	if type == "jetpack":
+		other_versions = JetVersion.objects.filter_by_slug(slug=item.slug)
+	elif type == "capability":
+		other_versions = CapVersion.objects.filter_by_slug(slug=item.slug)
+ 
 	item_page = True
 	jetpack_create_url = Jet.get_create_url()
 	capability_create_url = Cap.get_create_url()
@@ -65,6 +70,7 @@ def jetpack_version_edit(r, slug, version, counter):
 	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
 	item = version.jetpack
 	type = "jetpack"
+	other_versions = JetVersion.objects.filter_by_slug(slug=slug)
 	return render_to_response('jetpack_edit.html', locals(), 
 				context_instance=RequestContext(r))
 	
@@ -73,6 +79,7 @@ def jetpack_version_edit(r, slug, version, counter):
 def capability_version_edit(r, slug, version, counter):
 	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
 	item = version.capability
+	other_versions = CapVersion.objects.filter_by_slug(slug=slug)
 	type = "capability"
 	return render_to_response('capability_edit.html', locals(), 
 				context_instance=RequestContext(r))

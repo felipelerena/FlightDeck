@@ -90,6 +90,13 @@
 						{% else %}<a title="Capability base" href="{{ item.get_absolute_url }}">Capability base</a>
 						{% endif %}
 					</p>
+					<p>
+						<select id='switch_to_other_version'>
+							{% for v in other_versions %}
+								<option value='{{ v.name }}'>{{ v.name }}</option>
+							{% endfor %}
+						</select>
+					</p>
 				{% endif %}
 
 				<p class="UI_Sidebar_Creator">Origin by: <a title="{{ item.creator }}" href="{% url person_public_profile item.creator.username %}">{{ item.creator }}</a></p>
