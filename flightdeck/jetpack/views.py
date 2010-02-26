@@ -12,22 +12,30 @@ from jetpack.default_settings import settings
 @login_required
 def jetpack_edit(r, slug):
 	"""
-	Get jetpack and (if possible) version 
-	Render the edit page
+	Get jetpack and send it to item_edit
 	"""
 	jetpack = get_object_or_404(Jet, slug=slug)
-	return generic_edit(r, jetpack, "jetpack")
+	return item_edit(r, jetpack, "jetpack")
 	
 
 @login_required
 def capability_edit(r, slug):
+	"""
+	Get capability and send it to item_edit
+	"""
 	capability = get_object_or_404(Cap, slug=slug)
-	return generic_edit(r, capability, "capability")
+	return item_edit(r, capability, "capability")
 	
-def generic_edit(r, item, type):
+
+def item_edit(r, item, type):
+	"""
+	retrieve item and (if possible) version 
+	Render the right edit page for the given type
+	"""
 	try:
 		version = item.base_version
 	except: 
+		#valid, as newly created item has no version yet
 		pass
 	item_page = True
 	jetpack_create_url = Jet.get_create_url()
@@ -55,47 +63,48 @@ def capability_version_edit(r, slug, version, counter):
 
 
 @login_required
-def jetpack_create(r):
+def item_create(r, type):
 	"""
-	Create new Jetpack
+	Create new item (Jetpack/Capability)
 	This is a result of a popup window with just name and description
-	Version will be saved in the jetpack_save_new_version
+	Version will be saved in the item_version_create
 	"""
-	jetpack = Jet(
+	Klass = Jet if type=="jetpack" else Cap
+	item = Klass(
 		creator=r.user,
-		name=r.POST.get("jetpack_name"),
-		description=r.POST.get("jetpack_description")
+		name=r.POST.get("%s_name" % type),
+		description=r.POST.get("%s_description" % type)
 	)
 	# TODO: validate
-	jetpack.save()
-	return render_to_response('json/jetpack_created.json', {'jetpack': jetpack},
+	item.save()
+	return render_to_response("json/%s_created.json" % type, {type: item},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 	
-	
+
 
 @login_required
-def jetpack_update(r, slug):
+def item_update(r, slug, type):
 	"""
-	Update the existing Jetpack's metadata only
+	Update the existing item's metadata only
 	"""
-	jetpack = get_object_or_404(Jet, slug=slug)
-	if not jetpack.can_be_updated_by(r.user):
+	Klass = Jet if type=="jetpack" else Cap
+	item = get_object_or_404(Klass, slug=slug)
+	if not item.can_be_updated_by(r.user):
 		return HttpResponseNotAllowed(HttpResponse(""))
 
-	# this is making too serious error 
-	#assert jetpack.can_be_updated_by(r.user), \
-	#	"You're not allowed to update this Jetpack"
+	if '%s_description' % type in r.POST:
+		item.description = r.POST.get('%s_description' % type)
+	if '%s_public_permission' % type in r.POST:
+		item.public_permission = r.POST.get('%s_public_permission' % type)
+	if '%s_group_permission' % type in r.POST:
+		item.group_permission = r.POST.get('%s_group_permission' % type)
 
-	jetpack.description = r.POST.get('jetpack_description')
-	if 'jetpack_public_permission' in r.POST:
-		jetpack.public_permission = r.POST.get('jetpack_public_permission')
-	if 'jetpack_group_permission' in r.POST:
-		jetpack.group_permission = r.POST.get('jetpack_group_permission')
-	jetpack.save()
-	return render_to_response('json/jetpack_updated.json', {'jetpack': jetpack},
+	item.save()
+	return render_to_response('json/%s_updated.json' % type, {type: item},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+
 	
 @login_required
 def jetpack_version_create(r, slug):
@@ -173,47 +182,6 @@ def jetpack_version_save_as_base(r, slug, version, counter):
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 
-
-	
-@login_required
-def capability_create(r):
-	"""
-	Create new Capability
-	This is a result of a popup window with just name and description
-	Version will be saved in the capability_version_create
-	"""
-	# TODO: consider adding empty version here
-	capability = Cap(
-		creator=r.user,
-		name=r.POST.get("capability_name"),
-		description=r.POST.get("capability_description")
-	)
-	# TODO: validate
-	capability.save()
-	return render_to_response('json/capability_created.json', {'capability': capability},
-				context_instance=RequestContext(r),
-				mimetype='application/json')
-
-
-@login_required
-def capability_update(r, slug):
-	"""
-	Update the existing Capability's metadata only
-	"""
-	capability = get_object_or_404(Cap, slug=slug)
-	if not capability.can_be_updated_by(r.user):
-		return HttpResponseNotAllowed(HttpResponse(""))
-
-	if 'capability_description' in r.POST:
-		capability.description = r.POST.get('capability_description')
-	if 'capability_public_permission' in r.POST:
-		capability.public_permission = r.POST.get('capability_public_permission')
-	if 'capability_group_permission' in r.POST:
-		capability.group_permission = r.POST.get('capability_group_permission')
-	capability.save()
-	return render_to_response('json/capability_updated.json', {'capability': capability},
-				context_instance=RequestContext(r),
-				mimetype='application/json')
 	
 @login_required
 def capability_version_create(r, slug):
