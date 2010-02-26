@@ -9,14 +9,14 @@
 {# <script></script> is there for syntax highlighting #}
 <script>{% block app_domready %}
 	item = new Capability({
-		slug: '{{ capability.slug }}',
-		name: '{{ capability.name }}',
-		description: '{{ capability.description|escapejs }}',
-		creator: '{{ capability.creator }}',
-		edit_url: '{{ capability.get_absolute_url }}',
-		update_url: '{{ capability.get_update_url }}',
-		version_create_url: '{{ capability.get_version_create_url }}',
-		switch_description_id: '{{ capability|tab_link_id:"description" }}',
+		slug: '{{ item.slug }}',
+		name: '{{ item.name }}',
+		description: '{{ item.description|escapejs }}',
+		creator: '{{ item.creator }}',
+		edit_url: '{{ item.get_absolute_url }}',
+		update_url: '{{ item.get_update_url }}',
+		version_create_url: '{{ item.get_version_create_url }}',
+		switch_description_id: '{{ item|tab_link_id:"description" }}',
 		version: {
 			author: '{{ version.author }}',
 			name: '{{ version.name }}',
@@ -27,7 +27,7 @@
 			update_url: '{{ version.get_update_url }}',
 			set_as_base_url: '{{ version.get_set_as_base_url }}',
 			{% if version %}
-				add_dependency_url: '{% url jp_capability_add_dependency capability.slug version.name version.counter %}',
+				add_dependency_url: '{% url jp_capability_add_dependency item.slug version.name version.counter %}',
 			{% endif %}
 			switch_description_id: '{{ version|tab_link_id:"version_description" }}',
 			switch_content_id: '{{ version|tab_link_id:"content" }}'
@@ -38,19 +38,19 @@
 
 {% block app_sidebar %}
 	{% if not version %}
-		<p class="fd_message">Please update or create a new Version after adding some content</p>
+		<p class="fd_message" title="Module created!">Please update or create a new Version after adding some content</p>
 	{% endif %}
 	
 	<section id="jetpack-info" class="UI_Sidebar_Item">
 		<h3 id="ji-toggler">
-			<a title="{{ capability.name }}" href="#">{{ capability.name }}</a>
+			<a title="{{ item.name }}" href="#">{{ item.name }}</a>
 		</h3>
 		<ul class="UI_File_Listing">
 			<li class="UI_File_Selected">
 				<a title="Content" href="#" id="{{ version|tab_link_id:"content" }}">Content <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 			<li class="UI_File_Normal">
-				<a title="Description" href="#" id="{{ capability|tab_link_id:"description" }}">Description <span class="File_status"></span><span class="File_close"></span></a>
+				<a title="Description" href="#" id="{{ item|tab_link_id:"description" }}">Description <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 			<li class="UI_File_Normal">
 				<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span class="File_status"></span><span class="File_close"></span></a>
@@ -86,15 +86,15 @@
 				{% if version %}
 					<p class="UI_Sidebar_SwitchTo">
 						Switch to: 
-						{% if capability_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
-						{% else %}<a title="Capability base" href="{{ capability.get_absolute_url }}">Capability base</a>
+						{% if item_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
+						{% else %}<a title="Capability base" href="{{ item.get_absolute_url }}">Capability base</a>
 						{% endif %}
 					</p>
 				{% endif %}
 
-				<p class="UI_Sidebar_Creator">Origin by: <a title="{{ capability.creator }}" href="{% url person_public_profile capability.creator.username %}">{{ capability.creator }}</a></p>
+				<p class="UI_Sidebar_Creator">Origin by: <a title="{{ item.creator }}" href="{% url person_public_profile item.creator.username %}">{{ item.creator }}</a></p>
 
-				{% ifequal capability.creator.username version.author.username %}
+				{% ifequal item.creator.username version.author.username %}
 				{% else %}
 					{% if version %}
 						<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
@@ -128,7 +128,7 @@
 {% block app_content %}
 	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
-		<textarea id="capability_description" name="capability_description" class="UI_Editor_Area bespin">{{ capability.description }}</textarea>
+		<textarea id="capability_description" name="capability_description" class="UI_Editor_Area bespin">{{ item.description }}</textarea>
 		<textarea id="version_content" name="version_content" class="UI_Editor_Area bespin">{{ version.content }}</textarea>
 		<textarea id="version_description" name="version_description" class="UI_Editor_Area bespin">{{ version.description }}</textarea>
 		{% for cap_version in version.capabilities.all %}
