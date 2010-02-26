@@ -86,11 +86,13 @@
 				{% if version %}
 					<p class="UI_Sidebar_SwitchTo">
 						Switch to: 
+						{% comment %}
 						{% if item_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
 						{% else %}<a title="Capability base" href="{{ item.get_absolute_url }}">Capability base</a>
 						{% endif %}
 					</p>
 					<p>
+						{% endcomment %}
 						<select id='switch_to_other_version'>
 							{% for v in other_versions %}
 								<option value='{{ v.name }}'>{{ v.name }}</option>
@@ -112,7 +114,7 @@
 			</div>
 		</div>
 	</section>
-	
+	{% comment %}
 	<section id="recently-modified" class="UI_Side_Item">
 		<h3 class="UI_Sidebar_Toggler recentlyModified opened closed"><a title="Recently modified" href="#">
 			Recently modified 
@@ -130,6 +132,7 @@
 			</ul>
 		</div>
 	</section>
+	{% endcomment %}
 {% endblock %}
 
 {% block app_content %}
