@@ -102,7 +102,7 @@ var CapVersionDependency = new Class({
 				fd.message.alert('Success',response.message);
 				if (!this.content_el.hidden) {
 					// this is actually wrong
-					fd.getItem().version.switch_content_el.fireEvent('click', e);
+					// fd.getItem().version.switch_content_el.fireEvent('click', e);
 				}
 				this.content_el.destroy();
 				this.switch_content_el.destroy();
