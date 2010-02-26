@@ -46,20 +46,20 @@
 	
 	<section id="jetpack-info" class="UI_Sidebar_Item">
 		<h3 id="ji-toggler">
-			<a title="{{ jetpack.name }}" href="#">{{ jetpack.name }} <span></span></a>
+			<a title="{{ jetpack.name }}" href="#">{{ jetpack.name }}</a>
 		</h3>
 		<ul class="UI_File_Listing">
 			<li class="UI_File_Selected">
-				<a title="Content" href="#" id="{{ version|tab_link_id:"content" }}">Content <span></span></a>
+				<a title="Content" href="#" id="{{ version|tab_link_id:"content" }}">Content <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 			<li class="UI_File_Normal">
-				<a title="Manifest" href="#" id="{{ version|tab_link_id:"manifest" }}">Manifest <span></span></a>
+				<a title="Manifest" href="#" id="{{ version|tab_link_id:"manifest" }}">Manifest <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 			<li class="UI_File_Normal">
-				<a title="Description" href="#" id="{{ jetpack|tab_link_id:"description" }}">Description <span></span></a>
+				<a title="Description" href="#" id="{{ jetpack|tab_link_id:"description" }}">Description <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 			<li class="UI_File_Normal">
-				<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span></span></a>
+				<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 		</ul>
 	</section>
@@ -88,25 +88,25 @@
 			<div class="UI_Field_Cont">
 				<label for="version_name">Version Name</label>
 				<input type="text" id="version_name" name="version_name" value="{{ version.name|default:"0.0" }}" /> {% if version %}.{{ version.counter }}{% endif %}
-			</div>
 
-			{% if version %}
-				<p class="UI_Sidebar_SwitchTo">
-					Switch to: 
-					{% if jetpack_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
-					{% else %}<a title="Jetpack base" href="{{ jetpack.get_absolute_url }}">Jetpack base</a>
-					{% endif %}
-				</p>
-			{% endif %}
-
-			<p class="UI_Sidebar_Creator">Origin by: <a title="{{ jetpack.creator }}" href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator }}</a></p>
-
-			{% if version %}{% ifequal jetpack.creator.username version.author.username %}
-			{% else %}
-					<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
-						<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
+				{% if version %}
+					<p class="UI_Sidebar_SwitchTo">
+						Switch to: 
+						{% if jetpack_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
+						{% else %}<a title="Jetpack base" href="{{ jetpack.get_absolute_url }}">Jetpack base</a>
+						{% endif %}
 					</p>
-			{% endifequal %}{% endif %}
+				{% endif %}
+
+				<p class="UI_Sidebar_Creator">Origin by: <a title="{{ jetpack.creator }}" href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator }}</a></p>
+
+				{% if version %}{% ifequal jetpack.creator.username version.author.username %}
+				{% else %}
+						<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
+							<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
+						</p>
+				{% endifequal %}{% endif %}
+			</div>
 		</div>
 	</section>
 

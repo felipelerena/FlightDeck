@@ -43,17 +43,17 @@
 	
 	<section id="jetpack-info" class="UI_Sidebar_Item">
 		<h3 id="ji-toggler">
-			<a title="{{ capability.name }}" href="#">{{ capability.name }} <span></span></a>
+			<a title="{{ capability.name }}" href="#">{{ capability.name }}</a>
 		</h3>
 		<ul class="UI_File_Listing">
 			<li class="UI_File_Selected">
-				<a title="Content" href="#" id="{{ version|tab_link_id:"content" }}">Content <span></span></a>
+				<a title="Content" href="#" id="{{ version|tab_link_id:"content" }}">Content <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 			<li class="UI_File_Normal">
-				<a title="Description" href="#" id="{{ capability|tab_link_id:"description" }}">Description <span></span></a>
+				<a title="Description" href="#" id="{{ capability|tab_link_id:"description" }}">Description <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 			<li class="UI_File_Normal">
-				<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span></span></a>
+				<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 		</ul>
 	</section>
@@ -82,27 +82,27 @@
 			<div class="UI_Field_Cont">
 				<label for="version_name">Version Name</label>
 				<input type="text" id="version_name" name="version_name" value="{{ version.name|default:"0.0" }}" /> {% if version %}.{{ version.counter }}{% endif %}
-			</div>
-			
-			{% if version %}
-				<p class="UI_Sidebar_SwitchTo">
-					Switch to: 
-					{% if capability_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
-					{% else %}<a title="Capability base" href="{{ capability.get_absolute_url }}">Capability base</a>
-					{% endif %}
-				</p>
-			{% endif %}
-
-			<p class="UI_Sidebar_Creator">Origin by: <a title="{{ capability.creator }}" href="{% url person_public_profile capability.creator.username %}">{{ capability.creator }}</a></p>
-
-			{% ifequal capability.creator.username version.author.username %}
-			{% else %}
+				
 				{% if version %}
-					<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
-						<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
+					<p class="UI_Sidebar_SwitchTo">
+						Switch to: 
+						{% if capability_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
+						{% else %}<a title="Capability base" href="{{ capability.get_absolute_url }}">Capability base</a>
+						{% endif %}
 					</p>
 				{% endif %}
-			{% endifequal %}
+
+				<p class="UI_Sidebar_Creator">Origin by: <a title="{{ capability.creator }}" href="{% url person_public_profile capability.creator.username %}">{{ capability.creator }}</a></p>
+
+				{% ifequal capability.creator.username version.author.username %}
+				{% else %}
+					{% if version %}
+						<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
+							<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
+						</p>
+					{% endif %}
+				{% endifequal %}
+			</div>
 		</div>
 	</section>
 	

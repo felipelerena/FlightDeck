@@ -42,16 +42,11 @@ var Capability = new Class({
 		this.instantiateEditors();
 
 		this.listenToEvents();
-		if (!this.options.is_dependency) {
-			// TODO: this should probably be moved to the UI.Editor.js or however this file will be called
-			this.initializeEditorSwitches();
-		}
+		this.initializeEditorSwitches();
 		
 		this.data = {};
-		if (!this.options.is_dependency) {
-			this.data[this.type+'_name'] = this.options.name;
-			this.data[this.type+'_description'] = this.options.description;
-		}
+		this.data[this.type+'_name'] = this.options.name;
+		this.data[this.type+'_description'] = this.options.description;
 		this.data[this.type+'_slug'] = this.options.slug;
 		// #TODO: remove these - it's just to switch the buttons all the time
 		// this.afterVersionChanged();
@@ -194,7 +189,6 @@ var Capability = new Class({
 	 */
 	prepareData: function() {
 		this.updateFromDOM();
-		this.data['capabilities'] = $H(this.version.capabilities).getKeys();
 		return this.data;
 	},
 	/*
@@ -345,6 +339,7 @@ var CapVersion = new Class({
 			onSuccess: function(response) {
 				fd.message.alert('Success',response.message);
 				this.createDependency(response.dependency, true);
+				this.fireEvent('change');
 			}.bind(this)
 		}).send();
 	},
@@ -434,6 +429,15 @@ var CapVersion = new Class({
 	 */
 	prepareData: function() {
 		this.updateFromDOM();
+		// prepare capability info
+		var get_id = function(cap) {
+			return {
+				'slug': cap.options.slug,
+				'version': cap.version.options.name,
+				'counter': cap.version.options.counter
+			}
+		}
+		this.data['capabilities'] = JSON.encode($H(this.capabilities).getValues().map(get_id));
 		return this.data;
 	},
 	/*

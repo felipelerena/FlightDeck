@@ -10,6 +10,7 @@
 		"version": {
 			"author": "{{ version.author }}",
 			"name": "{{ version.name }}",
+			"counter": {{ version.counter }},
 			"description": "{{ version.description|escapejs }}",
 			"content": "{{ version.content|escapejs }}",
 			"is_base": {{ capversion.is_base|yesno:"true,false" }},
