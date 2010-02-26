@@ -18,6 +18,12 @@
 								creator: '{{ cap.creator }}',
 								version_create_url: '{{ cap.get_version_create_url }}',
 								version: {
+									xxx: 'xxx',
+									{% ifequal type "jetpack" %}
+										remove_url: '{% url jp_jetpack_remove_dependency item.slug version.name version.counter cap.slug capversion.name capversion.counter %}',
+									{% else %}
+										remove_url: '{% url jp_capability_remove_dependency item.slug version.name version.counter cap.slug capversion.name capversion.counter %}',
+									{% endifequal %}
 									author: '{{ capversion.author }}',
 									name: '{{ capversion.name }}',
 									counter: {{ capversion.counter }},

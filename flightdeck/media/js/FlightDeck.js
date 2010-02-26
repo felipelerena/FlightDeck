@@ -14,9 +14,11 @@ Element.implement({
 			? true 
 			: (w!==0 && h!==0 && !force) ? false : this.getStyle('display') === 'none';
 	},
-
 	isVisible: function(){
 		return !this.isHidden();
+	},
+	getSiblings: function(match,nocache) {
+		return this.getParent().getChildren(match,nocache).erase(this);
 	}
 
 });
@@ -34,12 +36,6 @@ if (!console) {
 		error: function(value) { alert(value); }
 	};
 }
-
-Element.implement({
-	getSiblings: function(match,nocache) {
-		return this.getParent().getChildren(match,nocache).erase(this);
-	}
-});
 
 /*
  * Class: FlightDeck
@@ -62,5 +58,4 @@ var FlightDeck = new Class({
 	hideEditors: function() {
 		this.editors.each(function(ed){ ed.hide(); });
 	},
-	
 });

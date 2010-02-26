@@ -28,6 +28,11 @@ urlpatterns = patterns('jetpack.views',
 	url(r'^mod_(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/add_dependency/$',
 		'add_dependency', {'type': 'capability'}, name='jp_capability_add_dependency'),
 
+	url(r'^jp_(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/remove_dependency/(?P<d_slug>.*)/(?P<d_version>.*)/(?P<d_counter>\d+)/$',
+		'remove_dependency', {'type': 'jetpack'}, name='jp_jetpack_remove_dependency'),
+	url(r'^cap_(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/remove_dependency/(?P<d_slug>.*)/(?P<d_version>.*)/(?P<d_counter>\d+)/$',
+		'remove_dependency', {'type': 'capability'}, name='jp_capability_remove_dependency'),
+
 	url(r'^jp_(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/save_as_base/$', 
 		'item_version_save_as_base', {'type': 'jetpack'}, 
 		name='jp_jetpack_version_save_as_base'),
