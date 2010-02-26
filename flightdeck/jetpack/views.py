@@ -107,30 +107,38 @@ def item_update(r, slug, type):
 
 	
 @login_required
-def jetpack_version_create(r, slug):
+def item_version_create(r, slug, type):
 	"""
-	Save new version for the jetpack, get data from POST
+	Save new version for the item, get data from POST
 	"""
-	#TODO: save capabilities dependency
-	jetpack = get_object_or_404(Jet, slug=slug)
+	if type == "jetpack":
+		Klass = Jet 
+		KlassVersion = JetVersion
+	elif type == "capability":
+		Klass = Cap
+		KlassVersion = CapVersion
+
+	item = get_object_or_404(Klass, slug=slug)
 	version_data = {
-		"jetpack": jetpack,
+		type: item,
 		"author": r.user,
 		"name": r.POST.get("version_name"),
-		"manifest": r.POST.get("version_manifest"),
 		"content": r.POST.get("version_content"),
 		"description": r.POST.get("version_description"),
 	}
+	if type == "jetpack":
+		version_data["manifest"] = r.POST.get("version_manifest")
+
 	if "version_status" in r.POST:
 		version_data["status"] = r.POST.get("version_status")
 	if "version_published" in r.POST:
 		version_data["published"] = r.POST.get("version_published")
 	if "version_is_base" in r.POST:
 		version_data["is_base"] = r.POST.get("version_is_base")
-	version = JetVersion(**version_data)
+
+	version = KlassVersion(**version_data)
 	version.save()
 	dep_capabilities = simplejson.loads(r.POST.get('capabilities','[]'));
-	print dep_capabilities
 
 	for c in dep_capabilities:
 		dep_cap = CapVersion.objects.get(
@@ -182,30 +190,6 @@ def jetpack_version_save_as_base(r, slug, version, counter):
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 
-	
-@login_required
-def capability_version_create(r, slug):
-	"""
-	save new version for the capability, get data from POST
-	"""
-	#TODO: save capabilities dependency
-	capability = get_object_or_404(Cap, slug=slug)
-	version_data = {
-		"capability": capability,
-		"author": r.user,
-		"name": r.POST.get("version_name"),
-		"content": r.POST.get("version_content"),
-		"description": r.POST.get("version_description"),
-	}
-	if "version_status" in r.POST:
-		version_data["status"] = r.POST.get("version_status")
-	if "version_is_base" in r.POST:
-		version_data["is_base"] = r.POST.get("version_is_base")
-	version = CapVersion(**version_data)
-	version.save()
-	return render_to_response('json/version_absolute_url.json', {'version': version},
-				context_instance=RequestContext(r),
-				mimetype='application/json')
 
 @login_required
 def capability_version_update(r, slug, version, counter):
