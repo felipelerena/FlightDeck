@@ -61,7 +61,7 @@
 	{% if version %}
 		<section id="dependencies" class="UI_Side_Item">
 			<h3 class="UI_Sidebar_Toggler dependencies opened"><a title="Dependencies" href="#">
-				Dependencies <strong id="dependency-counter">(3)</strong> 
+				Dependencies{% if version.capabilities.all %} <strong id="dependency-counter">({{ version.capabilities.all|length }})</strong>{% endif %} 
 				<span class="UI_OC"></span>
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a></h3>
