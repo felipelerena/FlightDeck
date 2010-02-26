@@ -21,6 +21,7 @@ Production uses following third-party software:
 Following third-party software is used only for development:
  * GraphViz (http://www.graphviz.org/) [GPL]
  * PyGraphViz (http://networkx.lanl.gov/pygraphviz/) [?]
- * DevServer (http://github.com/dcramer/django-devserver) [?]
+ * DevServer (http://github.com/dcramer/django-devserver) [?] // switched off at the moment
+ * Debug Toolbar (http://github.com/robhudson/django-debug-toolbar) [Django like]
  * wget (http://www.gnu.org/software/wget/) [GPL]
  

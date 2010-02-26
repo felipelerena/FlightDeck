@@ -67,7 +67,7 @@
 	{% if version %}
 		<section id="dependencies" class="UI_Side_Item">
 			<h3 class="UI_Sidebar_Toggler dependencies opened"><a title="Dependencies" href="#">
-				Dependencies <strong id="dependency-counter">(3)</strong> 
+				Dependencies{% if version.capabilities.all %} <strong id="dependency-counter">({{ version.capabilities.all|length }})</strong>{% endif %} 
 				<span class="UI_OC"></span>
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a></h3>
@@ -92,9 +92,18 @@
 				{% if version %}
 					<p class="UI_Sidebar_SwitchTo">
 						Switch to: 
+						{% comment %}
 						{% if item_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
 						{% else %}<a title="Jetpack base" href="{{ item.get_absolute_url }}">Jetpack base</a>
 						{% endif %}
+					</p>
+					<p>
+						{% endcomment %}
+						<select id='switch_to_version'>
+							{% for v in other_versions %}
+								<option value='{{ v.fullname }}'{% ifequal version.id v.id %} selected{% endifequal %}>{{ v.fullname }}{% if v.is_base %} *{% endif %}</option>
+							{% endfor %}
+						</select>
 					</p>
 				{% endif %}
 
@@ -110,6 +119,7 @@
 		</div>
 	</section>
 
+	{% comment %}
 	<section id="recently-modified" class="UI_Side_Item">
 		<h3 class="UI_Sidebar_Toggler recentlyModified opened closed"><a title="Recently modified" href="#">
 			Recently modified 
@@ -127,6 +137,7 @@
 			</ul>
 		</div>
 	</section>
+	{% endcomment %}
 {% endblock %}
 
 {% block app_content %}

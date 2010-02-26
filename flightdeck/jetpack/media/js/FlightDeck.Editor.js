@@ -37,6 +37,15 @@ FlightDeck = Class.refactor(FlightDeck,{
 			});
 		});
 
+	},
+	/*
+	 * Method: getItem
+	 */
+	getItem: function() {
+		// item is currently a global 
+		// TODO: change to flightdeck parameter
+		return item;
 	}
+	
 });
 

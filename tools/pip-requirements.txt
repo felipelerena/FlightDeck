@@ -6,6 +6,7 @@ docutils
 wsgiref
 yolk
 django-extensions
+django-debug-toolbar
 
 -e git+git://github.com/toastdriven/django-haystack#egg=django_haystack
 -e git+git://github.com/dcramer/django-devserver#egg=django_devserver

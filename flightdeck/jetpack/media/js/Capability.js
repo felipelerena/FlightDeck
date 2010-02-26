@@ -96,6 +96,12 @@ var Capability = new Class({
 				this.try_in_browser();
 			}.bind(this));
 		}
+		var switch_version_el = $('switch_to_version');
+		if (switch_version_el) {
+			switch_version_el.addEvent('change', function() {
+				window.location.href=this.options.edit_url + 'v_' + switch_version_el.value;
+			}.bind(this));
+		}
 	},
 	/* 
 	 * Method: afterVersionChanged
