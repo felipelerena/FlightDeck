@@ -147,7 +147,7 @@ class CapVersion(models.Model):
 	class Meta:
 		# there may be only one version with the same name and counter for the Capability
 		unique_together = ('capability', 'name', 'counter')
-		ordering = ('-last_update',)
+		ordering = ('-name','-counter')
 
 
 	###################
@@ -336,7 +336,7 @@ class JetVersion(models.Model):
 	class Meta:
 		# there may be only one version with the same name and counter for the Jetpack
 		unique_together = ('jetpack', 'name', 'counter')
-		ordering = ('-last_update',)
+		ordering = ('-name','-counter')
 
 
 	###################
