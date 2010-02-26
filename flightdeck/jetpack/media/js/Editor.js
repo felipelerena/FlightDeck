@@ -40,13 +40,21 @@ var Editor = new Class({
 		return this;
 	},
 	destroy: function() {
+		this.hide();
+		this.editor.clearHistory();
+		this.editor.wrapping.destroy();
+		this.element.destroy();
 	},
 	hide: function() {
+		this.hidden = true;
 		this.element.hide();
+		this.fireEvent('hide');
 		return this;
 	},
 	show: function() {
+		this.hidden = false;
 		this.element.show();
+		this.fireEvent('show');
 		return this;
 	}
 });

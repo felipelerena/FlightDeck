@@ -89,8 +89,27 @@ var CapVersionDependency = new Class({
 		if (this.switch_content_el) {
 			this.switch_content_el.addEvent('click', this.switchToContent.bind(this));
 			this.switch_content_el.getChildren('.File_close').addEvent('click', function(e) {
-			});
+				e.stopPropagation();
+				this.unassign();
+			}.bind(this));
 		}
+	},
+	unassign: function() {
+		new Request.JSON({
+			url: this.options.remove_url,
+			data: {},
+			onSuccess: function(response) {
+				fd.message.alert('Success',response.message);
+				if (!this.content_el.hidden) {
+					// this is actually wrong
+					fd.getItem().version.switch_content_el.fireEvent('click', e);
+				}
+				this.content_el.destroy();
+				this.switch_content_el.destroy();
+				$H(fd.getItem().version.capabilities).erase(this.options.slug);
+				this.fireEvent('remove');
+			}.bind(this)
+		}).send();
 	},
 	updateFromDOM: function() {
 		this.data.version_content = this.content_el.getContent();

@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404, HttpResponseRedirect, HttpResponse, HttpResponseNotAllowed
 from django.template import RequestContext#,Template
@@ -232,12 +233,15 @@ def add_dependency(r, slug, type, version=None, counter=None):
 	"""
 	Add dependency to the item represented by slug
 	"""
+	# TODO: add more protection (do not allow two versions of the same Cap)
 	if type == 'jetpack':
-		item = get_object_or_404(JetVersion, 
+		item_version = get_object_or_404(JetVersion, 
 					jetpack__slug=slug, name=version, counter=counter)
+		item = item_version.jetpack
 	elif type == 'capability':
-		item = get_object_or_404(CapVersion, 
+		item_version = get_object_or_404(CapVersion, 
 					capability__slug=slug, name=version, counter=counter)
+		item = item_version.capability
 
 	dependency_slug = r.POST.get("dependency_slug")
 	dependency_version = r.POST.get("dependency_version", None)
@@ -247,18 +251,44 @@ def add_dependency(r, slug, type, version=None, counter=None):
 						capability__slug=dependency_slug, 
 						name=dependency_version, 
 						counter=dependency_counter)
+		cap = dependency.capability
 	else:
 		cap = Cap.objects.get(slug=dependency_slug)
 		dependency = cap.base_version
 
-	item.capabilities.add(dependency)
-	item.save()
+	item_version.capabilities.add(dependency)
+	item_version.save()
+
+	dependency_remove_url = reverse("jp_%s_remove_dependency" % type, args=[
+		item.slug, item_version.name, item_version.counter,
+		cap.slug, dependency.name, dependency.counter])
 
 	return render_to_response('json/dependency_added.json', {
-					'item': item, 
+					'item': item_version, 
 					'version': dependency, 
-					'cap': dependency.capability
+					'cap': dependency.capability,
+					'dependency_remove_url': dependency_remove_url
 				},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 	
+@login_required
+def remove_dependency(r, slug, version, counter, type, d_slug, d_version, d_counter):
+	"""
+	Remove dependency from item
+	"""
+	if type == 'jetpack':
+		item_version = get_object_or_404(JetVersion, 
+					jetpack__slug=slug, name=version, counter=counter)
+	elif type == 'capability':
+		item_version = get_object_or_404(CapVersion, 
+					capability__slug=slug, name=version, counter=counter)
+
+	dependency = get_object_or_404(CapVersion,
+					capability__slug=d_slug, name=d_version, counter=d_counter)
+
+	item_version.capabilities.remove(dependency)
+	item_version.save()
+	return render_to_response('json/dependency_removed.json', locals(),
+				context_instance=RequestContext(r),
+				mimetype='application/json')
