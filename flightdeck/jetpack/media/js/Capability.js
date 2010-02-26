@@ -350,6 +350,10 @@ var CapVersion = new Class({
 	addDependencyFromInput: function() {
 		dependency_slug = $(this.options.add_dependency_input).get('value');
 		// TODO: some validation
+		if (this.capabilities[dependency_slug]) {
+			fd.error.alert('Not Allowed', 'You may not add the same dependency again');
+			return false;
+		}
 		// TODO: add not base version 
 		new Request.JSON({
 			url: this.options.add_dependency_url,
