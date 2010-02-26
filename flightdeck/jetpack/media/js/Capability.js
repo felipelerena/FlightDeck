@@ -107,6 +107,9 @@ var Capability = new Class({
 			this.update();
 		}.bind(this));
 		this.description_el.removeEvent('change', this.boundAfterDataChanged);
+		if (this.switch_description_el) {
+			this.switch_description_el.getParent('li').addClass('UI_File_Modified');
+		}
 	},
 	/* 
 	 * Method: afterVersionChanged
@@ -315,7 +318,17 @@ var CapVersion = new Class({
 		this.changed = false;
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
 		this.description_el.addEvent('change', this.boundAfterDataChanged);
+		this.description_el.addEvent('change', function() {
+			if (this.switch_description_el) {
+				this.switch_description_el.getParent('li').addClass('UI_File_Modified');
+			}
+		}.bind(this));
 		this.content_el.addEvent('change', this.boundAfterDataChanged);
+		this.content_el.addEvent('change', function() {
+			if (this.switch_content_el) {
+				this.switch_content_el.getParent('li').addClass('UI_File_Modified');
+			}
+		}.bind(this));
 		// adding dependencies
 		var add_dependency_action = $(this.options.add_dependency_el);
 		if (add_dependency_action) {
