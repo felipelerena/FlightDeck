@@ -9,14 +9,14 @@
 {# <script></script> is there for syntax highlighting #}
 <script>{% block app_domready %}
 	item = new Jetpack({
-		slug: '{{ jetpack.slug }}',
-		name: '{{ jetpack.name }}',
-		description: '{{ jetpack.description|escapejs }}',
-		creator: '{{ jetpack.creator }}',
-		edit_url: '{{ jetpack.get_absolute_url }}',
-		update_url: '{{ jetpack.get_update_url }}',
-		version_create_url: '{{ jetpack.get_version_create_url }}',
-		switch_description_id: '{{ jetpack|tab_link_id:"description" }}',
+		slug: '{{ item.slug }}',
+		name: '{{ item.name }}',
+		description: '{{ item.description|escapejs }}',
+		creator: '{{ item.creator }}',
+		edit_url: '{{ item.get_absolute_url }}',
+		update_url: '{{ item.get_update_url }}',
+		version_create_url: '{{ item.get_version_create_url }}',
+		switch_description_id: '{{ item|tab_link_id:"description" }}',
 		version: {
 			author: '{{ version.author }}',
 			name: '{{ version.name }}',
@@ -27,7 +27,7 @@
 			edit_url: '{{ version.get_absolute_url }}',
 			update_url: '{{ version.get_update_url }}',
 			{% if version %}
-				add_dependency_url: '{% url jp_jetpack_add_dependency jetpack.slug version.name version.counter %}',
+				add_dependency_url: '{% url jp_jetpack_add_dependency item.slug version.name version.counter %}',
 			{% endif %}
 			set_as_base_url: '{{ version.get_set_as_base_url }}',
 			switch_content_id: '{{ version|tab_link_id:"content" }}',
@@ -46,7 +46,7 @@
 	
 	<section id="jetpack-info" class="UI_Sidebar_Item">
 		<h3 id="ji-toggler">
-			<a title="{{ jetpack.name }}" href="#">{{ jetpack.name }}</a>
+			<a title="{{ item.name }}" href="#">{{ item.name }}</a>
 		</h3>
 		<ul class="UI_File_Listing">
 			<li class="UI_File_Selected">
@@ -56,7 +56,7 @@
 				<a title="Manifest" href="#" id="{{ version|tab_link_id:"manifest" }}">Manifest <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 			<li class="UI_File_Normal">
-				<a title="Description" href="#" id="{{ jetpack|tab_link_id:"description" }}">Description <span class="File_status"></span><span class="File_close"></span></a>
+				<a title="Description" href="#" id="{{ item|tab_link_id:"description" }}">Description <span class="File_status"></span><span class="File_close"></span></a>
 			</li>
 			<li class="UI_File_Normal">
 				<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span class="File_status"></span><span class="File_close"></span></a>
@@ -92,15 +92,15 @@
 				{% if version %}
 					<p class="UI_Sidebar_SwitchTo">
 						Switch to: 
-						{% if jetpack_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
-						{% else %}<a title="Jetpack base" href="{{ jetpack.get_absolute_url }}">Jetpack base</a>
+						{% if item_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
+						{% else %}<a title="Jetpack base" href="{{ item.get_absolute_url }}">Jetpack base</a>
 						{% endif %}
 					</p>
 				{% endif %}
 
-				<p class="UI_Sidebar_Creator">Origin by: <a title="{{ jetpack.creator }}" href="{% url person_public_profile jetpack.creator.username %}">{{ jetpack.creator }}</a></p>
+				<p class="UI_Sidebar_Creator">Origin by: <a title="{{ item.creator }}" href="{% url person_public_profile item.creator.username %}">{{ item.creator }}</a></p>
 
-				{% if version %}{% ifequal jetpack.creator.username version.author.username %}
+				{% if version %}{% ifequal item.creator.username version.author.username %}
 				{% else %}
 						<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
 							<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
@@ -134,7 +134,7 @@
 	<div id="editor-wrapper">
 		<textarea id="version_content" class="UI_Editor_Area" name='version_content'>{{ version.content }}</textarea>
 		<textarea id='version_manifest' class="UI_Editor_Area" name='version_manifest'>{{ version.manifest }}</textarea>
-		<textarea id='jetpack_description' class="UI_Editor_Area" name='jetpack_description'>{{ jetpack.description }}</textarea>
+		<textarea id='jetpack_description' class="UI_Editor_Area" name='jetpack_description'>{{ item.description }}</textarea>
 		<textarea id='version_description' class='UI_Editor_Area'>{{ version.description }}</textarea>
 		{% for cap_version in version.capabilities.all %}
 			{% include "_dependency_content_textarea.html" %}

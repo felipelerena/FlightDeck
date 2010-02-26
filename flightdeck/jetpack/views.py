@@ -10,41 +10,49 @@ from jetpack.models import Jet, JetVersion, Cap, CapVersion
 from jetpack.default_settings import settings
 
 @login_required
-def create(r):
-	"""
-	Discplay create form
-	"""
-	jetpack_create_url = Jet.get_create_url()
-	capability_create_url = Cap.get_create_url()
-	return render_to_response('create.html', locals(), 
-				context_instance=RequestContext(r))
-	
-
-@login_required
 def jetpack_edit(r, slug):
 	"""
 	Get jetpack and (if possible) version 
 	Render the edit page
 	"""
 	jetpack = get_object_or_404(Jet, slug=slug)
+	return generic_edit(r, jetpack, "jetpack")
+	
+
+@login_required
+def capability_edit(r, slug):
+	capability = get_object_or_404(Cap, slug=slug)
+	return generic_edit(r, capability, "capability")
+	
+def generic_edit(r, item, type):
 	try:
-		version = jetpack.base_version
+		version = item.base_version
 	except: 
 		pass
-	jetpack_page = True
+	item_page = True
 	jetpack_create_url = Jet.get_create_url()
 	capability_create_url = Cap.get_create_url()
-	return render_to_response('jetpack_edit.html', locals(), 
+	return render_to_response("%s_edit.html" % type, locals(), 
 				context_instance=RequestContext(r))
 	
 
 @login_required
 def jetpack_version_edit(r, slug, version, counter):
 	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
-	jetpack = version.jetpack
+	item = version.jetpack
+	type = "jetpack"
 	return render_to_response('jetpack_edit.html', locals(), 
 				context_instance=RequestContext(r))
 	
+
+@login_required
+def capability_version_edit(r, slug, version, counter):
+	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
+	item = version.capability
+	type = "capability"
+	return render_to_response('capability_edit.html', locals(), 
+				context_instance=RequestContext(r))
+
 
 @login_required
 def jetpack_create(r):
@@ -166,21 +174,6 @@ def jetpack_version_save_as_base(r, slug, version, counter):
 				mimetype='application/json')
 
 
-@login_required
-def capability_edit(r, slug):
-	capability = get_object_or_404(Cap, slug=slug)
-	version = capability.base_version
-	capability_page = True
-	return render_to_response('capability_edit.html', locals(), 
-				context_instance=RequestContext(r))
-	
-
-@login_required
-def capability_version_edit(r, slug, version, counter):
-	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
-	capability = version.capability
-	return render_to_response('capability_edit.html', locals(), 
-				context_instance=RequestContext(r))
 	
 @login_required
 def capability_create(r):
@@ -313,9 +306,11 @@ def add_dependency(r, slug, type, version=None, counter=None):
 	Add dependency to the item represented by slug
 	"""
 	if type == 'jetpack':
-		item = JetVersion.objects.get(jetpack__slug=slug, name=version, counter=counter)
+		item = get_object_or_404(JetVersion, 
+					jetpack__slug=slug, name=version, counter=counter)
 	elif type == 'capability':
-		item = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
+		item = get_object_or_404(CapVersion, 
+					capability__slug=slug, name=version, counter=counter)
 
 	dependency_slug = r.POST.get("dependency_slug")
 	dependency_version = r.POST.get("dependency_version", None)
