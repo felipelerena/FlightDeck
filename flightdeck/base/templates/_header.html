@@ -3,9 +3,11 @@
 
 <nav>
 	<ul>
-		<li class="active"><a title="Editor" href="#">Editor</a></li>
-		<li><a title="Package Browser" href="#">Package Browser</a></li>
+		{% ifequal page "editor" %}
+			<li class="active"><a title="Editor" href="#">Editor</a></li>
+		{% endifequal %}	
+		<li><a {% ifequal page "packages" %}class='active' {% endifequal %}title="Package Browser" href="/">Package Browser</a></li>
 		<li><a title="API Browser" href="#">API Browser</a></li>
-		<li><a title="My Account" href="#">My Account</a></li>
+		<li><a {% ifequal page "dashboard" %}class='active' {% endifequal %} title="My Account" href="#">My Account</a></li>
 	</ul>
 </nav>

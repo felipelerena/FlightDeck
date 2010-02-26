@@ -261,6 +261,8 @@ var CapVersion = new Class({
 	initialize: function(options) {
 		this.capabilities = {};
 		this.setOptions(options);
+		this.switch_content_el = $(this.options.switch_content_id);
+		this.switch_description_el = $(this.options.switch_description_id);
 		this.instantiateEditors();
 		this.listenToEvents();
 		this.initializeEditorSwitches();
@@ -292,8 +294,6 @@ var CapVersion = new Class({
 	 * Method: initializeEditorSwitches
 	 */
 	initializeEditorSwitches: function() {
-		this.switch_content_el = $(this.options.switch_content_id);
-		this.switch_description_el = $(this.options.switch_description_id);
 		if (this.switch_content_el) {
 			this.switch_content_el.addEvent('click', this.switchToContent.bind(this));
 		}

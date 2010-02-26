@@ -8,7 +8,7 @@ class CapVersionManager(models.Manager):
 			return None
 
 	def filter_by_slug(self, slug):
-		 return self.filter(jetpack__slug=slug)
+		 return self.filter(capability__slug=slug)
 
 
 class JetVersionManager(models.Manager):
