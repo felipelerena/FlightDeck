@@ -91,7 +91,7 @@
 
 				{% if version %}
 					<p class="UI_Sidebar_SwitchTo">
-						Switch to: 
+						Switch to 
 						{% comment %}
 						{% if item_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
 						{% else %}<a title="Jetpack base" href="{{ item.get_absolute_url }}">Jetpack base</a>
@@ -107,7 +107,7 @@
 					</p>
 				{% endif %}
 
-				<p class="UI_Sidebar_Creator">Origin by: <a title="{{ item.creator }}" href="{% url person_public_profile item.creator.username %}">{{ item.creator }}</a></p>
+				<p class="UI_Sidebar_Creator">Origin by <a title="{{ item.creator }}" href="{% url person_public_profile item.creator.username %}">{{ item.creator }}</a></p>
 
 				{% if version %}{% ifequal item.creator.username version.author.username %}
 				{% else %}

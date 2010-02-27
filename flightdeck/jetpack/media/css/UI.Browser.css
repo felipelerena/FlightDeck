@@ -8,29 +8,33 @@ authors:
 ...
 */
 
-/* start TEMP */
+/* alternative layout for the browse-like sections */
 body {
    background-image: none;
 }
 
-#app-body {
-   margin-left: 0;
+#app-sidebar {
+   border-right: none;
+   padding: 0 15px;
+   width: 160px;
+   margin-left: -190px;
+   
 }
 
-/* end TEMP */
+#app-body {
+   margin-top: 20px;
+}
+
 
 .UI_Browser {
-   margin: 20px 0 0 20px;
+   margin: 15px 0 30px;
 }
 
    .UI_Browser .UI_Item {
-      width: 260px;
-      min-height: 100px;
-      padding: 0 0 20px 110px;
-      margin: 0 20px 20px 0;
+      min-height: 115px;
+      padding: 0 150px 0 110px;
+      margin: 0 20px 10px 0;
       border-bottom: solid 1px #E9EDF0;
-      display: inline-block;
-      vertical-align: top;
       position: relative;
    }
    
@@ -53,29 +57,35 @@ body {
          }
    
       .UI_Browser .UI_Item h3 {
-         margin: 0 0 2px;
          font-weight: bold;
          font-size: 1.1em;
+         display: inline;
+         
       }   
    
       .UI_Browser .UI_Item h4 {
-         font-size: .8em;
-         font-style: normal;
+         font-size: .7em;
+         font-style: bold;
          background: #A6AEB5;
          color: #F8F8F8;
          -moz-border-radius: 3px;
          padding: 1px 3px;
-         margin: 4px 0 10px;
+         margin: 0 0 0 5px;
          display: inline-block;
       }
    
       .UI_Browser .UI_Item p {
+         margin: 10px 0 0;
          font-size: .9em;
          color: #7F7F7F;
       }
    
       .UI_Browser .UI_Actions {
-         margin: 15px 0 0;
+         margin: 14px 0 0;
+/*         position: absolute;
+         top: 0;
+         right: 0;
+*/         
       }
    
          .UI_Browser .UI_Actions li {
