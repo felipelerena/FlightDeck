@@ -18,6 +18,7 @@ def gallery(r, page=None):
 	items.extend(list(Cap.objects.all()[0:20]))
 	items = filter(lambda i: i.base_version, items)
 	items.sort(lambda i, j: (j.base_version.last_update - i.base_version.last_update).seconds) 
+	page = "packages"
 	
 	return render_to_response(
 		'gallery.html', 
@@ -59,6 +60,7 @@ def item_edit(r, item, type):
 		other_versions = CapVersion.objects.filter_by_slug(slug=item.slug)
  
 	item_page = True
+	page = "editor"
 	jetpack_create_url = Jet.get_create_url()
 	capability_create_url = Cap.get_create_url()
 	return render_to_response("%s_edit.html" % type, locals(), 
@@ -70,6 +72,7 @@ def jetpack_version_edit(r, slug, version, counter):
 	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
 	item = version.jetpack
 	type = "jetpack"
+	page = "editor"
 	other_versions = JetVersion.objects.filter_by_slug(slug=slug)
 	return render_to_response('jetpack_edit.html', locals(), 
 				context_instance=RequestContext(r))
@@ -81,6 +84,7 @@ def capability_version_edit(r, slug, version, counter):
 	item = version.capability
 	other_versions = CapVersion.objects.filter_by_slug(slug=slug)
 	type = "capability"
+	page = "editor"
 	return render_to_response('capability_edit.html', locals(), 
 				context_instance=RequestContext(r))
 

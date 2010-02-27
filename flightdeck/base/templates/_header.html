@@ -3,11 +3,13 @@
 
 <nav>
 	<ul>
-		{% ifequal page "editor" %}
-			<li class="active"><a title="Editor" href="#">Editor</a></li>
-		{% endifequal %}	
-		<li><a {% ifequal page "packages" %}class='active' {% endifequal %}title="Package Browser" href="/">Package Browser</a></li>
-		<li><a title="API Browser" href="#">API Browser</a></li>
-		<li><a {% ifequal page "dashboard" %}class='active' {% endifequal %} title="My Account" href="/user/dashboard/">My Account</a></li>
+		
+		<li{% ifequal page "editor" %} class="active"{% endifequal %}><a title="Editor">Editor</a></li>
+			
+		<li {% ifequal page "packages" %}class='active'{% endifequal %}><a title="Package Browser" href="/">Package Browser</a></li>
+		<li {% ifequal page "apibrowser" %}class='active'{% endifequal %}><a title="API Browser" href="#">API Browser</a></li>
+		{% if user.is_authenticated %}
+			<li {% ifequal page "dashboard" %}class='active'{% endifequal %}><a title="My Account" href="/user/dashboard/">My Account</a></li>
+		{% endif %}
 	</ul>
 </nav>
