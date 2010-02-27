@@ -16,6 +16,7 @@ def public_profile(r, username, force=None):
 	# if owner of the profile and not specially wanted to see it - redirect to dashboard
 	if not force and username == r.user.username:
 		return HttpResponseRedirect(reverse('person_dashboard'))
+	page = "dashboard"
 	return render_to_response("profile.html", locals(),
 				context_instance=RequestContext(r))
 
@@ -24,5 +25,6 @@ def dashboard(r):
 	"""
 	Dashboard of the user
 	"""
-	return render_to_response("dashboard.html", {},
+	page = "dashboard"
+	return render_to_response("dashboard.html", locals(),
 				context_instance=RequestContext(r))
