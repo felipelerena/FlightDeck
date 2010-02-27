@@ -187,9 +187,49 @@ a:focus {
 
 /*
  =========================================================================== */
- #app-footer {
-    background: #3F4652;
-    height: 30px;
-    
-    display: none;
- }
+#app-footer {
+   background: #3F4652;
+   height: 30px;
+
+   display: none;
+}
+
+.UI_Heading {
+   border-bottom: solid 1px #E9EDF0;
+   padding: 0 0 5px;
+   margin: 0 0 15px;
+   color: #666;
+   font-size: 1.4em;
+   font-family: Helvetica, Arial, Tahoma, sans-serif;
+}
+
+.UI_Action_List {
+   font-size: .9em;
+}
+
+   .UI_Action_List li {
+      font-weight: bold;
+      margin: 0 0 10px;
+   }
+   
+   .UI_Action_List li:hover strong {
+      color: #3E464D;
+   }
+   
+      .UI_Action_List li a {
+         color: #478CDE;
+         padding-bottom: 1px;
+         border-bottom: solid 1px #E9EDF0;
+      }
+      
+      .UI_Action_List li a:hover {
+         text-decoration: none;
+         color: #3E464D;
+         border-bottom: solid 1px #478CDE;
+      }
+      
+      .UI_Action_List li strong {
+         color: #CCC;
+         font-size: .9em;
+         margin-left: 5px;
+      }

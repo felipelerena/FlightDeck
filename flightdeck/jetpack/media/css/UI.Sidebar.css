@@ -95,13 +95,18 @@ authors:
       .UI_Sidebar_Creator a,
       .UI_Sidebar_Author a,
       .UI_Sidebar_SwitchTo a {
-         color: #4D5860;
-         text-shadow: 0 1px 0 #fff;
-         background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
-         -moz-border-radius: 4px;
-         padding: 2px 7px;
-         margin-left: 2px;
-         display: inline-block;
+         color: #478CDE;
+         padding-bottom: 1px;
+         border-bottom: solid 1px #E9EDF0;
+         font-weight: bold;
+      }
+      
+      .UI_Sidebar_Creator a:hover,
+      .UI_Sidebar_Author a:hover,
+      .UI_Sidebar_SwitchTo a:hover {
+         text-decoration: none;
+         color: #3E464D;
+         border-bottom: solid 1px #478CDE;
       }
    
    .UI_Sidebar_ItemCont {
