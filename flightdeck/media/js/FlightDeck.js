@@ -26,7 +26,6 @@ Element.implement({
 
 /*
  * File: media/js/FlightDeck.js
- */
 
 if (!console) { 
 	var console = {
@@ -36,6 +35,7 @@ if (!console) {
 		error: function(value) { alert(value); }
 	};
 }
+ */
 
 /*
  * Class: FlightDeck
