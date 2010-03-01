@@ -204,6 +204,11 @@ class CapVersion(models.Model):
 		"""
 		return ('jp_capability_version_save_as_base',[self.capability.slug, self.name, self.counter])
 
+	@models.permalink
+	def get_adddependency_url(self):
+		return ('jp_apability_add_dependency ',[self.capability.slug, self.name, self.counter])
+
+
 
 class Jet(models.Model):
 	"""
@@ -269,17 +274,21 @@ class Jet(models.Model):
 		from django.template.defaultfilters import slugify
 		return slugify(self.name)
 
+
 	@models.permalink
 	def get_absolute_url(self):
 		return ('jp_jetpack_edit',[self.slug])
+
 
 	@models.permalink
 	def get_update_url(self):
 		return ('jp_jetpack_update',[self.slug])
 
+
 	@models.permalink
 	def get_version_create_url(self):
 		return ('jp_jetpack_version_create',[self.slug])
+
 
 	def can_be_updated_by(self, user):
 		"""
@@ -391,6 +400,11 @@ class JetVersion(models.Model):
 		@returns str: url to switch the is_base to True
 		"""
 		return ('jp_jetpack_version_save_as_base',[self.jetpack.slug, self.name, self.counter])
+
+
+	@models.permalink
+	def get_adddependency_url(self):
+		return ('jp_jetpack_add_dependency ',[self.jetpack.slug, self.name, self.counter])
 
 
 ########################################################################################
