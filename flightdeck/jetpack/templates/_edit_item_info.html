@@ -1,0 +1,25 @@
+{% load jetpack_extras %}
+{% if not version %}
+	<p class="fd_message" title="{{ type|capfirst }} created!">Please update or create a new Version after adding some content</p>
+{% endif %}
+
+<section id="jetpack-info" class="UI_Sidebar_Item">
+	<h3 id="ji-toggler">
+		<a title="{{ item.name }}" href="#">{{ item.name }}</a>
+	</h3>
+	<ul class="UI_File_Listing">
+		<li class="UI_File_Selected">
+			<a title="Content" href="#" id="{{ version|tab_link_id:"content" }}">Content <span class="File_status"></span></a>
+		</li>
+		{% ifequal type "jetpack" %}<li class="UI_File_Normal">
+			<a title="Manifest" href="#" id="{{ version|tab_link_id:"manifest" }}">Manifest <span class="File_status"></span></a>
+		</li>{% endifequal %}
+		<li class="UI_File_Normal">
+			<a title="Description" href="#" id="{{ item|tab_link_id:"description" }}">Description <span class="File_status"></span></a>
+		</li>
+		<li class="UI_File_Normal">
+			<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span class="File_status"></span></a>
+		</li>
+	</ul>
+</section>
+

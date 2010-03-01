@@ -1,38 +1,15 @@
 {% extends "editor.html" %}
 {% load jetpack_extras %}
 {% block app_head %}
-	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
+	{% include "_edit_page_title.html" %}
 	<script src="/media/jetpack/js/Jetpack.js"></script>
 {% endblock %}
 
 {% block app_domready %}{% include "js/_edit_item_initiate.js" %}{% endblock %}
 
 
-
 {% block app_sidebar %}
-	{% if not version %}
-		<p class="fd_message" title="Jetpack created!">Please update or create a new Version after adding some content</p>
-	{% endif %}
-	
-	<section id="jetpack-info" class="UI_Sidebar_Item">
-		<h3 id="ji-toggler">
-			<a title="{{ item.name }}" href="#">{{ item.name }}</a>
-		</h3>
-		<ul class="UI_File_Listing">
-			<li class="UI_File_Selected">
-				<a title="Content" href="#" id="{{ version|tab_link_id:"content" }}">Content <span class="File_status"></span></a>
-			</li>
-			<li class="UI_File_Normal">
-				<a title="Manifest" href="#" id="{{ version|tab_link_id:"manifest" }}">Manifest <span class="File_status"></span></a>
-			</li>
-			<li class="UI_File_Normal">
-				<a title="Description" href="#" id="{{ item|tab_link_id:"description" }}">Description <span class="File_status"></span></a>
-			</li>
-			<li class="UI_File_Normal">
-				<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span class="File_status"></span></a>
-			</li>
-		</ul>
-	</section>
+	{% include "_edit_item_info.html" %}
 
 	{% if version %}
 		<section id="dependencies" class="UI_Side_Item">
