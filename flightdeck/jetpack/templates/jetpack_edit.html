@@ -1,67 +1,16 @@
 {% extends "editor.html" %}
 {% load jetpack_extras %}
 {% block app_head %}
-	<title>{{ version }} - {{ settings.SITE_TITLE }}</title>
+	{% include "_edit_page_title.html" %}
 	<script src="/media/jetpack/js/Jetpack.js"></script>
 {% endblock %}
 
-{# everything which is outside of the block will not be used #}
-{# <script></script> is there for syntax highlighting #}
-<script>{% block app_domready %}
-	item = new Jetpack({
-		slug: '{{ item.slug }}',
-		name: '{{ item.name }}',
-		description: '{{ item.description|escapejs }}',
-		creator: '{{ item.creator }}',
-		edit_url: '{{ item.get_absolute_url }}',
-		update_url: '{{ item.get_update_url }}',
-		version_create_url: '{{ item.get_version_create_url }}',
-		switch_description_id: '{{ item|tab_link_id:"description" }}',
-		version: {
-			author: '{{ version.author }}',
-			name: '{{ version.name }}',
-			manifest: '{{ version.manifest|escapejs }}',
-			content: '{{ version.content|escapejs }}',
-			description: '{{ version.description|escapejs }}',
-			is_base: {{ version.is_base|yesno:"true,false" }},
-			edit_url: '{{ version.get_absolute_url }}',
-			update_url: '{{ version.get_update_url }}',
-			{% if version %}
-				add_dependency_url: '{% url jp_jetpack_add_dependency item.slug version.name version.counter %}',
-			{% endif %}
-			set_as_base_url: '{{ version.get_set_as_base_url }}',
-			switch_content_id: '{{ version|tab_link_id:"content" }}',
-			switch_description_id: '{{ version|tab_link_id:"version_description" }}',
-			switch_manifest_id: '{{ version|tab_link_id:"manifest" }}'
-		}
-	});
-{% endblock %}</script>
-
+{% block app_domready %}{% include "js/_edit_item_initiate.js" %}{% endblock %}
 
 
 {% block app_sidebar %}
-	{% if not version %}
-		<p class="fd_message" title="Jetpack created!">Please update or create a new Version after adding some content</p>
-	{% endif %}
-	
 	<section id="jetpack-info" class="UI_Sidebar_Item">
-		<h3 id="ji-toggler">
-			<a title="{{ item.name }}" href="#">{{ item.name }}</a>
-		</h3>
-		<ul class="UI_File_Listing">
-			<li class="UI_File_Selected">
-				<a title="Content" href="#" id="{{ version|tab_link_id:"content" }}">Content <span class="File_status"></span></a>
-			</li>
-			<li class="UI_File_Normal">
-				<a title="Manifest" href="#" id="{{ version|tab_link_id:"manifest" }}">Manifest <span class="File_status"></span></a>
-			</li>
-			<li class="UI_File_Normal">
-				<a title="Description" href="#" id="{{ item|tab_link_id:"description" }}">Description <span class="File_status"></span></a>
-			</li>
-			<li class="UI_File_Normal">
-				<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span class="File_status"></span></a>
-			</li>
-		</ul>
+		{% include "_edit_item_parts.html" %}
 	</section>
 
 	{% if version %}
@@ -78,64 +27,12 @@
 	{% endif %}
 
 	<section id="info" class="UI_Side_Item">
-		<h3 class="UI_Sidebar_Toggler info opened"><a title="Info" href="#">
-			Info 
-			<span class="UI_OC"></span>
-			<span class="UI_Sidebar_Toggler_Icon"></span>
-		</a></h3>
-		
-		<div class="UI_Sidebar_ItemCont">
-			<div class="UI_Field_Cont">
-				<label for="version_name">Version Name</label>
-				<input type="text" id="version_name" name="version_name" value="{{ version.name|default:"0.0" }}" /> {% if version %}.{{ version.counter }}{% endif %}
-
-				{% if version %}
-					<p class="UI_Sidebar_SwitchTo">
-						Switch to 
-						{% comment %}
-						{% if item_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
-						{% else %}<a title="Jetpack base" href="{{ item.get_absolute_url }}">Jetpack base</a>
-						{% endif %}
-					</p>
-					<p>
-						{% endcomment %}
-						<select id='switch_to_version'>
-							{% for v in other_versions %}
-								<option value='{{ v.fullname }}'{% ifequal version.id v.id %} selected{% endifequal %}>{{ v.fullname }}{% if v.is_base %} *{% endif %}</option>
-							{% endfor %}
-						</select>
-					</p>
-				{% endif %}
-
-				<p class="UI_Sidebar_Creator">Origin by <a title="{{ item.creator }}" href="{% url person_public_profile item.creator.username %}">{{ item.creator }}</a></p>
-
-				{% if version %}{% ifequal item.creator.username version.author.username %}
-				{% else %}
-						<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
-							<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
-						</p>
-				{% endifequal %}{% endif %}
-			</div>
-		</div>
+		{% include "_edit_item_info.html" %}
 	</section>
 
 	{% comment %}
 	<section id="recently-modified" class="UI_Side_Item">
-		<h3 class="UI_Sidebar_Toggler recentlyModified opened closed"><a title="Recently modified" href="#">
-			Recently modified 
-			<span class="UI_OC"></span>
-			<span class="UI_Sidebar_Toggler_Icon"></span>
-		</a></h3>
-		
-		<div class="UI_Sidebar_ItemCont">
-			<ul class="UI_File_Listing UI_Recent_Files">
-				{% for file in recently_modified %}
-					<li class="UI_File_Normal" id="{{ file|recently_modified_link_id }}">
-						<a title="{{ file|render_fullname }}" href="#">{{ file|render_fullname }}</a>
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
+		{% include "_edit_recently_modified.html" %}
 	</section>
 	{% endcomment %}
 {% endblock %}
@@ -143,12 +40,6 @@
 {% block app_content %}
 	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
-		<textarea id="version_content" class="UI_Editor_Area" name='version_content'>{{ version.content }}</textarea>
-		<textarea id='version_manifest' class="UI_Editor_Area" name='version_manifest'>{{ version.manifest }}</textarea>
-		<textarea id='jetpack_description' class="UI_Editor_Area" name='jetpack_description'>{{ item.description }}</textarea>
-		<textarea id='version_description' class='UI_Editor_Area'>{{ version.description }}</textarea>
-		{% for cap_version in version.capabilities.all %}
-			{% include "_dependency_content_textarea.html" %}
-		{% endfor %}
+		{% include "_edit_editors.html" %}
 	</div>
 {% endblock %}
