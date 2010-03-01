@@ -29,23 +29,10 @@
 	<section id="info" class="UI_Side_Item">
 		{% include "_edit_item_info.html" %}
 	</section>
+
 	{% comment %}
 	<section id="recently-modified" class="UI_Side_Item">
-		<h3 class="UI_Sidebar_Toggler recentlyModified opened closed"><a title="Recently modified" href="#">
-			Recently modified 
-			<span class="UI_OC"></span>
-			<span class="UI_Sidebar_Toggler_Icon"></span>
-		</a></h3>
-		
-		<div class="UI_Sidebar_ItemCont">
-			<ul class="UI_File_Listing UI_Recent_Files">
-				{% for file in recently_modified %}
-					<li class="UI_File_Normal" id="{{ file|recently_modified_link_id }}">
-						<a title="{{ file|render_fullname }}" href="#">{{ file|render_fullname }}</a>
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
+		{% include "_edit_recently_modified.html" %}
 	</section>
 	{% endcomment %}
 {% endblock %}
@@ -53,11 +40,6 @@
 {% block app_content %}
 	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
-		<textarea id="capability_description" name="capability_description" class="UI_Editor_Area bespin">{{ item.description }}</textarea>
-		<textarea id="version_content" name="version_content" class="UI_Editor_Area bespin">{{ version.content }}</textarea>
-		<textarea id="version_description" name="version_description" class="UI_Editor_Area bespin">{{ version.description }}</textarea>
-		{% for cap_version in version.capabilities.all %}
-			<textarea id="dependency_content_{{ cap_version.slug }}" class="UI_Editor_Area" name="dependency_content_{{ cap_version.slug }}">{{ cap_version.content }}</textarea>
-		{% endfor %}
+		{% include "_edit_editors.html" %}
 	</div>
 {% endblock %}
