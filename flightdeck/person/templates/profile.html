@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load jetpack_extras %}
 
-{% block app_body %}
+{% block app_content %}
 	<h1>Profile of {{ person }}</h1>
 	{% if person.authored_jetpacks.all %}
 		Created Jetpacks:

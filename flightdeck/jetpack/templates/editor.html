@@ -28,12 +28,3 @@
 
 {% block page_domready %}create.init('create','editor-wrapper');{% endblock %}
 
-{% block app_body %}
-	{# here sidebar #}
-	<aside id="app-sidebar" class="UI_Sidebar">
-		{% block app_sidebar %}{%endblock %}
-	</aside> <!-- /app-sidebar -->
-	<section id="app-content">
-		{% block app_content %}{% endblock %}
-	</section> <!-- /app-content -->
-{% endblock %}

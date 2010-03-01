@@ -5,38 +5,43 @@
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Browser.css" type="text/css" media="screen" />
 {% endblock %}
 
-{% block app_body %}
-	<aside id="app-sidebar" class="UI_Sidebar">
-		<h2 class="UI_Heading">{{ user }}</h2>
-	
-		<!-- <p>
-			Go to your <a href="{% url person_public_profile_forced user.username %}">public profile</a>
-		</p> -->
+{% block app_sidebar %}
+	<h2 class="UI_Heading">{{ user }}</h2>
 
-		<ul class="UI_Action_List">
-			<li><a title="Your Jetpacks" href="#your-jetpacks">Your Jetpacks</a> <strong>(50)</strong></li>
-			<li><a title="Your Modules" href="#your-modules">Your Modules</a> <strong>(10)</strong></li>
-		</ul>
-	</aside> <!-- /app-sidebar -->
+	<!-- <p>
+		Go to your <a href="{% url person_public_profile_forced user.username %}">public profile</a>
+	</p> -->
 
-	<section id="app-content">
-
+	<ul class="UI_Action_List">
 		{% if user.authored_jetpacks.all %}
-			<h2 id="your-jetpacks" class="UI_Heading">Your Jetpacks</h2>
-			<ul class="UI_Browser">
-				{% for jet in user.authored_jetpacks.all %}
-					<li class="UI_Item">{{ jet|render_base_link }}</li>
-				{% endfor %}
-			</ul>
+			<li><a title="Your Jetpacks" href="#your-jetpacks">Your Jetpacks</a> 
+				<strong>({{ user.authored_jetpacks.all|length }})</strong>
+			</li>
 		{% endif %}
-		
 		{% if user.authored_capabilities.all %}
-			<h2 id="your-modules" class="UI_Heading">Your Modules</h2>
-			<ul class="UI_Browser">
-				{% for cap in user.authored_capabilities.all %}
-					<li class="UI_Item">{{ cap|render_base_link }}</li>
-				{% endfor %}
-			</ul>
+			<li><a title="Your Modules" href="#your-modules">Your Modules</a> 
+				<strong>({{ user.authored_capabilities.all|length }})</strong>
+			</li>
 		{% endif %}
-	</section> <!-- /app-content -->	
+	</ul>
+{% endblock %}
+
+{% block app_content %}
+	{% if user.authored_jetpacks.all %}
+		<h2 id="your-jetpacks" class="UI_Heading">Your Jetpacks</h2>
+		<ul class="UI_Browser">
+			{% for jet in user.authored_jetpacks.all %}
+				<li class="UI_Item">{{ jet|render_base_link }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+	
+	{% if user.authored_capabilities.all %}
+		<h2 id="your-modules" class="UI_Heading">Your Modules</h2>
+		<ul class="UI_Browser">
+			{% for cap in user.authored_capabilities.all %}
+				<li class="UI_Item">{{ cap|render_base_link }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
 {% endblock %}

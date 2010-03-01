@@ -5,26 +5,24 @@
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Browser.css" type="text/css" media="screen" />
 {% endblock %}
 
-{% block app_body %}
-	<aside id="app-sidebar" class="UI_Sidebar">
-		<h2 class="UI_Heading">Categories</h2>
-		
-		<ul class="UI_Action_List">
-			<li><a title="" href="#">Notifiers</a> <strong>(20)</strong></li>
-			<li><a title="" href="#">Site alteration</a> <strong>(10)</strong></li>
-			<li><a title="" href="#">Development</a> <strong>(20)</strong></li>
-			<li><a title="" href="#">Misc</a> <strong>(234)</strong></li>
-			<li><a title="" href="#">Utilities</a> <strong>(20)</strong></li>
-		</ul>
-	</aside> <!-- /app-sidebar -->
+{% block app_sidebar %}
+	<h2 class="UI_Heading">Categories</h2>
 	
-	<section id="app-content">
-		<h2 class="UI_Heading">Recent jetpacks</h2>
-		
-		<ul class="UI_Browser">
-		{% for item in items %}
-			<li class="UI_Item">{{ item|render_base_link }}</li>
-		{% endfor %}
-		</ul>
-	</section> <!-- /app-content -->
+	<ul class="UI_Action_List">
+		<li><a title="" href="#">Notifiers</a> <strong>(20)</strong></li>
+		<li><a title="" href="#">Site alteration</a> <strong>(10)</strong></li>
+		<li><a title="" href="#">Development</a> <strong>(20)</strong></li>
+		<li><a title="" href="#">Misc</a> <strong>(234)</strong></li>
+		<li><a title="" href="#">Utilities</a> <strong>(20)</strong></li>
+	</ul>
+{% endblock %}
+	
+{% block app_content %}
+	<h2 class="UI_Heading">Recent jetpacks</h2>
+	
+	<ul class="UI_Browser">
+	{% for item in items %}
+		<li class="UI_Item">{{ item|render_base_link }}</li>
+	{% endfor %}
+	</ul>
 {% endblock %}
