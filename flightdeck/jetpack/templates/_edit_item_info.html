@@ -1,25 +1,33 @@
 {% load jetpack_extras %}
-{% if not version %}
-	<p class="fd_message" title="{{ type|capfirst }} created!">Please update or create a new Version after adding some content</p>
-{% endif %}
+<h3 class="UI_Sidebar_Toggler info opened"><a title="Info" href="#">
+	Info 
+	<span class="UI_OC"></span>
+	<span class="UI_Sidebar_Toggler_Icon"></span>
+</a></h3>
 
-<section id="jetpack-info" class="UI_Sidebar_Item">
-	<h3 id="ji-toggler">
-		<a title="{{ item.name }}" href="#">{{ item.name }}</a>
-	</h3>
-	<ul class="UI_File_Listing">
-		<li class="UI_File_Selected">
-			<a title="Content" href="#" id="{{ version|tab_link_id:"content" }}">Content <span class="File_status"></span></a>
-		</li>
-		{% ifequal type "jetpack" %}<li class="UI_File_Normal">
-			<a title="Manifest" href="#" id="{{ version|tab_link_id:"manifest" }}">Manifest <span class="File_status"></span></a>
-		</li>{% endifequal %}
-		<li class="UI_File_Normal">
-			<a title="Description" href="#" id="{{ item|tab_link_id:"description" }}">Description <span class="File_status"></span></a>
-		</li>
-		<li class="UI_File_Normal">
-			<a title="Version description" href="#" id="{{ version|tab_link_id:"version_description" }}">Version description <span class="File_status"></span></a>
-		</li>
-	</ul>
-</section>
+<div class="UI_Sidebar_ItemCont">
+	<div class="UI_Field_Cont">
+		<label for="version_name">Version Name</label>
+		<input type="text" id="version_name" name="version_name" value="{{ version.name|default:"0.0" }}" /> {% if version %}.{{ version.counter }}{% endif %}
 
+		{% if version %}
+			<p class="UI_Sidebar_SwitchTo">
+				Switch to 
+				<select id='switch_to_version'>
+					{% for v in other_versions %}
+						<option value='{{ v.fullname }}'{% ifequal version.id v.id %} selected{% endifequal %}>{{ v.fullname }}{% if v.is_base %} *{% endif %}</option>
+					{% endfor %}
+				</select>
+			</p>
+		{% endif %}
+
+		<p class="UI_Sidebar_Creator">Origin by <a title="{{ item.creator }}" href="{% url person_public_profile item.creator.username %}">{{ item.creator }}</a></p>
+
+		{% if version %}{% ifequal item.creator.username version.author.username %}
+		{% else %}
+				<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
+					<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
+				</p>
+		{% endifequal %}{% endif %}
+	</div>
+</div>

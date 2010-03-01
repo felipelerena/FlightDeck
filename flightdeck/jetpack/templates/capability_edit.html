@@ -9,7 +9,9 @@
 
 
 {% block app_sidebar %}
-	{% include "_edit_item_info.html" %}
+	<section id="jetpack-info" class="UI_Sidebar_Item">
+		{% include "_edit_item_parts.html" %}
+	</section>
 
 	{% if version %}
 		<section id="dependencies" class="UI_Side_Item">
@@ -25,47 +27,7 @@
 	{% endif %}
 
 	<section id="info" class="UI_Side_Item">
-		<h3 class="UI_Sidebar_Toggler info opened"><a title="Info" href="#">
-			Info 
-			<span class="UI_OC"></span>
-			<span class="UI_Sidebar_Toggler_Icon"></span>
-		</a></h3>
-		
-		<div class="UI_Sidebar_ItemCont">
-			<div class="UI_Field_Cont">
-				<label for="version_name">Version Name</label>
-				<input type="text" id="version_name" name="version_name" value="{{ version.name|default:"0.0" }}" /> {% if version %}.{{ version.counter }}{% endif %}
-				
-				{% if version %}
-					<p class="UI_Sidebar_SwitchTo">
-						Switch to 
-						{% comment %}
-						{% if item_page %}<a title="Version {{ version.fullname }}" href="{{ version.get_absolute_url }}">Version {{ version.fullname }}</a>
-						{% else %}<a title="Capability base" href="{{ item.get_absolute_url }}">Capability base</a>
-						{% endif %}
-					</p>
-					<p>
-						{% endcomment %}
-						<select id='switch_to_version'>
-							{% for v in other_versions %}
-								<option value='{{ v.fullname }}'>{{ v.fullname }}</option>
-							{% endfor %}
-						</select>
-					</p>
-				{% endif %}
-
-				<p class="UI_Sidebar_Creator">Origin by <a title="{{ item.creator }}" href="{% url person_public_profile item.creator.username %}">{{ item.creator }}</a></p>
-
-				{% ifequal item.creator.username version.author.username %}
-				{% else %}
-					{% if version %}
-						<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
-							<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
-						</p>
-					{% endif %}
-				{% endifequal %}
-			</div>
-		</div>
+		{% include "_edit_item_info.html" %}
 	</section>
 	{% comment %}
 	<section id="recently-modified" class="UI_Side_Item">
