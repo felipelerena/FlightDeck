@@ -33,7 +33,7 @@ var Capability = new Class({
 	 * Method: initialize
 	 * @attribute object options: 
 	 * 	
-	 * initialize Version and inside of that chosen Editor
+	 * initialize Version and inside of that chosen FDEditor
 	 * assign actions to the buttons
 	 */
 	initialize: function(options) {
@@ -57,7 +57,7 @@ var Capability = new Class({
 	 */
 	instantiateEditors: function() {
 		// do not create an editor for the description if loaded as dependency
-		this.description_el = new Editor(this.options.description_el).hide();
+		this.description_el = new FDEditor(this.options.description_el).hide();
 		fd.editors.push(this.description_el);
 	},
 	/*
@@ -230,6 +230,7 @@ var CapVersion = new Class({
 	options: {
 		//commited_by: null,
 		//name: null,
+		//counter: null,
 		//description: null,
 		//content: null,
 		//status: null,
@@ -284,10 +285,10 @@ var CapVersion = new Class({
 	 * Method: instantiateEditors
 	 */
 	instantiateEditors: function() {
-		this.content_el = new Editor(this.options.content_el);
+		this.content_el = new FDEditor(this.options.content_el);
 		fd.editors.push(this.content_el);
 		this.name_el = $(this.options.name_el);
-		this.description_el = new Editor(this.options.description_el).hide();
+		this.description_el = new FDEditor(this.options.description_el).hide();
 		fd.editors.push(this.description_el);
 	},
 	/*
@@ -434,7 +435,7 @@ var CapVersion = new Class({
 	},
 	/*
 	 * Method: getContent
-	 * Wrapper for getting content from the Editor
+	 * Wrapper for getting content from the FDEditor
 	 */
 	getContent: function() {
 		return this.content_el.getContent();
