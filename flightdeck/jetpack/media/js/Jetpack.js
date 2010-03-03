@@ -19,6 +19,10 @@ var Jetpack = new Class({
 	initialize: function(options) {
 		this.setOptions(options);
 		this.parent(this.options);
+		if (!this.version.data.version_manifest) {
+			this.version.data.version_manifest = this.generateManifest();
+			this.version.manifest_el.setContent(this.version.data.version_manifest);
+		}
 	},
 	/*
 	 * Method: initializeVersion
@@ -33,6 +37,19 @@ var Jetpack = new Class({
 	 */
 	updateFromDOM: function() {
 		this.parent();
+	},
+	getManifestData: function() {
+		return {
+			name: this.options.slug,
+			fullName: this.options.name,
+			description: this.options.description,
+			author: this.options.creator
+		}
+	},
+	generateManifest: function() {
+		var data = $H(this.getManifestData());
+		data.extend(this.version.getManifestData());
+		return JSON.encode(data);
 	}
 });
 
@@ -61,6 +78,30 @@ var JetVersion = new Class({
 		this.parent(options);
 		this.data.version_manifest = this.options.manifest;
 	},
+	/*
+	 * Method: generateManifest
+	 * If no manifest.json prepared means this is the first version ever
+	 * Prepare manifest on the data provided
+	 */
+	generateManifest: function() {
+		var data = $H(fd.getItem().getManifestData() );
+		data.extend(this.getManifestData());
+		return JSON.encode(data);
+	},
+	getManifestData: function() {
+		return {
+			contributors: [], // author strings
+			// url: '',
+			// license: '',
+			version: '{name}.{counter}'.substitute(this.options),
+			dependencies: [], // names of the packages it relies on
+			// lib: 'lib',
+			// tests: 'tests',
+			// packages: 'packages',
+			main: 'main' // main.js needs to be produced
+		}
+	},
+
 	/*
 	 * Method: instantiateEditors
 	 */

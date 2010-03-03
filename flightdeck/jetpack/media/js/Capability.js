@@ -230,6 +230,7 @@ var CapVersion = new Class({
 	options: {
 		//commited_by: null,
 		//name: null,
+		//counter: null,
 		//description: null,
 		//content: null,
 		//status: null,

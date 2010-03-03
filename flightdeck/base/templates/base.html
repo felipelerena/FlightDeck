@@ -2,10 +2,10 @@
 {# Base HTML every page will use #}
 <html lang="en">
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="author" content="Mozilla Corporation">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="author" content="Mozilla Corporation" />
 
-		<link rel="stylesheet" href="/media/jetpack/css/UI.Base.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="/media/jetpack/css/UI.Base.css" type="text/css" media="screen" />
 		<script src="/media/js/lib/mootools-1.2.4-core-nc.js"></script>
 		<script src="/media/js/lib/mootools-1.2.4.4-more.js"></script>
 		<script src="/media/roar/Roar.js"></script>
@@ -13,8 +13,14 @@
 		<script src="/media/js/FlightDeck.js"></script>
 		<script src="/media/js/FlightDeck.Roar.js"></script>
 		<script src="/media/js/FlightDeck.Modal.js"></script>
+		<script src="/media/js/FlightDeck.Utils.js"></script>
 		{% block head %}{% endblock %}
-		{% block roar_css %}<link href="/media/roar/Roar.css" rel="stylesheet" type="text/css">{% endblock %}
+		{% block roar_css %}
+			<link href="/media/roar/Roar.css" rel="stylesheet" type="text/css" />
+			<link rel="stylesheet" href="/media/jetpack/css/FlightDeck.Roar.css" type="text/css" media="screen" />
+		{% endblock %}
+		<link rel="stylesheet" href="/media/jetpack/css/FlightDeck.CodeMirror.css" type="text/css" media="screen" />
+		
 		<script type='text/javascript'>
 			var fd;
 			window.addEvent('domready', function() {

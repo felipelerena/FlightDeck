@@ -16,6 +16,7 @@ item = new {{ type|capfirst }}({
 		{% endifequal %}
 		author: '{{ version.author }}',
 		name: '{{ version.name }}',
+		counter: '{{ version.counter }}',
 		content: '{{ version.content|escapejs }}',
 		description: '{{ version.description|escapejs }}',
 		is_base: {{ version.is_base|yesno:"true,false" }},

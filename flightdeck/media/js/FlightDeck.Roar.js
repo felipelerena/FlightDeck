@@ -7,9 +7,16 @@ FlightDeck = Class.refactor(FlightDeck,{
 		this.setOptions(options);
 		this.previous(options);
 		
-		this.warning = new Roar();
-		this.error = new Roar();
-		this.message = new Roar();
+		this.warning = new Roar({
+			className: 'roar warning'
+		});
+		this.error = new Roar({
+			className: 'roar error',
+			duration: 50000
+		});
+		this.message = new Roar({
+			className: 'roar warning'
+		});
 		this.parseMessages();
 	},
 	/*
