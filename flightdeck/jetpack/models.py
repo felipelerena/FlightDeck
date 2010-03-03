@@ -206,7 +206,6 @@ class CapVersion(models.Model):
 
 	@models.permalink
 	def get_adddependency_url(self):
-		print [self.capability.slug, self.name, self.counter]
 		return ('jp_capability_add_dependency',[self.capability.slug, self.name, self.counter])
 
 
