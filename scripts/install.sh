@@ -2,6 +2,10 @@
 
 source scripts/config_local.sh
 
+### PIP packages installation
+export PYTHONPATH=
+pip install -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
+
 # src dir
 SRC=$V_ENV/src
 # find last python dir
@@ -10,9 +14,6 @@ do
 	SITE_PACKAGES=$i/site-packages
 done
 
-### PIP packages installation
-export PYTHONPATH=
-pip install -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
 
 ### flightdeck media dir 
 if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/ ]
@@ -73,7 +74,10 @@ then
 	wget http://marijn.haverbeke.nl/codemirror/codemirror.zip
 	unzip -x codemirror.zip
 	rm codemirror.zip
-	rm $V_ENV/lib/codemirror
+	if [ -e $V_ENV/lib/codemirror ]
+	then 
+		rm $V_ENV/lib/codemirror
+	fi
 fi
 if [ ! -e $V_ENV/lib/codemirror ]
 then
@@ -84,6 +88,24 @@ if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/codemirror ]
 then
 	ln -fs $V_ENV/lib/codemirror $PROJECT_DIR/$PROJECT_NAME/media/codemirror
 fi
+
+### Jetpack SDK
+if [ ! -e $V_ENV/src/jetpack-sdk ]
+then
+	cd $V_ENV/src
+	hg clone http://hg.mozilla.org/labs/jetpack-sdk/
+	# link necessary execution files
+	ln -fs $V_ENV/src/jetpack-sdk/bin/cfx $V_ENV/bin/cfx
+	ln -fs $V_ENV/src/jetpack-sdk/bin/jpx $V_ENV/bin/jpx
+	ln -fs $V_ENV/src/jetpack-sdk/bin/quick-start $V_ENV/bin/quick-start
+	# link packages
+	ln -fs $V_ENV/src/jetpack-sdk/packages $V_ENV/packages
+	# link libs unable to install via pip
+	ln -fs $V_ENV/src/jetpack-sdk/python-lib/cuddlefish $SITE_PACKAGES/cuddlefish
+	# link static files
+	ln -fs $V_ENV/src/jetpack-sdk/static-files $V_ENV/static-files
+fi
+
 
 ### Grappelli section
 # checkout the repository
