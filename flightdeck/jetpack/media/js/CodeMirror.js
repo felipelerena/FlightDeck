@@ -37,7 +37,6 @@ Class.refactor(Editor, {
 			this.options.codeMirror.parserfile = ["parsedummy.js"];
 		}
 		this.element = $(this.options.element);
-		console.log(this.options.element);
 		if (this.element.isHidden()) {
 			this.hidden = true;
 		}
@@ -63,6 +62,11 @@ Class.refactor(Editor, {
 	},
 	getContent: function() {
 		return this.editor.getCode();
+	},
+	setContent: function(value) {
+		this.previous();
+		//this.editor.setCode(value);
+		return this;
 	},
 	hide: function() {
 		this.editor.wrapping.hide();
