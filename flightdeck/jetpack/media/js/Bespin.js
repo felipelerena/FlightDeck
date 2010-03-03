@@ -2,7 +2,7 @@
  * Bespin wrapper
  */
 
-Class.refactor(Editor, {
+Class.refactor(FDEditor, {
 	options: {
 		version: 0.6
 	},

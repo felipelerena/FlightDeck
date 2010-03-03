@@ -82,7 +82,7 @@ var CapVersionDependency = new Class({
 		this.fireEvent('change');
 	},
 	instantiateEditors: function() {
-		this.content_el = new Editor(this.options.content_el).hide();
+		this.content_el = new FDEditor(this.options.content_el).hide();
 		fd.editors.push(this.content_el);
 	},
 	initializeEditorSwitches: function() {

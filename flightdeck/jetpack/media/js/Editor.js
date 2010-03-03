@@ -8,8 +8,9 @@
  * Otherwise standard textarea will be used.
  */
 
-var Editor = new Class({
+var FDEditor = new Class({
 	Implements: [Options, Events],
+	$name: 'FlightDeckEditor',
 	options: {
 		element: "version_content"
 	},
@@ -56,5 +57,6 @@ var Editor = new Class({
 		this.element.show();
 		this.fireEvent('show');
 		return this;
-	}
+	},
+	cleanUp: $empty
 });

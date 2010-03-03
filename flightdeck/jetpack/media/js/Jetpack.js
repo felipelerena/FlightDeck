@@ -13,16 +13,17 @@ var Jetpack = new Class({
 	 * Method: initialize
 	 * @attribute object options: 
 	 * 	
-	 * initialize Version and inside of that chosen Editor
+	 * initialize Version and inside of that chosen FDEditor
 	 * assign actions to the buttons
 	 */
 	initialize: function(options) {
 		this.setOptions(options);
-		this.parent(this.options);
-		if (!this.version.data.version_manifest) {
-			this.version.data.version_manifest = this.generateManifest();
-			this.version.manifest_el.setContent(this.version.data.version_manifest);
+		if (!this.options.version.manifest) {
+			this.options.version.manifest = this.generateInitialManifest();
+			// TODO: REFACTOR: this is actually a hack!
+			$('version_manifest').set('text', this.options.version.manifest);
 		}
+		this.parent(this.options);
 	},
 	/*
 	 * Method: initializeVersion
@@ -50,6 +51,25 @@ var Jetpack = new Class({
 		var data = $H(this.getManifestData());
 		data.extend(this.version.getManifestData());
 		return JSON.encode(data);
+	},
+	generateInitialManifest: function() {
+		var data = $H(this.getManifestData());
+		data.extend({
+			contributors: [], // author strings
+			// url: '',
+			// license: '',
+			version: '0.0.0',
+			dependencies: [], // names of the packages it relies on
+			// lib: 'lib',
+			// tests: 'tests',
+			// packages: 'packages',
+			main: 'main' // main.js needs to be produced
+		});
+		return JSON.encode(data)
+					.replace(/",/g,'",\n')
+					.replace(/],/g,'],\n')
+					.replace(/{/g,'{\n')
+					.replace(/}/g,'\n}');
 	}
 });
 
@@ -65,13 +85,14 @@ var JetVersion = new Class({
 		//published: null,
 		manifest_el: {
 			element: 'version_manifest',
-			type: 'json'
+			type: 'json',
+			reindentOnLoad: true
 		}
 		//switch_manifest_id: ''
 	},
 	/*
 	 * Method: initialize
-	 * instantiate Editor
+	 * instantiate FDEditor
 	 */
 	initialize: function(options) {
 		this.setOptions(options);
@@ -107,7 +128,7 @@ var JetVersion = new Class({
 	 */
 	instantiateEditors: function() {
 		this.parent();
-		this.manifest_el = new Editor(this.options.manifest_el).hide();
+		this.manifest_el = new FDEditor(this.options.manifest_el).hide();
 		fd.editors.push(this.manifest_el);
 	},
 	/*	

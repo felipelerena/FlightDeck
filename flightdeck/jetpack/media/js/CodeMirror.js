@@ -7,7 +7,7 @@
  * Extension for Editor to use CodeMirror
  */
 
-Class.refactor(Editor, {
+Class.refactor(FDEditor, {
 	options: {
 		type: null,
 		codeMirror: {
@@ -49,13 +49,13 @@ Class.refactor(Editor, {
 		}
 		// instantiate editor
 		this.editor = CodeMirror.fromTextArea(this.element, this.options.codeMirror);
-		// fix codemirror focus
-		if (! this.editor.editor) this.editor.editor = {};
+		// fix codemirror focus - this has to be another problem!
+		// if (! this.editor.editor) this.editor.editor = {};
 		// hide if textarea was hidden
 		if (this.hidden) {
 			this.hide();
 		} else {
-			this.editor.focus();
+			if (this.editor.editor) this.editor.focus();
 		}
 	},
 	onCodeMirrorChange: function() {
@@ -67,7 +67,7 @@ Class.refactor(Editor, {
 	},
 	setContent: function(value) {
 		this.previous();
-		//this.editor.setCode(value);
+		this.editor.setCode(value);
 		return this;
 	},
 	hide: function() {
@@ -84,5 +84,9 @@ Class.refactor(Editor, {
 			this._window = this.element.getParent('.window');
 		}
 		return this._window || this.element;
+	},
+	cleanUp: function() {
+		if (this.editor.editor) this.editor.reindent();
+		return this;
 	}
 });

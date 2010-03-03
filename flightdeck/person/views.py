@@ -14,9 +14,7 @@ def public_profile(r, username, force=None):
 	"""
 	person = get_object_or_404(User, username=username)
 	# if owner of the profile and not specially wanted to see it - redirect to dashboard
-	if not force and username == r.user.username:
-		return HttpResponseRedirect(reverse('person_dashboard'))
-	page = "dashboard"
+	page = "profile"
 	return render_to_response("profile.html", locals(),
 				context_instance=RequestContext(r))
 
