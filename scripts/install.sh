@@ -68,7 +68,7 @@ then
 fi
 
 ### CodeMirror installation
-if [ ! -e $V_ENV/src/CodeMirror-0.65 ]
+if [ ! -e $V_ENV/src/CodeMirror-0.66 ]
 then 
 	cd $V_ENV/src/
 	wget http://marijn.haverbeke.nl/codemirror/codemirror.zip
@@ -81,7 +81,7 @@ then
 fi
 if [ ! -e $V_ENV/lib/codemirror ]
 then
-	ln -fs $V_ENV/src/CodeMirror-0.65/ $V_ENV/lib/codemirror
+	ln -fs $V_ENV/src/CodeMirror-0.66/ $V_ENV/lib/codemirror
 fi
 
 if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/codemirror ]
