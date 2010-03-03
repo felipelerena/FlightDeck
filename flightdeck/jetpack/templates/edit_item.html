@@ -2,7 +2,9 @@
 {% load jetpack_extras %}
 {% block app_head %}
 	{% include "_edit_page_title.html" %}
-	<script src="/media/jetpack/js/Jetpack.js"></script>
+	{% ifequal type "jetpack" %}
+		<script src="/media/jetpack/js/Jetpack.js"></script>
+	{% endifequal %}
 {% endblock %}
 
 {% block app_domready %}{% include "js/_edit_item_initiate.js" %}{% endblock %}
@@ -21,6 +23,7 @@
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a></h3>
 			<div class="UI_Sidebar_ItemCont">
+				{% include "_dependency_add.html" %}
 				{% include "_dependency_list.html" %}
 			</div>
 		</section>
