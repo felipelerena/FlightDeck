@@ -5,6 +5,8 @@ South
 docutils
 wsgiref
 yolk
+mozrunner
+simplejson
 django-extensions
 django-debug-toolbar
 

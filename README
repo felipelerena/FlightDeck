@@ -18,6 +18,11 @@ Production uses following third-party software:
  * PIL (http://www.pythonware.com/products/pil/) [free custom - http://www.pythonware.com/products/pil/license.htm]
  * Mootools (http://mootools.net/) [MIT]
 
+Needed for Jetpack integration
+ * mozrunner
+ * simplejson
+ * jetpack-sdk
+
 Following third-party software is used only for development:
  * GraphViz (http://www.graphviz.org/) [GPL]
  * PyGraphViz (http://networkx.lanl.gov/pygraphviz/) [?]

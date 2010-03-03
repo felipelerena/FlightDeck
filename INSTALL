@@ -3,9 +3,9 @@ First Installation
 
 Virtualenv is providing a stable environment for Django. (1)
 
-Assuming that svn/git/mercurial and Python 2.5+ is already 
-installed it should be enough to follow these steps (some 
-commands are specific to Ubuntu with Bash):
+Assuming that svn/git/mercurial, xulrunner (or firefox) and 
+Python 2.5+ is already installed it should be enough to follow 
+these steps (some commands are specific to Ubuntu with Bash):
 
 1. Clone FlightDeck from github
    $ sudo apt-get install git-core
