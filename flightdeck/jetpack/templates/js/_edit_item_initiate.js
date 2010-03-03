@@ -19,12 +19,12 @@ item = new {{ type|capfirst }}({
 		content: '{{ version.content|escapejs }}',
 		description: '{{ version.description|escapejs }}',
 		is_base: {{ version.is_base|yesno:"true,false" }},
-		edit_url: '{{ version.get_absolute_url }}',
 		update_url: '{{ version.get_update_url }}',
 		{% if version %}
+			edit_url: '{{ version.get_absolute_url }}',
 			add_dependency_url: '{{ version.get_adddependency_url }}',
+			set_as_base_url: '{{ version.get_set_as_base_url }}',
 		{% endif %}
-		set_as_base_url: '{{ version.get_set_as_base_url }}',
 		switch_content_id: '{{ version|tab_link_id:"content" }}',
 		switch_description_id: '{{ version|tab_link_id:"version_description" }}'
 	}
