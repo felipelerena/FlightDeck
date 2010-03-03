@@ -63,7 +63,7 @@ def item_edit(r, item, type):
 	page = "editor"
 	jetpack_create_url = Jet.get_create_url()
 	capability_create_url = Cap.get_create_url()
-	return render_to_response("%s_edit.html" % type, locals(), 
+	return render_to_response("edit_item.html", locals(), 
 				context_instance=RequestContext(r))
 	
 
@@ -74,7 +74,7 @@ def jetpack_version_edit(r, slug, version, counter):
 	type = "jetpack"
 	page = "editor"
 	other_versions = JetVersion.objects.filter_by_slug(slug=slug)
-	return render_to_response('jetpack_edit.html', locals(), 
+	return render_to_response('edit_item.html', locals(), 
 				context_instance=RequestContext(r))
 	
 
@@ -85,7 +85,7 @@ def capability_version_edit(r, slug, version, counter):
 	other_versions = CapVersion.objects.filter_by_slug(slug=slug)
 	type = "capability"
 	page = "editor"
-	return render_to_response('capability_edit.html', locals(), 
+	return render_to_response('edit_item.html', locals(), 
 				context_instance=RequestContext(r))
 
 
