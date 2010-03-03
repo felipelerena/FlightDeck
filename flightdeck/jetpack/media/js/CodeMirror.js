@@ -37,6 +37,7 @@ Class.refactor(Editor, {
 			this.options.codeMirror.parserfile = ["parsedummy.js"];
 		}
 		this.element = $(this.options.element);
+		console.log(this.options.element);
 		if (this.element.isHidden()) {
 			this.hidden = true;
 		}
