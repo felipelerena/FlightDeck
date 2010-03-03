@@ -29,15 +29,17 @@ Class.refactor(Editor, {
 				"tokenizejavascript.js", 
 				"parsejavascript.js"
 			];
-			this.options.codeMirror.stylesheet = '/media/codemirror/css/jscolors.css';
+			this.options.codeMirror.stylesheet = '/media/jetpack/css/codemirror/jscolors.css';
 		} else if (this.options.type == 'css') {
 			this.options.codeMirror.parserfile = ["parsecss.js"];
-			this.options.codeMirror.stylesheet = '/media/codemirror/css/csscolors.css';
+			this.options.codeMirror.stylesheet = '/media/jetpack/css/codemirror/csscolors.css';
 		} else { // text
 			this.options.codeMirror.parserfile = ["parsedummy.js"];
+			this.options.codeMirror.stylesheet = '/media/jetpack/css/codemirror/textcolors.css';
 		}
+
 		this.element = $(this.options.element);
-		console.log(this.options.element);
+		$log(this.options.element);
 		if (this.element.isHidden()) {
 			this.hidden = true;
 		}
