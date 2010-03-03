@@ -24,6 +24,7 @@ Element.implement({
 });
 
 
+Class.Mutators.$name = function(name){ this.implement('$family', {name: name}); };
 /*
  * File: media/js/FlightDeck.js
 
@@ -36,6 +37,7 @@ if (!console) {
 	};
 }
  */
+
 
 /*
  * Class: FlightDeck
