@@ -80,10 +80,21 @@ authors:
       top: 50%;
       margin-top: -8px;
       left: 7px;
-      
+
       background-image: url(../img/editor-buttons.png);
       background-repeat: no-repeat;
    }
+   
+   .UI_Editor_Menu_Button.disabled a {
+      background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
+      border-top: solid 1px transparent;
+      color: #6D7880;
+      cursor: default;
+   }
+   
+      .UI_Editor_Menu_Button.disabled a .UI_Editor_Icon {
+         opacity: 0.7;
+      }
    
    .UI_Editor_Menu_Button.Icon_new a .UI_Editor_Icon {
       background-position: 0 0;
@@ -108,77 +119,3 @@ authors:
    .UI_Editor_Menu_Button.Icon_delete a .UI_Editor_Icon {
       background-position: -85px 0;
    }
-   
-   
-   /*
-   
-   VERSION WITH STANDALONE BUTTONS
-
-   .UI_Editor_Menu_Button {
-      background: #BEC5CC;
-      border-bottom: solid 1px #fff;
-      padding: 1px;
-      margin: 0 7px 1px 0;
-      float: left;
-      -moz-border-radius: 5px;
-      position: relative;
-   }
-
-      .UI_Editor_Menu_Button a {
-         background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
-         border-top: solid 1px #fff;
-         display: block;
-         padding: 7px 7px 7px 30px;
-         -moz-border-radius: 4px;
-         font-size: .9em;
-         text-shadow: 0 1px 0 #fff;      
-      }
-
-      .UI_Editor_Menu_Button a:hover {
-         background: -moz-linear-gradient(270deg, #F3F5F7, #DDE0E4);
-         text-decoration: none;
-      }
-
-      .UI_Editor_Menu_Button a:active {
-         background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
-         border-top: solid 1px transparent;
-
-      }
-
-      .UI_Editor_Menu_Button a .UI_Editor_Icon {
-         display: block;
-         height: 17px;
-         width: 17px;
-         position: absolute;
-         top: 50%;
-         margin-top: -8px;
-         left: 7px;
-
-         background-image: url(../img/editor-buttons.png);
-         background-repeat: no-repeat;
-      }
-
-      .UI_Editor_Menu_Button.Icon_new a .UI_Editor_Icon {
-         background-position: 0 0;
-      }
-
-      .UI_Editor_Menu_Button.Icon_saveNewVersion a .UI_Editor_Icon {
-         background-position: -17px 0;
-      }
-
-      .UI_Editor_Menu_Button.Icon_update a .UI_Editor_Icon {
-         background-position: -34px 0;
-      }
-
-      .UI_Editor_Menu_Button.Icon_setAsBase a .UI_Editor_Icon {
-         background-position: -51px 0;
-      }
-
-      .UI_Editor_Menu_Button.Icon_lock a .UI_Editor_Icon {
-         background-position: -68px 0;
-      }
-
-      .UI_Editor_Menu_Button.Icon_delete a .UI_Editor_Icon {
-         background-position: -85px 0;
-      }
-   */

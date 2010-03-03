@@ -1,24 +1,43 @@
 {% extends "base.html" %}
 {% load jetpack_extras %}
 
+{% block head %}
+	<link rel="stylesheet" href="/media/jetpack/css/UI.Browser.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block app_sidebar %}
+	<h2 class="UI_Heading">{{ person }}</h2>
+
+	<ul class="UI_Action_List">
+		{% if person.authored_jetpacks.all %}
+			<li><a title="Your Jetpacks" href="#your-jetpacks">Jetpacks</a> 
+				<strong>({{ person.authored_jetpacks.all|length }})</strong>
+			</li>
+		{% endif %}
+		{% if person.authored_capabilities.all %}
+			<li><a title="Your Modules" href="#your-modules">Modules</a> 
+				<strong>({{ person.authored_capabilities.all|length }})</strong>
+			</li>
+		{% endif %}
+	</ul>
+{% endblock %}
+
 {% block app_content %}
-	<h1>Profile of {{ person }}</h1>
 	{% if person.authored_jetpacks.all %}
-		Created Jetpacks:
-		<ul>
-		{% for jet in person.authored_jetpacks.all %}
-			<li>{{ jet|render_base_link }}</li>
-		{% endfor %}
+		<h2 id="your-jetpacks" class="UI_Heading">Your Jetpacks</h2>
+		<ul class="UI_Browser">
+			{% for jet in person.authored_jetpacks.all %}
+				<li class="UI_Item">{{ jet|render_base_link }}</li>
+			{% endfor %}
 		</ul>
 	{% endif %}
 	
 	{% if person.authored_capabilities.all %}
-		Created Modules:
-		<ul>
-		{% for cap in person.authored_capabilities.all %}
-			<li>{{ cap|render_base_link }}</li>
-		{% endfor %}
+		<h2 id="your-modules" class="UI_Heading">Your Modules</h2>
+		<ul class="UI_Browser">
+			{% for cap in person.authored_capabilities.all %}
+				<li class="UI_Item">{{ cap|render_base_link }}</li>
+			{% endfor %}
 		</ul>
 	{% endif %}
 {% endblock %}
-
