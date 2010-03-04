@@ -1,8 +1,11 @@
 .roar-bg {
-	background: -moz-linear-gradient(270deg, #363738, #151616);
-   border-top: solid 1px #ccc;
    -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
    opacity: 0.9 !important;
+}
+
+.message .roar-bg {
+	background: -moz-linear-gradient(270deg, #363738, #151616);
+   border-top: solid 1px #ccc;   
 }
 
 .warning .roar-bg {
