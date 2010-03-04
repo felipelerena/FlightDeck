@@ -61,7 +61,7 @@ var CapVersionDependency = new Class({
 		this.data = $H({
 			version_name: this.options.name,
 			versin_description: this.options.description,
-			version_content: this.options.content,
+			version_content: this.options.content
 		});
 	},
 	listenToEvents: function() {
@@ -116,6 +116,5 @@ var CapVersionDependency = new Class({
 	},
 	setAsBase: $empty,
 	switchToDescription: $empty,
-	getName: $empty,
-	
+	getName: $empty
 });

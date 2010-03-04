@@ -27,6 +27,7 @@ var Capability = new Class({
 		//edit_url: '',
 		//update_url: '',
 		//version_create_url: '',
+		menu_el: 'UI_Editor_Menu',
 		is_dependency: false // was the Capability loaded as dependency?
 	},
 	/*
@@ -68,6 +69,16 @@ var Capability = new Class({
 		if (this.switch_description_el) {
 			this.switch_description_el.addEvent('click', this.switchToDescription.bind(this));
 		}	
+	},
+	/*
+	 * Method: enableMenuButtons
+	 */
+	enableMenuButtons: function() {
+		$$('.' + this.options.menu_el + ' li').each(function(menuItem){
+			if (menuItem.hasClass('disabled')){
+				menuItem.removeClass('disabled');
+			}
+		});
 	},
 	/*
 	 * Method: switchToDescription
@@ -115,6 +126,7 @@ var Capability = new Class({
 		this.description_el.removeEvent('change', this.boundAfterDataChanged);
 		if (this.switch_description_el) {
 			this.switch_description_el.getParent('li').addClass('UI_File_Modified');
+			fd.enableMenuButtons();
 		}
 	},
 	/* 
@@ -321,19 +333,21 @@ var CapVersion = new Class({
 	/*
 	 * Method: listenToCapabilityEvents
 	 */
-	listenToEvents: function() {
+	listenToEvents: function() {		
 		this.changed = false;
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
 		this.description_el.addEvent('change', this.boundAfterDataChanged);
 		this.description_el.addEvent('change', function() {
 			if (this.switch_description_el) {
 				this.switch_description_el.getParent('li').addClass('UI_File_Modified');
+				fd.enableMenuButtons();
 			}
 		}.bind(this));
 		this.content_el.addEvent('change', this.boundAfterDataChanged);
 		this.content_el.addEvent('change', function() {
 			if (this.switch_content_el) {
 				this.switch_content_el.getParent('li').addClass('UI_File_Modified');
+				fd.enableMenuButtons();
 			}
 		}.bind(this));
 		// adding dependencies
@@ -342,6 +356,7 @@ var CapVersion = new Class({
 			add_dependency_action.addEvent('click', function(e) {
 				e.stop();
 				this.addDependencyFromInput();
+				fd.enableMenuButtons();
 			}.bind(this));
 		}
 	},

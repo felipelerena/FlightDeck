@@ -46,6 +46,9 @@ if (!console) {
 
 var FlightDeck = new Class({
 	Implements: [Options],
+	options: {
+		menu_el: 'UI_Editor_Menu'
+	},
 	initialize: function() {
 		this.warning = this.error = this.message = {
 			'alert': function(title, message) {
@@ -59,5 +62,15 @@ var FlightDeck = new Class({
 	 */
 	hideEditors: function() {
 		this.editors.each(function(ed){ ed.hide(); });
+	},
+	/*
+	 * Method: enableMenuButtons
+	 */
+	enableMenuButtons: function() {
+		$$('.' + this.options.menu_el + ' li').each(function(menuItem){
+			if (menuItem.hasClass('disabled')){
+				menuItem.removeClass('disabled');
+			}
+		});
 	},
 });
