@@ -18,19 +18,19 @@
 				</a>
 			</li>
 		{% else %}
-			<li class="UI_Editor_Menu_Button Icon_setAsBase">
+			<li class="UI_Editor_Menu_Button Icon_setAsBase{% if not version %} disabled{% endif %}">
 				<a id="set_as_base" title="" href="#">Set as base 
 					<span class="UI_Editor_Icon"></span>
 				</a>
 			</li>
 		{% endif %}
-		{% ifequal type "jetpack" %}{% if version %}
-			<li class="UI_Editor_Menu_Button Icon_try_in_browser">
+		{% ifequal type "jetpack" %}
+			<li class="UI_Editor_Menu_Button Icon_try_in_browser{% if not version %} disabled{% endif %}">
 				<a id="try_in_browser" title="" href="#">Try in browser 
 					<span class="UI_Editor_Icon"></span>
 				</a>
 			</li>
-		{% endif %}{% endifequal %}
+		{% endifequal %}
 		{% comment %}
 		<li class="UI_Editor_Menu_Button Icon_lock">
 			<a title="" href="#">Lock <span class="UI_Editor_Icon"></span></a>
