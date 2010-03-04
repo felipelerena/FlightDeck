@@ -24,13 +24,13 @@
 					</a>
 				</li>
 			{% endif %}
-			{% if jetpack %}
+			{% ifequal type "jetpack" %}{% if version %}
 				<li class="UI_Editor_Menu_Button Icon_try_in_browser">
 					<a id="try_in_browser" title="" href="#">Try in browser 
 						<span class="UI_Editor_Icon"></span>
 					</a>
 				</li>
-			{% endif %}
+			{% endif %}{% endifequal %}
 			{% comment %}
 			<li class="UI_Editor_Menu_Button Icon_lock">
 				<a title="" href="#">Lock <span class="UI_Editor_Icon"></span></a>
