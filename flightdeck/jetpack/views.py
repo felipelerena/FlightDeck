@@ -10,13 +10,14 @@ from base.shortcuts import get_object_or_create
 from jetpack.models import Jet, JetVersion, Cap, CapVersion
 from jetpack.default_settings import settings
 
-def gallery(r, page=None):
+def gallery(r, page=None, with_new=False):
 	"""
 	Display mixed list (Jetpacks with Capabilities)
 	"""
-	items = list(Jet.objects.all()[0:20])
-	items.extend(list(Cap.objects.all()[0:20]))
-	items = filter(lambda i: i.base_version, items)
+	items = list(Jet.objects.all())
+	items.extend(list(Cap.objects.all()))
+	if not with_new:
+		items = filter(lambda i: i.base_version, items)
 	items.sort(lambda i, j: (j.base_version.last_update - i.base_version.last_update).seconds) 
 	page = "packages"
 	
