@@ -10,12 +10,14 @@
 
 	<ul class="UI_Action_List">
 		{% if person.authored_jetpacks.all %}
-			<li><a title="Your Jetpacks" href="#your-jetpacks">Jetpacks</a> 
+			<li>
+				<a title="Your Jetpacks" href="#your-jetpacks">Jetpacks</a> 
 				<strong>({{ person.authored_jetpacks.all|length }})</strong>
 			</li>
 		{% endif %}
 		{% if person.authored_capabilities.all %}
-			<li><a title="Your Modules" href="#your-modules">Modules</a> 
+			<li>
+				<a title="Your Modules" href="#your-modules">Modules</a> 
 				<strong>({{ person.authored_capabilities.all|length }})</strong>
 			</li>
 		{% endif %}
@@ -24,7 +26,7 @@
 
 {% block app_content %}
 	{% if person.authored_jetpacks.all %}
-		<h2 id="your-jetpacks" class="UI_Heading">Your Jetpacks</h2>
+		<h2 id="your-jetpacks" class="UI_Heading">Jetpacks</h2>
 		<ul class="UI_Browser">
 			{% for jet in person.authored_jetpacks.all %}
 				<li class="UI_Item">{{ jet|render_base_link }}</li>
@@ -33,7 +35,7 @@
 	{% endif %}
 	
 	{% if person.authored_capabilities.all %}
-		<h2 id="your-modules" class="UI_Heading">Your Modules</h2>
+		<h2 id="your-modules" class="UI_Heading">Modules</h2>
 		<ul class="UI_Browser">
 			{% for cap in person.authored_capabilities.all %}
 				<li class="UI_Item">{{ cap|render_base_link }}</li>

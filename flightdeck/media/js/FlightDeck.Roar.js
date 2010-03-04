@@ -56,7 +56,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 		});
 		this.message = new Roar({
 			position: 'topRight',
-			className: 'roar warning'
+			className: 'roar message'
 		});
 		this.parseMessages();
 	},

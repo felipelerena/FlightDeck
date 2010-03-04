@@ -17,30 +17,38 @@ authors:
 .UI_Modal_Wrapper {
    position: absolute;
    width: 400px;
-   
    left: 50%;
    margin-left: -200px;
-   padding: 0 15px 15px 15px;
-   z-index: 100;
+   top: 55px;
 }
-
 /* END TEMP*/
 
 .UI_Modal_Wrapper {
-   overflow: hidden;
    padding-bottom: 15px;
    z-index: 100;
 }
 
 .UI_Modal {
-   border: solid 1px #AFB6BD;
    border-top: none;
    background: #fff;
    
-   -moz-border-radius-bottomleft: 7px;
-   -moz-border-radius-bottomright: 7px;
-   -moz-box-shadow: 0 1px 15px #888;
+   -moz-border-radius: 7px;
+   -moz-border-radius: 7px;
+   -moz-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.6);
 }
+
+      .UI_Modal h3 {
+         background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
+         border-top: solid 1px #9CC7F8;
+         border-bottom: solid 1px #022052;
+         color: #fff;
+         text-shadow: 0 1px 0 #011E4F;
+         padding: 12px;
+         font-size: 1.1em;
+         text-align: center;
+         -moz-border-radius-topleft: 5px;
+         -moz-border-radius-topright: 5px;
+      }
                               
       .UI_Modal .UI_Modal_Actions {
          border-top: solid 1px #fff;

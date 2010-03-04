@@ -13,12 +13,14 @@
 
 	<ul class="UI_Action_List">
 		{% if user.authored_jetpacks.all %}
-			<li><a title="Your Jetpacks" href="#your-jetpacks">Your Jetpacks</a> 
+			<li>
+				<a title="Your Jetpacks" href="#your-jetpacks">Your Jetpacks</a> 
 				<strong>({{ user.authored_jetpacks.all|length }})</strong>
 			</li>
 		{% endif %}
 		{% if user.authored_capabilities.all %}
-			<li><a title="Your Modules" href="#your-modules">Your Modules</a> 
+			<li>
+				<a title="Your Modules" href="#your-modules">Your Modules</a> 
 				<strong>({{ user.authored_capabilities.all|length }})</strong>
 			</li>
 		{% endif %}
