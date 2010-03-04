@@ -5,17 +5,17 @@
 
 .message .roar-bg {
 	background: -moz-linear-gradient(270deg, #363738, #151616);
-   border-top: solid 1px #ccc;   
+   border-top: solid 1px #ccc;
 }
 
 .warning .roar-bg {
 	background: -moz-linear-gradient(270deg, #4E91E7, #184A95);
-   border-top: solid 1px #8FBBF1;   
+   border-top: solid 1px #8FBBF1;
 }
 
 .error .roar-bg {
 	background: -moz-linear-gradient(270deg, #C23738, #6E1616);
-   border-top: solid 1px #D4989C;   
+   border-top: solid 1px #D4989C;
 }
 
 .roar h3,

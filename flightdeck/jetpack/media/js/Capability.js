@@ -71,16 +71,6 @@ var Capability = new Class({
 		}	
 	},
 	/*
-	 * Method: enableMenuButtons
-	 */
-	enableMenuButtons: function() {
-		$$('.' + this.options.menu_el + ' li').each(function(menuItem){
-			if (menuItem.hasClass('disabled')){
-				menuItem.removeClass('disabled');
-			}
-		});
-	},
-	/*
 	 * Method: switchToDescription
 	 */
 	switchToDescription: function(e) {
