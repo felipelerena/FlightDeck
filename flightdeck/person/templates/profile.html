@@ -11,7 +11,7 @@
 	<ul class="UI_Action_List">
 		{% if person.authored_jetpacks.all %}
 			<li>
-				<a title="Your Jetpacks" href="#your-jetpacks">Jetpacks</a> 
+				<a title="Your Jetpacks" href="#your-jetpacks">Extensions</a> 
 				<strong>({{ person.authored_jetpacks.all|length }})</strong>
 			</li>
 		{% endif %}
@@ -26,7 +26,7 @@
 
 {% block app_content %}
 	{% if person.authored_jetpacks.all %}
-		<h2 id="your-jetpacks" class="UI_Heading">Jetpacks</h2>
+		<h2 id="your-jetpacks" class="UI_Heading">Extensions</h2>
 		<ul class="UI_Browser">
 			{% for jet in person.authored_jetpacks.all %}
 				<li class="UI_Item">{{ jet|render_base_link }}</li>
