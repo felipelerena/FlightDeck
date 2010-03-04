@@ -140,6 +140,7 @@ var JetVersion = new Class({
 		this.manifest_el.addEvent('change', function() {
 			if (this.switch_manifest_el) {
 				this.switch_manifest_el.getParent('li').addClass('UI_File_Modified');
+				fd.enableMenuButtons();
 			}
 		}.bind(this));
 	},
