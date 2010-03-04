@@ -1,6 +1,8 @@
 .roar-bg {
 	background: -moz-linear-gradient(270deg, #363738, #151616);
-   border-top: solid 1px #ccc;	
+   border-top: solid 1px #ccc;
+   -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
+   opacity: 0.9 !important;
 }
 
 .warning .roar-bg {
@@ -18,7 +20,17 @@
 	text-shadow: 0 1px 0 rgba(0,0,0,0.6);
 }
 
+.roar h3 {
+	padding: 10px 9px 0;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.roar p {
+	padding: 5px 9px 10px;
+	font-size: 10px;
+}
+
 .roar-bg {
-	-moz-border-radius:		5px;
-	-webkit-border-radius:	5px;
+	-moz-border-radius: 5px;
 }
