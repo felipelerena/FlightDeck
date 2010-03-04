@@ -23,9 +23,9 @@ FlightDeck = Class.refactor(FlightDeck,{
 		var data = $H(this.options.modalWrap).getClean();
 		data['content'] = content;
 		var modal_el = Elements.from('{start}{content}{end}'.substitute(data));
-		var key = new Date().getTime()
+		var key = new Date().getTime();
 		modal_el.store('modalKey', key);
-		this.modals[key] = modal_el
+		this.modals[key] = modal_el;
 		return modal_el;
 	},
 	/*
@@ -42,6 +42,4 @@ FlightDeck = Class.refactor(FlightDeck,{
 	destroyModal: function(key) {
 		this.modals[key].destroy();
 	}
-	
-
 });

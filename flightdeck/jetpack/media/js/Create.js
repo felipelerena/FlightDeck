@@ -22,6 +22,7 @@ var create = {
 			}.bind(modal));
 		}.bind(this));
 	},
+	
 	submit: function(e) { 
 		e.stop();
 		var prefix = $$('input[name=choice]:checked')[0].get('value');
