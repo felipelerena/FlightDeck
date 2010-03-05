@@ -43,9 +43,6 @@ a:hover {
       float: right;
       margin: 15px 15px 0 0;
       padding: 1px;
-      border-bottom: solid 1px #7A7E86;
-      -moz-border-radius: 6px;
-      background: -moz-linear-gradient(270deg, #2C3137, #3E454D);
    }
    
    #app-header nav li {
@@ -54,7 +51,7 @@ a:hover {
    
       #app-header nav li a {
          display: block;
-         padding: 8px 10px 7px;
+         padding: 5px 8px;
          font-size: .9em;
          text-shadow: 0 1px 0 #000;
          color: #D4D9DF;
@@ -64,26 +61,22 @@ a:hover {
          color: #fff;
       }
       
+      #app-header nav li.active {
+         background: -moz-linear-gradient(270deg, #2C3137, #3E454D);
+         -moz-border-radius: 3px;
+         -moz-box-shadow: 0 1px 0 #7A7E86;
+         margin: 0 3px;
+      }
+      
       #app-header nav li.active a {
          background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
-         border-top: solid 1px #9CC7F8;
          color: #fff;
          text-shadow: 0 1px 0 #011E4F;
-         padding-top: 7px;
+         -moz-border-radius: 2px;
+         margin: 1px;
+         padding: 4px 8px;
       }
 
-         #app-header nav li:first-child a {
-            -moz-border-radius: 5px;
-            -moz-border-radius-topright: 0;
-            -moz-border-radius-bottomright: 0;
-         }
-
-         #app-header nav li:last-child a {
-            -moz-border-radius: 5px;
-            -moz-border-radius-topleft: 0;
-            -moz-border-radius-bottomleft: 0;
-         }
-   
 
 #flightdeck-logo {
    display: none;
@@ -235,7 +228,6 @@ a:hover {
       
       .UI_Action_List li a:hover,
       .UI_Action_List li.selected a {
-         
          text-decoration: none;
          color: #3E464D;
          border-bottom: solid 1px #478CDE;

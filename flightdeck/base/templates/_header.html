@@ -2,10 +2,8 @@
 <h2 id="mozillalabs-logo"><a title="Mozilla Labs" href="{% url home %}">Mozilla Labs</a></h2>
 
 <nav>
-	<ul>
-		
-		<li{% ifequal page "editor" %} class="active"{% endifequal %}><a title="Editor">Editor</a></li>
-			
+	<ul>		
+		<!-- <li{% ifequal page "editor" %} class="active"{% endifequal %}><a title="Editor">Editor</a></li> -->	
 		<li {% ifequal page "packages" %}class='active'{% endifequal %}><a title="Package Browser" href="/">Package Browser</a></li>
 		<li {% ifequal page "apibrowser" %}class='active'{% endifequal %}><a title="API Browser" href="#">API Browser</a></li>
 		{% if user.is_authenticated %}
