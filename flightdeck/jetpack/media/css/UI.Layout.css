@@ -47,14 +47,19 @@ a:hover {
    
    #app-header nav li {
       float: left;
+      color: #B3B3B3;
+      padding: 5px 2px;
+      margin: 0 4px;
    }
    
       #app-header nav li a {
-         display: block;
-         padding: 5px 8px;
          font-size: .9em;
          text-shadow: 0 1px 0 #000;
          color: #D4D9DF;
+      }      
+      
+      #app-header nav li a.logout {
+         color: #B3B3B3;
       }
    
       #app-header nav li a:hover {
@@ -66,15 +71,21 @@ a:hover {
          -moz-border-radius: 3px;
          -moz-box-shadow: 0 1px 0 #7A7E86;
          margin: 0 3px;
+         padding: 1px;
+         color: #fff;
+         text-shadow: 0 1px 0 #011E4F;
+         
+      }
+      
+      #app-header nav li.active span {
+         background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
+         -moz-border-radius: 2px;
+         padding: 4px 8px;
+         display: inline-block;
       }
       
       #app-header nav li.active a {
-         background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
          color: #fff;
-         text-shadow: 0 1px 0 #011E4F;
-         -moz-border-radius: 2px;
-         margin: 1px;
-         padding: 4px 8px;
       }
 
 
