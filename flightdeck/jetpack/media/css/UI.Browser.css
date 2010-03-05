@@ -70,6 +70,8 @@ body {
          -moz-border-radius: 3px;
          padding: 1px 3px;
          margin: 0 0 0 5px;
+         position: relative;
+         top: -2px;
          display: inline-block;
       }
    
