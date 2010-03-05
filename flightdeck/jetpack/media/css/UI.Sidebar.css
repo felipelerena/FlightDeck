@@ -9,11 +9,9 @@ authors:
 */
 
 .UI_Sidebar {
-   
 }
 
 .UI_Sidebar_Item {
-   
 }
 
 .UI_Sidebar_Toggler {
@@ -25,11 +23,15 @@ authors:
       background: #E5E9EE;
       border-top: solid 1px #fff;
       border-bottom: solid 1px #AFB6BD;
-      border-right: solid 1px #F2F4F7;
+      
       color: #4D5860;
       text-shadow: 0 1px 0 #fff;
       padding: 12px 0 12px 45px; 
    }
+   
+/*   .UI_Sidebar_Toggler a:hover {
+      text-decoration: none;
+   }*/
    
       .UI_Sidebar_Toggler a #dependency-counter {
          color: #999;
@@ -110,7 +112,6 @@ authors:
       }
    
    .UI_Sidebar_ItemCont {
-      font-size: .9em;
       padding: 0;
    }
       
@@ -130,7 +131,7 @@ authors:
          padding: 3px;
          width: 140px;
          display: inline-block;
-         background: url(../img/input-shadow-bg.png) 0 0 repeat-x;
+         background: -moz-linear-gradient(270deg, #F2F2F2, #fff 6px);
       }
       
    .UI_Sidebar_ItemCont .UI_New_Dependency {
@@ -138,7 +139,7 @@ authors:
    }
    
       .UI_Sidebar_ItemCont .UI_New_Dependency input {
-         width: 127px;
+         width: 167px;
          float: left;
       }
       

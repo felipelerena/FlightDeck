@@ -10,7 +10,6 @@ authors:
 
 body {
    background: #fff url(../img/sidebar-bg.png) 0 0 repeat-y;
-   
    font-family: 'Lucida Grande', 'Lucida Sans', 'Lucida Sans Unicode', 'Myriad', Tahoma, Verdana, Arial, sans-serif;
    font-size: .8em;
    color: #4D5860;
@@ -107,7 +106,7 @@ a:hover {
 /*
  =========================================================================== */
 #app-body {
-   margin-left: 190px;   
+   margin-left: 230px;   
 }
 
 /*
@@ -129,7 +128,7 @@ a:hover {
 /*
  =========================================================================== */
 #editor-wrapper {
-   background: url(../img/shadow.png) 0 0 repeat-x;
+   background: -moz-linear-gradient(270deg, #F2F2F2, #fff 8px);
    position: relative;
 }
 
@@ -137,9 +136,10 @@ a:hover {
  =========================================================================== */
 #app-sidebar {
    float: left;
-   width: 190px;
-   margin-left: -191px;
+   width: 230px;
+   margin-left: -231px;
    border-right: solid 1px #AFB6BD;
+   background: #fff;
 }
 
 #jetpack-info {
@@ -222,7 +222,8 @@ a:hover {
       margin: 0 0 10px;
    }
    
-   .UI_Action_List li:hover strong {
+   .UI_Action_List li:hover strong,
+   .UI_Action_List li.selected strong {
       color: #3E464D;
    }
    
@@ -232,7 +233,9 @@ a:hover {
          border-bottom: solid 1px #E9EDF0;
       }
       
-      .UI_Action_List li a:hover {
+      .UI_Action_List li a:hover,
+      .UI_Action_List li.selected a {
+         
          text-decoration: none;
          color: #3E464D;
          border-bottom: solid 1px #478CDE;

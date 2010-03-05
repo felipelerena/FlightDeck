@@ -38,8 +38,7 @@ authors:
       float: right;
       padding: 5px;
       width: 65%;
-      
-      background: url(../img/input-shadow-bg.png) 0 0 repeat-x;
+      background: -moz-linear-gradient(270deg, #F2F2F2, #fff 6px);
    }
    
    .UI_Forms .UI_Field textarea {
