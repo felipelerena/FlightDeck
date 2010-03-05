@@ -45,6 +45,30 @@ FlightDeck = Class.refactor(FlightDeck,{
 		// item is currently a global 
 		// TODO: change to flightdeck parameter
 		return item;
+	},
+	/*
+	 * Method: enableMenuButtons
+	 * Switch on menu buttons, check if possible
+	 */
+	enableMenuButtons: function() {
+		$$('.' + this.options.menu_el + ' li.disabled').each(function(menuItem){
+			var switch_on = true;
+			if (!this.getItem().version.options.name) {
+				// version is not saved
+				switch_on = (
+					// check if it is not about set as base
+					!menuItem.hasChild(
+						this.getItem().version.options.set_as_base_el
+					) 
+					// # TODO:
+					// check if content is empty
+					// check if user may update any content
+				);
+			}
+			if (switch_on) {
+				menuItem.removeClass('disabled');
+			}
+		}, this);
 	}
 	
 });

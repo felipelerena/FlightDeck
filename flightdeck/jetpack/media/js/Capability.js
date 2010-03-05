@@ -277,11 +277,13 @@ var CapVersion = new Class({
 			version_description: this.options.description,
 		});
 		// set as base functionality
-		this.set_as_base_el = $(this.options.set_as_base_el);
-		this.set_as_base_el.addEvent('click', function(e) {
-			e.stop();
-			this.setAsBase();
-		}.bind(this));
+		if (!this.options.is_base) {
+			this.set_as_base_el = $(this.options.set_as_base_el);
+			this.set_as_base_el.addEvent('click', function(e) {
+				e.stop();
+				this.setAsBase();
+			}.bind(this));
+		}
 	},
 	/*
 	 * Method: instantiateEditors
