@@ -1,0 +1,27 @@
+/*
+---
+filename: UI.Login.css
+decription: Provides base layout for FlightDeck
+license: MIT-style license.
+authors:
+ - Oskar Krawczyk (http://nouincolor.com/)
+...
+*/
+
+/* alternative layout for the browse-like sections */
+body {
+   background-image: none;
+}
+
+#app-sidebar {
+   display: none;
+}
+
+#app-body {
+   margin-left: 0;
+}
+
+.UI_Login {
+   width: 400px;
+   margin: 0 auto;
+}
