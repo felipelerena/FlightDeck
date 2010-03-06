@@ -275,6 +275,7 @@ var CapVersion = new Class({
 			version_content: this.options.content,
 			version_name: this.options.name,
 			version_description: this.options.description,
+			version_counter: this.options.counter
 		});
 		// set as base functionality
 		if (!this.options.is_base) {

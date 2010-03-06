@@ -311,11 +311,12 @@ def remove_dependency(r, slug, version, counter, type, d_slug, d_version, d_coun
 def createXPI(r):
 	"""
 	Create XPI from data given within POST
+	Data will be cleaned by cron every x minutes
 	"""
 	# all data has to be provided by POST
-	import subprocess
 	# first create file structure
 	# save the directory using the hash only
+	import subprocess
 	try:
 		subprocess.check_call('cfx',
 			'--binary=/usr/bin/xulrunner', 
@@ -324,7 +325,13 @@ def createXPI(r):
 	except subprocess.CalledProcessError:
 		return HttpResponseServerError
 
+	
+
 	# return hash and xpi filename
+	return render_to_response('json/xpi_created.json', {'url':xpi_url},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+			
 
 def getXPI(r, hash, filename):
 	"""
