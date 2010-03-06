@@ -40,6 +40,7 @@ var Sidebar = new Class({
 				e.stop();
 				this.getParent().toggleClass('closed');
 				self.slideFx[index].toggle();
+				// Cookie.write('openedSidebarItems', );
 			}
 		});
 	}

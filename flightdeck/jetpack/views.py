@@ -1,6 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import Http404, HttpResponseRedirect, HttpResponse, HttpResponseNotAllowed
+from django.http import Http404, HttpResponseRedirect, HttpResponse, \
+						HttpResponseNotAllowed, HttpResponseServerError
 from django.template import RequestContext#,Template
 from django.utils import simplejson
 from django.contrib.auth.decorators import login_required
@@ -304,3 +305,35 @@ def remove_dependency(r, slug, version, counter, type, d_slug, d_version, d_coun
 	return render_to_response('json/dependency_removed.json', locals(),
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+
+
+
+def createXPI(r):
+	"""
+	Create XPI from data given within POST
+	Data will be cleaned by cron every x minutes
+	"""
+	# all data has to be provided by POST
+	# first create file structure
+	# save the directory using the hash only
+	import subprocess
+	try:
+		subprocess.check_call('cfx',
+			'--binary=/usr/bin/xulrunner', 
+			'--pkgdir=%s' % dirname,
+			'xpi')
+	except subprocess.CalledProcessError:
+		return HttpResponseServerError
+
+	
+
+	# return hash and xpi filename
+	return render_to_response('json/xpi_created.json', {'url':xpi_url},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+			
+
+def getXPI(r, hash, filename):
+	"""
+	return XPI file
+	"""

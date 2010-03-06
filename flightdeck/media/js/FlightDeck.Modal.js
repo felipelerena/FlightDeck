@@ -33,6 +33,8 @@ FlightDeck = Class.refactor(FlightDeck,{
 	 * Pretty dummy function which just wraps the content with divs and shows on the screen
 	 */
 	displayModal: function(content, inside_el) {
+		// stickywin goes here
+		
 		return this.makeModal(content).inject(inside_el, 'top');
 	},
 	// these two are not really used atm

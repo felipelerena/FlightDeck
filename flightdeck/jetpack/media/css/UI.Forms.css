@@ -38,8 +38,7 @@ authors:
       float: right;
       padding: 5px;
       width: 65%;
-      
-      background: url(../img/input-shadow-bg.png) 0 0 repeat-x;
+      background: -moz-linear-gradient(270deg, #F2F2F2, #fff 6px);
    }
    
    .UI_Forms .UI_Field textarea {
@@ -79,3 +78,30 @@ authors:
          float: left;
          margin: 4px 0 0;
       }
+      
+   .UI_Forms .UI_Form_Actions {
+      border-top: solid 1px #EBEBEB;
+      padding: 14px 0 0;
+      margin: 0 14px;
+   }
+   
+      .UI_Forms .UI_Form_Actions li {
+         background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
+         border-bottom: solid 1px #fff;
+         padding: 1px;
+         float: right;
+         position: relative;
+         -moz-border-radius: 6px;
+      }
+
+         .UI_Forms .UI_Form_Actions li input {
+            background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
+            border-top: solid 1px #fff;
+            display: block;
+            padding: 7px 10px;
+            font-size: .9em;
+            color: #136B00;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+            -moz-border-radius: 5px;
+            cursor: pointer;
+         }

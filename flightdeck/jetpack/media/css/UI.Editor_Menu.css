@@ -9,7 +9,7 @@ authors:
 */
 
 .UI_Editor_Menu {
-   
+   -moz-user-select: none;
 }
 
 .UI_Editor_Menu_Button {

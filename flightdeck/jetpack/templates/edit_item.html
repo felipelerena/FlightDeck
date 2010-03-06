@@ -17,8 +17,8 @@
 
 	{% if version %}
 		<section id="dependencies" class="UI_Side_Item">
-			<h3 class="UI_Sidebar_Toggler dependencies opened"><a title="Dependencies" href="#">
-				Dependencies{% if version.capabilities.all %} <strong id="dependency-counter">({{ version.capabilities.all|length }})</strong>{% endif %} 
+			<h3 class="UI_Sidebar_Toggler dependencies opened"><a title="Modules" href="#">
+				Modules{% if version.capabilities.all %} <strong id="dependency-counter">({{ version.capabilities.all|length }})</strong>{% endif %} 
 				<span class="UI_OC"></span>
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a></h3>
@@ -34,9 +34,9 @@
 	</section>
 
 	{% comment %}
-	<section id="recently-modified" class="UI_Side_Item">
-		{% include "_edit_recently_modified.html" %}
-	</section>
+		<section id="recently-modified" class="UI_Side_Item">
+			{% include "_edit_recently_modified.html" %}
+		</section>
 	{% endcomment %}
 {% endblock %}
 

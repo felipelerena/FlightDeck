@@ -71,16 +71,6 @@ var Capability = new Class({
 		}	
 	},
 	/*
-	 * Method: enableMenuButtons
-	 */
-	enableMenuButtons: function() {
-		$$('.' + this.options.menu_el + ' li').each(function(menuItem){
-			if (menuItem.hasClass('disabled')){
-				menuItem.removeClass('disabled');
-			}
-		});
-	},
-	/*
 	 * Method: switchToDescription
 	 */
 	switchToDescription: function(e) {
@@ -285,13 +275,16 @@ var CapVersion = new Class({
 			version_content: this.options.content,
 			version_name: this.options.name,
 			version_description: this.options.description,
+			version_counter: this.options.counter
 		});
 		// set as base functionality
-		this.set_as_base_el = $(this.options.set_as_base_el);
-		this.set_as_base_el.addEvent('click', function(e) {
-			e.stop();
-			this.setAsBase();
-		}.bind(this));
+		if (!this.options.is_base) {
+			this.set_as_base_el = $(this.options.set_as_base_el);
+			this.set_as_base_el.addEvent('click', function(e) {
+				e.stop();
+				this.setAsBase();
+			}.bind(this));
+		}
 	},
 	/*
 	 * Method: instantiateEditors

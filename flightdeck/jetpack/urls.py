@@ -3,6 +3,9 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('jetpack.views',
 	url(r'^gallery/$', 'gallery', name='gallery'),
 
+	url(r'^create_xpi/$', 'createXPI', name='create_xpi'),
+	url(r'^get_xpi/(?P<hash>.*)/(?P<filename>.*)/$', 'getXPI', name='get_xpi'),
+
     url(r'^jp_(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/$',
 		'jetpack_version_edit', name='jp_jetpack_version_edit'),
     url(r'^mod_(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/$',
