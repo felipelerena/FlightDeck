@@ -78,7 +78,7 @@ a:hover {
       }
       
       #app-header nav li.active span {
-         background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
+         background: -moz-linear-gradient(270deg, #66778C, #545F6B);
          -moz-border-radius: 2px;
          padding: 4px 8px;
          display: inline-block;
