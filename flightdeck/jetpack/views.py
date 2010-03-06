@@ -351,7 +351,6 @@ def createXPI(r):
 	# save the directory using the hash only
 	import subprocess
 	try:
-		print 'cfx --binary=/usr/bin/xulrunner --pkgdir=/tmp/%s xpi' % hash
 		subprocess.check_call('cfx --binary=/usr/bin/xulrunner --pkgdir=/tmp/%s xpi' % hash)
 	except subprocess.CalledProcessError:
 		return HttpResponseServerError
