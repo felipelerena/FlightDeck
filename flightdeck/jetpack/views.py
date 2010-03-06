@@ -1,3 +1,5 @@
+import os
+
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404, HttpResponseRedirect, HttpResponse, \
@@ -314,18 +316,47 @@ def createXPI(r):
 	Data will be cleaned by cron every x minutes
 	"""
 	# all data has to be provided by POST
+	slug = r.POST.get('jetpack_slug')
+	main = r.POST.get('version_content')
+	description = r.POST.get('jetpack_description')
+	package = r.POST.get('version_manifest')
+	libs = simplejson.loads(r.POST.get('capabilities'))
+
+	# create random hash
+	from random import choice
+	allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+	hash = 'jetpack-' + ''.join([choice(allowed_chars) for i in range(10)])
 	# first create file structure
+	os.mkdir ('/tmp/%s' % hash) 
+	if libs:
+		os.mkdir('/tmp/%s/lib' % hash)
+
+	for lib in libs:
+		libHandle = open('/tmp/%s/lib/%s.js' % (hash, lib['slug']), 'w')
+		libHandle.write(lib['version_content'])
+		libHandle.close()
+	
+	pkgHandle = open('/tmp/%s/package.json' %hash, 'w')
+	pkgHandle.write(package)
+	pkgHandle.close()
+
+	mainHandle = open('/tmp/%s/lib/main.js' % hash, 'w')
+	mainHandle.write(main)
+	mainHandle.close()
+
+	descHandle = open('/tmp/%s/README.md' % hash, 'w')
+	descHandle.write(description)
+	descHandle.close()
+
 	# save the directory using the hash only
 	import subprocess
 	try:
-		subprocess.check_call('cfx',
-			'--binary=/usr/bin/xulrunner', 
-			'--pkgdir=%s' % dirname,
-			'xpi')
+		print 'cfx --binary=/usr/bin/xulrunner --pkgdir=/tmp/%s xpi' % hash
+		subprocess.check_call('cfx --binary=/usr/bin/xulrunner --pkgdir=/tmp/%s xpi' % hash)
 	except subprocess.CalledProcessError:
 		return HttpResponseServerError
 
-	
+	xpi_url = reverse('jp_get_xpi', args=[hash, slug])
 
 	# return hash and xpi filename
 	return render_to_response('json/xpi_created.json', {'url':xpi_url},
@@ -333,7 +364,7 @@ def createXPI(r):
 				mimetype='application/json')
 			
 
-def getXPI(r, hash, filename):
+def getXPI(r, hash, slug):
 	"""
 	return XPI file
 	"""
