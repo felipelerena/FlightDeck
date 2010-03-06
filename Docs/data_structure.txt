@@ -1,0 +1,24 @@
+EXTENSION, MODULES
+.-----------------------------------------------------------------------.
+| Django module				| Jetpack system							|
+.---------------------------x-------------------------------------------.
+| name						| pkg.fullName								|
+| slug						| pkg.name, filename.xpi					|
+| creator					| pkg.author								|
+| description				| pkg.descritption, README.md				|
+| version.content			| main.js									|
+| version.manifest			| package.json								|
+| version.description		| ---										|
+| version.name+.counter		| version									|
+| capabilities[i].slug		| lib/filename.js, pkg.dependencies[i]		|
+| capabilities[i].content	| content of filename.js					|
+| capabilities[i].author	| pkg.contributors[j]						|
+`-----------------------------------------------------------------------'
+
+Following data stays in FilghtDeck and is never used outside
+ * capability.name
+ * capability.description
+ * capability.version.name
+ * capability.version.counter
+ * capability.version.description
+
