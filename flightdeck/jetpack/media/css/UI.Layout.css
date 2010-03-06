@@ -35,8 +35,8 @@ a:hover {
 /*
  =========================================================================== */
 #app-header {
-   background: -moz-linear-gradient(270deg, #424A52, #4E5861);
-   height: 90px;
+   background: -moz-linear-gradient(270deg, #545F6B, #4E5861);
+   height: 60px;
 }
 
    #app-header nav {
@@ -78,7 +78,7 @@ a:hover {
       }
       
       #app-header nav li.active span {
-         background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
+         background: -moz-linear-gradient(270deg, #66778C, #545F6B);
          -moz-border-radius: 2px;
          padding: 4px 8px;
          display: inline-block;
@@ -97,6 +97,8 @@ a:hover {
    position: absolute;
    top: 20px;
    left: 10px;
+   
+   display: none;
 }
 
    #mozillalabs-logo a {

@@ -39,12 +39,20 @@ var CapDependency = new Class({
 		fd.message.alert(response.message);
 		// change id's on the elements
 	},
+	prepareData: function() {
+		var data = $H({
+			name: this.options.name,
+			slug: this.options.slug,
+			creator: this.options.creator
+		});
+		data.extend(this.version.prepareData());
+		return data.getClean();
+	},
 	instantiateEditors: $empty,
 	initializeEditorSwitches: $empty,
 	switchToDescription: $empty,
 	try_in_browser: $empty,
-	getContent: $empty,
-	prepareData: $empty
+	getContent: $empty
 }); 
 
 var CapVersionDependency = new Class({
@@ -60,7 +68,8 @@ var CapVersionDependency = new Class({
 		this.initializeEditorSwitches();
 		this.data = $H({
 			version_name: this.options.name,
-			versin_description: this.options.description,
+			version_counter: this.options.counter,
+			version_description: this.options.description,
 			version_content: this.options.content
 		});
 	},
@@ -113,6 +122,10 @@ var CapVersionDependency = new Class({
 	},
 	updateFromDOM: function() {
 		this.data.version_content = this.content_el.getContent();
+	},
+	prepareData: function() {
+		this.updateFromDOM();
+		return this.data;
 	},
 	setAsBase: $empty,
 	switchToDescription: $empty,

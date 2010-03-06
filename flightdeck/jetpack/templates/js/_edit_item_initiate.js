@@ -9,6 +9,9 @@ item = new {{ type|capfirst }}({
 	update_url: '{{ item.get_update_url }}',
 	version_create_url: '{{ item.get_version_create_url }}',
 	switch_description_id: '{{ item|tab_link_id:"description" }}',
+	{% ifequal type 'jetpack' %}
+		try_in_browser_url: '{% url jp_create_xpi %}',
+	{% endifequal %}
 	version: {
 		{% ifequal type 'jetpack' %}
 			manifest: '{{ version.manifest|escapejs }}',

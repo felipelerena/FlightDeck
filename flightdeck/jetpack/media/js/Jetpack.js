@@ -7,7 +7,8 @@ var Jetpack = new Class({
 	type: 'jetpack',
 	options: {
 		description_el: {element: 'jetpack_description'},
-		try_in_browser_el: 'try_in_browser'
+		try_in_browser_el: 'try_in_browser',
+		// try_in_browser_url: ''
 	},
 	/*
 	 * Method: initialize
@@ -24,6 +25,40 @@ var Jetpack = new Class({
 			$('version_manifest').set('text', this.options.version.manifest);
 		}
 		this.parent(this.options);
+	},
+	
+	listenToEvents: function() {
+		this.parent();
+		// one may try even not edited data
+		var try_in_browser_el = $(this.options.try_in_browser_el)
+		if (try_in_browser_el) {
+			try_in_browser_el.addEvent('click', function(e) {
+				e.stop();
+				this.try_in_browser();
+			}.bind(this));
+		}
+	},
+	/*
+	 * Method: try_in_browser
+	 * Prepare Capability using saved content and install temporary in the browser
+	 */
+	try_in_browser: function() {
+		var data = this.getFullData();
+		//fd.warning.alert('Not implemented','try_in_browser');
+		new Request.JSON({
+			url: this.options.try_in_browser_url,
+			method: 'post',
+			data: data,
+			onSuccess: function(respose) {
+				fd.message('Debug','XPI created - sending data to Fd addon');
+				// now call the add-on
+				$log(response);
+				this.install_xpi();
+			}.bind(this)
+		}).send();
+	},
+	install_xpi: function(url) {
+		$log(url)
 	},
 	/*
 	 * Method: initializeVersion

@@ -23,7 +23,6 @@ var Capability = new Class({
 		//switch_description_id: '',
 		update_el: 'update',
 		version_create_el: 'version_create',
-		try_in_browser_el: 'try_in_browser',
 		//edit_url: '',
 		//update_url: '',
 		//version_create_url: '',
@@ -89,14 +88,6 @@ var Capability = new Class({
 		this.createAfterBounds();
 		this.version.addEvent('change', this.boundAfterVersionChanged);
 		this.description_el.addEvent('change', this.boundAfterDataChanged);
-		// one may try even not edited data
-		var try_in_browser_el = $(this.options.try_in_browser_el)
-		if (try_in_browser_el) {
-			try_in_browser_el.addEvent('click', function(e) {
-				e.stop();
-				this.try_in_browser();
-			}.bind(this));
-		}
 		var switch_version_el = $('switch_to_version');
 		if (switch_version_el) {
 			switch_version_el.addEvent('change', function() {
@@ -170,15 +161,6 @@ var Capability = new Class({
 	},
 	afterVersionCreated: function(response) {
 		window.location.href = response.version_absolute_url;
-	},
-	/*
-	 * Method: try_in_browser
-	 * Prepare Capability using saved content and install temporary in the browser
-	 */
-	try_in_browser: function() {
-		var data = this.getFullData();
-		fd.warning.alert('Not implemented','try_in_browser');
-		console.log(data);
 	},
 	/*
 	 * Method: getContent
@@ -462,14 +444,10 @@ var CapVersion = new Class({
 	prepareData: function() {
 		this.updateFromDOM();
 		// prepare capability info
-		var get_id = function(cap) {
-			return {
-				'slug': cap.options.slug,
-				'version': cap.version.options.name,
-				'counter': cap.version.options.counter
-			}
+		var get_data = function(cap) {
+			return cap.prepareData();
 		}
-		this.data['capabilities'] = JSON.encode($H(this.capabilities).getValues().map(get_id));
+		this.data['capabilities'] = JSON.encode($H(this.capabilities).getValues().map(get_data));
 		return this.data;
 	},
 	/*
