@@ -35,8 +35,8 @@ a:hover {
 /*
  =========================================================================== */
 #app-header {
-   background: -moz-linear-gradient(270deg, #424A52, #4E5861);
-   height: 90px;
+   background: -moz-linear-gradient(270deg, #545F6B, #4E5861);
+   height: 60px;
 }
 
    #app-header nav {
@@ -97,6 +97,8 @@ a:hover {
    position: absolute;
    top: 20px;
    left: 10px;
+   
+   display: none;
 }
 
    #mozillalabs-logo a {
