@@ -363,14 +363,19 @@ def createXPI(r):
 	#sys.path.extend(['/'.join(elm), settings.DJANGO_PATH])
 	os.chdir('/tmp/%s' % hash)
 	try:
-		subprocess.call(cfx_command)
+		process = subprocess.Popen(
+						cfx_command, 
+						shell=False, 
+						stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	except subprocess.CalledProcessError:
 		return HttpResponseServerError
+
+	out = process.communicate()
 
 	xpi_url = reverse('jp_get_xpi', args=[hash, slug])
 
 	# return hash and xpi filename
-	return render_to_response('json/xpi_created.json', {'xpi_url':xpi_url},
+	return render_to_response('json/xpi_created.json', {'xpi_url':xpi_url, 'out': out},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 			
