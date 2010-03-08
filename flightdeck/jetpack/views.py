@@ -356,7 +356,7 @@ def createXPI(r):
 	# save the directory using the hash only
 	import subprocess
 	cfx_command = [
-		'cfx',
+		'%s/scripts/cfx.sh' % settings.FRAMEWORK_PATH,
 		'--binary=/usr/bin/xulrunner',
 		'--pkgdir=/tmp/%s' % hash,
 		'xpi'
