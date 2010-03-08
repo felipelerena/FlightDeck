@@ -358,7 +358,6 @@ def createXPI(r):
 		'cfx',
 		'--binary=/usr/bin/xulrunner',
 		'--pkgdir=/tmp/%s' % hash,
-		'-o','/tmp/%s' % hash,
 		'xpi'
 	]
 	#print cfx_command
