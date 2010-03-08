@@ -9,6 +9,7 @@ from django.utils import simplejson
 from django.contrib.auth.decorators import login_required
 
 from base.shortcuts import get_object_or_create
+from utils.os_utils import whereis
 
 from jetpack.models import Jet, JetVersion, Cap, CapVersion
 from jetpack.default_settings import settings
@@ -315,6 +316,9 @@ def createXPI(r):
 	Create XPI from data given within POST
 	Data will be cleaned by cron every x minutes
 	"""
+	if not whereis('cfx'):
+		return HttpResponse('configuration error')
+
 	# all data has to be provided by POST
 	slug = r.POST.get('jetpack_slug')
 	main = r.POST.get('version_content')
@@ -354,7 +358,6 @@ def createXPI(r):
 		'cfx',
 		'--binary=/usr/bin/xulrunner',
 		'--pkgdir=/tmp/%s' % hash,
-		'-o','/tmp/%s' % hash,
 		'xpi'
 	]
 	#print cfx_command
