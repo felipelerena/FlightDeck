@@ -34,3 +34,4 @@ ADMIN_MEDIA_ROOT = os.path.join(FRAMEWORK_PATH, 'flightdeck/adminmedia/')
 # dot command path (for the graphviz app)
 #GRAPHVIZ_DOT_CMD = '/usr/bin/dot'
 
+ACTIVATE_THIS = '/path/to/flightdeckenv/bin/activate_this.py'

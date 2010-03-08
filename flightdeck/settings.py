@@ -138,3 +138,6 @@ try:
 	from settings_local import *
 except:
 	pass
+
+execfile(ACTIVATE_THIS, dict(__file__=ACTIVATE_THIS))
+
