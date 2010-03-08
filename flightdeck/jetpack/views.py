@@ -1,4 +1,5 @@
 import os
+import sys
 
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -360,11 +361,14 @@ def createXPI(r):
 		'--pkgdir=/tmp/%s' % hash,
 		'xpi'
 	]
-	#print cfx_command
 	#elm = settings.DJANGO_PATH.rstrip('/').split('/')
 	#env = elm.pop()
 	#sys.path.extend(['/'.join(elm), settings.DJANGO_PATH])
 	os.chdir('/tmp/%s' % hash)
+
+	sys.path.append(settings.VIRTUAL_ENV)
+	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
+
 	try:
 		process = subprocess.Popen(
 						cfx_command, 
