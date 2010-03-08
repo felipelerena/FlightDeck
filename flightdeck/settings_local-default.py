@@ -35,3 +35,5 @@ ADMIN_MEDIA_ROOT = os.path.join(FRAMEWORK_PATH, 'flightdeck/adminmedia/')
 #GRAPHVIZ_DOT_CMD = '/usr/bin/dot'
 
 ACTIVATE_THIS = '/path/to/flightdeckenv/bin/activate_this.py'
+VIRTUAL_ENV = '/path/to/flightdeckenv'
+VIRTUAL_SITE_PACKAGES = '/path/to/flightdeckenv/lib/python-2.6/site-packages'
