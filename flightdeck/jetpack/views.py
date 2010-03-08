@@ -379,3 +379,5 @@ def getXPI(r, hash, slug):
 	"""
 	return XPI file
 	"""
+	from django.views.static import serve
+	return serve(r, '%s.xpi' % slug, '/tmp/%s' % hash, show_indexes=False)
