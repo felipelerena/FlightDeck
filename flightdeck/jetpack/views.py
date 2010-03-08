@@ -328,13 +328,13 @@ def createXPI(r):
 	hash = 'jetpack-' + ''.join([choice(allowed_chars) for i in range(10)])
 	# first create file structure
 	os.mkdir ('/tmp/%s' % hash) 
-	if libs:
-		os.mkdir('/tmp/%s/lib' % hash)
+	os.mkdir('/tmp/%s/lib' % hash)
 
 	for lib in libs:
 		libHandle = open('/tmp/%s/lib/%s.js' % (hash, lib['slug']), 'w')
 		libHandle.write(lib['version_content'])
 		libHandle.close()
+
 	
 	pkgHandle = open('/tmp/%s/package.json' %hash, 'w')
 	pkgHandle.write(package)
@@ -350,15 +350,27 @@ def createXPI(r):
 
 	# save the directory using the hash only
 	import subprocess
+	cfx_command = [
+		'cfx',
+		'--binary=/usr/bin/xulrunner',
+		'--pkgdir=/tmp/%s' % hash,
+		'-o','/tmp/%s' % hash,
+		'xpi'
+	]
+	#print cfx_command
+	#elm = settings.DJANGO_PATH.rstrip('/').split('/')
+	#env = elm.pop()
+	#sys.path.extend(['/'.join(elm), settings.DJANGO_PATH])
+	os.chdir('/tmp/%s' % hash)
 	try:
-		subprocess.check_call('cfx --binary=/usr/bin/xulrunner --pkgdir=/tmp/%s xpi' % hash)
+		subprocess.call(cfx_command)
 	except subprocess.CalledProcessError:
 		return HttpResponseServerError
 
 	xpi_url = reverse('jp_get_xpi', args=[hash, slug])
 
 	# return hash and xpi filename
-	return render_to_response('json/xpi_created.json', {'url':xpi_url},
+	return render_to_response('json/xpi_created.json', {'xpi_url':xpi_url},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 			
@@ -367,3 +379,5 @@ def getXPI(r, hash, slug):
 	"""
 	return XPI file
 	"""
+	from django.views.static import serve
+	return serve(r, '%s.xpi' % slug, '/tmp/%s' % hash, show_indexes=False)

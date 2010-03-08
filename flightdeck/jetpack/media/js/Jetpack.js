@@ -49,11 +49,11 @@ var Jetpack = new Class({
 			url: this.options.try_in_browser_url,
 			method: 'post',
 			data: data,
-			onSuccess: function(respose) {
-				fd.message('Debug','XPI created - sending data to Fd addon');
+			onSuccess: function(response) {
+				fd.message.alert('Debug','XPI created - sending data to Fd addon\n'+response.get_xpi_url);
 				// now call the add-on
 				$log(response);
-				this.install_xpi();
+				this.install_xpi(response.get_xpi_url);
 			}.bind(this)
 		}).send();
 	},
