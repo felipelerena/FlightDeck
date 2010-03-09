@@ -121,6 +121,13 @@ def item_get_versions(r, slug, type):
 	"""
 	get all existing versions for the item
 	"""
+	Klass = Jet if type=="jetpack" else Cap
+	item = get_object_or_404(Klass, slug=slug)
+	return render_to_response('json/versions.json', {
+				"versions": item.versions.all()
+			}, context_instance=RequestContext(r),
+	)
+	
 
 
 @login_required
