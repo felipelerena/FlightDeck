@@ -117,6 +117,10 @@ def item_create(r, type):
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 	
+def item_get_versions(r, slug, type):
+	"""
+	get all existing versions for the item
+	"""
 
 
 @login_required
