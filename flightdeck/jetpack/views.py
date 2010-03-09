@@ -263,39 +263,39 @@ def capabilities_autocomplete(r):
 	"""
 	
 @login_required
-def add_dependency(r, slug, type, version=None, counter=None):
+def addnew_dependency(r, slug, type, version=None, counter=None):
 	"""
-	Add dependency to the item represented by slug
+	Create and later add dependency
 	"""
-	# TODO: add more protection (do not allow two versions of the same Cap)
-	if type == 'jetpack':
-		item_version = get_object_or_404(JetVersion, 
-					jetpack__slug=slug, name=version, counter=counter)
-		item = item_version.jetpack
-	elif type == 'capability':
-		item_version = get_object_or_404(CapVersion, 
-					capability__slug=slug, name=version, counter=counter)
-		item = item_version.capability
+	dep = Cap(
+		creator=r.user,
+		name=r.POST.get("capability_name"),
+		description=r.POST.get("capability_description")
+	)
+	# TODO: validate
+	dep.save()
 
-	dependency_slug = r.POST.get("dependency_slug")
-	dependency_version = r.POST.get("dependency_version", None)
-	dependency_counter = r.POST.get("dependency_counter", None)
-	if dependency_version:
-		dependency = CapVersion.objects.get(
-						capability__slug=dependency_slug, 
-						name=dependency_version, 
-						counter=dependency_counter)
-		cap = dependency.capability
-	else:
-		cap = Cap.objects.get(slug=dependency_slug)
-		dependency = cap.base_version
-
-	item_version.capabilities.add(dependency)
-	item_version.save()
-
-	dependency_remove_url = reverse("jp_%s_remove_dependency" % type, args=[
-		item.slug, item_version.name, item_version.counter,
-		cap.slug, dependency.name, dependency.counter])
+	#return render_to_response("json/%s_created.json" % type, {type: item},
+	#			context_instance=RequestContext(r),
+	#			mimetype='application/json')
+	
+	# add version
+	ver = CapVersion(
+		capability=dep,
+		author=r.user,
+		content="",
+		description=""
+	) 
+	ver.save()
+	
+	response = _add_dependency(
+						r, slug, type, ver,
+						version=version, counter=counter
+						)
+	try: 
+		item_version, dependency_remove_url = response
+	except:
+		return response
 
 	return render_to_response('json/dependency_added.json', {
 					'item': item_version, 
@@ -305,7 +305,79 @@ def add_dependency(r, slug, type, version=None, counter=None):
 				},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+
+
 	
+	
+def add_dependency(r, slug, type, version=None, counter=None):
+	"""
+	get dependency and call _add_dependency to assign it
+	"""
+	dependency_slug = r.POST.get("dependency_slug")
+	dependency_version = r.POST.get("dependency_version", None)
+	dependency_counter = r.POST.get("dependency_counter", None)
+	if dependency_version:
+		dependency = CapVersion.objects.get(
+						capability__slug=dependency_slug, 
+						name=dependency_version, 
+						counter=dependency_counter)
+	else:
+		cap = Cap.objects.get(slug=dependency_slug)
+		dependency = cap.base_version
+	
+	response = _add_dependency(
+						r, slug, type, dependency,
+						version=version, counter=counter
+						)
+	try: 
+		item_version, dependency_remove_url = response
+	except:
+		return response
+
+	return render_to_response('json/dependency_added.json', {
+					'item': item_version, 
+					'version': dependency, 
+					'cap': dependency.capability,
+					'dependency_remove_url': dependency_remove_url
+				},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
+
+@login_required
+def _add_dependency(r, slug, type, depversion, version=None, counter=None):
+	"""
+	Add depversion to the item represented by slug
+	"""
+	if version:
+		if type == 'jetpack':
+			item_version = get_object_or_404(JetVersion, 
+						jetpack__slug=slug, name=version, counter=counter)
+			item = item_version.jetpack
+		elif type == 'capability':
+			item_version = get_object_or_404(CapVersion, 
+						capability__slug=slug, name=version, counter=counter)
+			item = item_version.capability
+	else:
+		Klass = Cap if type == 'jetpack' else Jet
+		item = Klass.objects.get(slug=slug)
+		item_version = item.base_version
+
+	# protection (do not allow two versions of the same Cap)
+	for c in item_version.capabilities.all():
+		if c.slug == depversion.slug:
+			return HttpResponseNotAllowed(HttpResponse(""))
+			
+	item_version.capabilities.add(depversion)
+	item_version.save()
+
+	dependency_remove_url = reverse("jp_%s_remove_dependency" % type, args=[
+		item.slug, item_version.name, item_version.counter,
+		depversion.slug, depversion.name, depversion.counter])
+
+	return (item_version, dependency_remove_url)
+
+
 @login_required
 def remove_dependency(r, slug, version, counter, type, d_slug, d_version, d_counter):
 	"""

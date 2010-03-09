@@ -31,6 +31,11 @@ urlpatterns = patterns('jetpack.views',
 	url(r'^module/(?P<slug>.*)/update/$', 
 		'item_update', {"type": "capability"}, name='jp_capability_update'),
 
+	url(r'^extension/(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/dependency/addnew/$',
+		'addnew_dependency', {'type': 'jetpack'}, name='jp_jetpack_add_assign_dependency'),
+	url(r'^module/(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/dependency/addnew/$',
+		'addnew_dependency', {'type': 'capability'}, name='jp_capability_add_assign_dependency'),
+
 	url(r'^extension/(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/dependency/add/$',
 		'add_dependency', {'type': 'jetpack'}, name='jp_jetpack_add_dependency'),
 	url(r'^module/(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/dependency/add/$',
