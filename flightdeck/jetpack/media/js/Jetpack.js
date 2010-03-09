@@ -57,7 +57,7 @@ var Jetpack = new Class({
 				}
 				fd.message.alert('Debug','XPI created - sending data to Fd addon');
 				// now call the add-on
-				$log(response);
+				console.log(response);
 				this.install_xpi(response.get_xpi_url);
 			}.bind(this)
 		}).send();

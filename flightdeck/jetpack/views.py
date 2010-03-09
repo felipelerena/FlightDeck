@@ -1,7 +1,10 @@
 import os
 import sys
+import subprocess
+from random import choice
 
 from django.core.urlresolvers import reverse
+from django.views.static import serve
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404, HttpResponseRedirect, HttpResponse, \
 						HttpResponseNotAllowed, HttpResponseServerError
@@ -113,6 +116,17 @@ def item_create(r, type):
 	return render_to_response("json/%s_created.json" % type, {type: item},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+	
+def item_get_versions(r, slug, type):
+	"""
+	get all existing versions for the item
+	"""
+	Klass = Jet if type=="jetpack" else Cap
+	item = get_object_or_404(Klass, slug=slug)
+	return render_to_response('json/versions.json', {
+				"versions": item.versions.all()
+			}, context_instance=RequestContext(r),
+	)
 	
 
 
@@ -239,6 +253,9 @@ def item_version_save_as_base(r, slug, version, counter, type):
 				mimetype='application/json')
 
 
+##########################################################
+# Manage dependencies
+
 @login_required
 def capabilities_autocomplete(r):
 	"""
@@ -311,15 +328,14 @@ def remove_dependency(r, slug, version, counter, type, d_slug, d_version, d_coun
 				mimetype='application/json')
 
 
+####################################################
+# XPI CREATION
 
-def createXPI(r):
+def create_xpi_from_post(r):
 	"""
-	Create XPI from data given within POST
-	Data will be cleaned by cron every x minutes
+	Get all data needed for the XPI creation from POST
+	call createXPI with the right data
 	"""
-	if not whereis('cfx'):
-		return HttpResponse('configuration error')
-
 	# all data has to be provided by POST
 	slug = r.POST.get('jetpack_slug')
 	main = r.POST.get('version_content')
@@ -327,13 +343,30 @@ def createXPI(r):
 	package = r.POST.get('version_manifest')
 	libs = simplejson.loads(r.POST.get('capabilities'))
 
+	return createXPI(r, slug, main, description, package, libs)
+
+def createXPI(r, slug, main, description, package, libs):
+	"""
+	Create XPI from data given within POST
+	Data will be cleaned by cron every x minutes
+	No save is needed to createXPI
+	"""
+	if not whereis('cfx'):
+		return HttpResponse('configuration error')
+
 	# create random hash
-	from random import choice
 	allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 	hash = 'jetpack-' + ''.join([choice(allowed_chars) for i in range(10)])
+
 	# first create file structure
 	os.mkdir ('/tmp/%s' % hash) 
 	os.mkdir('/tmp/%s/lib' % hash)
+	# chdir is needed as cfx is creating the xpi in current directory
+	os.chdir('/tmp/%s' % hash)
+	# prepare environment variables
+	sys.path.append(settings.VIRTUAL_ENV)
+	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
+
 
 	for lib in libs:
 		libHandle = open('/tmp/%s/lib/%s.js' % (hash, lib['slug']), 'w')
@@ -354,20 +387,12 @@ def createXPI(r):
 	descHandle.close()
 
 	# save the directory using the hash only
-	import subprocess
 	cfx_command = [
 		'%s/scripts/cfx.sh' % settings.FRAMEWORK_PATH,
 		'--binary=/usr/bin/xulrunner',
 		'--pkgdir=/tmp/%s' % hash,
 		'xpi'
 	]
-	#elm = settings.DJANGO_PATH.rstrip('/').split('/')
-	#env = elm.pop()
-	#sys.path.extend(['/'.join(elm), settings.DJANGO_PATH])
-	os.chdir('/tmp/%s' % hash)
-
-	sys.path.append(settings.VIRTUAL_ENV)
-	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
 
 	try:
 		process = subprocess.Popen(
@@ -381,7 +406,7 @@ def createXPI(r):
 
 	xpi_url = reverse('jp_get_xpi', args=[hash, slug])
 
-	# return hash and xpi filename
+	# return XPI url and cfx command stdout and stderr
 	return render_to_response('json/xpi_created.json', {'xpi_url':xpi_url, 'out': out},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
@@ -391,5 +416,4 @@ def getXPI(r, hash, slug):
 	"""
 	return XPI file
 	"""
-	from django.views.static import serve
 	return serve(r, '%s.xpi' % slug, '/tmp/%s' % hash, show_indexes=False)
