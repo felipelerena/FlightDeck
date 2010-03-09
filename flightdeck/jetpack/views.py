@@ -126,7 +126,7 @@ def item_get_versions(r, slug, type):
 	return render_to_response('json/versions.json', {
 				"versions": item.versions.all()
 			}, context_instance=RequestContext(r),
-	)
+			mimetype='application/json')
 	
 
 
