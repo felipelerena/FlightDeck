@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('jetpack.views',
 	url(r'^gallery/$', 'gallery', name='gallery'),
 
-	url(r'^create_xpi/$', 'createXPI', name='jp_create_xpi'),
+	url(r'^create_xpi/$', 'create_xpi_from_post', name='jp_create_xpi'),
 	url(r'^get_xpi/(?P<hash>.*)/(?P<slug>.*)/$', 'getXPI', name='jp_get_xpi'),
 
     url(r'^ext_(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/$',
