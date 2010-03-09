@@ -24,7 +24,7 @@ var Sidebar = new Class({
 		this.slideFx = [];
 		this.sideContStatus = JSON.decode(Cookie.read('openedSidebarItems'));
 		
-		this.containers.each(this.attachActions.bind(this));		
+		this.containers.each(this.attachActions.bind(this));
 	},
 	
 	attachActions: function(container, index){
@@ -39,7 +39,7 @@ var Sidebar = new Class({
 		}
 		
 		// show site item if it was toggled open before reloading
-		if (this.sideContStatus[index]){
+		if (this.sideContStatus && this.sideContStatus[index]){
 			this.slideFx[index].show();
 			this.togglers[index].getParent().removeClass('closed');
 		}
