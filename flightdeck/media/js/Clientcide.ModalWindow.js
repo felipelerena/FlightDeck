@@ -18,7 +18,8 @@ var ModalWindow = new Class({
 			closeClassName: 'closeModal',
 			draggable: true,
 			dragHandleSelector: 'h3',
-			closeOnEsc: true
+			closeOnEsc: true,
+			destroyOnClose: true
 		}).show();
 		
 		return this.modal;
