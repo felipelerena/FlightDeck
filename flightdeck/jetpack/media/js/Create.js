@@ -13,13 +13,13 @@ var create = {
 			var modal = fd.displayModal(settings.create_modal_template, wrapper_id);
 
 			$('create_form').addEvent('submit', this.submit.bind(this));
-			$('create_form_cancel').addEvent('click', function(e) {
-				e.stop();
-				this.fade('out');
-				(function(){
-					this.destroy();
-				}).delay(600, this);
-			}.bind(modal));
+			// $('create_form_cancel').addEvent('click', function(e) {
+			// 	e.stop();
+			// 	this.fade('out');
+			// 	(function(){
+			// 		this.destroy();
+			// 	}).delay(600, this);
+			// }.bind(modal));
 		}.bind(this));
 	},
 	
