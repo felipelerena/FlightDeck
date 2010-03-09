@@ -10,22 +10,18 @@ authors:
 
 /* START TEMP*/
 .UI_Modal {
-   position: relative;
-   top: 0px;
 }
 
 .UI_Modal_Wrapper {
-   position: absolute;
-   width: 400px;
-   left: 50%;
-   margin-left: -200px;
-   top: 55px;
 }
 /* END TEMP*/
 
 .UI_Modal_Wrapper {
-   padding-bottom: 15px;
    z-index: 100;
+   background: rgba(0, 0, 0, 0.25);
+   -moz-border-radius: 10px;
+   -moz-border-radius: 10px;
+   padding: 10px;
 }
 
 .UI_Modal {
@@ -34,7 +30,7 @@ authors:
    
    -moz-border-radius: 7px;
    -moz-border-radius: 7px;
-   -moz-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.6);
+   /*-moz-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.6);*/
 }
 
       .UI_Modal h3 {

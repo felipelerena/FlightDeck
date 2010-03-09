@@ -32,10 +32,9 @@ FlightDeck = Class.refactor(FlightDeck,{
 	 * Method: displayModal
 	 * Pretty dummy function which just wraps the content with divs and shows on the screen
 	 */
-	displayModal: function(content, inside_el) {
-		// stickywin goes here
-		
-		return this.makeModal(content).inject(inside_el, 'top');
+	displayModal: function(content) {
+		// modal is defined in base.html - this should probably be done elsewhere
+		return modal.create(this.makeModal(content)[0]);
 	},
 	// these two are not really used atm
 	hideModal: function(key) {
