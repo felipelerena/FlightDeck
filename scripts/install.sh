@@ -104,6 +104,11 @@ then
 	ln -fs $V_ENV/src/jetpack-sdk/python-lib/cuddlefish $SITE_PACKAGES/cuddlefish
 	# link static files
 	ln -fs $V_ENV/src/jetpack-sdk/static-files $V_ENV/static-files
+else
+	echo "updating Jetpack SDK"
+	cd $V_ENV/src/jetpack-sdk/
+	# new version is not working
+	#hg update 
 fi
 
 

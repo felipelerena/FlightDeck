@@ -115,7 +115,8 @@ var CapVersionDependency = new Class({
 				}
 				this.content_el.destroy();
 				this.switch_content_el.destroy();
-				$H(fd.getItem().version.capabilities).erase(this.options.slug);
+				// TODO: REFACTOR - this should work from the event
+				fd.getItem().version.capabilities.erase(this.options.slug);
 				this.fireEvent('remove');
 			}.bind(this)
 		}).send();

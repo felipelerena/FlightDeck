@@ -233,10 +233,11 @@ var CapVersion = new Class({
 		set_as_base_el: 'set_as_base',
 		add_dependency_el: 'add_dependency_action',
 		add_dependency_input: 'add_dependency',
-		add_dependency_url: '',
-		edit_url: '',
-		update_url: '',
-		set_as_base_url: '',
+		addnew_dependency_el: 'addnew_dependency_action',
+		// add_dependency_url: '',
+		// edit_url: '',
+		// update_url: '',
+		// set_as_base_url: '',
 		is_dependency: false
 	},
 	/*
@@ -244,7 +245,7 @@ var CapVersion = new Class({
 	 * instantiate Editor
 	 */
 	initialize: function(options) {
-		this.capabilities = {};
+		this.capabilities = $H({});
 		this.setOptions(options);
 		this.switch_content_el = $(this.options.switch_content_id);
 		this.switch_description_el = $(this.options.switch_description_id);
@@ -361,7 +362,22 @@ var CapVersion = new Class({
 	 * Method: addDependency
 	 */
 	addDependency: 	function(options){
-		this.capabilities[options.slug] = new CapDependency(options);
+		var dep = new CapDependency(options);
+		this.registerDependency(dep);
+	},
+	registerDependency: function(dep) {
+		var slug = dep.options.slug;
+		dep.addEvent('remove', function() { 
+			// TODO: Why this is not working?
+			this.removeDependency(slug);
+		}.bind(this));
+		this.capabilities[slug] = dep;
+	},
+	/*
+	 * Method: removeDependency
+	 */
+	removeDependency: function(slug) {
+		this.capabilities.erase(slug);
 	},
 	/*
 	 * Method: createDependency
