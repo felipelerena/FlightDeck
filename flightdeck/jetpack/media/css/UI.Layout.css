@@ -35,7 +35,7 @@ a:hover {
 /*
  =========================================================================== */
 #app-header {
-   background: -moz-linear-gradient(270deg, #545F6B, #4E5861);
+   background: -moz-linear-gradient(270deg, #777, #555); /* #545F6B, #4E5861);*/
    height: 60px;
 }
 
@@ -69,7 +69,7 @@ a:hover {
       #app-header nav li.active {
          background: -moz-linear-gradient(270deg, #2C3137, #3E454D);
          -moz-border-radius: 3px;
-         -moz-box-shadow: 0 1px 0 #7A7E86;
+         -moz-box-shadow: 0 1px 0 #7a7a7a;/*#7A7E86;*/
          margin: 0 3px;
          padding: 1px;
          color: #fff;
@@ -78,7 +78,7 @@ a:hover {
       }
       
       #app-header nav li.active span {
-         background: -moz-linear-gradient(270deg, #66778C, #545F6B);
+         background: -moz-linear-gradient(270deg, #707070, #505050);/*#66778C, #545F6B);*/
          -moz-border-radius: 2px;
          padding: 4px 8px;
          display: inline-block;
