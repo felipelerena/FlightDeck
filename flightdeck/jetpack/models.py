@@ -215,6 +215,10 @@ class CapVersion(models.Model):
 	def get_adddependency_url(self):
 		return ('jp_capability_add_dependency',[self.capability.slug, self.name, self.counter])
 
+	@models.permalink
+	def get_addnewdependency_url(self):
+		return ('jp_capability_addnew_dependency',[self.capability.slug, self.name, self.counter])
+
 
 
 class Jet(models.Model):
@@ -417,6 +421,10 @@ class JetVersion(models.Model):
 	@models.permalink
 	def get_adddependency_url(self):
 		return ('jp_jetpack_add_dependency',[self.jetpack.slug, self.name, self.counter])
+
+	@models.permalink
+	def get_addnewdependency_url(self):
+		return ('jp_jetpack_addnew_dependency',[self.jetpack.slug, self.name, self.counter])
 
 
 ########################################################################################

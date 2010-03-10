@@ -299,8 +299,8 @@ def addnew_dependency(r, slug, type, version=None, counter=None):
 
 	return render_to_response('json/dependency_added.json', {
 					'item': item_version, 
-					'version': dependency, 
-					'cap': dependency.capability,
+					'version': ver, 
+					'cap': dep,
 					'dependency_remove_url': dependency_remove_url
 				},
 				context_instance=RequestContext(r),

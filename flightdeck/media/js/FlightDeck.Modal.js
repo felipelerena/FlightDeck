@@ -10,6 +10,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 		}
 	},
 	initialize: function(options) {
+		this.modal = new ModalWindow();
 		this.setOptions(options);
 		this.previous(options);
 		this.modals = {};
@@ -34,7 +35,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 	 */
 	displayModal: function(content) {
 		// modal is defined in base.html - this should probably be done elsewhere
-		return modal.create(this.makeModal(content)[0]);
+		return this.modal.create(this.makeModal(content)[0]);
 	},
 	// these two are not really used atm
 	hideModal: function(key) {

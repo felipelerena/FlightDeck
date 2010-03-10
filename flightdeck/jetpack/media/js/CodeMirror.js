@@ -75,8 +75,9 @@ Class.refactor(FDEditor, {
 		return this;
 	},
 	destroy: function() {
-		this.editor.wrapping.destroy();
 		this.element.destroy();
+		this.editor.clearHistory();
+		this.editor.wrapping.destroy();
 		return this;
 	},
 	show: function() {

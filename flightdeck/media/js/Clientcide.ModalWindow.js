@@ -20,7 +20,8 @@ var ModalWindow = new Class({
 			dragHandleSelector: 'h3',
 			closeOnEsc: true,
 			destroyOnClose: true
-		}).show();
+		});
+		this.modal.show();
 		
 		return this.modal;
 	},

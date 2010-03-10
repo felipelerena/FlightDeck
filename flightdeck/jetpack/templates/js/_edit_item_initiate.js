@@ -9,6 +9,7 @@ item = new {{ type|capfirst }}({
 	update_url: '{{ item.get_update_url }}',
 	version_create_url: '{{ item.get_version_create_url }}',
 	switch_description_id: '{{ item|tab_link_id:"description" }}',
+	type: '{{ item.type }}',
 	{% ifequal type 'jetpack' %}
 		try_in_browser_url: '{% url jp_create_xpi %}',
 	{% endifequal %}
@@ -29,6 +30,7 @@ item = new {{ type|capfirst }}({
 			add_dependency_url: '{{ version.get_adddependency_url }}',
 			addnew_dependency_url: '{{ version.get_addnewdependency_url }}',
 			set_as_base_url: '{{ version.get_set_as_base_url }}',
+			addnew_dependency_template: '{% escape_template "_addnew_dependency_window.html" %}',
 		{% endif %}
 		switch_content_id: '{{ version|tab_link_id:"content" }}',
 		switch_description_id: '{{ version|tab_link_id:"version_description" }}'
