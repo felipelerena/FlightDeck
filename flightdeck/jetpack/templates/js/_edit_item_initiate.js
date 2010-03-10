@@ -27,6 +27,7 @@ item = new {{ type|capfirst }}({
 		{% if version %}
 			edit_url: '{{ version.get_absolute_url }}',
 			add_dependency_url: '{{ version.get_adddependency_url }}',
+			addnew_dependency_url: '{{ version.get_addnewdependency_url }}',
 			set_as_base_url: '{{ version.get_set_as_base_url }}',
 		{% endif %}
 		switch_content_id: '{{ version|tab_link_id:"content" }}',

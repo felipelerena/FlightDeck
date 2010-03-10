@@ -42,9 +42,8 @@ var FDEditor = new Class({
 	},
 	destroy: function() {
 		this.hide();
-		this.editor.clearHistory();
-		this.editor.wrapping.destroy();
 		this.element.destroy();
+		this.fireEvent('destroy');
 	},
 	hide: function() {
 		this.hidden = true;

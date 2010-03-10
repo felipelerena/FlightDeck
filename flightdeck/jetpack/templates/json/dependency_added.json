@@ -8,6 +8,7 @@
 		"creator": "{{ cap.creator }}",
 		"version_create_url": "{{ cap.get_version_create_url }}",
 		"version": {
+			"slug": "{{ cap.slug }}",
 			"remove_url": "{{ dependency_remove_url }}",
 			"author": "{{ version.author }}",
 			"name": "{{ version.name }}",

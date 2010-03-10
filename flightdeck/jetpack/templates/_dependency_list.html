@@ -7,12 +7,13 @@
 					{% include "_dependency_list_item.html" %}
 					<script type="text/javascript">
 						window.addEvent('domready', function() {
-							item.version.addDependency({
+							var dep = new CapDependency({
 								slug: '{{ cap.slug }}',
 								name: '{{ cap.name }}',
 								creator: '{{ cap.creator }}',
 								version_create_url: '{{ cap.get_version_create_url }}',
 								version: {
+									slug: '{{ cap.slug }}',
 									xxx: 'xxx',
 									{% ifequal type "jetpack" %}
 										remove_url: '{% url jp_jetpack_remove_dependency item.slug version.name version.counter cap.slug capversion.name capversion.counter %}',
@@ -31,6 +32,7 @@
 									content_el: {element: 'dependency_content_{{ cap.slug }}'},
 								}
 							});
+							fd.getItem().version.registerDependency(dep);
 						});
 					</script>
 				{% endwith %}{% endif %}
