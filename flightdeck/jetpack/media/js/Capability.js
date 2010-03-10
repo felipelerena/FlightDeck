@@ -233,7 +233,7 @@ var CapVersion = new Class({
 		set_as_base_el: 'set_as_base',
 		add_dependency_el: 'add_dependency_action',
 		add_dependency_input: 'add_dependency',
-		addnew_dependency_el: 'addnew_dependency_action',
+		addnew_dependency_el: 'create_and_add_dependency_acton',
 		// add_dependency_url: '',
 		// edit_url: '',
 		// update_url: '',
@@ -334,12 +334,35 @@ var CapVersion = new Class({
 			}.bind(this));
 		}
 		var addnew_dependency_action = $(this.options.addnew_dependency_el);
+		console.log ( addnew_dependency_action, this.options.addnew_dependency_el);
 		if (addnew_dependency_action) {
 			addnew_dependency_action.addEvent('click', function(e) {
 				e.stop();
-				this.showAddNewDependencyWindow();
+				this.displayAddNewDependencyWindow();
 			}.bind(this));
 		}
+	},
+	displayAddNewDependencyWindow: function() {
+			fd.addnewDependencyModal = fd.displayModal(this.options.addnew_dependency_template);
+			$('addnew_dependency_form').addEvent('submit', function(e) { 
+				e.stop();
+				var data = {};
+				data['capability_name'] = $('create-name').get('value');
+				data['capability_description'] = $('create-description').get('value');
+				new Request.JSON({
+					url: this.options.addnew_dependency_url,
+					data: data,
+					method: 'post',
+					onSuccess: function(response) {
+						fd.message.alert('Success',response.message);
+						this.createDependency(response.dependency, true);
+						this.fireEvent('change');
+						fd.addnewDependencyModal.hide();
+						fd.addnewDependencyModal = null;
+					}.bind(this)
+				}).send();
+				return false;
+			}.bind(this));
 	},
 	/*
 	 * Method: addDependencyFromInput

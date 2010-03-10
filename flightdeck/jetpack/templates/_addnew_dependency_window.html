@@ -1,18 +1,7 @@
-<form class="UI_Forms" id="create_form" method="post" accept-charset="utf-8">
-	<h3>Create new Extension/Module</h3>
+<form class="UI_Forms" id="addnew_dependency_form" method="post" accept-charset="utf-8">
+	<h3>Create new dependency Module</h3>
 	<fieldset>
-		<legend>Create new Extension/Module</legend>
-
-		<ul class="UI_Choice">
-			<li>
-				<input id="create-jetpack" type="radio" name="choice" value="jetpack" checked="checked" />
-				<label for="create-jetpack">Extension</label>
-			</li>
-			<li>
-				<input id="create-capability" type="radio" name="choice" value="capability" />
-				<label for="create-capability">Module</label>
-			</li>
-		</ul> <!-- /UI_Choice -->
+		<legend>Create new dependency Module</legend>
 
 		<p class="UI_Field">
 			<label for="create-name">Name</label>
@@ -25,11 +14,11 @@
 		</p> <!-- /UI_Field -->
 	</fieldset>
 
+
 	<div class="UI_Modal_Actions">
 		<ul>
 			<li><input class="" type="submit" name="save" value="Create" /></li>
 			<li><input class="closeModal" type="reset" name="cancel" value="Cancel" id="create_form_cancel" /></li>
 		</ul>
 	</div> <!-- /UI_Modal_Actions -->
-
 </form> <!-- /UI_Forms -->
