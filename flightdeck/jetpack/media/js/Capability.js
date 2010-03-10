@@ -312,18 +312,17 @@ var CapVersion = new Class({
 	listenToEvents: function() {		
 		this.changed = false;
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
+		this.name_el.addEvent('change', this.boundAfterDataChanged);
 		this.description_el.addEvent('change', this.boundAfterDataChanged);
 		this.description_el.addEvent('change', function() {
 			if (this.switch_description_el) {
 				this.switch_description_el.getParent('li').addClass('UI_File_Modified');
-				fd.enableMenuButtons();
 			}
 		}.bind(this));
 		this.content_el.addEvent('change', this.boundAfterDataChanged);
 		this.content_el.addEvent('change', function() {
 			if (this.switch_content_el) {
 				this.switch_content_el.getParent('li').addClass('UI_File_Modified');
-				fd.enableMenuButtons();
 			}
 		}.bind(this));
 		// adding dependencies
@@ -332,7 +331,6 @@ var CapVersion = new Class({
 			add_dependency_action.addEvent('click', function(e) {
 				e.stop();
 				this.addDependencyFromInput();
-				fd.enableMenuButtons();
 			}.bind(this));
 		}
 	},
@@ -398,6 +396,7 @@ var CapVersion = new Class({
 		// TODO: discover if change was actually an undo and there is 
 		//       no change to the original content
 		this.changed = true;
+		fd.enableMenuButtons();
 		$(this.options.update_el).addEvent('click', function(e) {
 			e.stop();
 			this.update();

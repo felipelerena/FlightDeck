@@ -58,6 +58,8 @@ class Cap(models.Model):
 	###################
 	# Properties
 
+	type = "capability"
+
 	@property
 	def base_version(self):
 		try:
@@ -246,6 +248,8 @@ class Jet(models.Model):
 
 	###################
 	# Properties
+
+	type = "jetpack"
 
 	@property
 	def base_version(self):
