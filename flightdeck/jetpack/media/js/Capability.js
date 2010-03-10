@@ -333,6 +333,13 @@ var CapVersion = new Class({
 				this.addDependencyFromInput();
 			}.bind(this));
 		}
+		var addnew_dependency_action = $(this.options.addnew_dependency_el);
+		if (addnew_dependency_action) {
+			addnew_dependency_action.addEvent('click', function(e) {
+				e.stop();
+				this.showAddNewDependencyWindow();
+			}.bind(this));
+		}
 	},
 	/*
 	 * Method: addDependencyFromInput
