@@ -17,6 +17,8 @@ Production uses following third-party software:
  * Haystack (http://haystacksearch.org/) [BSD]
  * PIL (http://www.pythonware.com/products/pil/) [free custom - http://www.pythonware.com/products/pil/license.htm]
  * Mootools (http://mootools.net/) [MIT]
+ * Roar (http://digitarald.de/project/roar/) [MIT]
+ * StickyWin (http://www.clientcide.com/docs/UI/StickyWin) [MIT]
 
 Needed for Jetpack integration
  * mozrunner
@@ -29,4 +31,4 @@ Following third-party software is used only for development:
  * DevServer (http://github.com/dcramer/django-devserver) [?] // switched off at the moment
  * Debug Toolbar (http://github.com/robhudson/django-debug-toolbar) [Django like]
  * wget (http://www.gnu.org/software/wget/) [GPL]
- 
+ * CodeMirror (http://marijn.haverbeke.nl/codemirror/) [http://github.com/marijnh/CodeMirror/blob/master/LICENSE]
