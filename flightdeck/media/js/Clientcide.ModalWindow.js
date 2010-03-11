@@ -19,7 +19,8 @@ var ModalWindow = new Class({
 			draggable: true,
 			dragHandleSelector: 'h3',
 			closeOnEsc: true,
-			destroyOnClose: true
+			destroyOnClose: true,
+			allowMultiple: false
 		});
 		this.modal.show();
 		

@@ -39,11 +39,11 @@ authors:
          
          .UI_File_Listing li a span.File_close {
             display: none;
-            height: 10px;
-            width: 10px;
+            height: 12px;
+            width: 12px;
             position: absolute;
             top: 50%;
-            margin-top: -5px;
+            margin-top: -6px;
             right: 10px;
             opacity: 0.7;
             background: url(../img/UI_File_Listing/ico-close.png) 0 0 no-repeat;
