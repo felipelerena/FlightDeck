@@ -151,7 +151,7 @@ var Capability = new Class({
 	 * Prepare data and send Request - create a new version
 	 */
 	version_create: function(data) {
-		var data = $pick(data, this.version.prepareData());
+		data = $pick(data, this.version.prepareData());
 		new Request.JSON({
 			url: this.options.version_create_url,
 			data: data,

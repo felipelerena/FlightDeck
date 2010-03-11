@@ -9,41 +9,41 @@ authors:
 */
 
 body {
-   background: #fff url(../img/sidebar-bg.png) 0 0 repeat-y;
-   font-family: 'Lucida Grande', 'Lucida Sans', 'Lucida Sans Unicode', 'Myriad', Tahoma, Verdana, Arial, sans-serif;
-   font-size: .8em;
-   color: #4D5860;
+	background: #fff url(../img/sidebar-bg.png) 0 0 repeat-y;
+	font-family: 'Lucida Grande', 'Lucida Sans', 'Lucida Sans Unicode', 'Myriad', Tahoma, Verdana, Arial, sans-serif;
+	font-size: .8em;
+	color: #4D5860;
 }
 
 a,
 a:link {
-   text-decoration: none;
-   color: #4D5860;
-   outline: none;
+	text-decoration: none;
+	color: #4D5860;
+	outline: none;
 }
 
 a:hover {
-   text-decoration: underline;
+	text-decoration: underline;
 }
 
 /*
  =========================================================================== */
 #wrapper {
-   min-width: 1020px;
+	min-width: 1020px;
 }
 
 /*
  =========================================================================== */
 #app-header {
-   background: -moz-linear-gradient(270deg, #545F6B, #4E5861); /* #545F6B, #4E5861);*/
-   height: 60px;
+	background: -moz-linear-gradient(270deg, #545F6B, #4E5861); /* #545F6B, #4E5861);*/
+	height: 60px;
 }
 
-   #app-header nav {
-      float: right;
-      margin: 15px 15px 0 0;
-      padding: 1px;
-   }
+	#app-header nav {
+		float: right;
+		margin: 15px 15px 0 0;
+		padding: 1px;
+	}
    
    #app-header nav li {
       float: left;
