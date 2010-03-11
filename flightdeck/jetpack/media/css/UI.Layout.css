@@ -35,7 +35,7 @@ a:hover {
 /*
  =========================================================================== */
 #app-header {
-   background: -moz-linear-gradient(270deg, #777, #555); /* #545F6B, #4E5861);*/
+   background: -moz-linear-gradient(270deg, #545F6B, #4E5861); /* #545F6B, #4E5861);*/
    height: 60px;
 }
 
@@ -78,7 +78,7 @@ a:hover {
       }
       
       #app-header nav li.active span {
-         background: -moz-linear-gradient(270deg, #707070, #505050);/*#66778C, #545F6B);*/
+         background: -moz-linear-gradient(270deg, #66778C, #545F6B);/*#66778C, #545F6B);*/
          -moz-border-radius: 2px;
          padding: 4px 8px;
          display: inline-block;

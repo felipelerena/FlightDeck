@@ -15,155 +15,165 @@ authors:
 }
 
 .UI_Sidebar_Toggler {
-   position: relative;
+	position: relative;
 }
 
-   .UI_Sidebar_Toggler a {
-      display: block;
-      background: #E5E9EE;
-      border-top: solid 1px #fff;
-      border-bottom: solid 1px #AFB6BD;
-      
-      color: #4D5860;
-      text-shadow: 0 1px 0 #fff;
-      padding: 12px 0 12px 45px; 
-   }
+	.UI_Sidebar_Toggler a {
+		display: block;
+		background: #E5E9EE;
+		border-top: solid 1px #fff;
+		border-bottom: solid 1px #AFB6BD;
+
+		color: #4D5860;
+		text-shadow: 0 1px 0 #fff;
+		padding: 12px 0 12px 45px; 
+	}
+
+	.UI_Sidebar_Toggler a:hover {
+		text-decoration: none;
+	}
    
-/*   .UI_Sidebar_Toggler a:hover {
-      text-decoration: none;
-   }*/
-   
-      .UI_Sidebar_Toggler a #dependency-counter {
-         color: #999;
-         font-size: .9em;
-      }
+		.UI_Sidebar_Toggler a #dependency-counter {
+			color: #999;
+			font-size: .9em;
+		}
+
+		.UI_Sidebar_Toggler a .UI_OC,
+		.UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
+			display: block;
+			position: absolute;
+			top: 50%;
+			background-repeat: no-repeat;
+		}
       
-      .UI_Sidebar_Toggler a .UI_OC,
-      .UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
-         display: block;
-         position: absolute;
-         top: 50%;
-         background-repeat: no-repeat;
-      }
+		/* Open/close triangle */
+		.UI_Sidebar_Toggler a .UI_OC {
+			right: 10px;
+			margin-top: -5px;
+			height: 11px;
+			width: 11px;
+			background-image: url(../img/toggle-arrows.png);
+		}
+
+			/* Opened open/close */
+			.UI_Sidebar_Toggler.opened a .UI_OC {
+				background-position: 0 -23px;
+			}
+
+			/* Closed open/close */
+			.UI_Sidebar_Toggler.closed a .UI_OC {
+				background-position: 0 -34px;
+			}
       
-      /* Open/close triangle */
-      .UI_Sidebar_Toggler a .UI_OC {
-         right: 10px;
-         margin-top: -5px;
-         height: 11px;
-         width: 11px;
-         background-image: url(../img/toggle-arrows.png);
-      }
-      
-         /* Opened open/close */
-         .UI_Sidebar_Toggler.opened a .UI_OC {
-            background-position: 0 -23px;
-         }
-      
-         /* Closed open/close */
-         .UI_Sidebar_Toggler.closed a .UI_OC {
-            background-position: 0 -34px;
-         }
-      
-      /* Right hand-side icon for the toggler */
-      .UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
-         left: 10px;
-         margin-top: -13px;
-         height: 27px;
-         width: 26px;
-         background-image: url(../img/toggle-icons.png);
-      }
-      
-         .UI_Sidebar_Toggler.dependencies a .UI_Sidebar_Toggler_Icon {
-            background-position: 0 0;
-         }
-      
-         .UI_Sidebar_Toggler.recentlyModified a .UI_Sidebar_Toggler_Icon {
-            background-position: 0 -27px;
-         }
+	/* Right hand-side icon for the toggler */
+	.UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
+		left: 10px;
+		margin-top: -13px;
+		height: 27px;
+		width: 26px;
+		background-image: url(../img/toggle-icons.png);
+	}
+
+		.UI_Sidebar_Toggler.dependencies a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 0;
+		}
+
+		.UI_Sidebar_Toggler.recentlyModified a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 -27px;
+		}
+
+		.UI_Sidebar_Toggler.info a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 -54px;
+		}
          
-         .UI_Sidebar_Toggler.info a .UI_Sidebar_Toggler_Icon {
-            background-position: 0 -54px;
-         }
-         
-   .UI_Sidebar_Creator,
-   .UI_Sidebar_Author,
-   .UI_Sidebar_SwitchTo {
-      margin: 10px 0 0;
-      font-size: .9em;
-      
-   }
+	.UI_Sidebar_Creator,
+	.UI_Sidebar_Author,
+	.UI_Sidebar_SwitchTo {
+		margin: 10px 0 0;
+		font-size: .9em;
+	}
+
+		.UI_Sidebar_Creator a,
+		.UI_Sidebar_Author a,
+		.UI_Sidebar_SwitchTo a {
+			color: #478CDE;
+			padding-bottom: 1px;
+			border-bottom: solid 1px #E9EDF0;
+			font-weight: bold;
+		}
+
+		.UI_Sidebar_Creator a:hover,
+		.UI_Sidebar_Author a:hover,
+		.UI_Sidebar_SwitchTo a:hover {
+			text-decoration: none;
+			color: #3E464D;
+			border-bottom: solid 1px #478CDE;
+		}
    
-      .UI_Sidebar_Creator a,
-      .UI_Sidebar_Author a,
-      .UI_Sidebar_SwitchTo a {
-         color: #478CDE;
-         padding-bottom: 1px;
-         border-bottom: solid 1px #E9EDF0;
-         font-weight: bold;
-      }
+	.UI_Sidebar_ItemCont {
+		padding: 0;
+	}
+
+		.UI_Sidebar_ItemCont .UI_Field_Cont {
+			padding: 10px;
+		}
+
+		.UI_Sidebar_ItemCont .UI_Field_Cont label {
+			display: block;
+			padding: 0 0 3px;
+			cursor: pointer;
+			font-size: .9em;
+		}
+
+		.UI_Sidebar_ItemCont .UI_Field_Cont input {
+			border: solid 1px #CBCFD4;
+			padding: 3px;
+			width: 170px;
+			display: inline-block;
+			background: -moz-linear-gradient(270deg, #F2F2F2, #fff 6px);
+			text-align: right;
+		}
       
-      .UI_Sidebar_Creator a:hover,
-      .UI_Sidebar_Author a:hover,
-      .UI_Sidebar_SwitchTo a:hover {
-         text-decoration: none;
-         color: #3E464D;
-         border-bottom: solid 1px #478CDE;
-      }
-   
-   .UI_Sidebar_ItemCont {
-      padding: 0;
-   }
-      
-      .UI_Sidebar_ItemCont .UI_Field_Cont {
-         padding: 10px;
-      }
-      
-      .UI_Sidebar_ItemCont .UI_Field_Cont label {
-         display: block;
-         padding: 0 0 3px;
-         cursor: pointer;
-         font-size: .9em;
-      }
-      
-      .UI_Sidebar_ItemCont .UI_Field_Cont input {
-         border: solid 1px #CBCFD4;
-         padding: 3px;
-         width: 170px;
-         display: inline-block;
-         background: -moz-linear-gradient(270deg, #F2F2F2, #fff 6px);
-         text-align: right;
-      }
-      
-   .UI_Sidebar_ItemCont .UI_New_Dependency {
-      
-   }
-   
-      .UI_Sidebar_ItemCont .UI_New_Dependency input {
-         width: 167px;
-         float: left;
-      }
-      
-      .UI_Sidebar_ItemCont .UI_New_Dependency button {
-         width: 35px;
-         padding: 2px 0;
-         float: right;
-         text-align: center;
-         color: #4D5860;
-         text-shadow: 0 1px 0 #fff;
-         background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
-         border: solid 1px #CBCFD4;
-         border-left: none;
-      }
-      
-      .UI_Sidebar_ItemCont .UI_New_Dependency button:hover {
-         background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
-         text-decoration: none;
-      }
-      
-      .UI_Sidebar_ItemCont .UI_New_Dependency button:active {
-         background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
-         color: #6D7880;
-         outline: none;
-         
-      }
+.UI_Sidebar_ItemCont .UI_New_Dependency {
+
+}
+
+	.UI_Sidebar_ItemCont .UI_New_Dependency input {
+		width: 167px;
+		float: left;
+		text-align: left;
+	}
+
+	.UI_Sidebar_ItemCont .UI_New_Dependency button,
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action {
+		width: 35px;
+		padding: 2px 0;
+		float: right;
+		text-align: center;
+		color: #4D5860;
+		text-shadow: 0 1px 0 #fff;
+		background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+		border: solid 1px #CBCFD4;
+		border-left: none;
+		cursor: pointer;
+	}
+
+	.UI_Sidebar_ItemCont .UI_New_Dependency button:hover,
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action:hover {
+		background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+		text-decoration: none;
+	}
+
+	.UI_Sidebar_ItemCont .UI_New_Dependency button:active,
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action:active {
+		background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
+		color: #6D7880;
+		outline: none;
+	}
+	
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action {
+		border-left: solid 1px #CBCFD4;
+		width: 208px;
+		margin: 5px 0 0;
+		float: left;
+	}

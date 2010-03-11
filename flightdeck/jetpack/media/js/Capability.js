@@ -37,7 +37,7 @@ var Capability = new Class({
 	 * assign actions to the buttons
 	 */
 	initialize: function(options) {
-		this.setOptions(options)
+		this.setOptions(options);
 		this.initializeVersion();
 		this.instantiateEditors();
 
@@ -233,7 +233,7 @@ var CapVersion = new Class({
 		set_as_base_el: 'set_as_base',
 		add_dependency_el: 'add_dependency_action',
 		add_dependency_input: 'add_dependency',
-		addnew_dependency_el: 'create_and_add_dependency_acton',
+		addnew_dependency_el: 'create_and_add_dependency_action',
 		// add_dependency_url: '',
 		// edit_url: '',
 		// update_url: '',
@@ -444,9 +444,9 @@ var CapVersion = new Class({
 			method: 'post',
 			onSuccess: function(response) {
 				fd.message.alert('Success', response.message);
-				this.set_as_base_el.set('text', 'Base version')
+				this.set_as_base_el.set('text', 'Base version');
 			}.bind(this)
-		}).send()
+		}).send();
 	},
 	/*
 	 * Method: update
@@ -479,7 +479,7 @@ var CapVersion = new Class({
 	 * Wrapper for getting Version name from options
 	 */
 	getName: function() {
-		return this.options.name
+		return this.options.name;
 	},
 	/*
 	 * Method: prepareData
@@ -490,7 +490,8 @@ var CapVersion = new Class({
 		// prepare capability info
 		var get_data = function(cap) {
 			return cap.prepareData();
-		}
+		};
+		
 		this.data['capabilities'] = JSON.encode($H(this.capabilities).getValues().map(get_data));
 		return this.data;
 	},
