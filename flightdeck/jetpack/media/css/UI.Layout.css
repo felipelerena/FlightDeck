@@ -45,209 +45,224 @@ a:hover {
 		padding: 1px;
 	}
    
-   #app-header nav li {
-      float: left;
-      color: #B3B3B3;
-      padding: 5px 2px;
-      margin: 0 4px;
-   }
+	#app-header nav li {
+		float: left;
+		color: #B3B3B3;
+		padding: 5px 2px;
+		margin: 0 4px;
+	}
    
-      #app-header nav li a {
-         font-size: .9em;
-         text-shadow: 0 1px 0 #000;
-         color: #D4D9DF;
-      }      
-      
-      #app-header nav li a.logout {
-         color: #B3B3B3;
-      }
-   
-      #app-header nav li a:hover {
-         color: #fff;
-      }
-      
-      #app-header nav li.active {
-         background: -moz-linear-gradient(270deg, #2C3137, #3E454D);
-         -moz-border-radius: 3px;
-         -moz-box-shadow: 0 1px 0 #7a7a7a;/*#7A7E86;*/
-         margin: 0 3px;
-         padding: 1px;
-         color: #fff;
-         text-shadow: 0 1px 0 #011E4F;
-         
-      }
-      
-      #app-header nav li.active span {
-         background: -moz-linear-gradient(270deg, #66778C, #545F6B);/*#66778C, #545F6B);*/
-         -moz-border-radius: 2px;
-         padding: 4px 8px;
-         display: inline-block;
-      }
-      
-      #app-header nav li.active a {
-         color: #fff;
-      }
+		#app-header nav li a {
+			font-size: .9em;
+			text-shadow: 0 1px 0 #000;
+			color: #D4D9DF;
+		}      
 
+		#app-header nav li a.logout {
+			color: #B3B3B3;
+		}
 
+		#app-header nav li a:hover {
+			color: #fff;
+		}
+      
+	#app-header nav li.active {
+		background: -moz-linear-gradient(270deg, #2C3137, #3E454D);
+		-moz-border-radius: 3px;
+		-moz-box-shadow: 0 1px 0 #7A7E86;
+		margin: 0 3px;
+		padding: 1px;
+		color: #fff;
+		text-shadow: 0 1px 0 #011E4F;
+	}
+      
+		#app-header nav li.active span {
+			background: -moz-linear-gradient(270deg, #66778C, #545F6B);
+			-moz-border-radius: 2px;
+			padding: 4px 8px;
+			display: inline-block;
+		}
+
+		#app-header nav li.active a {
+			color: #fff;
+		}
+
+/*
+ =========================================================================== */
 #flightdeck-logo {
-   display: none;
+	display: block;
+	position: absolute;
+	top: 13px;
+	left: 15px;
+	font-size: 2.0em;
 }
+
+	#flightdeck-logo a {
+		color: #fff;
+		text-shadow: 0 1px 0 #22262A;
+	}
+	
+	#flightdeck-logo a:hover {
+		text-decoration: none;
+	}
 
 #mozillalabs-logo {
-   position: absolute;
-   top: 20px;
-   left: 10px;
-   
-   display: none;
+	position: absolute;
+	top: 20px;
+	left: 10px;
+	display: none;
 }
 
-   #mozillalabs-logo a {
-      display: block;
-      width: 161px;
-      height: 34px;
-      text-indent: -900em;
-      background: url(../img/mozilla-labs-logo.png) 0 0 repeat-x;
-   }
+	#mozillalabs-logo a {
+		display: block;
+		width: 161px;
+		height: 34px;
+		text-indent: -900em;
+		background: url(../img/mozilla-labs-logo.png) 0 0 repeat-x;
+	}
    
 /*
  =========================================================================== */
 #app-body {
-   margin-left: 230px;   
+	margin-left: 230px;   
 }
 
 /*
  =========================================================================== */
 #app-content {
-   float: right;
-   width: 100%;   
+	float: right;
+	width: 100%;   
 }
 
 /*
  =========================================================================== */
 #editor-menu-wrapper {
-   background: #E5E9EE;
-   border-top: solid 1px #EFF2F5;
-   border-bottom: solid 1px #AFB6BD;
-   padding: 7px;
+	background: #E5E9EE;
+	border-top: solid 1px #EFF2F5;
+	border-bottom: solid 1px #AFB6BD;
+	padding: 7px;
 }
 
 /*
  =========================================================================== */
 #editor-wrapper {
-   background: -moz-linear-gradient(270deg, #F2F2F2, #fff 8px);
-   position: relative;
+	background: -moz-linear-gradient(270deg, #F2F2F2, #fff 8px);
+	position: relative;
 }
 
 /*
  =========================================================================== */
 #app-sidebar {
-   float: left;
-   width: 230px;
-   margin-left: -231px;
-   border-right: solid 1px #AFB6BD;
-   background: #fff;
+	float: left;
+	width: 230px;
+	margin-left: -231px;
+	border-right: solid 1px #AFB6BD;
+	background: #fff;
 }
 
 #jetpack-info {
    
 }
 
-   #jetpack-info #ji-toggler {
-      background: -moz-linear-gradient(270deg, #3A86DA, #022052);
-      padding-right: 1px;
-      position: relative;
-      right: -1px;
-   }
-   
-   #jetpack-info #ji-toggler a {
-      display: block;
-      background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
-      border-top: solid 1px #9CC7F8;
-      border-bottom: solid 1px #022052;
-      color: #fff;
-      text-shadow: 0 1px 0 #011E4F;
-      padding: 16px 0 16px 10px; 
-   }
-   
-   #jetpack-info #ji-toggler a span {
-      display: block;
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      margin-top: -5px;
-      height: 11px;
-      width: 11px;
-      background-image: url(../img/toggle-arrows.png);
-      background-repeat: no-repeat;
-   }
-   
-   #jetpack-info #ji-toggler.opened a span {
-      background-position: 0 0;
-   }
-   
-   #jetpack-info #ji-toggler.closed a span {
-      background-position: 0 -11px;
-   }
+	#jetpack-info #ji-toggler {
+		background: -moz-linear-gradient(270deg, #3A86DA, #022052);
+		padding-right: 1px;
+		position: relative;
+		right: -1px;
+	}
+
+		#jetpack-info #ji-toggler a {
+			display: block;
+			background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
+			border-top: solid 1px #9CC7F8;
+			border-bottom: solid 1px #022052;
+			color: #fff;
+			text-shadow: 0 1px 0 #011E4F;
+			padding: 16px 0 16px 10px; 
+		}
+
+			#jetpack-info #ji-toggler a span {
+				display: block;
+				position: absolute;
+				top: 50%;
+				right: 10px;
+				margin-top: -5px;
+				height: 11px;
+				width: 11px;
+				background-image: url(../img/toggle-arrows.png);
+				background-repeat: no-repeat;
+			}
+
+			#jetpack-info #ji-toggler.opened a span {
+				background-position: 0 0;
+			}
+
+			#jetpack-info #ji-toggler.closed a span {
+				background-position: 0 -11px;
+			}
    
 
 /*
  =========================================================================== */
 #app-footer {
-   background: #3F4652;
-   height: 30px;
-
-   display: none;
+	background: #3F4652;
+	height: 30px;
+	display: none;
 }
 
+/*
+ =========================================================================== */
 .UI_Heading {
-   border-bottom: solid 1px #E9EDF0;
-   padding: 0 0 5px;
-   margin: 0 0 15px;
-   color: #666;
-   font-size: 1.4em;
-   font-family: Helvetica, Arial, Tahoma, sans-serif;
+	border-bottom: solid 1px #E9EDF0;
+	padding: 0 0 5px;
+	margin: 0 0 15px;
+	color: #666;
+	font-size: 1.4em;
+	font-family: Helvetica, Arial, Tahoma, sans-serif;
 }
 
-   .UI_Heading .seeProfile {
-      display: block;
-      font-size: .6em;
-      padding: 5px 0 0;
-      color: #999;
-   }
-   
-      .UI_Heading .seeProfile a {
-         color: #478CDE;
-      }
+	.UI_Heading .seeProfile {
+		display: block;
+		font-size: .6em;
+		padding: 5px 0 0;
+		color: #999;
+	}
 
+		.UI_Heading .seeProfile a {
+			color: #478CDE;
+		}
+
+/*
+ =========================================================================== */
 .UI_Action_List {
-   font-size: .9em;
+	font-size: .9em;
 }
 
-   .UI_Action_List li {
-      font-weight: bold;
-      margin: 0 0 10px;
-   }
-   
-   .UI_Action_List li:hover strong,
-   .UI_Action_List li.selected strong {
-      color: #3E464D;
-   }
-   
-      .UI_Action_List li a {
-         color: #478CDE;
-         padding-bottom: 1px;
-         border-bottom: solid 1px #E9EDF0;
-      }
-      
-      .UI_Action_List li a:hover,
-      .UI_Action_List li.selected a {
-         text-decoration: none;
-         color: #3E464D;
-         border-bottom: solid 1px #478CDE;
-      }
-      
-      .UI_Action_List li strong {
-         color: #CCC;
-         font-size: .9em;
-         margin-left: 5px;
-      }
+	.UI_Action_List li {
+		font-weight: bold;
+		margin: 0 0 10px;
+	}
+
+		.UI_Action_List li:hover strong,
+		.UI_Action_List li.selected strong {
+			color: #3E464D;
+		}
+
+		.UI_Action_List li a {
+			color: #478CDE;
+			padding-bottom: 1px;
+			border-bottom: solid 1px #E9EDF0;
+		}
+
+		.UI_Action_List li a:hover,
+		.UI_Action_List li.selected a {
+			text-decoration: none;
+			color: #3E464D;
+			border-bottom: solid 1px #478CDE;
+		}
+
+		.UI_Action_List li strong {
+			color: #CCC;
+			font-size: .9em;
+			margin-left: 5px;
+		}
