@@ -171,7 +171,7 @@ body {
 					border: solid 1px #BEC5CC;
 					z-index: 50;
 					padding: 5px 0;
-					-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+					-moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 					-moz-border-radius-bottomleft: 6px;
 					-moz-border-radius-bottomright: 6px;
 				}
