@@ -19,6 +19,8 @@ Production uses following third-party software:
  * Mootools (http://mootools.net/) [MIT]
  * Roar (http://digitarald.de/project/roar/) [MIT]
  * StickyWin (http://www.clientcide.com/docs/UI/StickyWin) [MIT]
+ * ClientForm
+ * mechanize
 
 Needed for Jetpack integration
  * mozrunner

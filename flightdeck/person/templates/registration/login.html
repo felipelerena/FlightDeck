@@ -10,15 +10,17 @@
 	<div class="UI_Login">
 		
 		{% if form.errors %}
-			<p>Your username and password didn't match. Please try again.</p>
+			<p>Your email and addons.mozilla.org password didn't match. Please try again.</p>
 		{% endif %}
 	
 		<form class="UI_Forms" id="login_form" method="post" action="{% url django.contrib.auth.views.login %}" accept-charset="utf-8">
 			<fieldset>
 				<legend>Login</legend>
+				<p>Please provide your login credentials from
+					<a href='https://addons.mozilla.org'>addons.mozilla.org</a></p>
 
 				<p class="UI_Field">
-					{{ form.username.label_tag }}
+					<label for="id_username">Email</label>
 					{{ form.username }}
 				</p> <!-- /UI_Field -->
 
