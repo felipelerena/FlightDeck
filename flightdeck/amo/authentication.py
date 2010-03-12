@@ -1,3 +1,5 @@
+from mechanize import Browser
+
 from django.contrib.auth.models import User
 from person.models import Profile
 
@@ -18,33 +20,41 @@ class AMOAuthentication:
 				if user.check_password(password):
 					return user
 				return None
-			amo_session = user.get_profile().amo_session
 		except User.DoesNotExist:
 			user = None
-			amo_session = None
 
 
 
 		# TODO: here contact AMO and receive authentication status
-		authenticated = False
-		if username != 'fake':
-			authenticated = True
+		br = Browser()
+		br.open("https://addons.mozilla.org/en-US/firefox/users/login?to=en-US")
+		br.select_form(nr=2)
+		br['data[Login][email]'] = username
+		br['data[Login][password]'] = password
 
-		# TODO: "steal" session cookie from AMO and save in profile
-		amo_session = "fake"
-		
-		if not authenticated:
+		response = br.submit()
+		if response.geturl() != 'https://addons.mozilla.org/en-US/firefox':
 			return None
 
-		# save user into the database
-		if not user:
+		link = br.find_link(text='View Profile')
+		email = username
+		username = link.url.split('/')[-1]
+		
+		try:
+			user = User.objects.get(username=username)
+			if user.email != email:
+				user.email = email
+				user.save()
+		except:
+			# save user into the database
 			user = User(
 				username=username,
+				email=email,
 				password=DEFAULT_AMO_PASSWORD,
 				# TODO: retrieve from AMO
-				first_name="John",
-				last_name="Doe",
-				email='fake@email.com' 
+				# first_name="John",
+				# last_name="Doe",
+				# email='fake@email.com' 
 			)
 			user.save()
 		
@@ -53,9 +63,6 @@ class AMOAuthentication:
 			profile = user.get_profile()
 		except Profile.DoesNotExist:
 			profile = Profile(user=user)
-		
-		if amo_session != profile.amo_session:
-			profile.amo_session = amo_session
 			profile.save()
 
 		return user
