@@ -1,5 +1,5 @@
-/*
- * Extending Flightdeck with Modal 
+/* 
+ * File: Clientcide.ModalWindow.js
  */
 
 var ModalWindow = new Class({

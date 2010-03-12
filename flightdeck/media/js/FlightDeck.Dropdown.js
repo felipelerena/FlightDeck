@@ -1,3 +1,7 @@
+/* 
+ * File: Flightdeck.Dropdown.js
+ */
+
 var Dropdown = new Class({
 
 	initialize: function(){
