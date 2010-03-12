@@ -40,6 +40,9 @@ var PickVersion = new Class({
 									href: '#'
 								}).store('version:info', item).inject(li);
 							});
+							
+							// remove the spinner class
+							verCont.removeClass('loading');
 						}.bind(this)
 					}).send();
 				}

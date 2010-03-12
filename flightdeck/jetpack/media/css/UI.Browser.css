@@ -176,6 +176,11 @@ body {
 					-moz-border-radius-bottomright: 6px;
 				}
 				
+				.UI_Browser .UI_Actions li.UI_Pick_Version .UI_Versions.loading {
+					background: #fff url(../img/spinner.gif) 50% 50% no-repeat;
+					height: 30px;
+				}
+				
 					.UI_Browser .UI_Actions li.UI_Pick_Version .UI_Versions li {
 						background: transparent;
 						-moz-border-radius: 0;
