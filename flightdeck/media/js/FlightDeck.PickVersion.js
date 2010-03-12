@@ -54,8 +54,13 @@ var PickVersion = new Class({
 		var info = this.retrieve('version:info');
 		var actions = this.getParent('.UI_Actions');
 		
+		// update the install url
 		actions.getElement('.UI_Try_in_Browser a').set('href', info.install_url);
+		
+		// update the edit url
 		actions.getElement('.UI_Edit_Version a').set('href', info.edit_url);
+		
+		// update version name
 		actions.getElement('.UI_Pick_Version strong').set('text', info.version);
 	}
 });
