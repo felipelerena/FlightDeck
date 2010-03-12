@@ -98,7 +98,7 @@ var CapVersionDependency = new Class({
 		if (this.switch_content_el) {
 			this.switch_content_el.addEvent('click', this.switchToContent.bind(this));
 			this.switch_content_el.getChildren('.File_close').addEvent('click', function(e) {
-				e.stopPropagation();
+				e.stop();
 				this.unassign();
 			}.bind(this));
 		}

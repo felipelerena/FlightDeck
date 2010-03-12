@@ -5,8 +5,16 @@
 <p>{{ item.base_version.description }}</p>
 
 <ul class="UI_Actions">
-	<li><a title="Try in browser" href="#">Try in browser</a></li>
-	<li><a title="Edit {{ item.name }}" href="{{ item.get_absolute_url }}">Edit</a></li>
+	<li class="UI_Try_in_Browser"><a title="Try in browser" href="#">Try in browser</a></li>
+	<li class="UI_Edit_Version"><a title="Edit {{ item.name }}" href="{{ item.get_absolute_url }}">Edit</a></li>
+	<li class="UI_Pick_Version">
+		<a title="Select version" href="{{ item.get_versions_url }}">
+			{% if item.base_version %}<strong>{{ item.base_version.name }}</strong>
+			{% else %}<strong>new</strong>{% endif %}
+			<span></span>
+		</a>
+		<ul class="UI_Versions"></ul>
+	</li>
 </ul>
 
 <div class="UI_Icon {{ item.type }}">
