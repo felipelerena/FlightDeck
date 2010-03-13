@@ -15,11 +15,6 @@ var FlightDeck = new Class({
 			}
 		};
 		this.editors = [];
-		window.mozFlightDeck.whenMessaged(function(data) {
-			// This gets called when one of our extensions has been installed
-			// successfully, or failed somehow.
-			fd.message.alert(JSON.stringify(data));
-		});
 
 	},
 	/*
@@ -95,3 +90,10 @@ if (!console) {
  */
 
 
+window.addEvent('load', function() {
+	window.mozFlightDeck.whenMessaged(function(data) {
+		// This gets called when one of our extensions has been installed
+		// successfully, or failed somehow.
+		fd.message.alert(JSON.stringify(data));
+	});
+});
