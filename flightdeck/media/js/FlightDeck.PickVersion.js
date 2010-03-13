@@ -20,7 +20,8 @@ var PickVersion = new Class({
 			trigger.getElement('a').addEvents({
 				click: function(e){
 					e.preventDefault();
-
+					
+					// fetch the versions
 					new Request.JSON({
 						url: this.get('href'),
 						onComplete: function(response){
