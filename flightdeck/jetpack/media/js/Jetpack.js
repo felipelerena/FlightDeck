@@ -61,7 +61,7 @@ var Jetpack = new Class({
 		}).send();
 	},
 	install_xpi: function(url) {
-		install(url)
+		window.mozFlightDeck.send({cmd: "install", path: url});
 	},
 	/*
 	 * Method: initializeVersion
