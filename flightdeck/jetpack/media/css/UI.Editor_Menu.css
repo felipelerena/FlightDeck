@@ -23,7 +23,6 @@ authors:
 
 	.UI_Editor_Menu_Button a {
 		background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
-		/*border-top: solid 1px #fff;*/
 		-moz-box-shadow: 0 -1px 0 #fff;
 		display: block;
 		padding: 7px 7px 7px 30px;

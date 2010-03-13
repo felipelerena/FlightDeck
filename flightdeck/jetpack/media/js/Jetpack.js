@@ -52,18 +52,25 @@ var Jetpack = new Class({
 			onSuccess: function(response) {
 				if (response.stderr) {
 					fd.error.alert('Error',response.stderr);
-					$log(response);
 					return;
 				}
-				fd.message.alert('Debug','XPI created - sending data to Fd addon');
+				fd.message.alert('Debug','XPI created - sending data to FD addon');
 				// now call the add-on
-				console.log(response);
+				this.rm_xpi_url = response.rm_xpi_url;
 				this.install_xpi(response.get_xpi_url);
 			}.bind(this)
 		}).send();
 	},
 	install_xpi: function(url) {
-		$log(url)
+		window.mozFlightDeck.send({cmd: "install", path: url});
+	},
+	after_xpi_installed: function(data) {
+		if (this.rm_xpi_url) {
+			Request.JSON({
+				url: this.rm_xpi_url, 
+				onSuccess: function() { this.rm_xpi_url = null; }.bind(this)
+			}).send();
+		}
 	},
 	/*
 	 * Method: initializeVersion
