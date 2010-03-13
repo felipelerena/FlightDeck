@@ -100,7 +100,6 @@ class Cap(models.Model):
 	def get_version_create_url(self):
 		return ('jp_capability_version_create',[self.slug])
 
-	@models.permalink
 	def get_versions_url(self):
 		return reverse("jp_capability_get_versions", args=[self.slug])
 
