@@ -11,13 +11,13 @@
 	<ul class="UI_Action_List">
 		{% if person.authored_jetpacks.all %}
 			<li>
-				<a title="Your Jetpacks" href="#your-jetpacks">Extensions</a> 
+				<a title="Extensions" href="/user/{{ person }}/extensions">Extensions</a> 
 				<strong>({{ person.authored_jetpacks.all|length }})</strong>
 			</li>
 		{% endif %}
 		{% if person.authored_capabilities.all %}
 			<li>
-				<a title="Your Modules" href="#your-modules">Modules</a> 
+				<a title="Modules" href="/user/{{ person }}/modules">Modules</a> 
 				<strong>({{ person.authored_capabilities.all|length }})</strong>
 			</li>
 		{% endif %}
@@ -26,7 +26,7 @@
 
 {% block app_content %}
 	{% if person.authored_jetpacks.all %}
-		<h2 id="your-jetpacks" class="UI_Heading">Extensions</h2>
+		<h2 class="UI_Heading">Extensions</h2>
 		<ul class="UI_Browser">
 			{% for jet in person.authored_jetpacks.all %}
 				<li class="UI_Item">{{ jet|render_base_link }}</li>
@@ -34,12 +34,12 @@
 		</ul>
 		
 		<ul class="UI_Pagination">
-			<li class="UI_Pagin_Action more"><a title="" href="#">See more extensions</a> <span></span></li>
+			<li class="UI_Pagin_Action more"><a title="See more extensions" href="/user/{{ person }}/extensions">See more extensions</a> <span></span></li>
 		</ul>
 	{% endif %}
 	
 	{% if person.authored_capabilities.all %}
-		<h2 id="your-modules" class="UI_Heading">Modules</h2>
+		<h2 class="UI_Heading">Modules</h2>
 		<ul class="UI_Browser">
 			{% for cap in person.authored_capabilities.all %}
 				<li class="UI_Item">{{ cap|render_base_link }}</li>
@@ -47,15 +47,7 @@
 		</ul>
 		
 		<ul class="UI_Pagination">
-			<li class="UI_Pagin_Action prev"><span></span> <a title="" href="#">Previous</a></li>
-			<li><a title="" href="#">1</a></li>
-			<li><a title="" href="#">2</a></li>
-			<li><a title="" href="#">3</a></li>
-			<li>...</li>
-			<li><a title="" href="#">6</a></li>
-			<li><a title="" href="#">7</a></li>
-			<li><a title="" href="#">8</a></li>
-			<li class="UI_Pagin_Action next"><a title="" href="#">Next</a> <span></span></li>
+			<li class="UI_Pagin_Action more"><a title="See more modules" href="/user/{{ person }}/modules">See more modules</a> <span></span></li>
 		</ul>
 	{% endif %}
 {% endblock %}
