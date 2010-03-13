@@ -1,8 +1,8 @@
 <h3>{{ item.name }}</h3>
-{% if item.base_version %}<h4>{{ item.base_version.name }}</h4>
+{% if item.base_version %}<h4>{{ item.base_version.fullname|default:"new" }}</h4>
 {% else %}<h4>new</h4>{% endif %}
 
-<p>{{ item.base_version.description }}</p>
+<p>{{ item.description }}</p>
 
 <ul class="UI_Actions">
 	<li class="UI_Try_in_Browser"><a title="Try in browser" href="#">Try in browser</a></li>
