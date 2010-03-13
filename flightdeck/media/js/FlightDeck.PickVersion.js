@@ -1,5 +1,7 @@
 /* 
  * File: Flightdeck.PickVersion.js
+ * TODO: 
+ * - caching
  */
 
 var PickVersion = new Class({
@@ -57,8 +59,19 @@ var PickVersion = new Class({
 		
 		// remove the spinner class
 		verCont.removeClass('loading');
-	},
 		
+		// TODO: this needs some adjusting - like an arrow at the very bottom of the scrolling area
+		//
+		// if (response.length > 10){
+		// 	verCont.setStyles({
+		// 		'height': 200,
+		// 		'overflow': 'hidden'
+		// 	});
+		// 	
+		// 	new Scroller(verCont).start();
+		// }
+	},
+
 	updateActions: function(e){
 		e.preventDefault();
 		

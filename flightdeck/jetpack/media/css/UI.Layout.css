@@ -36,12 +36,12 @@ a:hover {
  =========================================================================== */
 #app-header {
 	background: -moz-linear-gradient(270deg, #545F6B, #4E5861); /* #545F6B, #4E5861);*/
-	height: 60px;
+	height: 75px;
 }
 
 	#app-header nav {
 		float: right;
-		margin: 15px 15px 0 0;
+		margin: 22px 15px 0 0;
 		padding: 1px;
 	}
    
@@ -92,33 +92,26 @@ a:hover {
 #flightdeck-logo {
 	display: block;
 	position: absolute;
-	top: 13px;
+	top: 7px;
 	left: 15px;
 	font-size: 2.0em;
+	width: 246px;
+	height: 60px;
 }
 
 	#flightdeck-logo a {
-		color: #fff;
-		text-shadow: 0 1px 0 #22262A;
-	}
-	
-	#flightdeck-logo a:hover {
-		text-decoration: none;
+		display: block;
+		width: 246px;
+		height: 60px;
+		background: url(../img/flightdeck-logo.png) 0 0 no-repeat;
+		text-indent: -900em;
 	}
 
 #mozillalabs-logo {
-	position: absolute;
-	top: 20px;
-	left: 10px;
 	display: none;
 }
 
 	#mozillalabs-logo a {
-		display: block;
-		width: 161px;
-		height: 34px;
-		text-indent: -900em;
-		background: url(../img/mozilla-labs-logo.png) 0 0 repeat-x;
 	}
    
 /*

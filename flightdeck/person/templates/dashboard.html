@@ -7,28 +7,28 @@
 
 {% block app_sidebar %}
 	<h2 class="UI_Heading">
-		{{ user.email }}<br/>
-		{{ user }}<br/>
+		{{ user.email }}<br />
+		{{ user }}<br />
 		<span class="seeProfile">
 			See your 
-			<a href="{% url person_public_profile user.username %}">public profile</a>
+			<a title="" href="{% url person_public_profile user.username %}">public profile</a>
 		</span>
 		<span class="seeProfile">
 			Your
-			<a target='_new' href='https://addons.mozilla.org/en-US/firefox/user/960262'>AMO profile</a>
+			<a class="window" title="AMO profile" href="https://addons.mozilla.org/en-US/firefox/user/960262">AMO profile</a>
 		</span>
 	</h2>
 
 	<ul class="UI_Action_List">
 		{% if user.authored_jetpacks.all %}
 			<li>
-				<a title="Your Jetpacks" href="#your-jetpacks">Your Extensions</a> 
+				<a title="Your Extensions" href="{% url person_public_profile user.username %}extensions">Your Extensions</a> 
 				<strong>({{ user.authored_jetpacks.all|length }})</strong>
 			</li>
 		{% endif %}
 		{% if user.authored_capabilities.all %}
 			<li>
-				<a title="Your Modules" href="#your-modules">Your Modules</a> 
+				<a title="Your Modules" href="{% url person_public_profile user.username %}modules">Your Modules</a> 
 				<strong>({{ user.authored_capabilities.all|length }})</strong>
 			</li>
 		{% endif %}
@@ -37,7 +37,7 @@
 
 {% block app_content %}
 	{% if user.authored_jetpacks.all %}
-		<h2 id="your-jetpacks" class="UI_Heading">Your Extensions</h2>
+		<h2 class="UI_Heading">Your Extensions</h2>
 		<ul class="UI_Browser">
 			{% for jet in user.authored_jetpacks.all %}
 				<li class="UI_Item">{{ jet|render_base_link }}</li>
@@ -45,12 +45,12 @@
 		</ul>
 		
 		<ul class="UI_Pagination">
-			<li class="UI_Pagin_Action more"><a title="" href="#">See more extensions</a> <span></span></li>
+			<li class="UI_Pagin_Action more"><a title="See more extensions" href="{% url person_public_profile user.username %}extensions">See more extensions</a> <span></span></li>
 		</ul>
 	{% endif %}
 	
 	{% if user.authored_capabilities.all %}
-		<h2 id="your-modules" class="UI_Heading">Your Modules</h2>
+		<h2 class="UI_Heading">Your Modules</h2>
 		<ul class="UI_Browser">
 			{% for cap in user.authored_capabilities.all %}
 				<li class="UI_Item">{{ cap|render_base_link }}</li>
@@ -58,15 +58,7 @@
 		</ul>
 		
 		<ul class="UI_Pagination">
-			<li class="UI_Pagin_Action prev"><span></span> <a title="" href="#">Previous</a></li>
-			<li><a title="" href="#">1</a></li>
-			<li><a title="" href="#">2</a></li>
-			<li><a title="" href="#">3</a></li>
-			<li>...</li>
-			<li><a title="" href="#">6</a></li>
-			<li><a title="" href="#">7</a></li>
-			<li><a title="" href="#">8</a></li>
-			<li class="UI_Pagin_Action next"><a title="" href="#">Next</a> <span></span></li>
+			<li class="UI_Pagin_Action more"><a title="See more extensions" href="{% url person_public_profile user.username %}modules">See more modules</a> <span></span></li>
 		</ul>
 	{% endif %}
 {% endblock %}
