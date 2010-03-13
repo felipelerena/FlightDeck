@@ -10,7 +10,7 @@ authors:
 
 .UI_Editor_Area {
    width: 98%;
-   min-height: 400px;
+   min-height: 600px;
    background: url(../img/shadow.png) 0 0 repeat-x;
    padding: 5px;
 }

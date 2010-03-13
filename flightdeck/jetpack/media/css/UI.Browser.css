@@ -10,180 +10,248 @@ authors:
 
 /* alternative layout for the browse-like sections */
 body {
-   background-image: none;
+	background-image: none;
 }
 
 #app-sidebar {
-   border-right: none;
-   padding: 0 15px;
-   width: 200px;
-   margin-left: -230px;
+	border-right: none;
+	padding: 0 15px;
+	width: 200px;
+	margin-left: -230px;
 }
 
 #app-body {
-   margin-top: 20px;
+	margin-top: 20px;
 }
 
 
 .UI_Browser {
-   margin: 15px 0 0;
+	margin: 15px 0 0;
 }
 
-   .UI_Browser .UI_Item {
-      min-height: 115px;
-      padding: 0 150px 0 110px;
-      margin: 0 20px 10px 0;
-      border-bottom: solid 1px #E9EDF0;
-      position: relative;
-   }
+	.UI_Browser .UI_Item {
+		min-height: 115px;
+		padding: 0 150px 0 110px;
+		margin: 0 20px 10px 0;
+		border-bottom: solid 1px #E9EDF0;
+		position: relative;
+	}
+
+		.UI_Browser .UI_Icon {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 96px;
+			height: 106px;
+			background-image: url(../img/UI_Browser/browse-icons.png);
+			background-repeat: no-repeat;
+		}
+
+			.UI_Browser .UI_Icon.jetpack {
+				background-position: 0 0;
+			}
+
+			.UI_Browser .UI_Icon.capability {
+				background-position: -96px 0;
+			}
    
-      .UI_Browser .UI_Icon {
-         position: absolute;
-         top: 0;
-         left: 0;
-         width: 96px;
-         height: 106px;
-         background-image: url(../img/UI_Browser/browse-icons.png);
-         background-repeat: no-repeat;
-      }
+		.UI_Browser .UI_Item h3 {
+			font-weight: bold;
+			font-size: 1.1em;
+			display: inline;
+		}   
+
+		.UI_Browser .UI_Item h4 {
+			font-size: .7em;
+			font-style: bold;
+			background: #A6AEB5;
+			color: #F8F8F8;
+			-moz-border-radius: 3px;
+			padding: 1px 3px;
+			margin: 0 0 0 5px;
+			position: relative;
+			top: -2px;
+			display: inline-block;
+		}
+
+		.UI_Browser .UI_Item p {
+			margin: 10px 0 0;
+			font-size: .9em;
+			color: #7F7F7F;
+		}
+
+		.UI_Browser .UI_Actions {
+			margin: 14px 0 10px;
+		}
+
+			.UI_Browser .UI_Actions li {
+				background: #BEC5CC;
+				border-bottom: solid 1px #fff;
+				padding: 1px;
+				margin: 0 -1px 1px 0;
+				float: left;
+				position: relative;
+			}
+
+				.UI_Browser .UI_Actions li a {
+					background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+					border-top: solid 1px #fff;
+					display: block;
+					padding: 7px 10px;
+					font-size: .9em;
+					text-shadow: 0 1px 0 #fff;      
+				}
       
-         .UI_Browser .UI_Icon.jetpack {
-            background-position: 0 0;
-         }
-         
-         .UI_Browser .UI_Icon.capability {
-            background-position: -96px 0;
-         }
-   
-      .UI_Browser .UI_Item h3 {
-         font-weight: bold;
-         font-size: 1.1em;
-         display: inline;
-         
-      }   
-   
-      .UI_Browser .UI_Item h4 {
-         font-size: .7em;
-         font-style: bold;
-         background: #A6AEB5;
-         color: #F8F8F8;
-         -moz-border-radius: 3px;
-         padding: 1px 3px;
-         margin: 0 0 0 5px;
-         position: relative;
-         top: -2px;
-         display: inline-block;
-      }
-   
-      .UI_Browser .UI_Item p {
-         margin: 10px 0 0;
-         font-size: .9em;
-         color: #7F7F7F;
-      }
-   
-      .UI_Browser .UI_Actions {
-         margin: 14px 0 0;
-      }
-   
-         .UI_Browser .UI_Actions li {
-            background: #BEC5CC;
-            border-bottom: solid 1px #fff;
-            padding: 1px;
-            margin: 0 -1px 1px 0;
-            float: left;
-            position: relative;
-         }
-      
-            .UI_Browser .UI_Actions li a {
-               background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
-               border-top: solid 1px #fff;
-               display: block;
-               padding: 7px 10px;
-               font-size: .9em;
-               text-shadow: 0 1px 0 #fff;      
-            }
-      
-         /* Starting element */
-         .UI_Browser .UI_Actions li:first-child {
-            -moz-border-radius: 6px;
-            -moz-border-radius-topright: 0;
-            -moz-border-radius-bottomright: 0;      
-         }
+			/* Starting element */
+			.UI_Browser .UI_Actions li:first-child {
+				-moz-border-radius: 6px;
+				-moz-border-radius-topright: 0;
+				-moz-border-radius-bottomright: 0;      
+			}
 
-            .UI_Browser .UI_Actions li:first-child a {
-               -moz-border-radius: 5px;
-               -moz-border-radius-topright: 0;
-               -moz-border-radius-bottomright: 0;
-            }
+				.UI_Browser .UI_Actions li:first-child a {
+					-moz-border-radius: 5px;
+					-moz-border-radius-topright: 0;
+					-moz-border-radius-bottomright: 0;
+				}
 
-         /* Ending element */
-         .UI_Browser .UI_Actions li:last-child {
-            -moz-border-radius: 6px;
-            -moz-border-radius-topleft: 0;
-            -moz-border-radius-bottomleft: 0;      
-         }
+			/* Ending element */
+			.UI_Browser .UI_Actions li:last-child {
+				-moz-border-radius: 6px;
+				-moz-border-radius-topleft: 0;
+				-moz-border-radius-bottomleft: 0;      
+			}
 
-            .UI_Browser .UI_Actions li:last-child a {
-               -moz-border-radius: 5px;
-               -moz-border-radius-topleft: 0;
-               -moz-border-radius-bottomleft: 0;
-            }
+				.UI_Browser .UI_Actions li:last-child a {
+					-moz-border-radius: 5px;
+					-moz-border-radius-topleft: 0;
+					-moz-border-radius-bottomleft: 0;
+				}
 
-         .UI_Browser .UI_Actions li a:hover {
-            background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
-            text-decoration: none;
-         }
+				.UI_Browser .UI_Actions li a:hover,
+				.UI_Browser .UI_Actions li.UI_Pick_Version a {
+					background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+					text-decoration: none;
+				}
 
-         .UI_Browser .UI_Actions li a:active {
-            background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
-            border-top: solid 1px transparent;
-            color: #6D7880;
-         }
+				.UI_Browser .UI_Actions li a:active,
+				.UI_Browser .UI_Actions li.UI_Pick_Version a:active {
+					background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
+					border-top: solid 1px transparent;
+					color: #6D7880;
+				}
+				
+			
+			.UI_Browser .UI_Actions li.UI_Pick_Version {
+				position: relative;
+			}
+			
+				.UI_Browser .UI_Actions li.UI_Pick_Version.active {
+					-moz-border-radius-bottomright: 0;
+				}
+
+					.UI_Browser .UI_Actions li.UI_Pick_Version.active a {
+						-moz-border-radius-bottomright: 0;
+					}
+			
+				.UI_Browser .UI_Actions li.UI_Pick_Version a span {
+					height: 10px;
+					width: 11px;
+					display: inline-block;
+					margin-left: 5px;
+					background: url(../img/toggle-arrows.png) 0 -23px no-repeat;
+				}
+			
+				.UI_Browser .UI_Actions li.UI_Pick_Version .UI_Versions {
+					position: absolute;
+					top: 31px;
+					right: 0;
+					background: #fff;
+					width: 110px;
+					border: solid 1px #BEC5CC;
+					z-index: 50;
+					padding: 5px 0;
+					-moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+					-moz-border-radius-bottomleft: 6px;
+					-moz-border-radius-bottomright: 6px;
+				}
+				
+				.UI_Browser .UI_Actions li.UI_Pick_Version .UI_Versions.loading {
+					background: #fff url(../img/spinner.gif) 50% 50% no-repeat;
+					height: 30px;
+				}
+				
+					.UI_Browser .UI_Actions li.UI_Pick_Version .UI_Versions li {
+						background: transparent;
+						-moz-border-radius: 0;
+						padding: 0;
+						margin: 0;
+						float: none;
+						border: none;
+					}
+					
+						.UI_Browser .UI_Actions li.UI_Pick_Version .UI_Versions li a {
+							background: transparent;
+							-moz-border-radius: 0;
+							margin: 0;
+							display: block;
+							float: none;
+							padding: 2px 5px;
+							border: none;
+							font-size: .8em;
+						}
+						
+						.UI_Browser .UI_Actions li.UI_Pick_Version .UI_Versions li a:hover {
+							background: -moz-linear-gradient(270deg, #5AA2F3, #3E81D2);
+							color: #fff;
+							text-shadow: 0 1px 0 #011E4F;
+						}
+			
+			
       
 .UI_Pagination {
-   margin: 0 0 40px;
+	margin: 0 0 40px;
 }
 
-   .UI_Pagination li {
-      font-weight: bold;
-      display: inline-block;
-      color: #ccc;
-      font-size: .9em;
-      margin: 0 2px;
-   }
-      
-      .UI_Pagination li a {
-         display: inline-block;
-         color: #478CDE;
-         padding-bottom: 1px;
-         border-bottom: solid 1px #E9EDF0;
-         
-      }
-      
-      .UI_Pagination li a:hover,
-      .UI_Pagination li.selected a {
-         text-decoration: none;
-         color: #3E464D;
-         border-bottom: solid 1px #478CDE;
-      }
-      
-      .UI_Pagination li.UI_Pagin_Action span {
-         display: inline-block;
-         height: 12px;
-         width: 11px;
-         background-image: url(../img/toggle-arrows.png);
-         position: relative;
-         top: 2px;
-      }
-      
-      .UI_Pagination li.UI_Pagin_Action.prev span {
-         background-position: 0 -58px;
-      }
-      
-      .UI_Pagination li.UI_Pagin_Action.next span {
-         background-position: 0 -46px;
-      }
-      
-      .UI_Pagination li.UI_Pagin_Action.more span {
-         background-position: 0 -46px;
-      }
+	.UI_Pagination li {
+		font-weight: bold;
+		display: inline-block;
+		color: #ccc;
+		font-size: .9em;
+		margin: 0 2px;
+	}
+
+		.UI_Pagination li a {
+			display: inline-block;
+			color: #478CDE;
+			padding-bottom: 1px;
+			border-bottom: solid 1px #E9EDF0;
+		}
+
+		.UI_Pagination li a:hover,
+		.UI_Pagination li.selected a {
+			text-decoration: none;
+			color: #3E464D;
+			border-bottom: solid 1px #478CDE;
+		}
+
+		.UI_Pagination li.UI_Pagin_Action span {
+			display: inline-block;
+			height: 12px;
+			width: 11px;
+			background-image: url(../img/toggle-arrows.png);
+			position: relative;
+			top: 2px;
+		}
+
+		.UI_Pagination li.UI_Pagin_Action.prev span {
+			background-position: 0 -58px;
+		}
+
+		.UI_Pagination li.UI_Pagin_Action.next span {
+			background-position: 0 -46px;
+		}
+
+		.UI_Pagination li.UI_Pagin_Action.more span {
+			background-position: 0 -46px;
+		}

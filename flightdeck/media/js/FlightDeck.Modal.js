@@ -1,5 +1,5 @@
-/*
- * Extending Flightdeck with Modal 
+/* 
+ * File: Flightdeck.Modal.js
  */
 
 FlightDeck = Class.refactor(FlightDeck,{

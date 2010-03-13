@@ -1,3 +1,7 @@
+/* 
+ * File: Flightdeck.Utils.js
+ */
+
 Window.implement({
 	$log: function(){
 		if (typeof console !== 'undefined' && typeof console.log !== 'undefined'){
