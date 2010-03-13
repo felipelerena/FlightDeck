@@ -14,7 +14,7 @@ var PickVersion = new Class({
 	},
 
 	setDefaults: function(){
-		var parent = this;
+		var self = this;
 		
 		$$(this.version.trigger).each(function(trigger, index){
 			trigger.getElement('a').addEvents({
@@ -24,34 +24,38 @@ var PickVersion = new Class({
 					new Request.JSON({
 						url: this.get('href'),
 						onComplete: function(response){
-							
-							// get the versions container
-							var verCont = $$(parent.version.cont)[index];
-							
-							// remove previous versions
-							verCont.set('html', '');
-							
-							// add new versions
-							response.each(function(item){
-								var li = new Element('li').inject(verCont);
-								
-								var a = new Element('a', {
-									text: item.version,
-									href: '#'
-								}).store('version:info', item).inject(li);
-							});
-							
-							// remove the spinner class
-							verCont.removeClass('loading');
-						}.bind(this)
+							this.attachInfo.call(this, response, index);
+						}.bind(self)
 					}).send();
 				}
 			});
 		}, this);
 		
 		$$(this.version.cont).addEvents({
-			'click:relay(a)': parent.updateActions
+			'click:relay(a)': self.updateActions
 		});
+	},
+	
+	attachInfo: function(response, index){
+		
+		// get the versions container
+		var verCont = $$(this.version.cont)[index];
+		
+		// remove previous versions
+		verCont.set('html', '');
+		
+		// add new versions
+		response.each(function(item){
+			var li = new Element('li').inject(verCont);
+			
+			var a = new Element('a', {
+				text: item.version,
+				href: '#'
+			}).store('version:info', item).inject(li);
+		});
+		
+		// remove the spinner class
+		verCont.removeClass('loading');
 	},
 		
 	updateActions: function(e){
