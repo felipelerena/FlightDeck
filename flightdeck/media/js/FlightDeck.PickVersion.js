@@ -57,8 +57,18 @@ var PickVersion = new Class({
 		
 		// remove the spinner class
 		verCont.removeClass('loading');
-	},
 		
+		if (response.length > 10){
+			verCont.setStyles({
+				'height': 200,
+				'overflow': 'hidden'
+			});
+			
+			// trigger the scroller
+			new Scroller(verCont).start();
+		}
+	},
+
 	updateActions: function(e){
 		e.preventDefault();
 		
