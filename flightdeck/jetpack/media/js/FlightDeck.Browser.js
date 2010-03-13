@@ -20,11 +20,11 @@ FlightDeck = Class.refactor(FlightDeck,{
 							return;
 						}
 						// now call the add-on
-						this.install_xpi(response.get_xpi_url);
-					}.bind(this)
+						fd.install_xpi(response.get_xpi_url);
+					}
 				}).send();
 			});
-		}, this);
+		});
 	},
 	install_xpi: function(url) {
 		window.mozFlightDeck.send({cmd: "install", path: url});
