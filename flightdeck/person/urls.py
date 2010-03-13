@@ -6,7 +6,6 @@ urlpatterns = patterns('person.views',
 	url(r'^login/$', login, name='login'),
 	url(r'^logout/$', logout, {"next_page": "/"}, name='logout'),
     url(r'dashboard/$','dashboard', name='person_dashboard'),
-    url(r'^public/(?P<username>\w+)/$','public_profile', {"force": True}, name='person_public_profile_forced'),
     url(r'^(?P<username>\w+)/$','public_profile', name='person_public_profile'),
 )
 

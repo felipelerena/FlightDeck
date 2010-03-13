@@ -52,18 +52,16 @@ var Jetpack = new Class({
 			onSuccess: function(response) {
 				if (response.stderr) {
 					fd.error.alert('Error',response.stderr);
-					$log(response);
 					return;
 				}
-				fd.message.alert('Debug','XPI created - sending data to Fd addon');
+				fd.message.alert('Debug','XPI created - sending data to FD addon');
 				// now call the add-on
-				console.log(response);
 				this.install_xpi(response.get_xpi_url);
 			}.bind(this)
 		}).send();
 	},
 	install_xpi: function(url) {
-		$log(url)
+		install(url)
 	},
 	/*
 	 * Method: initializeVersion

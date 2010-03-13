@@ -7,8 +7,16 @@
 
 {% block app_sidebar %}
 	<h2 class="UI_Heading">
-		{{ user }}
-		<span class="seeProfile">See your <a href="{% url person_public_profile_forced user.username %}">public profile</a></span>
+		{{ user.email }}<br/>
+		{{ user }}<br/>
+		<span class="seeProfile">
+			See your 
+			<a href="{% url person_public_profile user.username %}">public profile</a>
+		</span>
+		<span class="seeProfile">
+			Your
+			<a target='_new' href='https://addons.mozilla.org/en-US/firefox/user/960262'>AMO profile</a>
+		</span>
 	</h2>
 
 	<ul class="UI_Action_List">
