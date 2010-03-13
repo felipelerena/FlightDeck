@@ -95,9 +95,10 @@ body {
 
 				.UI_Browser .UI_Actions li a {
 					background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
-					border-top: solid 1px #fff;
+					-moz-box-shadow: 0 -1px 0 #fff;
 					display: block;
 					padding: 7px 10px;
+					margin: 1px 0 0;
 					font-size: .9em;
 					text-shadow: 0 1px 0 #fff;      
 				}
@@ -137,7 +138,8 @@ body {
 				.UI_Browser .UI_Actions li a:active,
 				.UI_Browser .UI_Actions li.UI_Pick_Version a:active {
 					background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
-					border-top: solid 1px transparent;
+					-moz-box-shadow: none;
+					border-top: none;
 					color: #6D7880;
 				}
 				
