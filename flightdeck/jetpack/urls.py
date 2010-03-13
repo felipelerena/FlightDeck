@@ -27,6 +27,9 @@ urlpatterns = patterns('jetpack.views',
 	url(r'^module/(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/update/$', 
 		'item_version_update', {"type": "capability"}, name='jp_capability_version_update'),
 
+	url(r'^extension/(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/create_xpi/$', 
+		'create_xpi_from_object', name='jp_jetpack_version_create_xpi'),
+
 	url(r'^extension/(?P<slug>.*)/update/$', 
 		'item_update', {"type": "jetpack"}, name='jp_jetpack_update'),
 	url(r'^module/(?P<slug>.*)/update/$', 

@@ -395,6 +395,7 @@ class JetVersion(models.Model):
 		"""
 		return "%s %s" % (self.jetpack.name, self.fullname)
 
+
 	@models.permalink
 	def get_absolute_url(self):
 		"""
@@ -402,12 +403,22 @@ class JetVersion(models.Model):
 		"""
 		return ('jp_jetpack_version_edit',[self.jetpack.slug, self.name, self.counter])
 
+
 	@models.permalink
 	def get_update_url(self):
 		"""
 		@returns str: url to update the same version (no url changed afterwards)
 		"""
 		return ('jp_jetpack_version_update',[self.jetpack.slug, self.name, self.counter])
+
+
+	@models.permalink
+	def get_create_xpi_url(self):
+		"""
+		@returns str: url to call to create XPI from saved data
+		"""
+		return ('jp_jetpack_version_create_xpi',[self.jetpack.slug, self.name, self.counter])
+
 
 	@models.permalink
 	def get_set_as_base_url(self):
@@ -421,9 +432,12 @@ class JetVersion(models.Model):
 	def get_adddependency_url(self):
 		return ('jp_jetpack_add_dependency',[self.jetpack.slug, self.name, self.counter])
 
+
 	@models.permalink
 	def get_addnewdependency_url(self):
 		return ('jp_jetpack_addnew_dependency',[self.jetpack.slug, self.name, self.counter])
+
+	
 
 
 ########################################################################################
