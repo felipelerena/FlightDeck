@@ -94,6 +94,7 @@ window.addEvent('load', function() {
 	window.mozFlightDeck.whenMessaged(function(data) {
 		// This gets called when one of our extensions has been installed
 		// successfully, or failed somehow.
-		fd.message.alert(JSON.stringify(data));
+		fd.message.alert('Loading extension', 'Extension {msg}'.substitute(data));
+		fd.getItem().after_xpi_installed(data);
 	});
 });

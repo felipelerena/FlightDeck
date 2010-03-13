@@ -5,6 +5,7 @@ urlpatterns = patterns('jetpack.views',
 
 	url(r'^create_xpi/$', 'create_xpi_from_post', name='jp_create_xpi'),
 	url(r'^get_xpi/(?P<hash>.*)/(?P<slug>.*)/$', 'getXPI', name='jp_get_xpi'),
+	url(r'^rm_xpi/(?P<hash>.*)/$', 'removeXPI', name='jp_rm_xpi'),
 
     url(r'^ext_(?P<slug>.*)/v_(?P<version>.*)\.(?P<counter>\d+)/$',
 		'jetpack_version_edit', name='jp_jetpack_version_edit'),
