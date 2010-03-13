@@ -82,7 +82,7 @@ var CapVersionDependency = new Class({
 		this.changed = true;
 		$(this.options.update_el).addEvent('click', function(e) {
 			e.stop();
-			this.update();
+			this.update();			
 		}.bind(this));
 		this.content_el.removeEvent('change', this.boundAfterDataChanged);
 		if (this.switch_content_el) {

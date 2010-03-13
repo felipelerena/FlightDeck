@@ -171,7 +171,7 @@ a:hover {
 		right: -1px;
 	}
 
-		#jetpack-info #ji-toggler a {
+		#jetpack-info #ji-toggler span {
 			display: block;
 			background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
 			border-top: solid 1px #9CC7F8;
@@ -180,27 +180,6 @@ a:hover {
 			text-shadow: 0 1px 0 #011E4F;
 			padding: 16px 0 16px 10px; 
 		}
-
-			#jetpack-info #ji-toggler a span {
-				display: block;
-				position: absolute;
-				top: 50%;
-				right: 10px;
-				margin-top: -5px;
-				height: 11px;
-				width: 11px;
-				background-image: url(../img/toggle-arrows.png);
-				background-repeat: no-repeat;
-			}
-
-			#jetpack-info #ji-toggler.opened a span {
-				background-position: 0 0;
-			}
-
-			#jetpack-info #ji-toggler.closed a span {
-				background-position: 0 -11px;
-			}
-   
 
 /*
  =========================================================================== */

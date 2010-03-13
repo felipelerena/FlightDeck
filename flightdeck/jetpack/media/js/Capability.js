@@ -464,6 +464,9 @@ var CapVersion = new Class({
 			method: 'post',
 			onSuccess: function(response) {
 				fd.message.alert('Success', response.message);
+				
+				// remove modification indicator from the file listing
+				$$('.UI_File_Listing li').removeClass('UI_File_Modified');
 			}
 		}).send();
 	},
