@@ -56,12 +56,21 @@ var Jetpack = new Class({
 				}
 				fd.message.alert('Debug','XPI created - sending data to FD addon');
 				// now call the add-on
+				this.rm_xpi_url = response.rm_xpi_url;
 				this.install_xpi(response.get_xpi_url);
 			}.bind(this)
 		}).send();
 	},
 	install_xpi: function(url) {
 		window.mozFlightDeck.send({cmd: "install", path: url});
+	},
+	after_xpi_installed: function(data) {
+		if (this.rm_xpi_url) {
+			Request.JSON({
+				url: this.rm_xpi_url, 
+				onSuccess: function() { this.rm_xpi_url = null; }.bind(this)
+			}).send();
+		}
 	},
 	/*
 	 * Method: initializeVersion
