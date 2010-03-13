@@ -31,6 +31,7 @@ item = new {{ type|capfirst }}({
 			addnew_dependency_url: '{{ version.get_addnewdependency_url }}',
 			set_as_base_url: '{{ version.get_set_as_base_url }}',
 			addnew_dependency_template: '{% escape_template "_addnew_dependency_window.html" %}',
+			create_xpi_url: '{{ version.get_create_xpi_url }}',
 		{% endif %}
 		switch_content_id: '{{ version|tab_link_id:"content" }}',
 		switch_description_id: '{{ version|tab_link_id:"version_description" }}'
