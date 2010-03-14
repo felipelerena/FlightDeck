@@ -257,3 +257,60 @@ body {
 		.UI_Pagination li.UI_Pagin_Action.more span {
 			background-position: 0 -46px;
 		}
+		
+.UI_ProfileInfo {
+	position: relative;
+	top: -15px;
+	margin: 0 0 10px;
+}
+
+	.UI_ProfileInfo ul.piWrapper {
+		background: #F6F8F9;
+		margin: 0 0 5px;
+	}
+
+		.UI_ProfileInfo ul.piWrapper li {
+			border-top: solid 1px #fff;
+			border-bottom: solid 1px #E9EDF0;
+			font-size: .9em;
+			padding: 6px 0 6px 6px;
+		}
+	
+			.UI_ProfileInfo ul.piWrapper li a {
+				color: #478CDE;
+			}
+			
+			.UI_ProfileInfo ul.piWrapper li span {
+				display: inline-block;
+				width: 12px;
+				height: 11px;
+				margin-right: 5px;
+				background-image: url(../img/UI_Browser/user-icons.png);
+			}
+			
+			.UI_ProfileInfo ul.piWrapper li.mail span {
+				background-position: 0 -11px;
+			}
+			
+			.UI_ProfileInfo ul.piWrapper li.url span {
+				background-position: 0 -24px;
+			}
+			
+			.UI_ProfileInfo ul.piWrapper li.amo span {
+				background-position: 0 -24px;
+			}
+			
+
+	.UI_ProfileInfo .seeProfile {
+	}
+	
+		.UI_ProfileInfo .seeProfile li {
+			display: block;
+			font-size: .8em;
+			padding: 5px 0 0;
+			color: #999;
+		}
+
+		.UI_ProfileInfo .seeProfile a {
+			color: #478CDE;
+		}
