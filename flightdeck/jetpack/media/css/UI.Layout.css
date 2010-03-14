@@ -193,16 +193,6 @@ a:hover {
 	font-family: Helvetica, Arial, Tahoma, sans-serif;
 }
 
-	.UI_Heading .seeProfile {
-		display: block;
-		font-size: .6em;
-		padding: 5px 0 0;
-		color: #999;
-	}
-
-		.UI_Heading .seeProfile a {
-			color: #478CDE;
-		}
 
 /*
  =========================================================================== */
