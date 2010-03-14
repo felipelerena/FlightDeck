@@ -508,4 +508,3 @@ var CapVersion = new Class({
 		this.data.version_content = this.content_el.getContent();
 	}
 });
-
