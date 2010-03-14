@@ -498,7 +498,7 @@ def createXPI(r, slug, main, description, package, libs):
 		return HttpResponseServerError
 
 	out = process.communicate()
-	if out[1]:
+	if out[1] and not settings.DEBUG:
 		removeXPI(r, hash)
 
 	# return XPI url and cfx command stdout and stderr

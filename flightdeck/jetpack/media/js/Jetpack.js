@@ -65,7 +65,7 @@ var Jetpack = new Class({
 	},
 	after_xpi_installed: function(data) {
 		if (this.rm_xpi_url) {
-			Request.JSON({
+			new Request.JSON({
 				url: this.rm_xpi_url, 
 				onSuccess: function() { this.rm_xpi_url = null; }.bind(this)
 			}).send();
