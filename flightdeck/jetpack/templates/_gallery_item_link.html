@@ -5,8 +5,14 @@
 <p>{{ item.description }}</p>
 
 <ul class="UI_Actions">
-	<li class="UI_Try_in_Browser"><a title="Try in browser" href="#">Try in browser</a></li>
-	<li class="UI_Edit_Version"><a title="Edit {{ item.name }}" href="{{ item.get_absolute_url }}">Edit</a></li>
+	<li class="UI_Try_in_Browser">
+		<a title="Try in browser" href="{{ item.base_version.get_create_xpi_url }}">
+			Try in browser
+		</a>
+	</li>
+	<li class="UI_Edit_Version">
+		<a title="Edit {{ item.name }}" href="{{ item.get_absolute_url }}">Edit</a>
+	</li>
 	
 	{% if item.base_version %}
 		<li class="UI_Pick_Version">

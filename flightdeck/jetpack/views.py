@@ -418,6 +418,28 @@ def create_xpi_from_post(r):
 
 	return createXPI(r, slug, main, description, package, libs)
 
+
+def create_xpi_from_object(r, slug, version, counter):
+	"""
+	Get all data needed for the XPI creation from model
+	call createXPI with the right data
+	"""
+	ver = get_object_or_404(JetVersion,
+					jetpack__slug=slug, name=version, counter=counter)
+	# prepare capabilities
+	[{"name":"Teste","slug":"teste","creator":"tenchi","version_name":"0.0","version_counter":0,"version_description":"","version_content":""}]
+	caps = [{
+		"name": cap.capability.name,
+		"slug": cap.slug,
+		"creator": cap.capability.creator,
+		"version_name": cap.name,
+		"version_counter": cap.counter,
+		"version_description": cap.description,
+		"version_content": cap.content
+		} for cap in ver.capabilities.all()]
+	return createXPI(r, slug, ver.content, ver.description, ver.manifest, caps)
+
+
 def createXPI(r, slug, main, description, package, libs):
 	"""
 	Create XPI from data given within POST
@@ -476,8 +498,7 @@ def createXPI(r, slug, main, description, package, libs):
 		return HttpResponseServerError
 
 	out = process.communicate()
-	if out[1]:
-		print ' execution error'
+	if out[1] and not settings.DEBUG:
 		removeXPI(r, hash)
 
 	# return XPI url and cfx command stdout and stderr

@@ -54,7 +54,6 @@ var Jetpack = new Class({
 					fd.error.alert('Error',response.stderr);
 					return;
 				}
-				fd.message.alert('Debug','XPI created - sending data to FD addon');
 				// now call the add-on
 				this.rm_xpi_url = response.rm_xpi_url;
 				this.install_xpi(response.get_xpi_url);
@@ -66,7 +65,7 @@ var Jetpack = new Class({
 	},
 	after_xpi_installed: function(data) {
 		if (this.rm_xpi_url) {
-			Request.JSON({
+			new Request.JSON({
 				url: this.rm_xpi_url, 
 				onSuccess: function() { this.rm_xpi_url = null; }.bind(this)
 			}).send();
