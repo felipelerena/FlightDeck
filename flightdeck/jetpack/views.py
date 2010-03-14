@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil
 import subprocess
 from random import choice
 
@@ -475,11 +476,16 @@ def createXPI(r, slug, main, description, package, libs):
 		return HttpResponseServerError
 
 	out = process.communicate()
-
-	xpi_url = reverse('jp_get_xpi', args=[hash, slug])
+	if out[1]:
+		print ' execution error'
+		removeXPI(r, hash)
 
 	# return XPI url and cfx command stdout and stderr
-	return render_to_response('json/xpi_created.json', {'xpi_url':xpi_url, 'out': out},
+	return render_to_response('json/xpi_created.json', {
+					'xpi_url': reverse('jp_get_xpi', args=[hash, slug]), 
+					'out': out,
+					'rm_url': reverse('jp_rm_xpi', args=[hash])
+				},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 			
@@ -489,3 +495,10 @@ def getXPI(r, hash, slug):
 	return XPI file
 	"""
 	return serve(r, '%s.xpi' % slug, '/tmp/%s' % hash, show_indexes=False)
+
+def removeXPI(r, hash):
+	"""
+	Remove temporary XPI
+	"""
+	shutil.rmtree('/tmp/%s' % hash)
+	return HttpResponse('{"status":"ok"}');
