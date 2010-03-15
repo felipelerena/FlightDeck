@@ -6,7 +6,11 @@
 {% endblock %}
 
 {% block app_sidebar %}
-	<h2 class="UI_Heading">{{ person }}</h2>
+	<h2 class="UI_Heading">{{ profile.get_name }}</h2>
+	
+	<div class="UI_ProfileInfo">
+		{% include "_profile_info.html" %}
+	</div>
 
 	<ul class="UI_Action_List">
 		{% if person.authored_jetpacks.all %}

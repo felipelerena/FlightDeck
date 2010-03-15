@@ -7,17 +7,12 @@
 
 {% block app_sidebar %}
 	<h2 class="UI_Heading">
-		{{ user.email }}<br />
-		{{ user }}<br />
-		<span class="seeProfile">
-			See your 
-			<a title="" href="{% url person_public_profile user.username %}">public profile</a>
-		</span>
-		<span class="seeProfile">
-			Your
-			<a class="window" title="AMO profile" href="https://addons.mozilla.org/en-US/firefox/user/960262">AMO profile</a>
-		</span>
+		{{ profile.get_name }}
 	</h2>
+	
+	<div class="UI_ProfileInfo">
+		{% include '_dashboard_info.html' %}
+	</div>
 
 	<ul class="UI_Action_List">
 		{% if user.authored_jetpacks.all %}

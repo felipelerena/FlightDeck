@@ -26,9 +26,7 @@ Class.refactor(FDEditor, {
 		$log('FD: div element created ', this.editor, 'with content ', this.editor.get('text'));
 
 		if (this.element.isHidden()) {
-			this.editor.hide();
 			this.hidden = true;
-			$log('div hidden');
 		}
 		this.element.hide();
 		$log('FD: textarea hidden');
@@ -44,6 +42,10 @@ Class.refactor(FDEditor, {
 					textStorageEdited: boundOnBespinChange
 				}));
 			$log('FD: bespin onChange hooked');
+			if (this.hidden) {
+				this.hide();
+				$log('div hidden');
+			}
 		}.bind(this)).delay(10);
 	},
 	onBespinChange: function() {
@@ -60,6 +62,7 @@ Class.refactor(FDEditor, {
 	},
 	
 	hide: function() {
+		$log('hide', this.editor);
 		this.editor.hide();
 		return this;
 	},
@@ -67,9 +70,9 @@ Class.refactor(FDEditor, {
 		this.editor.destroy();
 	},
 	show: function() {
+		$log('show', this.editor);
 		this.editor.show();
 		this.editor.getChildren().each(function(content) {
-			$log('show', content);
 			content.show();
 		});
 		return this;

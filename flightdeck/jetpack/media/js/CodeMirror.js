@@ -66,7 +66,7 @@ Class.refactor(FDEditor, {
 		return this.editor.getCode();
 	},
 	setContent: function(value) {
-		this.previous();
+		this.previous(value);
 		this.editor.setCode(value);
 		return this;
 	},

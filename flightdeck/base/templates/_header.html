@@ -1,9 +1,8 @@
-<h1 id="flightdeck-logo"><a title="FlightDeck" href="{% url home %}">FlightDeck</a></h1>
+<h1 id="flightdeck-logo"><a title="Mozilla Labs &minus; Jetpack FlightDeck" href="{% url home %}">Mozilla Labs &minus; Jetpack FlightDeck</a></h1>
 <h2 id="mozillalabs-logo"><a title="Mozilla Labs" href="{% url home %}">Mozilla Labs</a></h2>
 
 <nav>
-	<ul>		
-		<!-- <li{% ifequal page "editor" %} class="active"{% endifequal %}><a title="Editor">Editor</a></li> -->	
+	<ul>
 		<li {% ifequal page "packages" %}class="active"{% endifequal %}><span><a title="Package Browser" href="/">Package Browser</a></span></li>
 		<li {% ifequal page "apibrowser" %}class="active"{% endifequal %}><span><a title="API Browser" href="#">API Browser</a></span></li>
 		{% if user.is_authenticated %}
