@@ -19,23 +19,40 @@
 {% endblock %}
 	
 {% block app_content %}
-	<h2 class="UI_Heading">Recent Extensions</h2>
-	
-	<ul class="UI_Browser">
-	{% for item in items %}
-		<li class="UI_Item">{{ item|render_base_link }}</li>
-	{% endfor %}
-	</ul>
-	
-	<ul class="UI_Pagination">
-		<li class="UI_Pagin_Action prev"><span></span> <a title="" href="#">Previous</a></li>
-		<li><a title="" href="#">1</a></li>
-		<li><a title="" href="#">2</a></li>
-		<li><a title="" href="#">3</a></li>
-		<li>...</li>
-		<li><a title="" href="#">6</a></li>
-		<li><a title="" href="#">7</a></li>
-		<li><a title="" href="#">8</a></li>
-		<li class="UI_Pagin_Action next"><a title="" href="#">Next</a> <span></span></li>
-	</ul>
+	{% if pager.paginator.object_list %}
+		<h2 class="UI_Heading">
+			Recent {{ objects_name|capfirst }}
+			(See <a href="{{ other_objects.url }}">{{ other_objects.name }}</a>)
+		</h2>
+		
+		<ul class="UI_Browser">
+		{% for item in pager.object_list %}
+			<li class="UI_Item">{{ item|render_base_link }}</li>
+		{% endfor %}
+		</ul>
+		
+		{% if pager.has_other_pages %}
+			<ul class="UI_Pagination">
+				{% if pager.has_previous %}
+					<li class="UI_Pagin_Action prev">
+						<span></span> 
+						<a title="" href="{% ifequal type 'jetpack' %}{% url jetpacks_page pager.previous_page_number %}{% else %}{% url capabilities_page pager.previous_page_number %}{% endifequal %}">
+							Previous
+						</a>
+					</li>
+				{% endif %}
+				<li class='current'>{{ pager.number }}</li>
+				{% if pager.has_next %}
+					<li class="UI_Pagin_Action next">
+						<span></span> 
+						<a title="" href="{% ifequal type 'jetpack' %}{% url jetpacks_page pager.next_page_number %}{% else %}{% url capabilities_page pager.previous_page_number %}{% endifequal %}">
+							Next
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		{% endif %}
+	{% else %}
+		<h2 class="UI_Heading">Sorry, no {{ objects_name|capfirst }}</h2>
+	{% endif %}
 {% endblock %}
