@@ -8,14 +8,14 @@ __version__ = '.'.join(map(str, VERSION))
 from django.utils.functional import LazyObject
  
 class LazySettings(LazyObject):
-    def _setup(self):
-        from jetpack import default_settings
-        self._wrapped = Settings(default_settings)
+	def _setup(self):
+		from jetpack import default_settings
+		self._wrapped = Settings(default_settings)
  
 class Settings(object):
-    def __init__(self, settings_module):
-        for setting in dir(settings_module):
-            if setting == setting.upper():
-                setattr(self, setting, getattr(settings_module, setting))
+	def __init__(self, settings_module):
+		for setting in dir(settings_module):
+			if setting == setting.upper():
+				setattr(self, setting, getattr(settings_module, setting))
  
 settings = LazySettings()

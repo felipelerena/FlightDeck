@@ -8,6 +8,8 @@ ADMINS = (
    # ('Your Name', 'your_email@domain.com'),
 )
 
+HOMEPAGE_ITEMS_LIMIT = 5
+
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = ''		   # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.

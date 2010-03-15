@@ -1,10 +1,25 @@
 from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render_to_response, get_object_or_404
+from django.conf import settings
+from django.template import RequestContext#,Template
 
-def placeholder(req):
-	"""
-	Display simple text. Just a proof the system is working
+from jetpack.models import Jet, Cap
 
-	@return HttpResponse: "<h1>Flightdeck</h1>"
+def homepage(r):
 	"""
-	return HttpResponse("<h1>Flightdeck</h1>")
+	Display description of the website with a set of fresh stuff
+	"""
+	
+	# TODO: filter out items without base version
+	jetpacks = Jet.objects.all()[:settings.HOMEPAGE_ITEMS_LIMIT]
+	capabilities = Cap.objects.all()[:settings.HOMEPAGE_ITEMS_LIMIT]
+
+
+	page = 'homepage'
+	
+	
+	return render_to_response(
+		'homepage.html', 
+		locals(),
+		context_instance=RequestContext(r))
 

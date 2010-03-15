@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib import admin
 
 from flightdeck.base import views as base_views
-from flightdeck.jetpack.views import gallery
 
 admin.autodiscover()
 
@@ -16,7 +15,7 @@ except:
 
 urls.extend([
 	# home
-	url(r'^$',gallery, name='home'),
+	url(r'^$',base_views.homepage, name='home'),
 
 	# admin
 	(r'^admin/doc/', include('django.contrib.admindocs.urls')),
