@@ -1,4 +1,6 @@
 def profile(request):
-	if request.user.is_authenticated():
+	try:
 	    return {'profile': request.user.get_profile()}
+	except:
+		pass
 
