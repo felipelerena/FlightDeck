@@ -55,7 +55,8 @@ def gallery(r, page_number=1, with_new=False, type=None):
 		{
 			'page': page,
 			'pager': pager,
-			'objects_name': objects_name
+			'objects_name': objects_name,
+			'type': type
 		},
 		context_instance=RequestContext(r))
 
