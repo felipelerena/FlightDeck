@@ -20,7 +20,10 @@
 	
 {% block app_content %}
 	{% if pager.paginator.object_list %}
-		<h2 class="UI_Heading">Recent {{ objects_name|capfirst }}</h2>
+		<h2 class="UI_Heading">
+			Recent {{ objects_name|capfirst }}
+			(See <a href="{{ other_objects.url }}">{{ other_objects.name }}</a>)
+		</h2>
 		
 		<ul class="UI_Browser">
 		{% for item in pager.object_list %}
