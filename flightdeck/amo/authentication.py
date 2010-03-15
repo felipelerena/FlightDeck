@@ -1,4 +1,5 @@
 from mechanize import Browser
+from BeautifulSoup import BeautifulSoup
 
 from django.contrib.auth.models import User
 from person.models import Profile
@@ -62,7 +63,27 @@ class AMOAuthentication:
 		try:
 			profile = user.get_profile()
 		except Profile.DoesNotExist:
+			# scrap initial profile data from AMO
+			response = br.follow_link(text='Edit Profile')
+			data = scrap_amo_profile(response)
+			if 'firstname' in data:
+				user.first_name = data['firstname']
+			if 'lastname' in data:
+				user.last_name = data['lastname']
+			user.save()
+			
 			profile = Profile(user=user)
+			if 'nickname' in data:
+				profile.nickname = data['nickname']
+			if 'location' in data:
+				profile.location = data['location']
+			if 'occupation' in data:
+				profile.occupation = data['occupation']
+			if 'homepage' in data:
+				profile.homepage = data['homepage']
+			if 'photo' in data:
+				profile.homepage = data['photo']
+
 			profile.save()
 
 		return user
@@ -72,3 +93,32 @@ class AMOAuthentication:
 			return User.objects.get(pk=user_id)
 		except:
 			return None
+
+
+def scrap_amo_profile(response):
+	soup = BeautifulSoup(response)
+	data = {}
+	for inp in soup.findAll('input'):
+		try:
+			if ('name', 'data[User][firstname]') in inp.attrs:
+				data['firstname'] = inp['value']
+			elif ('name','data[User][lastname]') in inp.attrs:
+				data['lastname'] = inp['value']
+			elif ('name', 'data[User][nickname]') in inp.attrs:
+				data['nickname'] = inp['value']
+			elif ('name', 'data[User][location]') in inp.attrs:
+				data['location'] = inp['value']
+			elif ('name','data[User][occupation]') in inp.attrs:
+				data['occupation'] = inp['value']
+			elif ('name', 'data[User][homepage]') in inp.attrs:
+				data['homepage'] = inp['value']
+		except:
+			pass
+	for img in soup.findAll('img'):
+		classes = filter(lambda x: x[0] == 'class', img.attrs)
+		alts = filter(lambda x: x[0] == 'alt', img.attrs)
+		srcs = filter(lambda x: x[0] == 'src', img.attrs)
+		if classes and alts and srcs:
+			if 'avatar' in classes[0][1] and 'No photo' not in alts[0][1]:
+				data['photo'] = 'https://addons.mozilla.org%s' % srcs[0][1]
+	return data

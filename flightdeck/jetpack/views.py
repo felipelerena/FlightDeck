@@ -502,13 +502,14 @@ def createXPI(r, slug, main, description, package, libs):
 		removeXPI(r, hash)
 
 	# return XPI url and cfx command stdout and stderr
-	return render_to_response('json/xpi_created.json', {
-					'xpi_url': reverse('jp_get_xpi', args=[hash, slug]), 
-					'out': out,
-					'rm_url': reverse('jp_rm_xpi', args=[hash])
-				},
+ 	return render_to_response('json/xpi_created.json', {
+ 					'xpi_url': reverse('jp_get_xpi', args=[hash, slug]), 
+ 					'out': out,
+ 					'rm_url': reverse('jp_rm_xpi', args=[hash])
+ 				},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+
 			
 
 def getXPI(r, hash, slug):
@@ -522,4 +523,4 @@ def removeXPI(r, hash):
 	Remove temporary XPI
 	"""
 	shutil.rmtree('/tmp/%s' % hash)
-	return HttpResponse('{"status":"ok"}');
+	return HttpResponse('{"status":"ok"}')

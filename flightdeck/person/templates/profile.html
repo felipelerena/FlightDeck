@@ -6,15 +6,10 @@
 {% endblock %}
 
 {% block app_sidebar %}
-	<h2 class="UI_Heading">{{ person }}</h2>
+	<h2 class="UI_Heading">{{ profile.get_name }}</h2>
 	
 	<div class="UI_ProfileInfo">
-		<ul class="piWrapper">
-			<li class="name"><span></span> {{ person }}</li>
-			<li class="mail"><span></span> <a title="" href="mailto:">lorem</a></li>
-			<li class="url"><span></span> <a title="" href="#">http://nouincolor.com/</a></li>
-			<li class="amo"><span></span> <a class="window" title="AMO profile" href="https://addons.mozilla.org/en-US/firefox/user/960262">AMO profile</a></li>
-		</ul>
+		{% include "_profile_info.html" %}
 	</div>
 
 	<ul class="UI_Action_List">
