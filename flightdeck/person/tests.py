@@ -1,23 +1,27 @@
-"""
-This file demonstrates two different styles of tests (one doctest and one
-unittest). These will both pass when you run "manage.py test".
-
-Replace these with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
+from django.contrib.auth.models import User
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
+from person.models import Profile
 
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
+class ProfileTest(TestCase):
 
->>> 1 + 1 == 2
-True
-"""}
+	def setUp(self):
+		self.user = User(
+			username='jdoe',
+			first_name='John',
+			last_name='Doe'
+		)
+		self.user.save()
 
+		self.profile = Profile()
+		self.profile.user = self.user
+		self.profile.nickname = 'doer'
+
+		self.profile.save()
+	
+	def tearDown(self):
+		self.profile.delete()
+		self.user.delete()	
+
+	def test_get_fullname(self):
+		self.assertEqual(self.user.get_profile().get_fullname(), 'John Doe')

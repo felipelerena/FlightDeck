@@ -9,8 +9,7 @@ def create_test_user(username="test_username", password="password", email="test@
 	)
 	user.save()
 	Profile(
-		user=user,
-		amo_session=""
+		user=user
 	).save()
 	return user
 	

@@ -7,20 +7,11 @@
 
 {% block app_sidebar %}
 	<h2 class="UI_Heading">
-		{{ user }}
+		{{ profile.get_name }}
 	</h2>
 	
 	<div class="UI_ProfileInfo">
-		<ul class="piWrapper">
-			<li class="name"><span></span> Oskar Krawczyk</li>
-			<li class="mail"><span></span> <a title="" href="mailto:{{ user.email }}">{{ user.email }}</a></li>
-			<li class="url"><span></span> <a title="" href="#">http://nouincolor.com/</a></li>
-			<li class="amo"><span></span> <a class="window" title="AMO profile" href="https://addons.mozilla.org/en-US/firefox/user/960262">AMO profile</a></li>
-		</ul>
-
-		<ul class="seeProfile">
-			<li>See your <a title="" href="{% url person_public_profile user.username %}">public profile</a></li>
-		</ul>		
+		{% include '_dashboard_info.html' %}
 	</div>
 
 	<ul class="UI_Action_List">

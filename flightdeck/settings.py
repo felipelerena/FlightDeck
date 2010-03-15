@@ -75,6 +75,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	"django.core.context_processors.auth",
 	"django.core.context_processors.request",
 	"base.context_processors.settings",
+	"person.context_processors.profile",
 )
 
 ROOT_URLCONF = 'flightdeck.urls'
