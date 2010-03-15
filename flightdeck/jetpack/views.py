@@ -12,27 +12,51 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse, \
 from django.template import RequestContext#,Template
 from django.utils import simplejson
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 from base.shortcuts import get_object_or_create
 from utils.os_utils import whereis
 
 from jetpack.models import Jet, JetVersion, Cap, CapVersion
-from jetpack.default_settings import settings
+from jetpack import settings
 
-def gallery(r, page=None, with_new=False):
+def gallery(r, page_number=1, with_new=False, type=None):
 	"""
 	Display mixed list (Jetpacks with Capabilities)
 	"""
-	items = list(Jet.objects.all())
-	items.extend(list(Cap.objects.all()))
-	if not with_new:
-		items = filter(lambda i: i.base_version, items)
-	items.sort(lambda i, j: (j.base_version.last_update - i.base_version.last_update).seconds) 
 	page = "packages"
+
+	if type == 'jetpack':
+		Klass = Jet
+		objects_name = 'extensions'
+		other_objects = {
+			'name': 'modules',
+			'url': reverse('capabilities')
+		}
+	elif type == 'capability':
+		Klass = Cap
+		objects_name = 'modules'
+		other_objects = {
+			'name': 'extensions',
+			'url': reverse('jetpacks')
+		}
+		
+	# TODO: filter out items without base version
+	items = Klass.objects.all()
+
+	pager = Paginator(
+		items,
+		per_page = settings.JETPACK_ITEMS_PER_PAGE,
+		orphans = 1
+	).page(page_number)
 	
 	return render_to_response(
 		'gallery.html', 
-		locals(),
+		{
+			'page': page,
+			'pager': pager,
+			'objects_name': objects_name
+		},
 		context_instance=RequestContext(r))
 
 

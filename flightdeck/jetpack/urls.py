@@ -1,7 +1,13 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('jetpack.views',
-	url(r'^gallery/$', 'gallery', name='gallery'),
+	url(r'^extensions/$', 'gallery', {'type': 'jetpack'}, name='jetpacks'),
+	url(r'^modules/$', 'gallery', {'type': 'capability'}, name='capabilities'),
+
+	url(r'^extensions/(?P<page_number>\d+)/$', 
+		'gallery', {'type': 'jetpack'}, name='jetpacks_page'),
+	url(r'^modules/(?P<page_number>\d+)/$', 
+		'gallery', {'type': 'capability'}, name='capabilities_page'),
 
 	url(r'^create_xpi/$', 'create_xpi_from_post', name='jp_create_xpi'),
 	url(r'^get_xpi/(?P<hash>.*)/(?P<slug>.*)/$', 'getXPI', name='jp_get_xpi'),
