@@ -44,10 +44,10 @@
 				<li class='current'>{{ pager.number }}</li>
 				{% if pager.has_next %}
 					<li class="UI_Pagin_Action next">
-						<span></span> 
 						<a title="" href="{% ifequal type 'jetpack' %}{% url jetpacks_page pager.next_page_number %}{% else %}{% url capabilities_page pager.previous_page_number %}{% endifequal %}">
 							Next
 						</a>
+						<span></span> 
 					</li>
 				{% endif %}
 			</ul>
