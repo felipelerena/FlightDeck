@@ -11,7 +11,7 @@ class Profile(models.Model):
 
 	def get_name(self):
 		if not (self.user.first_name or self.user.last_name or self.nickname):
-			return self.username
+			return self.user.username
 		return self.get_fullname()
 
 
