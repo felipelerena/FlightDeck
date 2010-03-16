@@ -1,7 +1,9 @@
 <ul class="piWrapper">
-	<li class="mail">
-		<span></span> <a title="" href="mailto:{{ user.email }}">{{ user.email }}</a>
-	</li>
+	{% comment %}
+		<li class="mail">
+			<span></span> <a title="" href="mailto:{{ user.email }}">{{ user.email }}</a>
+		</li>
+	{% endcomment %}
 	{% if profile.homepage %}
 		<li class="url">
 			<span></span> 
