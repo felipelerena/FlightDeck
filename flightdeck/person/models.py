@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+class Limit(models.Model):
+	email = models.CharField(max_length=255)
+
+
 class Profile(models.Model):
 	user = models.ForeignKey(User, unique=True)
 	nickname = models.CharField(max_length=255, blank=True, null=True)

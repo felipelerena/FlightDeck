@@ -6,16 +6,25 @@
 {% endblock %}
 
 {% block app_content %}
+	{% if form.errors %}
+		<p class="fd_error" title="Login error">
+			Your email and addons.mozilla.org password didn't match. 
+			Please try again.
+		</p>
+	{% endif %}
 
 	<div class="UI_Login">
 		
-		{% if form.errors %}
-			<p>Your email and addons.mozilla.org password didn't match. Please try again.</p>
-		{% endif %}
 	
 		<form class="UI_Forms" id="login_form" method="post" action="{% url django.contrib.auth.views.login %}" accept-charset="utf-8">
 			<fieldset>
 				<legend>Login</legend>
+				{% if settings.AMO_LIMITED_ACCESS %}
+					<p>
+						FlightDeck is currently limiting its userbase. <br/>
+						<strong>You will not be able to login if you're not on the list</strong>.
+					</p>
+				{% endif %}
 				<p>Please provide your login credentials from
 					<a href='https://addons.mozilla.org'>addons.mozilla.org</a></p>
 

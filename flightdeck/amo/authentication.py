@@ -2,7 +2,9 @@ from mechanize import Browser
 from BeautifulSoup import BeautifulSoup
 
 from django.contrib.auth.models import User
-from person.models import Profile
+
+from person.models import Profile, Limit
+from amo import settings
 
 DEFAULT_AMO_PASSWORD = 'saved in AMO'
 
@@ -29,7 +31,9 @@ class AMOAuthentication:
 		except User.DoesNotExist:
 			user = None
 
-
+		if settings.AMO_LIMITED_ACCESS:
+			if username not in [x.email for x in list(Limit.objects.all())]:
+				return None
 
 		# TODO: here contact AMO and receive authentication status
 		br = Browser()
