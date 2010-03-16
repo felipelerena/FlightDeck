@@ -19,6 +19,11 @@ class AMOAuthentication:
 			if user.password != DEFAULT_AMO_PASSWORD:
 				" standard authorisation "		
 				if user.check_password(password):
+					try:
+						profile = user.get_profile()
+					except:
+						profile = Profile(user=user)
+						profile.save()
 					return user
 				return None
 		except User.DoesNotExist:
