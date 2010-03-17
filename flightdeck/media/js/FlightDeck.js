@@ -74,9 +74,19 @@ Element.implement({
 
 });
 
-
+/*
+	Add $name mutator - specifies the type of the created Class
+	Usage:
+		var C = new Class({$name = 'sometype', inititate: function() {}});
+		var c = new C();
+		alert($type(c)); // 'sometype'
+ */
 Class.Mutators.$name = function(name){ this.implement('$family', {name: name}); };
 
+
+/*
+	Listen to an event fired when Extension is installed
+ */
 window.addEvent('load', function() {
 	window.mozFlightDeck.whenMessaged(function(data) {
 		// This gets called when one of our extensions has been installed
