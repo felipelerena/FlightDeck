@@ -142,7 +142,32 @@ def item_create(r, type):
 	)
 	# TODO: validate
 	item.save()
-	version = JetVersion(jetpack=item, author=r.user) if type == "jetpack" else CapVersion(capability=item, author=r.user) 
+
+	if type == 'jetpack':
+		version = JetVersion(
+			jetpack=item, 
+			author=r.user,
+			content='',
+			description='',
+			manifest=simplejson.dumps({
+				"contributors": [],
+				#"url": '',
+				#'license': '',
+				'version': '0.0.0',
+				#'dependencies': [],
+				#'lib': 'lib',
+				#'tests': 'tests',
+				#'packages': 'packages',
+				'main': 'main',
+				'name': item.slug,
+				'fullName': item.name,
+				'description': item.description,
+				'author': r.user.get_profile().get_name()
+			})
+		) 
+	elif type == "capability":
+		version = CapVersion(capability=item, author=r.user) 
+
 	version.save()
 	
 	return render_to_response("json/%s_created.json" % type, {type: item},
