@@ -64,7 +64,7 @@ var Jetpack = new Class({
 		window.mozFlightDeck.send({cmd: "install", path: url});
 	},
 	after_xpi_installed: function(data) {
-		if (this.rm_xpi_url) {
+		if (this.rm_xpi_url && !settings.DEBUG) {
 			new Request.JSON({
 				url: this.rm_xpi_url, 
 				onSuccess: function() { this.rm_xpi_url = null; }.bind(this)
