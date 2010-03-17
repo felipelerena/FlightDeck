@@ -8,7 +8,8 @@ var Jetpack = new Class({
 	options: {
 		description_el: {element: 'jetpack_description'},
 		try_in_browser_el: 'try_in_browser',
-		// try_in_browser_url: ''
+		download_el: 'download'
+		// create_xpi_url: ''
 	},
 	/*
 	 * Method: initialize
@@ -37,27 +38,44 @@ var Jetpack = new Class({
 				this.try_in_browser();
 			}.bind(this));
 		}
+		var download_el = $(this.options.download_el)
+		if (download_el) {
+			download_el.addEvent('click', function(e) {
+				e.stop();
+				this.download_xpi();
+			}.bind(this));
+		}
 	},
 	/*
 	 * Method: try_in_browser
 	 * Prepare Capability using saved content and install temporary in the browser
 	 */
 	try_in_browser: function() {
+		this.create_xpi(this.try_in_browser_after_created.bind(this));
+	},
+	try_in_browser_after_created: function(response) {
+		if (response.stderr) {
+			fd.error.alert('Error',response.stderr);
+			return;
+		}
+		// now call the add-on
+		this.rm_xpi_url = response.rm_xpi_url;
+		this.install_xpi(response.get_xpi_url);
+	},
+	download_xpi: function() {
+		this.create_xpi(this.download_after_created.bind(this));
+	},
+	download_after_created: function(response) {
+		window.location.href = response.get_xpi_url;
+	},
+	create_xpi: function(callback) {
 		var data = this.getFullData();
 		//fd.warning.alert('Not implemented','try_in_browser');
 		new Request.JSON({
-			url: this.options.try_in_browser_url,
+			url: this.options.create_xpi_url,
 			method: 'post',
 			data: data,
-			onSuccess: function(response) {
-				if (response.stderr) {
-					fd.error.alert('Error',response.stderr);
-					return;
-				}
-				// now call the add-on
-				this.rm_xpi_url = response.rm_xpi_url;
-				this.install_xpi(response.get_xpi_url);
-			}.bind(this)
+			onSuccess: callback,
 		}).send();
 	},
 	install_xpi: function(url) {
