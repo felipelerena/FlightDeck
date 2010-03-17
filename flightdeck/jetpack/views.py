@@ -472,7 +472,6 @@ def createXPI(r, slug, main, description, package, libs):
 	Data will be cleaned by cron every x minutes
 	No save is needed to createXPI
 	"""
-	print "check"
 	if not whereis('cfx'):
 		return HttpResponse('configuration error')
 
@@ -488,7 +487,6 @@ def createXPI(r, slug, main, description, package, libs):
 	# prepare environment variables
 	sys.path.append(settings.VIRTUAL_ENV)
 	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
-	print "this"
 
 
 	for lib in libs:
