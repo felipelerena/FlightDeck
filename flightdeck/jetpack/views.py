@@ -100,6 +100,7 @@ def item_edit(r, item, type):
 	page = "editor"
 	jetpack_create_url = Jet.get_create_url()
 	capability_create_url = Cap.get_create_url()
+	autocomplete_url = reverse("jp_capabilities_autocomplete", args=["*query$"]);
 	return render_to_response("edit_item.html", locals(), 
 				context_instance=RequestContext(r))
 	
