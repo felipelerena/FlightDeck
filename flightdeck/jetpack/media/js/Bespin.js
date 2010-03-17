@@ -31,9 +31,10 @@ Class.refactor(FDEditor, {
 		this.element.hide();
 		$log('FD: textarea hidden');
 		(function() {
+			var syntax = (this.options.type == 'js') ? 'js' : 'plain';
 			this.bespin = tiki
 				.require("Embedded")
-				.useBespin(this.editor, {syntax: this.options.type});
+				.useBespin(this.editor, {syntax: syntax});
 			$log('FD: bespin instantiated');
 
 			var boundOnBespinChange = this.onBespinChange.bind(this);
@@ -75,6 +76,7 @@ Class.refactor(FDEditor, {
 		this.editor.getChildren().each(function(content) {
 			content.show();
 		});
+		this.bespin.dimensionsChanged();
 		return this;
 	},
 	cleanUp: $empty
