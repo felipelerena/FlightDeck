@@ -291,7 +291,7 @@ def capabilities_autocomplete(r, query):
 	"""
 	found = Cap.objects.filter(Q(slug__icontains=query) | Q(name__icontains=query))
 	return render_to_response('json/autocomplete_list.json', {'items': found},
-				context_instance=RequestContext(r)
+				context_instance=RequestContext(r),
 				mimetype='application/json')
 	
 
