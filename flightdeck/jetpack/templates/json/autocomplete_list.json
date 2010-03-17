@@ -1,0 +1,5 @@
+{"items": [{% for item in items %}{
+	"slug": "{{ item.slug|escapejs }}",
+	"name": "{{ item.name|escapejs }}"
+	}{% if not forloop.last %},{% endif %}{% endfor %}
+]}

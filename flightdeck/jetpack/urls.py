@@ -9,6 +9,10 @@ urlpatterns = patterns('jetpack.views',
 	url(r'^modules/(?P<page_number>\d+)/$', 
 		'gallery', {'type': 'capability'}, name='capabilities_page'),
 
+
+	url(r'^autocomplete/(?P<query>.*)/$',
+		'capabilities_autocomplete', name='jp_capabilities_autocomplete'),
+
 	url(r'^create_xpi/$', 'create_xpi_from_post', name='jp_create_xpi'),
 	url(r'^get_xpi/(?P<hash>.*)/(?P<slug>.*)/$', 'getXPI', name='jp_get_xpi'),
 	url(r'^rm_xpi/(?P<hash>.*)/$', 'removeXPI', name='jp_rm_xpi'),
