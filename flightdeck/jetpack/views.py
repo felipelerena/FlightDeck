@@ -247,8 +247,8 @@ def item_version_create(r, slug, type):
 	for c in dep_capabilities:
 		dep_cap = CapVersion.objects.get(
 						capability__slug=c['slug'],
-						name=c['version'],
-						counter=c['counter'])
+						name=c['version_name'],
+						counter=c['version_counter'])
 		version.capabilities.add(dep_cap)
 
 	return render_to_response('json/version_absolute_url.json', {'version': version},
