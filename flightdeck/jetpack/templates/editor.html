@@ -23,7 +23,8 @@
 			jp_jetpack_create_url: '{% url jp_jetpack_create %}',
 			jp_capability_create_url: '{% url jp_capability_create %}',
 			create_modal_template: '{% escape_template "_create.html" %}',
-			cap_autocomplete_url: '{{ autocomplete_url|safe|replace:"*,{"|replace:"$,}"|safe }}'
+			cap_autocomplete_url: '{{ autocomplete_url|safe|replace:"*,{"|replace:"$,}"|safe }}',
+			DEBUG: {{ settings.DEBUG|yesno:"true,false" }}
 		};
 		var item;
 		{% block javascript %}{% endblock %}
