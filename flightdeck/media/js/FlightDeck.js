@@ -76,17 +76,11 @@ Element.implement({
 
 
 Class.Mutators.$name = function(name){ this.implement('$family', {name: name}); };
-/*
- * File: media/js/FlightDeck.js
 
-if (!console) { 
-	var console = {
-		log: $empty,
-		dir: $empty,
-		info: $empty,
-		error: function(value) { alert(value); }
-	};
-}
- */
-
-
+window.addEvent('load', function() {
+	window.mozFlightDeck.whenMessaged(function(data) {
+		// This gets called when one of our extensions has been installed
+		// successfully, or failed somehow.
+		fd.message.alert('Loading extension', 'Extension {msg}'.substitute(data));
+	});
+});
