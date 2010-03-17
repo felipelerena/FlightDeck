@@ -142,6 +142,9 @@ def item_create(r, type):
 	)
 	# TODO: validate
 	item.save()
+	version = JetVersion(jetpack=item, author=r.user) if type == "jetpack" else CapVersion(capability=item, author=r.user) 
+	version.save()
+	
 	return render_to_response("json/%s_created.json" % type, {type: item},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
