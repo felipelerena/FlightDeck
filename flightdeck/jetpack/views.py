@@ -13,6 +13,7 @@ from django.template import RequestContext#,Template
 from django.utils import simplejson
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.db.models import Q
 
 from base.shortcuts import get_object_or_create
 from utils.os_utils import whereis
@@ -288,6 +289,12 @@ def capabilities_autocomplete(r, query):
 	"""
 	Display names of the modules (capabilities) which mark the pattern
 	"""
+	found = Cap.objects.filter(Q(slug__icontains=query) | Q(name__icontains=query))
+	return render_to_response('json/autocomplete_list.json', {'items': found},
+				context_instance=RequestContext(r)
+				mimetype='application/json')
+	
+
 	
 @login_required
 def addnew_dependency(r, slug, type, version=None, counter=None):
