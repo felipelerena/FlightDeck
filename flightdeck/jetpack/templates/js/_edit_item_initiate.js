@@ -11,7 +11,7 @@ item = new {{ type|capfirst }}({
 	switch_description_id: '{{ item|tab_link_id:"description" }}',
 	type: '{{ item.type }}',
 	{% ifequal type 'jetpack' %}
-		try_in_browser_url: '{% url jp_create_xpi %}',
+		create_xpi_url: '{% url jp_create_xpi %}',
 	{% endifequal %}
 	version: {
 		{% ifequal type 'jetpack' %}
