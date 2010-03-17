@@ -555,7 +555,6 @@ def getXPI(r, hash, slug):
 	"""
 	return serve(r, '%s.xpi' % slug, '/tmp/%s' % hash, show_indexes=False)
 
-
 def removeXPI(r, hash):
 	"""
 	Remove temporary XPI
