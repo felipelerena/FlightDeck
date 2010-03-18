@@ -77,7 +77,7 @@ def capability_edit(r, slug):
 	"""
 	Get capability and send it to item_edit
 	"""
-	capability = get_objects_with_related_or_404(Cap, slug=slug)
+	capability = get_object_with_related_or_404(Cap, slug=slug)
 	return item_edit(r, capability, "capability")
 	
 
@@ -107,7 +107,7 @@ def item_edit(r, item, type):
 
 @login_required
 def jetpack_version_edit(r, slug, version, counter):
-	version = get_objects_with_related_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
+	version = get_object_with_related_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
 	item = version.jetpack
 	type = "jetpack"
 	page = "editor"
@@ -118,7 +118,7 @@ def jetpack_version_edit(r, slug, version, counter):
 
 @login_required
 def capability_version_edit(r, slug, version, counter):
-	version = get_objects_with_related_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
+	version = get_object_with_related_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
 	item = version.capability
 	other_versions = CapVersion.objects.filter_by_slug(slug=slug)
 	type = "capability"
@@ -179,7 +179,7 @@ def item_get_versions(r, slug, type):
 	get all existing versions for the item
 	"""
 	Klass = Jet if type=="jetpack" else Cap
-	item = get_objects_with_related_or_404(Klass, slug=slug)
+	item = get_object_with_related_or_404(Klass, slug=slug)
 	return render_to_response('json/versions.json', {
 				"versions": item.versions.all()
 			}, context_instance=RequestContext(r),
@@ -193,7 +193,7 @@ def item_update(r, slug, type):
 	Update the existing item's metadata only
 	"""
 	Klass = Jet if type=="jetpack" else Cap
-	item = get_objects_with_related_or_404(Klass, slug=slug)
+	item = get_object_with_related_or_404(Klass, slug=slug)
 	if not item.can_be_updated_by(r.user):
 		return HttpResponseNotAllowed(HttpResponse(""))
 
@@ -222,7 +222,7 @@ def item_version_create(r, slug, type):
 		Klass = Cap
 		KlassVersion = CapVersion
 
-	item = get_objects_with_related_or_404(Klass, slug=slug)
+	item = get_object_with_related_or_404(Klass, slug=slug)
 	version_data = {
 		type: item,
 		"author": r.user,
@@ -261,10 +261,10 @@ def item_version_update(r, slug, version, counter, type):
 	Update the given version - no counter change
 	"""
 	if type == "jetpack":
-		version = get_objects_with_related_or_404(JetVersion, 
+		version = get_object_with_related_or_404(JetVersion, 
 						jetpack__slug=slug, name=version, counter=counter)
 	elif type == "capability":
-		version = get_objects_with_related_or_404(CapVersion, 
+		version = get_object_with_related_or_404(CapVersion, 
 						capability__slug=slug, name=version, counter=counter)
 
 	# permission check
@@ -291,11 +291,11 @@ def item_version_save_as_base(r, slug, version, counter, type):
 	Update the given version - no counter change
 	"""
 	if type == "jetpack":
-		version = get_objects_with_related_or_404(JetVersion, 
+		version = get_object_with_related_or_404(JetVersion, 
 						jetpack__slug=slug, name=version, counter=counter)
 		item = version.jetpack
 	elif type == "capability":
-		version = get_objects_with_related_or_404(CapVersion, 
+		version = get_object_with_related_or_404(CapVersion, 
 						capability__slug=slug, name=version, counter=counter)
 		item = version.capability
 
@@ -414,11 +414,11 @@ def _add_dependency(r, slug, type, depversion, version=None, counter=None):
 	"""
 	if version:
 		if type == 'jetpack':
-			item_version = get_objects_with_related_or_404(JetVersion, 
+			item_version = get_object_with_related_or_404(JetVersion, 
 						jetpack__slug=slug, name=version, counter=counter)
 			item = item_version.jetpack
 		elif type == 'capability':
-			item_version = get_objects_with_related_or_404(CapVersion, 
+			item_version = get_object_with_related_or_404(CapVersion, 
 						capability__slug=slug, name=version, counter=counter)
 			item = item_version.capability
 	else:
@@ -447,13 +447,13 @@ def remove_dependency(r, slug, version, counter, type, d_slug, d_version, d_coun
 	Remove dependency from item
 	"""
 	if type == 'jetpack':
-		item_version = get_objects_with_related_or_404(JetVersion, 
+		item_version = get_object_with_related_or_404(JetVersion, 
 					jetpack__slug=slug, name=version, counter=counter)
 	elif type == 'capability':
-		item_version = get_objects_with_related_or_404(CapVersion, 
+		item_version = get_object_with_related_or_404(CapVersion, 
 					capability__slug=slug, name=version, counter=counter)
 
-	dependency = get_objects_with_related_or_404(CapVersion,
+	dependency = get_object_with_related_or_404(CapVersion,
 					capability__slug=d_slug, name=d_version, counter=d_counter)
 
 	item_version.capabilities.remove(dependency)
@@ -486,7 +486,7 @@ def create_xpi_from_object(r, slug, version, counter):
 	Get all data needed for the XPI creation from model
 	call createXPI with the right data
 	"""
-	ver = get_objects_with_related_or_404(JetVersion,
+	ver = get_object_with_related_or_404(JetVersion,
 					jetpack__slug=slug, name=version, counter=counter)
 	# prepare capabilities
 	caps = [{
