@@ -259,13 +259,10 @@ class Jet(models.Model):
 		"""
 		Get the only Version which is base (there may be only one)
 		"""
-		print 'selecting base'
 		try:
-			base = JetVersion.objects.get_base(self.slug)
+			return JetVersion.objects.get_base(self.slug)
 		except:
-			print 'error'
-		print base
-		return base
+			pass
 
 	@property
 	def public_permission_name(self):
