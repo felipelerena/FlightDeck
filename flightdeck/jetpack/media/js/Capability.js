@@ -160,7 +160,7 @@ var Capability = new Class({
 		}).send();
 	},
 	afterVersionCreated: function(response) {
-		window.location.href = response.version_absolute_url;
+		//window.location.href = response.version_absolute_url;
 	},
 	/*
 	 * Method: getContent
