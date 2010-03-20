@@ -489,19 +489,11 @@ def create_xpi_from_object(r, slug, version, counter):
 	ver = get_object_with_related_or_404(JetVersion,
 					jetpack__slug=slug, name=version, counter=counter)
 	# prepare capabilities
-	caps = [{
-		"name": cap.capability.name,
-		"slug": cap.slug,
-		"creator": cap.capability.creator,
-		"version_name": cap.name,
-		"version_counter": cap.counter,
-		"version_description": cap.description,
-		"version_content": cap.content
-		} for cap in ver.capabilities.all()]
-	return createXPI(r, slug, ver.content, ver.description, ver.manifest, caps)
+	return createXPI(r, slug, ver.content, ver.description, ver.manifest, 
+						caps=ver.capabilities.all())
 
 
-def createXPI(r, slug, main, description, package, libs):
+def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	"""
 	Create XPI from data given within POST
 	Data will be cleaned by cron every x minutes
@@ -509,6 +501,24 @@ def createXPI(r, slug, main, description, package, libs):
 	"""
 	if not whereis('cfx'):
 		return HttpResponse('configuration error')
+
+	if not libs and caps:
+		libs = [{
+			"name": cap.capability.name,
+			"slug": cap.slug,
+			"creator": cap.capability.creator,
+			"version_name": cap.name,
+			"version_counter": cap.counter,
+			"version_description": cap.description,
+			"version_content": cap.content
+			} for cap in caps]
+	elif libs:
+		# caps aren't given from the object - get them via SQL
+		caps = [CapVersion.objects.get(
+					capability__slug=lib['slug'],
+					name=lib['version_name'],
+					counter=lib['version_counter']) for lib in libs]
+
 
 	# create random hash
 	hash = get_random_string(10, 'jetpack')
@@ -522,12 +532,16 @@ def createXPI(r, slug, main, description, package, libs):
 	sys.path.append(settings.VIRTUAL_ENV)
 	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
 
+	# save all dependencies
+	# this has to be done before the content from Post as it could happen it needs
+	# to be overwritten by currently edited version
+	for cap in caps:
+		cap.save_dependencies_content('/tmp/%s/lib' % hash)
 
 	for lib in libs:
 		libHandle = open('/tmp/%s/lib/%s.js' % (hash, lib['slug']), 'w')
 		libHandle.write(lib['version_content'])
 		libHandle.close()
-
 	
 	pkgHandle = open('/tmp/%s/package.json' %hash, 'w')
 	pkgHandle.write(package)
