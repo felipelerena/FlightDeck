@@ -21,12 +21,12 @@
 			</p>
 		{% endif %}
 
-		<p class="UI_Sidebar_Creator">Authored by <a title="{{ item.creator }}" href="{% url person_public_profile item.creator.username %}">{{ item.creator.get_profile.get_name }}</a></p>
+		<p class="UI_Sidebar_Creator">Authored by <a title="{{ item.creator }}" href="{% url person_public_profile item.creator.username %}">{{ item.creator.get_profile }}</a></p>
 
 		{% if version %}{% ifequal item.creator.username version.author.username %}
 		{% else %}
 				<p class="UI_Sidebar_Author">{{ version.fullname }} by: 
-					<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author }}</a>
+					<a title="{{ version.author }}" href="{% url person_public_profile version.author.username %}">{{ version.author.get_profile }}</a>
 				</p>
 		{% endifequal %}{% endif %}
 	</div>

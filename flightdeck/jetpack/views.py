@@ -13,8 +13,9 @@ from django.template import RequestContext#,Template
 from django.utils import simplejson
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.db.models import Q
 
-from base.shortcuts import get_object_or_create
+from base.shortcuts import get_object_or_create, get_object_with_related_or_404, get_random_string
 from utils.os_utils import whereis
 
 from jetpack.models import Jet, JetVersion, Cap, CapVersion
@@ -67,7 +68,7 @@ def jetpack_edit(r, slug):
 	"""
 	Get jetpack and send it to item_edit
 	"""
-	jetpack = get_object_or_404(Jet, slug=slug)
+	jetpack = get_object_with_related_or_404(Jet, slug=slug)
 	return item_edit(r, jetpack, "jetpack")
 	
 
@@ -76,7 +77,7 @@ def capability_edit(r, slug):
 	"""
 	Get capability and send it to item_edit
 	"""
-	capability = get_object_or_404(Cap, slug=slug)
+	capability = get_object_with_related_or_404(Cap, slug=slug)
 	return item_edit(r, capability, "capability")
 	
 
@@ -99,13 +100,14 @@ def item_edit(r, item, type):
 	page = "editor"
 	jetpack_create_url = Jet.get_create_url()
 	capability_create_url = Cap.get_create_url()
+	autocomplete_url = reverse("jp_capabilities_autocomplete", args=["*query$"]);
 	return render_to_response("edit_item.html", locals(), 
 				context_instance=RequestContext(r))
 	
 
 @login_required
 def jetpack_version_edit(r, slug, version, counter):
-	version = get_object_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
+	version = get_object_with_related_or_404(JetVersion, jetpack__slug=slug, name=version, counter=counter)
 	item = version.jetpack
 	type = "jetpack"
 	page = "editor"
@@ -116,7 +118,7 @@ def jetpack_version_edit(r, slug, version, counter):
 
 @login_required
 def capability_version_edit(r, slug, version, counter):
-	version = get_object_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
+	version = get_object_with_related_or_404(CapVersion, capability__slug=slug, name=version, counter=counter)
 	item = version.capability
 	other_versions = CapVersion.objects.filter_by_slug(slug=slug)
 	type = "capability"
@@ -140,6 +142,34 @@ def item_create(r, type):
 	)
 	# TODO: validate
 	item.save()
+
+	if type == 'jetpack':
+		version = JetVersion(
+			jetpack=item, 
+			author=r.user,
+			content='',
+			description='',
+			manifest=simplejson.dumps({
+				"contributors": [],
+				#"url": '',
+				#'license': '',
+				'version': '0.0.0',
+				#'dependencies': [],
+				#'lib': 'lib',
+				#'tests': 'tests',
+				#'packages': 'packages',
+				'main': 'main',
+				'name': item.slug,
+				'fullName': item.name,
+				'description': item.description,
+				'author': r.user.get_profile().get_name()
+			})
+		) 
+	elif type == "capability":
+		version = CapVersion(capability=item, author=r.user) 
+
+	version.save()
+	
 	return render_to_response("json/%s_created.json" % type, {type: item},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
@@ -149,7 +179,7 @@ def item_get_versions(r, slug, type):
 	get all existing versions for the item
 	"""
 	Klass = Jet if type=="jetpack" else Cap
-	item = get_object_or_404(Klass, slug=slug)
+	item = get_object_with_related_or_404(Klass, slug=slug)
 	return render_to_response('json/versions.json', {
 				"versions": item.versions.all()
 			}, context_instance=RequestContext(r),
@@ -163,7 +193,7 @@ def item_update(r, slug, type):
 	Update the existing item's metadata only
 	"""
 	Klass = Jet if type=="jetpack" else Cap
-	item = get_object_or_404(Klass, slug=slug)
+	item = get_object_with_related_or_404(Klass, slug=slug)
 	if not item.can_be_updated_by(r.user):
 		return HttpResponseNotAllowed(HttpResponse(""))
 
@@ -192,7 +222,7 @@ def item_version_create(r, slug, type):
 		Klass = Cap
 		KlassVersion = CapVersion
 
-	item = get_object_or_404(Klass, slug=slug)
+	item = get_object_with_related_or_404(Klass, slug=slug)
 	version_data = {
 		type: item,
 		"author": r.user,
@@ -217,8 +247,8 @@ def item_version_create(r, slug, type):
 	for c in dep_capabilities:
 		dep_cap = CapVersion.objects.get(
 						capability__slug=c['slug'],
-						name=c['version'],
-						counter=c['counter'])
+						name=c['version_name'],
+						counter=c['version_counter'])
 		version.capabilities.add(dep_cap)
 
 	return render_to_response('json/version_absolute_url.json', {'version': version},
@@ -231,10 +261,10 @@ def item_version_update(r, slug, version, counter, type):
 	Update the given version - no counter change
 	"""
 	if type == "jetpack":
-		version = get_object_or_404(JetVersion, 
+		version = get_object_with_related_or_404(JetVersion, 
 						jetpack__slug=slug, name=version, counter=counter)
 	elif type == "capability":
-		version = get_object_or_404(CapVersion, 
+		version = get_object_with_related_or_404(CapVersion, 
 						capability__slug=slug, name=version, counter=counter)
 
 	# permission check
@@ -261,11 +291,11 @@ def item_version_save_as_base(r, slug, version, counter, type):
 	Update the given version - no counter change
 	"""
 	if type == "jetpack":
-		version = get_object_or_404(JetVersion, 
+		version = get_object_with_related_or_404(JetVersion, 
 						jetpack__slug=slug, name=version, counter=counter)
 		item = version.jetpack
 	elif type == "capability":
-		version = get_object_or_404(CapVersion, 
+		version = get_object_with_related_or_404(CapVersion, 
 						capability__slug=slug, name=version, counter=counter)
 		item = version.capability
 
@@ -284,10 +314,16 @@ def item_version_save_as_base(r, slug, version, counter, type):
 # Manage dependencies
 
 @login_required
-def capabilities_autocomplete(r):
+def capabilities_autocomplete(r, query):
 	"""
 	Display names of the modules (capabilities) which mark the pattern
 	"""
+	found = Cap.objects.filter(Q(slug__icontains=query) | Q(name__icontains=query))
+	return render_to_response('json/autocomplete_list.json', {'items': found},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+	
+
 	
 @login_required
 def addnew_dependency(r, slug, type, version=None, counter=None):
@@ -378,11 +414,11 @@ def _add_dependency(r, slug, type, depversion, version=None, counter=None):
 	"""
 	if version:
 		if type == 'jetpack':
-			item_version = get_object_or_404(JetVersion, 
+			item_version = get_object_with_related_or_404(JetVersion, 
 						jetpack__slug=slug, name=version, counter=counter)
 			item = item_version.jetpack
 		elif type == 'capability':
-			item_version = get_object_or_404(CapVersion, 
+			item_version = get_object_with_related_or_404(CapVersion, 
 						capability__slug=slug, name=version, counter=counter)
 			item = item_version.capability
 	else:
@@ -411,13 +447,13 @@ def remove_dependency(r, slug, version, counter, type, d_slug, d_version, d_coun
 	Remove dependency from item
 	"""
 	if type == 'jetpack':
-		item_version = get_object_or_404(JetVersion, 
+		item_version = get_object_with_related_or_404(JetVersion, 
 					jetpack__slug=slug, name=version, counter=counter)
 	elif type == 'capability':
-		item_version = get_object_or_404(CapVersion, 
+		item_version = get_object_with_related_or_404(CapVersion, 
 					capability__slug=slug, name=version, counter=counter)
 
-	dependency = get_object_or_404(CapVersion,
+	dependency = get_object_with_related_or_404(CapVersion,
 					capability__slug=d_slug, name=d_version, counter=d_counter)
 
 	item_version.capabilities.remove(dependency)
@@ -450,23 +486,14 @@ def create_xpi_from_object(r, slug, version, counter):
 	Get all data needed for the XPI creation from model
 	call createXPI with the right data
 	"""
-	ver = get_object_or_404(JetVersion,
+	ver = get_object_with_related_or_404(JetVersion,
 					jetpack__slug=slug, name=version, counter=counter)
 	# prepare capabilities
-	[{"name":"Teste","slug":"teste","creator":"tenchi","version_name":"0.0","version_counter":0,"version_description":"","version_content":""}]
-	caps = [{
-		"name": cap.capability.name,
-		"slug": cap.slug,
-		"creator": cap.capability.creator,
-		"version_name": cap.name,
-		"version_counter": cap.counter,
-		"version_description": cap.description,
-		"version_content": cap.content
-		} for cap in ver.capabilities.all()]
-	return createXPI(r, slug, ver.content, ver.description, ver.manifest, caps)
+	return createXPI(r, slug, ver.content, ver.description, ver.manifest, 
+						caps=ver.capabilities.all())
 
 
-def createXPI(r, slug, main, description, package, libs):
+def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	"""
 	Create XPI from data given within POST
 	Data will be cleaned by cron every x minutes
@@ -475,9 +502,26 @@ def createXPI(r, slug, main, description, package, libs):
 	if not whereis('cfx'):
 		return HttpResponse('configuration error')
 
+	if not libs and caps:
+		libs = [{
+			"name": cap.capability.name,
+			"slug": cap.slug,
+			"creator": cap.capability.creator,
+			"version_name": cap.name,
+			"version_counter": cap.counter,
+			"version_description": cap.description,
+			"version_content": cap.content
+			} for cap in caps]
+	elif libs:
+		# caps aren't given from the object - get them via SQL
+		caps = [CapVersion.objects.get(
+					capability__slug=lib['slug'],
+					name=lib['version_name'],
+					counter=lib['version_counter']) for lib in libs]
+
+
 	# create random hash
-	allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-	hash = 'jetpack-' + ''.join([choice(allowed_chars) for i in range(10)])
+	hash = get_random_string(10, 'jetpack')
 
 	# first create file structure
 	os.mkdir ('/tmp/%s' % hash) 
@@ -488,12 +532,16 @@ def createXPI(r, slug, main, description, package, libs):
 	sys.path.append(settings.VIRTUAL_ENV)
 	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
 
+	# save all dependencies
+	# this has to be done before the content from Post as it could happen it needs
+	# to be overwritten by currently edited version
+	for cap in caps:
+		cap.save_dependencies_content('/tmp/%s/lib' % hash)
 
 	for lib in libs:
 		libHandle = open('/tmp/%s/lib/%s.js' % (hash, lib['slug']), 'w')
 		libHandle.write(lib['version_content'])
 		libHandle.close()
-
 	
 	pkgHandle = open('/tmp/%s/package.json' %hash, 'w')
 	pkgHandle.write(package)

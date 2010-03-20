@@ -23,7 +23,7 @@
 		{% endif %}
 		{% if user.authored_capabilities.all %}
 			<li>
-				<a title="Your Modules" href="{% url person_public_profile user.username %}modules">Your Modules</a> 
+				<a title="Your Libraries" href="{% url person_public_profile user.username %}modules">Your Libraries</a> 
 				<strong>({{ user.authored_capabilities.all|length }})</strong>
 			</li>
 		{% endif %}
@@ -38,22 +38,27 @@
 				<li class="UI_Item">{{ jet|render_base_link }}</li>
 			{% endfor %}
 		</ul>
-		
+		{% comment %}
+		Not relevant as we show all jetpacks and modules atm
 		<ul class="UI_Pagination">
 			<li class="UI_Pagin_Action more"><a title="See more extensions" href="{% url person_public_profile user.username %}extensions">See more extensions</a> <span></span></li>
 		</ul>
+		{% endcomment %}
 	{% endif %}
 	
 	{% if user.authored_capabilities.all %}
-		<h2 class="UI_Heading">Your Modules</h2>
+		<h2 class="UI_Heading">Your Libraries</h2>
 		<ul class="UI_Browser">
 			{% for cap in user.authored_capabilities.all %}
 				<li class="UI_Item">{{ cap|render_base_link }}</li>
 			{% endfor %}
 		</ul>
 		
+		{% comment %}
+		Not relevant as we show all jetpacks and modules atm
 		<ul class="UI_Pagination">
 			<li class="UI_Pagin_Action more"><a title="See more extensions" href="{% url person_public_profile user.username %}modules">See more modules</a> <span></span></li>
 		</ul>
+		{% endcomment %}
 	{% endif %}
 {% endblock %}

@@ -1,9 +1,6 @@
 # Taken from feincms
 # http://github.com/matthiask/feincms/blob/master/feincms/__init__.py
 
-VERSION = (0, 0, 1)
-__version__ = '.'.join(map(str, VERSION))
-  
 # Do not use Django settings at module level as recommended
 from django.utils.functional import LazyObject
  

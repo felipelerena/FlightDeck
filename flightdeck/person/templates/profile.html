@@ -21,7 +21,7 @@
 		{% endif %}
 		{% if person.authored_capabilities.all %}
 			<li>
-				<a title="Modules" href="/user/{{ person }}/modules">Modules</a> 
+				<a title="Libraries" href="/user/{{ person }}/libraries">Libraries</a> 
 				<strong>({{ person.authored_capabilities.all|length }})</strong>
 			</li>
 		{% endif %}
@@ -37,21 +37,27 @@
 			{% endfor %}
 		</ul>
 		
+		{% comment %}
+		Not relevant as we show all jetpacks and modules atm
 		<ul class="UI_Pagination">
 			<li class="UI_Pagin_Action more"><a title="See more extensions" href="/user/{{ person }}/extensions">See more extensions</a> <span></span></li>
 		</ul>
+		{% endcomment %}
 	{% endif %}
 	
 	{% if person.authored_capabilities.all %}
-		<h2 class="UI_Heading">Modules</h2>
+		<h2 class="UI_Heading">Libraries</h2>
 		<ul class="UI_Browser">
 			{% for cap in person.authored_capabilities.all %}
 				<li class="UI_Item">{{ cap|render_base_link }}</li>
 			{% endfor %}
 		</ul>
 		
+		{% comment %}
+		Not relevant as we show all jetpacks and modules atm
 		<ul class="UI_Pagination">
 			<li class="UI_Pagin_Action more"><a title="See more modules" href="/user/{{ person }}/modules">See more modules</a> <span></span></li>
 		</ul>
+		{% endcomment %}
 	{% endif %}
 {% endblock %}

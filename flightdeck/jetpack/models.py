@@ -139,7 +139,7 @@ class CapVersion(models.Model):
 	description = models.TextField(blank=True, null=True)
 
 	# List of CapVersions this CapVersion relies on
-	capabilities = models.ManyToManyField('CapVersion', blank=True, null=True)
+	capabilities = models.ManyToManyField('self', blank=True, null=True, symmetrical=False)
 
 	# alpha/beta/production
 	status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='a', blank=True) 
@@ -189,12 +189,34 @@ class CapVersion(models.Model):
 		"""
 		return "%s %s" % (self.capability.name, self.fullname)
 
+
+	def save_content(self, dir):
+		"""
+		saves content of the capabilitie and all dependencies
+		"""
+		# save content
+		handle = open('%s/%s.js' % (dir, self.slug), 'w')
+		handle.write(self.content)
+		handle.close()
+		# save capabilities
+		self.save_dependencies_content(dir)
+
+
+	def save_dependencies_content(self, dir):
+		"""
+		saves content of all dependencies
+		"""
+		for dep in self.capabilities.all():
+			dep.save_content(dir)
+
+
 	@models.permalink
 	def get_absolute_url(self):
 		"""
 		@returns str: url to the edit page of this version
 		"""
 		return ('jp_capability_version_edit',[self.capability.slug, self.name, self.counter])
+
 
 	@models.permalink
 	def get_update_url(self):
@@ -203,16 +225,20 @@ class CapVersion(models.Model):
 		"""
 		return ('jp_capability_version_update',[self.capability.slug, self.name, self.counter])
 
+
 	@models.permalink
 	def get_set_as_base_url(self):
 		"""
 		@returns str: url to switch the is_base to True
 		"""
-		return ('jp_capability_version_save_as_base',[self.capability.slug, self.name, self.counter])
+		return ('jp_capability_version_save_as_base',
+					[self.capability.slug, self.name, self.counter])
+
 
 	@models.permalink
 	def get_adddependency_url(self):
 		return ('jp_capability_add_dependency',[self.capability.slug, self.name, self.counter])
+
 
 	@models.permalink
 	def get_addnewdependency_url(self):
@@ -259,7 +285,10 @@ class Jet(models.Model):
 		"""
 		Get the only Version which is base (there may be only one)
 		"""
-		return JetVersion.objects.get_base(self.slug)			
+		try:
+			return JetVersion.objects.get_base(self.slug)
+		except:
+			pass
 
 	@property
 	def public_permission_name(self):

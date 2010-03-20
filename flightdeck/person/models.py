@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+class Limit(models.Model):
+	email = models.CharField(max_length=255)
+
+
 class Profile(models.Model):
 	user = models.ForeignKey(User, unique=True)
 	nickname = models.CharField(max_length=255, blank=True, null=True)
@@ -11,7 +16,7 @@ class Profile(models.Model):
 
 	def get_name(self):
 		if not (self.user.first_name or self.user.last_name or self.nickname):
-			return self.username
+			return self.user.username
 		return self.get_fullname()
 
 
