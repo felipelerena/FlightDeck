@@ -38,7 +38,7 @@
 		<div id="wrapper">
 		
 			<header id="app-header">
-				{% include "_header.html" %}
+				{% block header %}{% include "_header.html" %}{% endblock %}
 			</header> <!-- /main-header -->
 
 			<div id="app-body">
@@ -48,6 +48,7 @@
 					{% block app_sidebar %}{%endblock %}
 				</aside> <!-- /app-sidebar -->
 				<section id="app-content">
+					{% block app_menu %}{% endblock %}
 					{% block app_content %}{% endblock %}
 				</section> <!-- /app-content -->
 			</div> <!-- /app-body -->
