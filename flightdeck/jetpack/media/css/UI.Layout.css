@@ -139,7 +139,7 @@ a:hover {
 /*
  =========================================================================== */
 #editor-wrapper {
-	background: -moz-linear-gradient(270deg, #F2F2F2, #fff 8px);
+	background: -moz-linear-gradient(270deg, #DFDFDF, #fff 5px);
 	position: relative;
 }
 

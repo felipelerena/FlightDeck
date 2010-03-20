@@ -110,6 +110,12 @@ authors:
 			border-bottom: solid 1px #478CDE;
 		}
    
+	.UI_Sidebar_SwitchTo select {
+		display: inline-block;
+		width: 150px;
+		margin: 0 0 0 5px;
+	}
+
 	.UI_Sidebar_ItemCont {
 		padding: 0;
 	}
@@ -127,12 +133,28 @@ authors:
 
 		.UI_Sidebar_ItemCont .UI_Field_Cont input {
 			border: solid 1px #CBCFD4;
-			padding: 3px;
-			width: 170px;
-			display: inline-block;
+			padding: 3px 20px 3px 3px;
+			width: 186px;
+			display: block;
 			background: -moz-linear-gradient(270deg, #F2F2F2, #fff 6px);
 			text-align: right;
 		}
+		
+		
+		.UI_Sidebar_VersionName {
+			position: relative;
+		}
+		
+			.UI_Sidebar_VersionName span {
+				position: absolute;
+				top: 1px;
+				right: 3px;
+				font-size: 1em;
+				padding: 3px 0;
+				color: #ABABAB;
+				cursor: default;
+			}
+
       
 .UI_Sidebar_ItemCont .UI_New_Dependency {
 

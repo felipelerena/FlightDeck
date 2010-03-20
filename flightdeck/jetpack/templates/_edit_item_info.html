@@ -8,7 +8,9 @@
 <div class="UI_Sidebar_ItemCont">
 	<div class="UI_Field_Cont">
 		<label for="version_name">Version Name</label>
-		<input type="text" id="version_name" name="version_name" value="{{ version.name|default:"0.0" }}" /> {% if version %}.{{ version.counter }}{% endif %}
+		<div class="UI_Sidebar_VersionName">
+			<input type="text" id="version_name" name="version_name" value="{{ version.name|default:"0.0" }}" /> {% if version %}<span>.{{ version.counter }}</span>{% endif %}
+		</div>
 
 		{% if version %}
 			<p class="UI_Sidebar_SwitchTo">

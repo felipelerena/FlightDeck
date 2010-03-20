@@ -26,7 +26,7 @@ body {
 
 
 .UI_Browser {
-	margin: 15px 0 0;
+	margin: 15px 0 30px;
 }
 
 	.UI_Browser .UI_Item {
@@ -173,6 +173,7 @@ body {
 					border: solid 1px #BEC5CC;
 					z-index: 50;
 					padding: 5px 0;
+					opacity: 0;
 					-moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 					-moz-border-radius-bottomleft: 6px;
 					-moz-border-radius-bottomright: 6px;
