@@ -133,18 +133,23 @@ authors:
 
 		.UI_Sidebar_ItemCont .UI_Field_Cont input {
 			border: solid 1px #CBCFD4;
-			padding: 3px 20px 3px 3px;
-			width: 186px;
-			display: block;
+			padding: 3px;
+			width: 156px;
+			display: inline-block;
 			background: -moz-linear-gradient(270deg, #F2F2F2, #fff 6px);
-			text-align: right;
 		}
-		
 		
 		.UI_Sidebar_VersionName {
 			position: relative;
 		}
-		
+
+			.UI_Sidebar_ItemCont .UI_Field_Cont .UI_Sidebar_VersionName input {
+				padding: 3px 20px 3px 3px;
+				width: 186px;
+				display: block;
+				text-align: right;
+			}
+
 			.UI_Sidebar_VersionName span {
 				position: absolute;
 				top: 1px;
@@ -154,7 +159,6 @@ authors:
 				color: #ABABAB;
 				cursor: default;
 			}
-
       
 .UI_Sidebar_ItemCont .UI_New_Dependency {
 
