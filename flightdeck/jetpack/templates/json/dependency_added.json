@@ -1,5 +1,5 @@
 { {% load jetpack_extras %}
-	"message": "module \"{{ cap.name }} \" in version {{ version.fullname }} added as dependency to \"{{ item.fullname }}\"",
+	"message": "Library \"{{ cap.name }} \" in version {{ version.fullname }} added as dependency to \"{{ item.fullname }}\"",
 	"dependency": {
 		"dependency_link_html": "{% with version as capversion %}{% escape_template "_dependency_list_item.html" %}{% endwith %}",
 		"dependency_textarea_html": "{% with version as cap_version %}{% escape_template "_dependency_content_textarea.html" %}{% endwith %}",
