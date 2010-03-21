@@ -40,11 +40,9 @@
 	{% endcomment %}
 {% endblock %}
 
-{% block app_menu %}
-	{% include "_editor_menu.html" %}
-{% endblock %}
 
 {% block app_content %}
+	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
 		{% include "_edit_editors.html" %}
 	</div>
