@@ -302,6 +302,12 @@ var Capability = new Class({
 			// can't be updated
 			// TODO: fix in next iteration
 			this.updated = true;
+			if (this.version.changed) {
+				fd.warning.alert(
+					'{type} couldn\'t be updated',
+					'Not enough priviliges. Try Save New Version'
+				);
+			}
 		}
 		this.saveDependencies(this.boundUpdateAfterDepSave, this.version.getIdentification());
 	},
@@ -639,12 +645,14 @@ var CapVersion = new Class({
 	createBounds: function() {
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
 		this.boundAfterDescriptionChanged = function() {
+			this.changed = true;
 			if (this.switch_description_el) {
 				this.switch_description_el.getParent('li').addClass('UI_File_Modified');
 			}
 			this.description_el.removeEvent('change',this.boundAfterDescriptionChanged);
 		}.bind(this);
 		this.boundAfterContentChanged = function() {
+			this.changed = true;
 			if (this.switch_content_el) {
 				this.switch_content_el.getParent('li').addClass('UI_File_Modified');
 			}
