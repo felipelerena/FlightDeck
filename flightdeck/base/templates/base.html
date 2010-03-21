@@ -28,7 +28,7 @@
 		<script type='text/javascript'>
 			var fd;
 			window.addEvent('domready', function() {
-				fd = new FlightDeck();
+				fd = new FlightDeck({'user': '{{ user.username }}'});
 				{% block app_domready %}{% endblock %}
 				{% block page_domready %}{% endblock %}
 			});

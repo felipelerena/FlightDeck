@@ -94,7 +94,9 @@ var Jetpack = new Class({
 	 * assigns JetVersion to this.version
 	 */
 	initializeVersion: function() {
+		var self = this;
 		this.version = new JetVersion(this.options.version);
+		this.version.get_item = function() {return self;};
 	},
 	/*
 	 * Method: updateFromDOM

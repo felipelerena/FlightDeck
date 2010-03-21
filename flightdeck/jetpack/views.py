@@ -195,7 +195,7 @@ def item_update(r, slug, type):
 	Klass = Jet if type=="jetpack" else Cap
 	item = get_object_with_related_or_404(Klass, slug=slug)
 	if not item.can_be_updated_by(r.user):
-		return HttpResponseNotAllowed(HttpResponse(""))
+		return HttpResponseNotAllowed(HttpResponse("You're not %s" % item.creator))
 
 	if '%s_description' % type in r.POST:
 		item.description = r.POST.get('%s_description' % type)
@@ -242,6 +242,40 @@ def item_version_create(r, slug, type):
 
 	version = KlassVersion(**version_data)
 	version.save()
+
+	# if creating a new version of Lib it is needed to copy it's capabilities
+	copy_caps_from = r.POST.get('copy_capabilities_from', False)
+	if copy_caps_from:
+		copy_caps_from = simplejson.loads(copy_caps_from)
+		source = CapVersion.objects.get(
+					capability__slug=copy_caps_from['slug'],
+					name=copy_caps_from['version_name'],
+					counter=copy_caps_from['version_counter'])
+		for d in source.capabilities.all():
+			version.capabilities.add(d)
+
+	# if creating new version of a cap in library/extension editor new version
+	# needs to be reassigned
+	assign_to = r.POST.get('assign_to', False)
+	if assign_to:
+		assign_to = simplejson.loads(assign_to)
+		if assign_to['type'] == 'jetpack':
+			target = JetVersion.objects.get(
+					jetpack__slug=assign_to['slug'],
+					name=assign_to['version_name'],
+					counter=assign_to['version_counter'])
+		elif assign_to['type'] == 'capability':
+			target = CapVersion.objects.get(
+					capability__slug=assign_to['slug'],
+					name=assign_to['version_name'],
+					counter=assign_to['version_counter'])
+
+		# check if this cap was already assigned in different version
+		for d in target.capabilities.all():
+			if d.slug == item.slug:
+				target.capabilities.remove(d)
+		target.capabilities.add(version)
+
 	dep_capabilities = simplejson.loads(r.POST.get('capabilities','[]'));
 
 	for c in dep_capabilities:
@@ -251,7 +285,10 @@ def item_version_create(r, slug, type):
 						counter=c['version_counter'])
 		version.capabilities.add(dep_cap)
 
-	return render_to_response('json/version_absolute_url.json', {'version': version},
+	return render_to_response('json/version_created.json', {
+					'version': version,
+					'item': item
+				},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 
@@ -269,7 +306,7 @@ def item_version_update(r, slug, version, counter, type):
 
 	# permission check
 	if not version.author == r.user:
-		return HttpResponseNotAllowed(HttpResponse(""))
+		return HttpResponseNotAllowed(HttpResponse("You're not the author of this version"))
 
 	version.author = r.user
 	version.name = r.POST.get("version_name", version.name)
