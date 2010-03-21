@@ -31,7 +31,8 @@ textarea {
 }
 
 /* Clearfix */
-#app-body:after, 
+#app-body:after,
+#editor-menu-wrapper:after,
 .UI_Editor_Menu:after,
 .UI_Forms .UI_Field:after,
 .UI_Forms .UI_Choice:after, 
