@@ -304,7 +304,7 @@ var Capability = new Class({
 			this.updated = true;
 			if (this.version.changed) {
 				fd.warning.alert(
-					'{type} couldn\'t be updated',
+					'{type} couldn\'t be updated'.substitute(this.options),
 					'Not enough priviliges. Try Save New Version'
 				);
 			}
