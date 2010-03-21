@@ -118,6 +118,7 @@ authors:
 
 	.UI_Sidebar_ItemCont {
 		padding: 0;
+		background: -moz-linear-gradient(270deg, #E5E5E5, #FFFFFF 4px);
 	}
 
 		.UI_Sidebar_ItemCont .UI_Field_Cont {

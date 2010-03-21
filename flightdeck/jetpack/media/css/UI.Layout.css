@@ -139,7 +139,7 @@ a:hover {
 /*
  =========================================================================== */
 #editor-wrapper {
-	background: -moz-linear-gradient(270deg, #DFDFDF, #fff 5px);
+	background: -moz-linear-gradient(270deg, #E5E5E5, #FFFFFF 4px);
 	position: relative;
 }
 
@@ -173,7 +173,7 @@ a:hover {
 			text-shadow: 0 1px 0 #011E4F;
 			padding: 16px 0 16px 10px; 
 		}
-
+		
 /*
  =========================================================================== */
 #app-footer {
