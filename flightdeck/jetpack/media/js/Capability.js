@@ -276,21 +276,39 @@ var Capability = new Class({
 	 */
 	update: function() {
 		this.updated = false;
-		this.addEvent('part_update', this.boundAfterUpdate);
-		this.version.addEvent('update', this.boundAfterUpdate);
-		new Request.JSON({
-			url: this.options.update_url,
-			data: this.prepareData(),
-			method: 'post',
-			onSuccess: function(response) {
-				//fd.message.alert('DEBUG:', response.message);
-				// save the message
-				this.update_message = response.message;
-				this.updated = true;
-				this.fireEvent('part_update');
-			}.bind(this)
-		}).send();
-		this.version.update();
+		if (this.options.creator == fd.options.user) {
+			this.addEvent('part_update', this.boundAfterUpdate);
+			new Request.JSON({
+				url: this.options.update_url,
+				data: this.prepareData(),
+				method: 'post',
+				onSuccess: function(response) {
+					//fd.message.alert('DEBUG:', response.message);
+					// save the message
+					this.update_message = response.message;
+					this.updated = true;
+					this.fireEvent('part_update');
+				}.bind(this)
+			}).send();
+		} else {
+			// can't be updated
+			// TODO: fix in next iteration
+			this.updated = true;
+		}
+		if (this.version.options.author == fd.options.user) {
+			this.version.addEvent('update', this.boundAfterUpdate);
+			this.version.update();
+		} else {
+			// can't be updated
+			// TODO: fix in next iteration
+			this.updated = true;
+			if (this.version.auth) {
+				fd.warning.alert(
+					'{type} couldn\'t be updated'.substitute(this.options),
+					'Not enough priviliges. Try Save New Version'
+				);
+			}
+		}
 		this.saveDependencies(this.boundUpdateAfterDepSave, this.version.getIdentification());
 	},
 	afterUpdate: function() {
@@ -324,19 +342,25 @@ var Capability = new Class({
 	 */
 	new_version: function(data) {
 		this.updated = false;
-		this.addEvent('part_update', this.boundAfterNewVersion);
-		// updating Meta
-		new Request.JSON({
-			url: this.options.update_url,
-			data: this.prepareData(),
-			method: 'post',
-			onSuccess: function(response) {
-				//fd.message.alert('DEBUG:', response.message);
-				// save the message
-				this.updated = true;
-				this.fireEvent('part_update');
-			}.bind(this)
-		}).send();
+		if (this.options.creator == fd.options.user) {
+			this.addEvent('part_update', this.boundAfterNewVersion);
+			// updating Meta
+			new Request.JSON({
+				url: this.options.update_url,
+				data: this.prepareData(),
+				method: 'post',
+				onSuccess: function(response) {
+					//fd.message.alert('DEBUG:', response.message);
+					// save the message
+					this.updated = true;
+					this.fireEvent('part_update');
+				}.bind(this)
+			}).send();
+		} else {
+			// can't be updated
+			// TODO: fix in next iteration
+			this.updated = true;
+		}
 		// creating new version
 		data = $pick(data, this.getFullData());
 		this.version.created = false;
@@ -621,12 +645,14 @@ var CapVersion = new Class({
 	createBounds: function() {
 		this.boundAfterDataChanged = this.afterDataChanged.bind(this);
 		this.boundAfterDescriptionChanged = function() {
+			this.changed = true;
 			if (this.switch_description_el) {
 				this.switch_description_el.getParent('li').addClass('UI_File_Modified');
 			}
 			this.description_el.removeEvent('change',this.boundAfterDescriptionChanged);
 		}.bind(this);
 		this.boundAfterContentChanged = function() {
+			this.changed = true;
 			if (this.switch_content_el) {
 				this.switch_content_el.getParent('li').addClass('UI_File_Modified');
 			}
@@ -693,7 +719,7 @@ var CapVersion = new Class({
 		var data = this.prepareData();
 		// prevent from updating a version with different name
 		if (data.version_name && data.version_name != this.options.name) {
-			return item.new_version(data);
+			return this.get_item().new_version(data);
 		}
 		new Request.JSON({
 			url: this.options.update_url,
