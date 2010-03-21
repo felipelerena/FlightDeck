@@ -295,14 +295,14 @@ var Capability = new Class({
 			// TODO: fix in next iteration
 			this.updated = true;
 		}
-		if (this.version.author == fd.options.user) {
+		if (this.version.options.author == fd.options.user) {
 			this.version.addEvent('update', this.boundAfterUpdate);
 			this.version.update();
 		} else {
 			// can't be updated
 			// TODO: fix in next iteration
 			this.updated = true;
-			if (this.version.changed) {
+			if (this.version.auth) {
 				fd.warning.alert(
 					'{type} couldn\'t be updated'.substitute(this.options),
 					'Not enough priviliges. Try Save New Version'
@@ -719,7 +719,7 @@ var CapVersion = new Class({
 		var data = this.prepareData();
 		// prevent from updating a version with different name
 		if (data.version_name && data.version_name != this.options.name) {
-			return item.new_version(data);
+			return this.get_item().new_version(data);
 		}
 		new Request.JSON({
 			url: this.options.update_url,
