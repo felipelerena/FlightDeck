@@ -6,6 +6,7 @@
 		"slug": "{{ cap.slug }}",
 		"name": "{{ cap.name }}",
 		"creator": "{{ cap.creator }}",
+		"type": "capability",
 		"version_create_url": "{{ cap.get_version_create_url }}",
 		"version": {
 			"slug": "{{ cap.slug }}",

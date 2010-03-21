@@ -6,7 +6,8 @@
 var FlightDeck = new Class({
 	Implements: [Options],
 	options: {
-		menu_el: 'UI_Editor_Menu'
+		menu_el: 'UI_Editor_Menu',
+		//user: ''
 	},
 	initialize: function() {
 		this.warning = this.error = this.message = {

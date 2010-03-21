@@ -36,7 +36,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 				li.switch_mode_on();
 			});
 		});
-
+		this.enableMenuButtons();
 	},
 	/*
 	 * Method: getItem
@@ -44,7 +44,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 	getItem: function() {
 		// item is currently a global 
 		// TODO: change to flightdeck parameter
-		return item;
+		return this.item;
 	},
 	/*
 	 * Method: enableMenuButtons
@@ -53,6 +53,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 	enableMenuButtons: function() {
 		$$('.' + this.options.menu_el + ' li.disabled').each(function(menuItem){
 			var switch_on = true;
+			/* temporarily - all buttons are on
 			if (!this.getItem().version.options.name) {
 				// version is not saved
 				switch_on = (
@@ -65,6 +66,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 					// check if user may update any content
 				);
 			}
+			*/
 			if (switch_on) {
 				menuItem.removeClass('disabled');
 			}
