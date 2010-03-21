@@ -1,4 +1,4 @@
-<h3>{{ item.name }}</h3>
+<h3>{{ item.name }} <span>by <a title="" href="{% url person_public_profile item.creator.username %}">{{ item.creator.get_profile }}</a></span></h3>
 {% if item.base_version %}<h4>{{ item.base_version.fullname|default:"new" }}</h4>
 {% else %}<h4>new</h4>{% endif %}
 

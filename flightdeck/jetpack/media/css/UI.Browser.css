@@ -58,8 +58,21 @@ body {
 		.UI_Browser .UI_Item h3 {
 			font-weight: bold;
 			font-size: 1.1em;
-			display: inline;
-		}   
+			display: block;
+		}
+		
+			.UI_Browser .UI_Item h3 span {
+				font-weight: normal;
+				font-size: .8em;
+				color: #999;
+			}
+			
+				.UI_Browser .UI_Item h3 span a {
+					font-weight: normal;
+					color: #478CDE;
+					
+				}
+				
 
 		.UI_Browser .UI_Item h4 {
 			font-size: .7em;
@@ -68,9 +81,7 @@ body {
 			color: #F8F8F8;
 			-moz-border-radius: 3px;
 			padding: 1px 3px;
-			margin: 0 0 0 5px;
-			position: relative;
-			top: -2px;
+			margin: 5px 0 0;
 			display: inline-block;
 		}
 
