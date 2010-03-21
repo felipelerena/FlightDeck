@@ -12,6 +12,7 @@
 								name: '{{ cap.name }}',
 								creator: '{{ cap.creator }}',
 								version_create_url: '{{ cap.get_version_create_url }}',
+								type: 'capability',
 								version: {
 									slug: '{{ cap.slug }}',
 									xxx: 'xxx',
@@ -32,7 +33,7 @@
 									content_el: {element: 'dependency_content_{{ cap.slug }}'},
 								}
 							});
-							fd.getItem().version.registerDependency(dep);
+							fd.getItem().registerDependency(dep);
 						});
 					</script>
 				{% endwith %}{% endif %}
