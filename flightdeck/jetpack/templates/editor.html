@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% load jetpack_extras %}
 {% load base_helpers %}
+
+{% block create_init %}create.init('create','jetpack','app-body');{% endblock %}
+
 {% block head %}
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Editor.css" type="text/css" media="screen">
 	<script src="/media/jetpack/js/FlightDeck.Editor.js"></script>
-	<script src="/media/jetpack/js/Create.js"></script>
 	<script src="/media/jetpack/js/Editor.js"></script>
 	<script src="/media/jetpack/js/Capability.js"></script>
 	<script src="/media/jetpack/js/CapDependency.js"></script>
@@ -17,19 +19,9 @@
 	<script src="/media/codemirror/js/mirrorframe.js"></script>
 	<script src="/media/jetpack/js/CodeMirror.js"></script>
 	{# % endcomment % #}
-	<script type="text/javascript">
-		var settings = {
-			user: '{{ request.user }}',
-			jp_jetpack_create_url: '{% url jp_jetpack_create %}',
-			jp_capability_create_url: '{% url jp_capability_create %}',
-			create_modal_template: '{% escape_template "_create.html" %}',
-			cap_autocomplete_url: '{{ autocomplete_url|safe|replace:"*,{"|replace:"$,}"|safe }}',
-			DEBUG: {{ settings.DEBUG|yesno:"true,false" }}
-		};
-		var item;
-		{% block javascript %}{% endblock %}
-	</script>
 	{% block app_head %}{% endblock %}
 {% endblock %}
 
-{% block page_domready %}create.init('create','app-body');{% endblock %}
+{% block page_settings %}
+	cap_autocomplete_url: '{{ autocomplete_url|safe|replace:"*,{"|replace:"$,}"|safe }}',
+{% endblock %}

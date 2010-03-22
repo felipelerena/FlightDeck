@@ -1,4 +1,4 @@
-{% load jetpack_extras %}
+{% load jetpack_extras base_helpers %}
 {# requires type, item and version #}
 fd.item = new {{ type|capfirst }}({
 	slug: '{{ item.slug }}',

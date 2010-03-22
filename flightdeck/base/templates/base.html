@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {# Base HTML every page will use #}
+{% load base_helpers %}
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -18,6 +19,7 @@
 		<script src="/media/js/FlightDeck.Utils.js"></script>
 		<script src="/media/js/FlightDeck.Dropdown.js"></script>
 		<script src="/media/js/FlightDeck.PickVersion.js"></script>
+		<script src="/media/jetpack/js/Create.js"></script>
 		{% block head %}{% endblock %}
 		{% block roar_css %}
 			<link href="/media/roar/Roar.css" rel="stylesheet" type="text/css" />
@@ -27,8 +29,23 @@
 		
 		<script type='text/javascript'>
 			var fd;
+			var settings = {
+				{% block app_settings %}{% endblock %}{% block page_settings %}{% endblock %}
+				jp_jetpack_create_url: '{% url jp_jetpack_create %}',
+				jp_capability_create_url: '{% url jp_capability_create %}',
+				create_modal_template: '{% escape_template "_create.html" %}',
+				user: '{{ request.user }}',
+				DEBUG: {{ settings.DEBUG|yesno:"true,false" }}
+			};
 			window.addEvent('domready', function() {
 				fd = new FlightDeck({'user': '{{ user.username }}'});
+				{% block create_init %}
+					create.init(
+						['create_jetpack', 'create_capability'],
+						['jetpack','capability'],
+						'app-body'
+					);
+				{% endblock %}
 				{% block app_domready %}{% endblock %}
 				{% block page_domready %}{% endblock %}
 			});
@@ -45,10 +62,10 @@
 				<div id="editor-menu-wrapper">
 					<ul class="UI_Editor_Menu minimal">
 						<li class="UI_Editor_Menu_Button Icon_new">
-							<a id="create" title="" href="#">New extension<span class="UI_Editor_Icon"></span></a>
+							<a id="create_jetpack" title="" href="#">New extension<span class="UI_Editor_Icon"></span></a>
 						</li>
 						<li class="UI_Editor_Menu_Button Icon_new">
-							<a id="create" title="" href="#">New library<span class="UI_Editor_Icon"></span></a>
+							<a id="create_capability" title="" href="#">New library<span class="UI_Editor_Icon"></span></a>
 						</li>
 					</ul>
 				</div>

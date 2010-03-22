@@ -1,4 +1,4 @@
-{ {% load jetpack_extras %}
+{ {% load jetpack_extras %}{% load base_helpers %}
 	"message": "Library \"{{ cap.name }} \" in version {{ version.fullname }} added as dependency to \"{{ item.fullname }}\"",
 	"dependency": {
 		"dependency_link_html": "{% with version as capversion %}{% escape_template "_dependency_list_item.html" %}{% endwith %}",
