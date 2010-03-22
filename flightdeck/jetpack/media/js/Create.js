@@ -7,20 +7,27 @@
  */
 
 var create = {
-	init: function(create_id, wrapper_id) {
-		$(create_id).addEvent('click', function(e) {
-			e.stop();
-			var modal = fd.displayModal(settings.create_modal_template, wrapper_id);
+	init: function(create_id, create_item, wrapper_id) {
 
-			$('create_form').addEvent('submit', this.submit.bind(this));
-			// $('create_form_cancel').addEvent('click', function(e) {
-			// 	e.stop();
-			// 	this.fade('out');
-			// 	(function(){
-			// 		this.destroy();
-			// 	}).delay(600, this);
-			// }.bind(modal));
-		}.bind(this));
+		create_id = $splat(create_id);
+		create_item = $splat(create_item);
+
+		var boundSubmit = this.submit.bind(this);
+		var self = this;
+		create_id.each(function(create_trigger){
+			$(create_trigger).addEvent('click', function(e) {
+				e.stop();
+				var modal = fd.displayModal(settings.create_modal_template, wrapper_id);
+				$('create_form').addEvent('submit', boundSubmit);
+				// $('create_form_cancel').addEvent('click', function(e) {
+				// 	e.stop();
+				// 	this.fade('out');
+				// 	(function(){
+				// 		this.destroy();
+				// 	}).delay(600, this);
+				// }.bind(modal));
+			});
+		}); 
 	},
 	
 	submit: function(e) { 

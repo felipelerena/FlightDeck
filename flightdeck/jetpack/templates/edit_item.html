@@ -1,5 +1,6 @@
 {% extends "editor.html" %}
 {% load jetpack_extras %}
+
 {% block app_head %}
 	{% include "_edit_page_title.html" %}
 	{% ifequal type "jetpack" %}
@@ -40,7 +41,8 @@
 	{% endcomment %}
 {% endblock %}
 
-
+{# switch off default app_menu #}
+{% block app_menu %}{% endblock %}
 {% block app_content %}
 	{% include "_editor_menu.html" %}
 	<div id="editor-wrapper">
