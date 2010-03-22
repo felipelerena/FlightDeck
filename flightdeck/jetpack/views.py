@@ -663,4 +663,8 @@ def removeXPI(r, hash):
 	Remove temporary XPI
 	"""
 	shutil.rmtree('/tmp/%s' % hash)
+	try:
+		shutil.rmtree('%s/src/jetpack-sdk/packages/%s_dep' % (settings.VIRTUAL_ENV, hash))
+	except:
+		pass
 	return HttpResponse('{"status":"ok"}')
