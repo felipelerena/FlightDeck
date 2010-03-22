@@ -66,6 +66,10 @@ var Jetpack = new Class({
 		this.create_xpi(this.download_after_created.bind(this));
 	},
 	download_after_created: function(response) {
+		if (response.stderr) {
+			fd.error.alert('Error',response.stderr);
+			return;
+		}
 		window.location.href = response.get_xpi_url;
 	},
 	create_xpi: function(callback) {

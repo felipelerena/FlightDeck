@@ -569,17 +569,46 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	sys.path.append(settings.VIRTUAL_ENV)
 	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
 
-	# save all dependencies
-	# this has to be done before the content from Post as it could happen it needs
-	# to be overwritten by currently edited version
-	for cap in caps:
-		cap.save_dependencies_content('/tmp/%s/lib' % hash)
-
-	for lib in libs:
-		libHandle = open('/tmp/%s/lib/%s.js' % (hash, lib['slug']), 'w')
-		libHandle.write(lib['version_content'])
-		libHandle.close()
 	
+	_package = simplejson.loads(package)
+	if not _package.has_key('dependencies'):
+		_package['dependencies'] = []
+
+	if len(caps) > 0 or len(libs) > 0:
+		# TODO: change this in next iteration - use real projects
+		# create a package directory for project dependencies
+		dep_pkgdir = '%s/src/jetpack-sdk/packages/%s_dep' % (settings.VIRTUAL_ENV, hash)
+		os.mkdir(dep_pkgdir)
+		os.mkdir('%s/lib' % dep_pkgdir)
+		# create fake package.json
+		dep_package = simplejson.dumps({
+			'description': 'Fake description for the fake dep'
+		})
+		pkgHandle = open('%s/package.json' % dep_pkgdir, 'w')
+		pkgHandle.write(dep_package)
+		pkgHandle.close()
+
+		# save all dependencies
+		# this has to be done before the content from Post as it could happen it needs
+		# to be overwritten by currently edited version
+		for cap in caps:
+			cap.save_dependencies_content('%s/lib' % dep_pkgdir)
+			#cap.save_dependencies_content('/tmp/%s/lib' % hash)
+
+		for lib in libs:
+			libHandle = open('%s/lib/%s.js' % (dep_pkgdir, lib['slug']), 'w')
+			#libHandle = open('/tmp/%s/lib/%s.js' % (hash, lib['slug']), 'w')
+			libHandle.write(lib['version_content'])
+			libHandle.close()
+
+		_package['dependencies'].append('%s_dep' % hash)
+		
+	# add jetpack-core dependency to every package
+	if 'jetpack-core' not in _package['dependencies']:
+		_package['dependencies'].append('jetpack-core')
+
+	package = simplejson.dumps(_package)
+	# save package.json
 	pkgHandle = open('/tmp/%s/package.json' %hash, 'w')
 	pkgHandle.write(package)
 	pkgHandle.close()
@@ -634,4 +663,8 @@ def removeXPI(r, hash):
 	Remove temporary XPI
 	"""
 	shutil.rmtree('/tmp/%s' % hash)
+	try:
+		shutil.rmtree('%s/src/jetpack-sdk/packages/%s_dep' % (settings.VIRTUAL_ENV, hash))
+	except:
+		pass
 	return HttpResponse('{"status":"ok"}')
