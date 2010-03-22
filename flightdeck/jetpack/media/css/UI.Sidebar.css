@@ -35,7 +35,8 @@ authors:
    
 		.UI_Sidebar_Toggler a #dependency-counter {
 			color: #999;
-			font-size: .9em;
+			font-size: .8em;
+			padding: 0 0 0 2px;
 		}
 
 		.UI_Sidebar_Toggler a .UI_OC,
@@ -110,8 +111,15 @@ authors:
 			border-bottom: solid 1px #478CDE;
 		}
    
+	.UI_Sidebar_SwitchTo select {
+		display: inline-block;
+		width: 150px;
+		margin: 0 0 0 5px;
+	}
+
 	.UI_Sidebar_ItemCont {
 		padding: 0;
+		background: -moz-linear-gradient(270deg, #E5E5E5, #FFFFFF 4px);
 	}
 
 		.UI_Sidebar_ItemCont .UI_Field_Cont {
@@ -128,11 +136,31 @@ authors:
 		.UI_Sidebar_ItemCont .UI_Field_Cont input {
 			border: solid 1px #CBCFD4;
 			padding: 3px;
-			width: 170px;
+			width: 156px;
 			display: inline-block;
 			background: -moz-linear-gradient(270deg, #F2F2F2, #fff 6px);
-			text-align: right;
 		}
+		
+		.UI_Sidebar_VersionName {
+			position: relative;
+		}
+
+			.UI_Sidebar_ItemCont .UI_Field_Cont .UI_Sidebar_VersionName input {
+				padding: 3px 20px 3px 3px;
+				width: 186px;
+				display: block;
+				text-align: right;
+			}
+
+			.UI_Sidebar_VersionName span {
+				position: absolute;
+				top: 1px;
+				right: 3px;
+				font-size: 1em;
+				padding: 3px 0;
+				color: #ABABAB;
+				cursor: default;
+			}
       
 .UI_Sidebar_ItemCont .UI_New_Dependency {
 

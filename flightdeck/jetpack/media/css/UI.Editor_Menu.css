@@ -12,6 +12,11 @@ authors:
 	-moz-user-select: none;
 }
 
+.UI_Editor_Menu.minimal {
+	width: 230px;
+	float: right;
+}
+
 .UI_Editor_Menu_Button {
 	background: #BEC5CC;
 	border-bottom: solid 1px #fff;
@@ -92,30 +97,43 @@ authors:
 		-moz-box-shadow: none;
 	}
    
-      .UI_Editor_Menu_Button.disabled a .UI_Editor_Icon {
-         opacity: 0.7;
-      }
+		.UI_Editor_Menu_Button.disabled a .UI_Editor_Icon {
+			opacity: 0.7;
+		}
    
-   .UI_Editor_Menu_Button.Icon_new a .UI_Editor_Icon {
-      background-position: 0 0;
-   }
-   
-   .UI_Editor_Menu_Button.Icon_saveNewVersion a .UI_Editor_Icon {
-      background-position: -17px 0;
-   }
-   
-   .UI_Editor_Menu_Button.Icon_update a .UI_Editor_Icon {
-      background-position: -34px 0;
-   }
-   
-   .UI_Editor_Menu_Button.Icon_setAsBase a .UI_Editor_Icon {
-      background-position: -51px 0;
-   }
-   
-   .UI_Editor_Menu_Button.Icon_lock a .UI_Editor_Icon {
-      background-position: -68px 0;
-   }
-   
-   .UI_Editor_Menu_Button.Icon_delete a .UI_Editor_Icon {
-      background-position: -85px 0;
-   }
+	.UI_Editor_Menu_Button.Icon_new a .UI_Editor_Icon {
+		background-position: 0 0;
+	}
+
+	.UI_Editor_Menu_Button.Icon_saveNewVersion a .UI_Editor_Icon {
+		background-position: -17px 0;
+	}
+
+	.UI_Editor_Menu_Button.Icon_update a .UI_Editor_Icon {
+		background-position: -34px 0;
+	}
+
+	.UI_Editor_Menu_Button.Icon_setAsBase a .UI_Editor_Icon {
+		background-position: -51px 0;
+	}
+
+	.UI_Editor_Menu_Button.Icon_lock a .UI_Editor_Icon {
+		background-position: -68px 0;
+	}
+
+	.UI_Editor_Menu_Button.Icon_delete a .UI_Editor_Icon {
+		background-position: -85px 0;
+	}
+
+	.UI_Editor_Menu_Button.Icon_delete a .UI_Editor_Icon {
+		background-position: -85px 0;
+	}
+	
+	.UI_Editor_Menu_Button.Icon_download a .UI_Editor_Icon {
+		background-position: -101px 0;
+	}
+	
+	.UI_Editor_Menu_Button.Icon_try a .UI_Editor_Icon {
+		background-position: -119px 0;
+		width: 20px;
+	}

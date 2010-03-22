@@ -1,5 +1,4 @@
 Django>=1.1.1
-MySQL-python
 PIL
 South
 docutils
@@ -14,4 +13,3 @@ BeautifulSoup
 
 -e git+git://github.com/toastdriven/django-haystack#egg=django_haystack
 -e git+git://github.com/dcramer/django-devserver#egg=django_devserver
-

@@ -29,7 +29,7 @@ a:hover {
 /*
  =========================================================================== */
 #wrapper {
-	min-width: 1020px;
+	min-width: 800px;
 }
 
 /*
@@ -139,7 +139,7 @@ a:hover {
 /*
  =========================================================================== */
 #editor-wrapper {
-	background: -moz-linear-gradient(270deg, #F2F2F2, #fff 8px);
+	background: -moz-linear-gradient(270deg, #E5E5E5, #FFFFFF 4px);
 	position: relative;
 }
 
@@ -173,7 +173,7 @@ a:hover {
 			text-shadow: 0 1px 0 #011E4F;
 			padding: 16px 0 16px 10px; 
 		}
-
+		
 /*
  =========================================================================== */
 #app-footer {
@@ -193,7 +193,14 @@ a:hover {
 	font-family: Helvetica, Arial, Tahoma, sans-serif;
 }
 
-
+	.UI_Heading .UI_SeeMore {
+		font-size: .7em;
+		font-weight: bold;
+		color: #478CDE;
+		margin: 0 0 0 5px;
+		text-transform: lowercase;
+	}
+	
 /*
  =========================================================================== */
 .UI_Action_List {
