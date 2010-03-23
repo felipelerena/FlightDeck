@@ -539,6 +539,8 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	if not whereis('cfx'):
 		return HttpResponse('configuration error')
 
+	_package = simplejson.loads(package)
+
 	if not libs and caps:
 		libs = [{
 			"name": cap.capability.name,
@@ -558,7 +560,7 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 
 
 	# create random hash
-	hash = get_random_string(10, 'jetpack')
+	hash = get_random_string(5, _package['name'])
 
 	# first create file structure
 	os.mkdir ('/tmp/%s' % hash) 
@@ -570,7 +572,6 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
 
 	
-	_package = simplejson.loads(package)
 	if not _package.has_key('dependencies'):
 		_package['dependencies'] = []
 
@@ -643,7 +644,7 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 
 	# return XPI url and cfx command stdout and stderr
  	return render_to_response('json/xpi_created.json', {
- 					'xpi_url': reverse('jp_get_xpi', args=[hash, slug]), 
+ 					'xpi_url': reverse('jp_get_xpi', args=[hash, _package['name']]), 
  					'out': out,
  					'rm_url': reverse('jp_rm_xpi', args=[hash])
  				},
