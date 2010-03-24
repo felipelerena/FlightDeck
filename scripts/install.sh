@@ -107,8 +107,7 @@ then
 else
 	echo "updating Jetpack SDK"
 	cd $V_ENV/src/jetpack-sdk/
-	# new version is not working
-	#hg update 
+	hg update 
 fi
 
 
