@@ -534,8 +534,11 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	"""
 	Create XPI from data given within POST
 	Data will be cleaned by cron every x minutes
-	No save is needed to createXPI
+	No save in database is needed to createXPI
 	"""
+	# TODO:
+	# currently it is in a status which will be scrapped after Library (modules group) 
+	# will be created 
 	if not whereis('cfx'):
 		return HttpResponse('configuration error')
 
@@ -562,12 +565,6 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	# create random hash
 	hash = get_random_string(5, _package['name'])
 
-	# first create file structure
-	#os.mkdir ('/tmp/%s' % hash) 
-	#os.mkdir('/tmp/%s/lib' % hash)
-	# chdir is needed as cfx is creating the xpi in current directory
-	#os.chdir('/tmp/%s' % hash)
-	# prepare environment variables
 	sys.path.append(settings.VIRTUAL_ENV)
 	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
 	
@@ -585,35 +582,19 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	os.chdir(pkgdir)
 
 	if len(caps) > 0 or len(libs) > 0:
-		# TODO: change this in next iteration - use real projects
-		# create a package directory for project dependencies
-		#dep_pkgdir = '%s/src/jetpack-sdk/packages/%s_dep' % (settings.VIRTUAL_ENV, hash)
 		dep_pkgdir = pkgdir
-		#os.mkdir(dep_pkgdir)
-		#os.mkdir('%s/lib' % dep_pkgdir)
-		# create fake package.json
-		dep_package = simplejson.dumps({
-			'description': 'Fake description for the fake dep'
-		})
-		#pkgHandle = open('%s/package.json' % dep_pkgdir, 'w')
-		#pkgHandle.write(dep_package)
-		#pkgHandle.close()
 
 		# save all dependencies
 		# this has to be done before the content from Post as it could happen it needs
 		# to be overwritten by currently edited version
 		for cap in caps:
 			cap.save_dependencies_content('%s/lib' % dep_pkgdir)
-			#cap.save_dependencies_content('/tmp/%s/lib' % hash)
 
 		for lib in libs:
 			libHandle = open('%s/lib/%s.js' % (dep_pkgdir, lib['slug']), 'w')
-			#libHandle = open('/tmp/%s/lib/%s.js' % (hash, lib['slug']), 'w')
 			libHandle.write(lib['version_content'])
 			libHandle.close()
 
-		#_package['dependencies'].append('%s_dep' % hash)
-		
 	package = simplejson.dumps(_package)
 	# save package.json
 	pkgHandle = open('%s/package.json' % pkgdir, 'w')
@@ -624,15 +605,10 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	mainHandle.write(main)
 	mainHandle.close()
 
-	#descHandle = open('/tmp/%s/README.md' % hash, 'w')
-	#descHandle.write(description)
-	#descHandle.close()
-
 	# save the directory using the hash only
 	cfx_command = [
 		settings.FRAMEWORK_PATH + 'scripts/cfx.sh',
 		'--binary=/usr/bin/xulrunner',
-		#'--pkgdir=/tmp/%s' % hash,
 		'xpi'
 	]
 
@@ -663,7 +639,6 @@ def getXPI(r, hash, slug):
 	"""
 	return XPI file
 	"""
-	pkgdir = '%s/src/jetpack-sdk/packages/%s' % (settings.VIRTUAL_ENV, hash)
 	pkgdir = '/tmp/%s' % hash
 	return serve(r, '%s.xpi' % slug, pkgdir, show_indexes=False)
 
@@ -672,8 +647,4 @@ def removeXPI(r, hash):
 	Remove temporary XPI
 	"""
 	shutil.rmtree('/tmp/%s' % hash)
-	try:
-		shutil.rmtree('%s/src/jetpack-sdk/packages/%s_dep' % (settings.VIRTUAL_ENV, hash))
-	except:
-		pass
 	return HttpResponse('{"status":"ok"}')
