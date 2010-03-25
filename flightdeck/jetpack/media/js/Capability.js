@@ -443,20 +443,25 @@ var Capability = new Class({
 			var data = {};
 			data['capability_name'] = $('create-name').get('value');
 			data['capability_description'] = $('create-description').get('value');
-			new Request.JSON({
-				url: this.options.addnew_dependency_url,
-				data: data,
-				method: 'post',
-				onSuccess: function(response) {
-					fd.message.alert('Success',response.message);
-					this.createDependency(response.dependency, true);
-					this.fireEvent('change');
-					fd.addnewDependencyModal.hide();
-					fd.addnewDependencyModal = null;
-				}.bind(this)
-			}).send();
+			this.addNewDependencyRequest(data).send();;
 			return false;
 		}.bind(this));
+	},
+	addNewDependencyRequest: function(data) {
+		return new Request.JSON({
+			url: this.options.addnew_dependency_url,
+			data: data,
+			method: 'post',
+			onSuccess: function(response) {
+				fd.message.alert('Success',response.message);
+				this.createDependency(response.dependency, true);
+				this.fireEvent('change');
+				if (fd.addnewDependencyModal) {
+					fd.addnewDependencyModal.hide();
+					fd.addnewDependencyModal = null;
+				}
+			}.bind(this)
+		})
 	},
 	/*
 	 * Method: createDependency
