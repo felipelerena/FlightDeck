@@ -61,6 +61,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 			duration: 8000
 		});
 		this.parseMessages();
+		this.parseNotImplemented();
 	},
 	/*
 	 * Method: parseMessages
@@ -74,6 +75,12 @@ FlightDeck = Class.refactor(FlightDeck,{
 				el.destroy();
 			}, this);
 		}, this);
+	},
+	parseNotImplemented: function() {
+		$$('.not-implemented').addEvent('click', function(e) {
+			e.stop();
+			fd.warning.alert('Not Implemented',this.get('rel') || 'This feature is under construction');
+		});
 	}
 
 });

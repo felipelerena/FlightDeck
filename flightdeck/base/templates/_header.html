@@ -3,8 +3,8 @@
 
 <nav>
 	<ul>
-		<li {% ifequal page "packages" %}class="active"{% endifequal %}><span><a title="Package Browser" href="/">Package Browser</a></span></li>
-		<li {% ifequal page "apibrowser" %}class="active"{% endifequal %}><span><a title="API Browser" href="#">API Browser</a></span></li>
+		<li {% ifequal page "packages" %}class="active"{% endifequal %}><span><a title="Package Browser" href="{% url jetpacks %}">Package Browser</a></span></li>
+		<li class="{% ifequal page "apibrowser" %}active{% endifequal %} "><span><a title="API Browser" href="#" class="not-implemented" rel="Waiting for API specification">API Browser</a></span></li>
 		{% if user.is_authenticated %}
 			<li {% ifequal page "dashboard" %}class="active"{% endifequal %}>
 				<span>
