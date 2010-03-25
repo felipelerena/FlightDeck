@@ -17,7 +17,7 @@
 				Switch to 
 				<select id='switch_to_version'>
 					{% for v in other_versions %}
-						<option value='{{ v.fullname }}'{% ifequal version.id v.id %} selected{% endifequal %}>{{ v.fullname }}{% if v.is_base %} *{% endif %}</option>
+						<option value='{{ v.fullname }}'{% ifequal version.id v.id %} selected{% endifequal %}>{{ v.fullname }}{% if v.is_base %} - base{% endif %}</option>
 					{% endfor %}
 				</select>
 			</p>
