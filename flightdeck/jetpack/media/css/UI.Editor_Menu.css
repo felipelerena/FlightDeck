@@ -90,14 +90,16 @@ authors:
 		background-repeat: no-repeat;
 	}
    
-	.UI_Editor_Menu_Button.disabled a {
+	.UI_Editor_Menu_Button.disabled a,
+	.UI_Editor_Menu_Button.disabled-force a {
 		background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
 		color: #6D7880;
 		cursor: default;
 		-moz-box-shadow: none;
 	}
    
-		.UI_Editor_Menu_Button.disabled a .UI_Editor_Icon {
+		.UI_Editor_Menu_Button.disabled a .UI_Editor_Icon,
+		.UI_Editor_Menu_Button.disabled-force a .UI_Editor_Icon {
 			opacity: 0.7;
 		}
    
