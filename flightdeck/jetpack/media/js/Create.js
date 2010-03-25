@@ -14,10 +14,14 @@ var create = {
 
 		var boundSubmit = this.submit.bind(this);
 		var self = this;
-		create_id.each(function(create_trigger){
+		create_id.each(function(create_trigger, idx){
 			$(create_trigger).addEvent('click', function(e) {
 				e.stop();
 				fd.addnewDependencyModal = fd.displayModal(settings.create_modal_template, wrapper_id);
+				if (create_item && create_item[idx] && create_item[idx]) {
+					$('create-'+create_item[idx]).set('checked', 'checked');
+				} 
+				
 				if (fd.getItem) {
 					$$('#create_form input[type=radio]').addEvent('change', function() {
 						if ($('create-capability').checked) {
