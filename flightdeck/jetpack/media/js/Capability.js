@@ -762,7 +762,9 @@ var CapVersion = new Class({
 			method: 'post',
 			onSuccess: function(response) {
 				fd.message.alert('Success', response.message);
-				this.set_as_base_el.set('text', 'Base version');
+				var span = this.set_as_base_el.getFirst();
+				this.set_as_base_el.empty().set('text', 'Base version');
+				span.inject(this.set_as_base_el, 'bottom');
 				// TODO: consider reloading to the base url
 			}.bind(this)
 		}).send();
