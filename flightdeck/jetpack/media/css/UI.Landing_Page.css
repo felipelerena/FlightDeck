@@ -1,0 +1,70 @@
+#feature-wrapper {
+	padding: 16px;
+	-moz-box-shadow: 0 1px 0 #AFB6BD;
+	background: -moz-linear-gradient(270deg, #F3F6F9, #E5E9EE);
+	-moz-border-radius: 7px;
+}
+
+.UI_Feature {
+	padding: 0 50px 0 110px;
+	margin: 0 0 10px 0;
+	position: relative;
+}
+
+	.UI_Feature .UI_Icon {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 92px;
+		height: 110px;
+		background-image: url(../img/UI_Landing_Page/feature-icons.png);
+		background-repeat: no-repeat;
+	}
+
+		.UI_Feature .UI_Icon.jetpack {
+			background-position: 0 0;
+		}
+
+		.UI_Feature .UI_Icon.capability {
+			background-position: -92px 0;
+		}
+
+	.UI_Feature h3 {
+		font-size: 1.8em;
+		display: block;
+		color: #478CDE;
+		text-shadow: 0 1px 0 #fff;
+		line-height: .9em;
+	}
+	
+		.UI_Feature h3 span {
+			font-weight: normal;
+			font-size: .5em;
+			color: #999;
+		}
+		
+			.UI_Feature h3 span a {
+				font-weight: normal;
+				color: #478CDE;
+			}
+
+	.UI_Feature p {
+		margin: 10px 0 0;
+		font-size: 1em;
+		line-height: 1.4em;
+		text-shadow: 0 1px 0 #fff;
+		color: #666666;
+	}
+	
+/*
+ ========================================================================= */
+.UI_Actions {
+}
+
+	.UI_Actions li {
+	}
+
+		.UI_Actions li a {
+			background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+			-moz-box-shadow: 0 -1px 0 #fff;
+		}

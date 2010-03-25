@@ -39,7 +39,8 @@ textarea {
 .UI_Modal .UI_Modal_Actions:after,
 .UI_Browser .UI_Actions:after,
 .UI_Field_Cont:after,
-.UI_Browser:after {
+.UI_Browser:after,
+.UI_Actions:after {
    content: ' ';
    display: block;
    height: 0;
