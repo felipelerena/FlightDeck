@@ -58,13 +58,13 @@
 	
 /*
  ========================================================================= */
-.UI_Actions {
+.UI_Feature .UI_Actions {
 }
 
-	.UI_Actions li {
+	.UI_Feature .UI_Actions li {
 	}
 
-		.UI_Actions li a {
+		.UI_Feature .UI_Actions li a {
 			background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
 			-moz-box-shadow: 0 -1px 0 #fff;
 		}
