@@ -11,7 +11,8 @@ def homepage(r):
 	"""
 	
 	# TODO: filter out items without base version
-	jetpacks = Jet.objects.all()[:settings.HOMEPAGE_ITEMS_LIMIT]
+	jet_limit = settings.HOMEPAGE_ITEMS_LIMIT+1
+	jetpacks = Jet.objects.all()[:jet_limit]
 	capabilities = Cap.objects.all()[:settings.HOMEPAGE_ITEMS_LIMIT]
 
 
