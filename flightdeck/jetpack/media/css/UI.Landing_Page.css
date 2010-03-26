@@ -58,13 +58,81 @@
 	
 /*
  ========================================================================= */
-.UI_Actions {
+.UI_Feature .UI_Actions {
 }
 
-	.UI_Actions li {
+	.UI_Feature .UI_Actions li {
 	}
 
-		.UI_Actions li a {
+		.UI_Feature .UI_Actions li a {
 			background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
 			-moz-box-shadow: 0 -1px 0 #fff;
 		}
+		
+/*
+ ========================================================================= */
+#libs-and-extensions {
+	margin: 25px 0 0;
+}
+
+	.UI_LE_Col {
+		width: 48.8%;
+		float: left;
+	}
+	
+	.UI_LE_Col:last-child {
+		float: right;
+	}
+	
+		.UI_LE_Col .UI_Item {
+			min-width: 170px;
+			padding-right: 0;
+		}
+		
+			.UI_LE_Col .UI_Item h3 {
+				font-size: .95em;
+			}
+			
+			.UI_LE_Col .UI_Item h4 {
+				font-size: .65em;
+			}
+	
+			.UI_LE_Col .UI_Actions {
+				font-size: .9em;
+				width: 193px;
+			}
+		
+				.UI_LE_Col .UI_Actions a {
+					padding: 3px 6px;
+				}
+			
+				.UI_LE_Col .UI_Actions li.UI_Pick_Version .UI_Versions {
+					position: absolute;
+					top: 22px;
+				}
+				
+/*
+ ========================================================================= */
+#install-jetpack {
+	background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
+	padding: 2px 1px 1px;
+	-moz-border-radius: 6px;
+	margin-top: 45px;
+}
+
+	#install-jetpack li {
+		background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
+		-moz-border-radius: 5px;
+		-moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.9);
+		overflow: hidden;
+	}
+
+		#install-jetpack li a {
+			display: block;
+			padding: 11px 12px 11px 52px;
+			background: url(../img/UI_Landing_Page/install-jetpack-icon.png) 0 50% no-repeat;
+			color: #136B00;
+			text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
+			font-weight: bold;
+		}
+	

@@ -9,6 +9,7 @@
 
 {% block app_sidebar %}
 	<h2 class="UI_Heading">Categories</h2>
+	{% comment %}
 	
 	<ul class="UI_Action_List">
 		<li><a title="" href="#">Notifiers</a> <strong>(20)</strong></li>
@@ -17,29 +18,35 @@
 		<li><a title="" href="#">Misc</a> <strong>(234)</strong></li>
 		<li><a title="" href="#">Utilities</a> <strong>(20)</strong></li>
 	</ul> <!-- /UI_Action_List -->
+	{% endcomment %}
+	
+	<ul id="install-jetpack">
+		<li><a title="Install Jetpack extension" href="#install">Install Jetpack</a></li>
+	</ul>
 {% endblock %}
 	
 {% block app_content %}
 	
 	<div id="feature-wrapper">
 		<div class="UI_Feature">
-			<h3>Lorem ipsum <span>by <a title="" href="#">John Doe</a></span></h3>
+			{% with jetpacks.0 as item %}
+			<h3>{{ item.name }} <span>by <a title="" href="{% url person_public_profile item.creator.username %}">{{ item.creator.get_profile }}</a></span></h3>
 
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+			<p>{{ item.description }}</p>
 			
 			<ul class="UI_Actions">
 				<li class="UI_Try_in_Browser">
-					<a title="Try in browser" href="#">
+					<a title="Try in browser" href="{{ item.base_version.get_create_xpi_url }}">
 						Try in browser
 					</a>
 				</li>
 				<li class="UI_Edit_Version">
-					<a title="" href="#">Edit</a>
+					<a title="Edit {{ item.name }}" href="{{ item.get_absolute_url }}">Edit</a>
 				</li>
 
 				<li class="UI_Pick_Version">
-					<a title="Select version" href="#">
-						<strong>1.0</strong>
+					<a title="Select version" href="{{ item.get_versions_url }}">
+						<strong>{{ item.base_version.fullname }}</strong>
 						<span></span>
 					</a>
 					<ul class="UI_Versions loading"></ul>
@@ -51,25 +58,50 @@
 					<li><a title="" href="#"></a></li>
 				</ul> -->
 			</div>
+			{% endwith %}
 		</div> <!-- /UI_Feature -->
 	</div> <!-- /feature-wrapper -->
+	
+	<div id="libs-and-extensions">
+		<div class="UI_LE_Col">
+			{% if jetpacks %}
+				<h2 class="UI_Heading">Recent Extensions <a class="UI_SeeMore" title="See more" href="{% url jetpacks %}">See more</a></h2>
+				<ul class="UI_Browser">
+					{% for item in jetpacks %}{% if not forloop.first %}
+						<li class="UI_Item">{{ item|render_base_link }}</li>
+					{% endif %}{% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+		<div class="UI_LE_Col">
+			{% if capabilities %}
+				<h2 class="UI_Heading">Recent Libraries <a class="UI_SeeMore" title="See more" href="{% url capabilities %}">See more</a></h2>
+				<ul class="UI_Browser">
+					{% for item in capabilities %}
+						<li class="UI_Item">{{ item|render_base_link }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+			
+		</div>
+	</div>
 	
 	{% comment %}
 		{% if jetpacks %}
 			<h2 class="UI_Heading">Recent Extensions <a class="UI_SeeMore" title="See more" href="{% url jetpacks %}">See more</a></h2>
 			<ul class="UI_Browser">
-			{% for item in jetpacks %}
-				<li class="UI_Item">{{ item|render_base_link }}</li>
-			{% endfor %}
+				{% for item in jetpacks %}
+					<li class="UI_Item">{{ item|render_base_link }}</li>
+				{% endfor %}
 			</ul>
 		{% endif %}
 
 		{% if capabilities %}
 			<h2 class="UI_Heading">Recent Libraries <a class="UI_SeeMore" title="See more" href="{% url capabilities %}">See more</a></h2>
 			<ul class="UI_Browser">
-			{% for item in capabilities %}
-				<li class="UI_Item">{{ item|render_base_link }}</li>
-			{% endfor %}
+				{% for item in capabilities %}
+					<li class="UI_Item">{{ item|render_base_link }}</li>
+				{% endfor %}
 			</ul>
 		{% endif %}
 	{% endcomment %}
