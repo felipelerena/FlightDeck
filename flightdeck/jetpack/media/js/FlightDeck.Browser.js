@@ -12,21 +12,25 @@ FlightDeck = Class.refactor(FlightDeck,{
 		$$('.{try_in_browser_class} a'.substitute(this.options)).each(function(el) {
 			el.addEvent('click', function(e){
 				e.stop();
-				new Request.JSON({
-					url: el.get('href'),
-					onSuccess: function(response) {
-						if (response.stderr) {
-							fd.error.alert('Error',response.stderr);
-							return;
+				if (fd.alertIfNoAddOn()) {
+					new Request.JSON({
+						url: el.get('href'),
+						onSuccess: function(response) {
+							if (response.stderr) {
+								fd.error.alert('Error',response.stderr);
+								return;
+							}
+							// now call the add-on
+							fd.install_xpi(response.get_xpi_url);
 						}
-						// now call the add-on
-						fd.install_xpi(response.get_xpi_url);
-					}
-				}).send();
+					}).send();
+				}
 			});
 		});
 	},
 	install_xpi: function(url) {
-		window.mozFlightDeck.send({cmd: "install", path: url});
+		if (fd.alertIfNoAddOn()) {
+			window.mozFlightDeck.send({cmd: "install", path: url});
+		}
 	}
 });

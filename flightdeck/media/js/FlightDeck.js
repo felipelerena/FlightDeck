@@ -34,6 +34,16 @@ var FlightDeck = new Class({
 			}
 		});
 	},
+	/*
+	 * Method: alertIfNoAddOn
+	 */
+	alertIfNoAddOn: function(text, title) {
+		if (window.mozFlightDeck) return true;
+		text = $pick(text, "Please install <a href=''>FlightDeck Add On</a>");
+		title = $pick(title, "Add on not installed");
+		fd.warning.alert(title, text);
+		return false;
+	}
 });
 
 

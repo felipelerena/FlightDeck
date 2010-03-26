@@ -51,7 +51,9 @@ var Jetpack = new Class({
 	 * Prepare Capability using saved content and install temporary in the browser
 	 */
 	try_in_browser: function() {
-		this.create_xpi(this.try_in_browser_after_created.bind(this));
+		if (fd.alertIfNoAddOn()) {
+			this.create_xpi(this.try_in_browser_after_created.bind(this));
+		}
 	},
 	try_in_browser_after_created: function(response) {
 		if (response.stderr) {
@@ -83,7 +85,9 @@ var Jetpack = new Class({
 		}).send();
 	},
 	install_xpi: function(url) {
-		window.mozFlightDeck.send({cmd: "install", path: url});
+		if (fd.alertIfNoAddOn()) {
+			window.mozFlightDeck.send({cmd: "install", path: url});
+		}
 	},
 	after_xpi_installed: function(data) {
 		if (this.rm_xpi_url && !settings.DEBUG) {
