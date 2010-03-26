@@ -86,6 +86,7 @@
 	
 		.UI_LE_Col .UI_Item {
 			min-width: 170px;
+			padding-right: 0;
 		}
 		
 			.UI_LE_Col .UI_Item h3 {
