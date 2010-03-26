@@ -3,30 +3,75 @@
 
 {% block head %}
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Browser.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/media/jetpack/css/UI.Landing_Page.css" type="text/css" media="screen" />
 	<script src="/media/jetpack/js/FlightDeck.Browser.js"></script>
 {% endblock %}
 
 {% block app_sidebar %}
+	<h2 class="UI_Heading">Categories</h2>
+	
+	<ul class="UI_Action_List">
+		<li><a title="" href="#">Notifiers</a> <strong>(20)</strong></li>
+		<li class="selected"><a title="" href="#">Site alteration</a> <strong>(10)</strong></li>
+		<li><a title="" href="#">Development</a> <strong>(20)</strong></li>
+		<li><a title="" href="#">Misc</a> <strong>(234)</strong></li>
+		<li><a title="" href="#">Utilities</a> <strong>(20)</strong></li>
+	</ul> <!-- /UI_Action_List -->
 {% endblock %}
 	
 {% block app_content %}
 	
-	{% if jetpacks %}
-		<h2 class="UI_Heading">Recent Extensions <a class="UI_SeeMore" title="See more" href="{% url jetpacks %}">See more</a></h2>
-		<ul class="UI_Browser">
-		{% for item in jetpacks %}
-			<li class="UI_Item">{{ item|render_base_link }}</li>
-		{% endfor %}
-		</ul>
-	{% endif %}
+	<div id="feature-wrapper">
+		<div class="UI_Feature">
+			<h3>Lorem ipsum <span>by <a title="" href="#">John Doe</a></span></h3>
 
-	{% if capabilities %}
-		<h2 class="UI_Heading">Recent Libraries <a class="UI_SeeMore" title="See more" href="{% url capabilities %}">See more</a></h2>
-		<ul class="UI_Browser">
-		{% for item in capabilities %}
-			<li class="UI_Item">{{ item|render_base_link }}</li>
-		{% endfor %}
-		</ul>
-	{% endif %}
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+			
+			<ul class="UI_Actions">
+				<li class="UI_Try_in_Browser">
+					<a title="Try in browser" href="#">
+						Try in browser
+					</a>
+				</li>
+				<li class="UI_Edit_Version">
+					<a title="" href="#">Edit</a>
+				</li>
+
+				<li class="UI_Pick_Version">
+					<a title="Select version" href="#">
+						<strong>1.0</strong>
+						<span></span>
+					</a>
+					<ul class="UI_Versions loading"></ul>
+				</li>
+			</ul>
+			
+			<div class="UI_Icon jetpack">
+				<!-- <ul class="UI_Ratings_Display">
+					<li><a title="" href="#"></a></li>
+				</ul> -->
+			</div>
+		</div> <!-- /UI_Feature -->
+	</div> <!-- /feature-wrapper -->
+	
+	{% comment %}
+		{% if jetpacks %}
+			<h2 class="UI_Heading">Recent Extensions <a class="UI_SeeMore" title="See more" href="{% url jetpacks %}">See more</a></h2>
+			<ul class="UI_Browser">
+			{% for item in jetpacks %}
+				<li class="UI_Item">{{ item|render_base_link }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+
+		{% if capabilities %}
+			<h2 class="UI_Heading">Recent Libraries <a class="UI_SeeMore" title="See more" href="{% url capabilities %}">See more</a></h2>
+			<ul class="UI_Browser">
+			{% for item in capabilities %}
+				<li class="UI_Item">{{ item|render_base_link }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endcomment %}
 	
 {% endblock %}

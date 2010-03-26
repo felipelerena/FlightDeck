@@ -15,7 +15,9 @@ except:
 
 urls.extend([
 	# home
-	url(r'^$',base_views.homepage, name='home'),
+	# temporary fix - please uncomment after fixing landing page
+	#url(r'^$',base_views.homepage, name='home'),
+	url(r'^$', 'jetpack.views.gallery', {'type': 'jetpack'}, name='home'),
 
 	# admin
 	(r'^admin/doc/', include('django.contrib.admindocs.urls')),
