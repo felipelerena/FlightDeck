@@ -99,9 +99,11 @@ Class.Mutators.$name = function(name){ this.implement('$family', {name: name}); 
 	Listen to an event fired when Extension is installed
  */
 window.addEvent('load', function() {
-	window.mozFlightDeck.whenMessaged(function(data) {
-		// This gets called when one of our extensions has been installed
-		// successfully, or failed somehow.
-		fd.message.alert('Loading extension', 'Extension {msg}'.substitute(data));
-	});
+	if (fd.alertIfNoAddOn()) {
+		window.mozFlightDeck.whenMessaged(function(data) {
+			// This gets called when one of our extensions has been installed
+			// successfully, or failed somehow.
+			fd.message.alert('Loading extension', 'Extension {msg}'.substitute(data));
+		});
+	}
 });
