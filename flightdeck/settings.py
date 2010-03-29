@@ -46,6 +46,7 @@ MEDIA_ROOT = ''
 MEDIA_URL = ''
 
 LOGIN_URL = '/user/login/'
+LOGIN_REDIRECT_URL = '/user/dashboard/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
