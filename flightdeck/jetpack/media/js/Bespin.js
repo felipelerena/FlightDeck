@@ -2,6 +2,14 @@
  * Bespin wrapper
  */
 
+Class.refactor(FlightDeck, {
+	initialize: function(options) {
+		this.previous(options);
+		this.editor_content = {};
+		this.current_editor = false;
+	},
+});
+
 /*
  * Class: CodeMirror.js
  * Extension for Editor to use CodeMirror
