@@ -1,15 +1,6 @@
 /*
  * Bespin wrapper
  */
-
-Class.refactor(FlightDeck, {
-	initialize: function(options) {
-		this.previous(options);
-		this.editor_content = {};
-		this.current_editor = false;
-	},
-});
-
 /*
  * Class: CodeMirror.js
  * Extension for Editor to use CodeMirror
@@ -17,74 +8,66 @@ Class.refactor(FlightDeck, {
 
 Class.refactor(FDEditor, {
 	options: {
-		type: null,
-		version: '0.6.2'
+		type: null
 	},
 	initialize: function(options) {
 		this.previous(options);
 	},
 	initEditor: function() {
-		$log('FD: instantiating ',this.options.element)
+		var self = this;
 		this.element = $(this.options.element);
-		this.editor = new Element('div',{
-			'text': this.element.get('text'),
-			'id': this.element.get('id') + '_bespin',
-			'class': 'UI_Editor_Area'
-		}).inject(this.element, 'before');
-		$log('FD: div element created ', this.editor, 'with content ', this.editor.get('text'));
-
-		if (this.element.isHidden()) {
-			this.hidden = true;
+		this.editor_id = this.element.get('id');
+		// register element's content
+		fd.editor_contents[this.editor_id] = this.element.get('text')
+		// mark hidden elements and record initial state
+		if (this.element.hasClass('main')) { 
+			fd.addEvent('bespinLoad', function() {
+				// show the embedded content 
+				self.show();
+			});
+		} else {
+			self.hidden = true; 
 		}
-		this.element.hide();
-		$log('FD: textarea hidden');
-		(function() {
-			var syntax = (this.options.type == 'js') ? 'js' : 'plain';
-			this.bespin = tiki
-				.require("Embedded")
-				.useBespin(this.editor, {syntax: syntax});
-			$log('FD: bespin instantiated');
-
-			var boundOnBespinChange = this.onBespinChange.bind(this);
-			this.bespin._editorView.getPath('layoutManager.textStorage')
-				.addDelegate(SC.Object.create({
-					textStorageEdited: boundOnBespinChange
-				}));
-			$log('FD: bespin onChange hooked');
-			if (this.hidden) {
-				this.hide();
-				$log('div hidden');
+		fd.addEvent('bespinChange', function() {
+			if (fd.current_editor == self.editor_id) {
+				if (!fd.switching) {
+					self.fireEvent('change');
+					self.changed = true;
+				}
 			}
-		}.bind(this)).delay(10);
+		});
+		this.element.hide();
 	},
-	onBespinChange: function() {
-		this.fireEvent('change');
-		this.changed = true;
-	},
+
 	getContent: function() {
 		// this.textarea.set('text', this.bespin.value);
-		return this.bespin.value;
+		if (fd.current_editor == this.editor_id) {
+			return fd.bespin.getContent();
+		} else {
+			return fd.editor_contents[this.editor_id];
+		}
 	},
+
 	setContent: function(value) {
 		this.previous(value);	
-		// TODO: set in Bespin
+		fd.bespin.setContent(value);
 	},
-	
+
 	hide: function() {
-		$log('hide', this.editor);
-		this.editor.hide();
+		// if (fd.bespin) fd.editor_contents[this.element.get('id')] = fd.bespin.value;
 		return this;
 	},
+
 	destroy: function() {
-		this.editor.destroy();
+		this.element.destroy();
 	},
+
 	show: function() {
-		$log('show', this.editor);
-		this.editor.show();
-		this.editor.getChildren().each(function(content) {
-			content.show();
-		});
-		this.bespin.dimensionsChanged();
+		// set content of the bespin
+		fd.switching = true;
+		fd.switchBespinEditor(this.editor_id, this.options.type);
+		
+		fd.switching = false;
 		return this;
 	},
 	cleanUp: $empty
