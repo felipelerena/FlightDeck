@@ -25,5 +25,5 @@
 {% endblock %}
 
 {% block page_settings %}
-	cap_autocomplete_url: '{{ autocomplete_url|safe|replace:"*,{"|replace:"$,}"|safe }}',
+	cap_autocomplete_url: '{{ autocomplete_url|safe }}',
 {% endblock %}

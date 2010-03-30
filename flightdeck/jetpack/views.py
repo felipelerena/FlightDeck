@@ -100,7 +100,7 @@ def item_edit(r, item, type):
 	page = "editor"
 	jetpack_create_url = Jet.get_create_url()
 	capability_create_url = Cap.get_create_url()
-	autocomplete_url = reverse("jp_capabilities_autocomplete", args=["*query$"]);
+	autocomplete_url = reverse("jp_capabilities_autocomplete");
 	return render_to_response("edit_item.html", locals(), 
 				context_instance=RequestContext(r))
 	
@@ -351,11 +351,16 @@ def item_version_save_as_base(r, slug, version, counter, type):
 # Manage dependencies
 
 @login_required
-def capabilities_autocomplete(r, query):
+def capabilities_autocomplete(r):
 	"""
 	Display names of the modules (capabilities) which mark the pattern
 	"""
-	found = Cap.objects.filter(Q(slug__icontains=query) | Q(name__icontains=query))
+	try:
+		query = r.GET.get('q')
+		limit = r.GET.get('limit', 20)
+		found = Cap.objects.filter(Q(slug__icontains=query) | Q(name__icontains=query))[:limit]
+	except:
+		found = []
 	return render_to_response('json/autocomplete_list.json', {'items': found},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
