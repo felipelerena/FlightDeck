@@ -8,9 +8,17 @@ authors:
 ...
 */
 
+/*
 .UI_Editor_Area {
    width: 98%;
    min-height: 600px;
    background: url(../img/shadow.png) 0 0 repeat-x;
    padding: 5px;
+}
+*/
+.UI_Editor_Area {
+	height:100%;
+	padding:0;
+	width:100%;
+	background: url(../img/shadow.png) 0 0 repeat-x;
 }

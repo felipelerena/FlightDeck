@@ -10,7 +10,7 @@ urlpatterns = patterns('jetpack.views',
 		'gallery', {'type': 'capability'}, name='capabilities_page'),
 
 
-	url(r'^autocomplete/(?P<query>.*)/$',
+	url(r'^autocomplete/$',
 		'capabilities_autocomplete', name='jp_capabilities_autocomplete'),
 
 	url(r'^create_xpi/$', 'create_xpi_from_post', name='jp_create_xpi'),
