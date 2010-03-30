@@ -1,9 +1,9 @@
-<textarea id="version_content" class="UI_Editor_Area" name='version_content'>{{ version.content }}</textarea>
+<textarea id="version_content" class="UI_Editor_Area main" name="version_content">{{ version.content }}</textarea>
 {% ifequal type "jetpack" %}
-	<textarea id='version_manifest' class="UI_Editor_Area" name='version_manifest'>{{ version.manifest }}</textarea>
+	<textarea id="version_manifest" class="UI_Editor_Area" name="version_manifest">{{ version.manifest }}</textarea>
 {% endifequal %}
-<textarea id='{{ type }}_description' class="UI_Editor_Area" name='{{ type }}_description'>{{ item.description }}</textarea>
-<textarea id='version_description' class='UI_Editor_Area'>{{ version.description }}</textarea>
+<textarea id="{{ type }}_description" class="UI_Editor_Area" name="{{ type }}_description">{{ item.description }}</textarea>
+<textarea id="version_description" class="UI_Editor_Area">{{ version.description }}</textarea>
 {% for cap_version in version.capabilities.all %}
 	{% include "_dependency_content_textarea.html" %}
 {% endfor %}

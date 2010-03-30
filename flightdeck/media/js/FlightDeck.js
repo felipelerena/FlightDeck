@@ -4,7 +4,7 @@
  */
 
 var FlightDeck = new Class({
-	Implements: [Options],
+	Implements: [Options, Events],
 	options: {
 		menu_el: 'UI_Editor_Menu',
 		//user: ''
