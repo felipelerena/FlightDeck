@@ -47,16 +47,16 @@ FlightDeck = Class.refactor(FlightDeck,{
 		
 		this.warning = new Roar({
 			className: 'roar warning',
-			position: 'topCenter',
+			position: 'bottomCenter',
 			duration: 8000
 		});
 		this.error = new Roar({
-			position: 'topLeft',
+			position: 'bottomLeft',
 			className: 'roar error',
 			duration: 20000
 		});
 		this.message = new Roar({
-			position: 'topRight',
+			position: 'bottomRight',
 			className: 'roar message',
 			duration: 8000
 		});
