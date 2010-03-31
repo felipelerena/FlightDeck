@@ -117,7 +117,7 @@ var Capability = new Class({
 		menu_el: 'UI_Editor_Menu',
 		// add_dependency_url: '',
 		add_dependency_el: 'add_dependency_action',
-		add_dependency_input: 'add_dependency',
+		add_dependency_input: 'dependency_slug',
 		// addnew_dependency_template: '',
 		addnew_dependency_el: 'create_and_add_dependency_action'
 	},
@@ -389,7 +389,7 @@ var Capability = new Class({
 		&& this.version.created
 		&& this.changed_dependencies.getLength() == 0) {
 			this.fireEvent('new_version');
-			window.location.href = this.saved_new_version_url
+			window.location.href = this.saved_new_version_url;
 		}
 	},
 	newVersionAfterDepSave: function(dep) {
@@ -418,7 +418,7 @@ var Capability = new Class({
 		dependency_slug = $(this.options.add_dependency_input).get('value');
 		// TODO: some validation
 		if (this.dependencies[dependency_slug]) {
-			fd.error.alert('Not Allowed', 'You may not add the same dependency again');
+			fd.error.alert('Not Allowed', 'You may not add the same dependency twice');
 			return false;
 		}
 		// TODO: add not base version 
@@ -461,7 +461,7 @@ var Capability = new Class({
 					fd.addnewDependencyModal = null;
 				}
 			}.bind(this)
-		})
+		});
 	},
 	/*
 	 * Method: createDependency
@@ -523,7 +523,7 @@ var Capability = new Class({
 			//		 should be chosen in a special modalWindow
 			method: method,
 			obj: dep
-		}
+		};
 	},
 	/*
 	 * Method: getContent
@@ -570,7 +570,7 @@ var Capability = new Class({
 		data.extend(this.version.prepareData());
 		return data.getClean();
 	}
-})
+});
 
 /*
  * Class representing the Version only 
@@ -711,7 +711,7 @@ var CapVersion = new Class({
 	updateDependenciesAndReload: function(version_update_dependency_url, version_reload_url){
 		var callback = function() {
 			window.location.href = version_reload_url;
-		}
+		};
 		this.updateDependencies(callback); 
 	},
 	/*
@@ -806,6 +806,6 @@ var CapVersion = new Class({
 			version_counter: this.options.counter,
 			slug: this.get_item().options.slug,
 			type: this.get_item().options.type
-		}
+		};
 	}
 });
