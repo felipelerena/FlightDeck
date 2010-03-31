@@ -544,8 +544,12 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	# TODO:
 	# currently it is in a status which will be scrapped after Library (modules group) 
 	# will be created 
-	if not whereis('cfx'):
-		return HttpResponse('configuration error')
+	sys.path.append(settings.VIRTUAL_ENV)
+	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
+	
+	# old check - not relevant and redundant.
+	#if not whereis('cfx'):
+	#	return HttpResponse('configuration error')
 
 	if not libs and caps:
 		libs = [{
@@ -570,9 +574,6 @@ def createXPI(r, slug, main, description, package, libs=[], caps=[]):
 	# create random hash
 	hash = get_random_string(5, _package['name'])
 
-	sys.path.append(settings.VIRTUAL_ENV)
-	sys.path.append(settings.VIRTUAL_SITE_PACKAGES)
-	
 	if not _package.has_key('dependencies'):
 		_package['dependencies'] = []
 
