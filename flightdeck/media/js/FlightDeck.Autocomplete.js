@@ -15,8 +15,9 @@ FlightDeck.Autocomplete = new Class({
 				type: 'contains',
 				path: 'name'
 			},
-			onSelect: function(elements, resp){
-				// $('value-field').set('value', resp);
+			onSelect: function(elements, library){
+				console.log(library);
+				$('dependency_slug').set('value', library.slug);
 			}
 		});
 		

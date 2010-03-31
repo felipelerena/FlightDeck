@@ -1,21 +1,21 @@
 .roar-bg {
-   -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
-   opacity: 0.9 !important;
+	-moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
+	opacity: 0.9 !important;
 }
 
 .message .roar-bg {
 	background: -moz-linear-gradient(270deg, #C4F2AC, #98CF7B);
-   border-top: solid 1px ##DCF8CE;
+	border-top: solid 1px ##DCF8CE;
 }
 
 .warning .roar-bg {
 	background: -moz-linear-gradient(270deg, #4E91E7, #184A95);
-   border-top: solid 1px #8FBBF1;
+	border-top: solid 1px #8FBBF1;
 }
 
 .error .roar-bg {
 	background: -moz-linear-gradient(270deg, #C23738, #6E1616);
-   border-top: solid 1px #D4989C;
+	border-top: solid 1px #D4989C;
 }
 
 .roar h3,
@@ -39,6 +39,15 @@
 	padding: 5px 9px 10px;
 	font-size: 11px;
 }
+
+.roar p a {
+	color: #fff;
+	text-decoration: underline;
+}
+
+	.roar p a:hover {
+		text-decoration: none;
+	}
 
 .roar-bg {
 	-moz-border-radius: 5px;
