@@ -6,11 +6,15 @@
 
 {% block head %}
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Editor.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/media/jetpack/css/FlightDeck.Autocomplete.css" type="text/css" media="screen">
 	<script src="/media/jetpack/js/FlightDeck.Editor.js"></script>
 	<script src="/media/jetpack/js/Editor.js"></script>
 	<script src="/media/jetpack/js/Capability.js"></script>
 	<script src="/media/jetpack/js/CapDependency.js"></script>
-	{# comment #}
+	<script src="/media/js/lib/BGIframe.js"></script>
+	<script src="/media/js/lib/Meio.Autocomplete.js"></script>
+	<script src="/media/js/FlightDeck.Autocomplete.js"></script>
+
 	<link rel="stylesheet" href="/media/bespin/BespinEmbedded.css" type="text/css" media="screen" />
 	<script src="/media/bespin/BespinEmbedded.js"></script>
 	<script src="/media/jetpack/js/FlightDeck.Bespin.js"></script>
@@ -25,5 +29,5 @@
 {% endblock %}
 
 {% block page_settings %}
-	cap_autocomplete_url: '{{ autocomplete_url|safe }}',
+	cap_autocomplete_url: '{{ autocomplete_url|safe|replace:"*,{"|replace:"$,}"|safe }}',
 {% endblock %}
