@@ -20,7 +20,8 @@
 \begin{document}
 \maketitle
 
-\noindent {\small \em This document is written in \LaTeX\ \footnote{For quick doc please follow to \url{http://web.mit.edu/olh/Latex/ess:Latex.html}, All used symbols may be found here: \url{http://www.artofproblemsolving.com/Wiki/index.php/LaTeX:Symbols}} a document markup language and document preparation system for the \TeX\ typesetting program}
+\noindent\hfill{\small \em This document is written in \LaTeX\ \footnote{For quick doc please follow to \url{http://web.mit.edu/olh/Latex/ess:Latex.html}, All used symbols may be found here: \url{http://www.artofproblemsolving.com/Wiki/index.php/LaTeX:Symbols}}}
+
 \section{Syntax}
 
 	\subsection{Objects}
@@ -33,7 +34,7 @@
 		\item[{\tt Px}] is the specific Package (identified by {\em PackageName})\\
 			It should always be used within its {\tt type} context as {\tt Lx} --- Library or {\tt Ax} --- Addon\\
 			Every Package has associated PackageRevision\footnote{Please bare in mind that PackageVersion is just metadata, a field of PackageRevision object used only in exported \xpi. It will no longer be used for data identification.} (identified by a triplet {\tt Ux:Py.n} {\em User/Package/RevisionNumber})
-		\item[{\tt Mx}] is the Module\footnote{The only revision is the PackageRevision. It is similar concept to {\em git}'s commits.} (identified by a triplet {\em User/PackageRevision/ModuleName})
+		\item[{\tt Mx}] is the Module\footnote{The only revision is the PackageRevision. It is similar concept to {\em git}'s commits. For every saved Module change new PackageRevision is created.} (identified by a triplet {\em User/PackageRevision/ModuleName})
 	\end{description}
 
 	\subsection{Object identification --- revision numbers and HEAD}
