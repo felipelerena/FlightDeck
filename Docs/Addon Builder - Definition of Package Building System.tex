@@ -50,9 +50,9 @@
 	\subsection{Starting point}
 
 		\subsubsection*{{\tt La \hto  Ua-La.1 \eq [Ua-La.1-Ma]}}
-			\La\ is created by \Ua.\\
-			Its HEAD is {\tt Ua-La.1}\\
-			\La\ contains only one module - \Ma
+			Package \La\ is created by User \Ua.\\
+			\La's HEAD is PackageRevision {\tt Ua-La.1}\\
+			It contains only one module - \Ma
 			
 			\noindent Following steps had to happen to achieve above status:
 			\begin{enumerate}
@@ -171,7 +171,7 @@
 				{\tt Ub-La.1-Mb} (and {\tt Ub-La.1}) is marked as {\em conflicted}\\
 				\Ub\ can't send the update request
 			}
-			\item{\Ub\ manually solves conflict by editing the \Mb\\
+			\item{\Ub\ manually solves conflict by editing the \Mb\ and removing the {\em conflict flag}\\
 				{\tt Ub-La.2 \eq [Ua-La.1, Ub-La.2-Mb]}
 			}
 			\item{\Ub\ sends request to \Ua\ to upgrade \La\ from {\tt Ub-La.2}}
@@ -184,6 +184,6 @@
 			\item{Result: {\tt La \hto Ua-La.4 \eq [Ua-La.3-Ma, Ub-La.2-Mb]}}
 		\end{enumerate}
 		
-	\
+	\subsection*{To be continued...}
 
 \end{document}
