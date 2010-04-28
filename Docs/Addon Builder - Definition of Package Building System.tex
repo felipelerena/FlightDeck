@@ -23,21 +23,21 @@
 
 	\subsection{Objects}
 	\begin{description}
-		\item[{\tt Ua}] is the specific User (identified by {\em UserName})
-		\item[{\tt Pa}] is the specific Package (identified by {\em PackageName})\\
-			It should always be used within its {\tt type} context as {\tt La} --- Library or {\tt Aa} --- Addon
-		\item[{\tt Ma}] is the Module (identified by a triplet {\em User/PackageRevision/ModuleName})
+		\item[{\tt Ux}] is the specific User (identified by {\em UserName})
+		\item[{\tt Px}] is the specific Package (identified by {\em PackageName})\\
+			It should always be used within its {\tt type} context as {\tt Lx} --- Library or {\tt Ax} --- Addon
+		\item[{\tt Mx}] is the Module (identified by a triplet {\em User/PackageRevision/ModuleName})
 	\end{description}
 
 	\subsection{Object identification --- revision numbers and HEAD}
 	\begin{description}
-		\item[{\tt Ua-Pb.n}] defines revision of the Package.\\ 
+		\item[{\tt Ux-Py.n}] defines revision of the Package.\\ 
 			{\tt Ua-La.1} --- First revision of Library \La\ saved by \Ua.
-		\item[{\tt Ua-Pb.n-Mc}] defines Module inside the revision of the Package. \\ 
+		\item[{\tt Ux-Py.n-Mz}] defines Module inside the revision of the Package. \\ 
 			{\tt Ua-La.1-Ma} --- Module \Ma\ inside the first revision of Library \La\ saved by \Ua.
-		\item[{\tt Pa \hto  Ub-Pa.n}] is the HEAD revision of the Package\\ 
+		\item[{\tt Px \hto  Uy-Px.n}] is the HEAD revision of the Package\\ 
 			{\tt La \hto  Ua-La.1} --- \La's HEAD points to the first revision of Library \La\ saved by \Ua.
-		\item[{\tt Ua-Pb.n \eq [Uc-Pd.m-Me, \ldots]}] Modules inside the Package revision.\\ 
+		\item[{\tt Ux-Py.n \eq [Ux-Py.m-Mz, \ldots]}] Modules inside the Package revision.\\ 
 			{\tt Ua-La.2 \eq [Ua-La.1-Ma, Ub-La.2-Mb]} --- Second revision of Library \La\ saved by \Ua\ contains \Ma\ saved by \Ua\ in his \La's first revision and \Mb\ saved by \Ub\ in his second \La's revision.
 	\end{description}
 
@@ -181,5 +181,6 @@
 			\item{Result: {\tt La \hto Ua-La.4 \eq [Ua-La.3-Ma, Ub-La.2-Mb]}}
 		\end{enumerate}
 		
+	\
 
 \end{document}
