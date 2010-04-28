@@ -10,6 +10,8 @@
 \def\Ma{{\tt Ma}}
 \def\Mb{{\tt Mb}}
 
+\def\xpi{{\tt XPI}}
+
 \def\headsto{${\Longrightarrow}$ }
 \def\hto{\headsto}
 \def\eq{${\supset}$ }
@@ -18,7 +20,7 @@
 \begin{document}
 \maketitle
 
-\noindent {\small \em This document is written in \LaTeX\ \footnote{For quick doc please follow to \url{http://web.mit.edu/olh/Latex/ess-latex.html}, All used symbols may be found here: \url{http://www.artofproblemsolving.com/Wiki/index.php/LaTeX:Symbols}} a document markup language and document preparation system for the \TeX\ typesetting program}
+\noindent {\small \em This document is written in \LaTeX\ \footnote{For quick doc please follow to \url{http://web.mit.edu/olh/Latex/ess:Latex.html}, All used symbols may be found here: \url{http://www.artofproblemsolving.com/Wiki/index.php/LaTeX:Symbols}} a document markup language and document preparation system for the \TeX\ typesetting program}
 \section{Syntax}
 
 	\subsection{Objects}
@@ -29,42 +31,43 @@
 	\begin{description}
 		\item[{\tt Ux}] is the specific User (identified by {\em UserName})
 		\item[{\tt Px}] is the specific Package (identified by {\em PackageName})\\
-			It should always be used within its {\tt type} context as {\tt Lx} --- Library or {\tt Ax} --- Addon
-		\item[{\tt Mx}] is the Module (identified by a triplet {\em User/PackageRevision/ModuleName})
+			It should always be used within its {\tt type} context as {\tt Lx} --- Library or {\tt Ax} --- Addon\\
+			Every Package has associated PackageRevision\footnote{Please bare in mind that PackageVersion is just metadata, a field of PackageRevision object used only in exported \xpi. It will no longer be used for data identification.} (identified by a triplet {\tt Ux:Py.n} {\em User/Package/RevisionNumber})
+		\item[{\tt Mx}] is the Module\footnote{The only revision is the PackageRevision. It is similar concept to {\em git}'s commits.} (identified by a triplet {\em User/PackageRevision/ModuleName})
 	\end{description}
 
 	\subsection{Object identification --- revision numbers and HEAD}
 	\begin{description}
-		\item[{\tt Ux-Py.n}] defines revision of the Package.\\ 
-			{\tt Ua-La.1} --- First revision of Library \La\ saved by \Ua.
-		\item[{\tt Ux-Py.n-Mz}] defines Module inside the revision of the Package. \\ 
-			{\tt Ua-La.1-Ma} --- Module \Ma\ inside the first revision of Library \La\ saved by \Ua.
-		\item[{\tt Px \hto  Uy-Px.n}] is the HEAD revision of the Package\\ 
-			{\tt La \hto  Ua-La.1} --- \La's HEAD points to the first revision of Library \La\ saved by \Ua.
-		\item[{\tt Ux-Py.n \eq [Ux-Py.m-Mz, \ldots]}] Modules inside the Package revision.\\ 
-			{\tt Ua-La.2 \eq [Ua-La.1-Ma, Ub-La.2-Mb]} --- Second revision of Library \La\ saved by \Ua\ contains \Ma\ saved by \Ua\ in his \La's first revision and \Mb\ saved by \Ub\ in his second \La's revision.
+		\item[{\tt Ux:Py.n}] defines revision of the Package.\\ 
+			{\tt Ua:La.1} --- First revision of Library \La\ saved by \Ua.
+		\item[{\tt Ux:Py.n:Mz}] defines Module inside the revision of the Package. \\ 
+			{\tt Ua:La.1:Ma} --- Module \Ma\ inside the first revision of Library \La\ saved by \Ua.
+		\item[{\tt Px \hto  Uy:Px.n}] is the HEAD revision of the Package\\ 
+			{\tt La \hto  Ua:La.1} --- \La's HEAD points to the first revision of Library \La\ saved by \Ua.
+		\item[{\tt Ux:Py.n \eq \{Ux:Py.m:Mz, \ldots\}}] Modules inside the Package revision.\\ 
+			{\tt Ua:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}} --- Second revision of Library \La\ saved by \Ua\ contains \Ma\ saved by \Ua\ in his \La's first revision and \Mb\ saved by \Ub\ in his second \La's revision.
 	\end{description}
 
 \section{Building Library}
 
 	\subsection{Starting point}
 
-		\subsubsection*{{\tt La \hto  Ua-La.1 \eq [Ua-La.1-Ma]}}
+		\subsubsection*{{\tt La \hto  Ua:La.1 \eq \{Ua:La.1:Ma\}}}
 			Package \La\ is created by User \Ua.\\
-			\La's HEAD is PackageRevision {\tt Ua-La.1}\\
+			\La's HEAD is PackageRevision identified as {\tt Ua:La.1}\\
 			It contains only one module - \Ma
 			
 			\noindent Following steps had to happen to achieve above status:
 			\begin{enumerate}
 				\item{\Ua\ creates a package \La\\
-				    {\tt \# La \hto  Ua-La.0} \\
-				    {\tt \# Ua-La.0 \eq []}
+				    {\tt \# La \hto  Ua:La.0} \\
+				    {\tt \# Ua:La.0 \eq \{\}}
 				}
 				\item{\Ua\ adds \Ma\ to \La\\
-					{\tt \# Ua-La.1 \eq [Ua-La.1-Ma]}
+					{\tt \# Ua:La.1 \eq \{Ua:La.1:Ma\}}
 				}
 				\item{\Ua\ sets the HEAD\\
-					{\tt \# La \hto  Ua-La.1}
+					{\tt \# La \hto  Ua:La.1}
 				}
 			\end{enumerate}
 			
@@ -74,14 +77,14 @@
 
 		\begin{enumerate}
 			\item{\Ub\ modifies \Ma\\
-            		{\tt Ub-La.0 \eq [Ua-La.1-Ma]} --- automatic fork of \La\\
-				{\tt Ub-La.1 \eq [Ub-La.1-Ma]}
+            		{\tt Ub:La.0 \eq \{Ua:La.1:Ma\}} --- automatic fork of \La\\
+				{\tt Ub:La.1 \eq \{Ub:La.1:Ma\}}
 			}
-			\item{\Ub\ sends {\em request} to \La's creator (\Ua) to upgrade \La\ from {\tt Ub-La.1}}
+			\item{\Ub\ sends {\em request} to \La's creator (\Ua) to upgrade \La\ from {\tt Ub:La.1}}
 			\item{\Ua\ accepts the request by setting the HEAD to \Ub's version\\
-				{\tt La \hto  Ub-La.1}
+				{\tt La \hto  Ub:La.1}
 			}
-			\item{Result: {\tt La \hto  Ub-La.1 \eq [Ub-La.1-Ma]}}
+			\item{Result: {\tt La \hto  Ub:La.1 \eq \{Ub:La.1:Ma\}}}
 		\end{enumerate}
 
 	\subsection{Scenario (2 Modules, 2 Users, no dependencies)}
@@ -92,26 +95,26 @@
 		
 		\begin{enumerate}
 			\item{\Ua\ adds a new module \Mb\ to \La\\
-				{\tt Ua-La.2 \eq [Ua-La.1-Ma, Ua-La.2-Mb]}
+				{\tt Ua:La.2 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
 			}
 			\item{\Ua\ sets the HEAD\\
-				{\La \hto Ua-La.2}
+				{\La \hto Ua:La.2}
 			}
 			\item{\Ub\ modifies \Mb\\				
-				{\tt Ub-La.0 \eq [Ua-La.1-Ma, Ua-La.2-Mb]} --- automatic fork of \La\\
-				{\tt Ub-La.1 \eq [Ua-La.1-Ma, Ub-La.1-Mb]}
+				{\tt Ub:La.0 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}} --- automatic fork of \La\\
+				{\tt Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}
 			}
-			\item{\Ub\ sends request to \Ua\ to upgrade \La\ from {\tt Ub-La.1}}
+			\item{\Ub\ sends request to \Ua\ to upgrade \La\ from {\tt Ub:La.1}}
 			\item{\Ua\ modifies \Ma\\
-				{\tt Ua-La.3 \eq [Ua-La.3-Ma, Ua-La.2-Mb]}
+				{\tt Ua:La.3 \eq \{Ua:La.3:Ma, Ua:La.2:Mb\}}
 			}
 			\item{\Ua\ acepts \Ub's request\\
-				{\tt Ua-La.4 \eq [Ua-La.3-Ma, Ub-La.1-Mb]}
+				{\tt Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.1:Mb\}}
 			}
 			\item{\Ua\ sets the HEAD\\
-				{\tt La \hto Ua-La.4}
+				{\tt La \hto Ua:La.4}
 			}
-			\item{Result: {\tt La -> Ua-La.4 \eq [Ua-La.3-Ma, Ub-La.1-Mb]}}
+			\item{Result: {\tt La -> Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.1:Mb\}}}
 		\end{enumerate}
 
 	\subsection{Scenario (2 Modules, 2 Users, no dependencies)}
@@ -121,23 +124,23 @@
 		
 		\begin{enumerate}
 			\item{\Ub\ adds a new module \Mb\ to \La\\
-				{\tt Ub-La.0 \eq [Ua-La.1-Ma]} --- automatic fork of \La\\
-				{\tt Ub-La.1 \eq [Ua-La.1-Ma, Ua-La.1-Mb]}
+				{\tt Ub:La.0 \eq \{Ua:La.1:Ma\}} --- automatic fork of \La\\
+				{\tt Ub:La.1 \eq \{Ua:La.1:Ma, Ua:La.1:Mb\}}
 			}
 			\item{\Ub\ modifies \Mb\\
-				{\tt Ub-La.2 \eq [Ua-La.1-Ma, Ub-La.2-Mb]}
+				{\tt Ub:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}}
 			}
-			\item{\Ub\ sends request to \Ua\ to upgrade \La\ from {\tt Ub-La.2}}
+			\item{\Ub\ sends request to \Ua\ to upgrade \La\ from {\tt Ub:La.2}}
 			\item{\Ua\ modifies \Ma\\
-				{\tt Ua-La.2 \eq [Ua-La.2-Ma]}
+				{\tt Ua:La.2 \eq \{Ua:La.2:Ma\}}
 			}
 			\item{\Ua\ acepts \Ub's request\\
-				{\tt Ua-La.3 \eq [Ua-La.2-Ma, Ub-La.2-Mb]}
+				{\tt Ua:La.3 \eq \{Ua:La.2:Ma, Ub:La.2:Mb\}}
 			}
 			\item{\Ua\ sets the HEAD\\
-				{\tt La \hto Ua-La.3}
+				{\tt La \hto Ua:La.3}
 			}
-			\item{Result: {\tt La \hto Ua-La.3 \eq [Ua-La.2-Ma, Ub-La.2-Mb]}}
+			\item{Result: {\tt La \hto Ua:La.3 \eq \{Ua:La.2:Ma, Ub:La.2:Mb\}}}
 		\end{enumerate}
 
 	\subsection{Scenario with conflict (2 Modules, 2 Users, no dependencies)}
@@ -149,39 +152,39 @@
 
 		\begin{enumerate}
 			\item{\Ua\ adds a new module \Mb\ to \La\\
-            		{\tt Ua-La.2 \eq [Ua-La.1-Ma, Ua-La.2-Mb]}
+            		{\tt Ua:La.2 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
 			}
 			\item{\Ua\ sets the HEAD\\
-				{\tt La \hto Ua-La.2}
+				{\tt La \hto Ua:La.2}
 			}
 			\item{\Ub\ modifies \Mb\\
-				{\tt Ub-La.0 \eq [Ua-La.1-Ma, Ua-La.2-Mb]} --- automatic fork of \La\\
-				{\tt Ub-La.1 \eq [Ua-La.1-Ma, Ub-La.1-Mb]}
+				{\tt Ub:La.0 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}} --- automatic fork of \La\\
+				{\tt Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}
 			}
 			\item{\Ua\ modifies \Mb\\
-				{\tt Ua-La.3 \eq [Ua-La.1-Ma, Ua-La.2-Mb]}
+				{\tt Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
 			}
 			\item{{\bf CONFLICT}\\
             		At the time we've got two versions of La.Mb which came out from the same version
             	}
             	\item{\Ua\ sets the HEAD\\
-            		{\tt La \eq Ua-La.3}
+            		{\tt La \eq Ua:La.3}
             	}
             	\item{\Ub\ receives info that his source is behind the HEAD\\
-				{\tt Ub-La.1-Mb} (and {\tt Ub-La.1}) is marked as {\em conflicted}\\
+				{\tt Ub:La.1:Mb} (and {\tt Ub:La.1}) is marked as {\em conflicted}\\
 				\Ub\ can't send the update request
 			}
 			\item{\Ub\ manually solves conflict by editing the \Mb\ and removing the {\em conflict flag}\\
-				{\tt Ub-La.2 \eq [Ua-La.1, Ub-La.2-Mb]}
+				{\tt Ub:La.2 \eq \{Ua:La.1, Ub:La.2:Mb\}}
 			}
-			\item{\Ub\ sends request to \Ua\ to upgrade \La\ from {\tt Ub-La.2}}
+			\item{\Ub\ sends request to \Ua\ to upgrade \La\ from {\tt Ub:La.2}}
 			\item{\Ua\ acepts \Ub's request\\
-				{\tt Ua-La.4 \eq [Ua-La.3-Ma, Ub-La.2-Mb]}
+				{\tt Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.2:Mb\}}
 			}
 			\item{\Ua\ sets the HEAD\\
-				{\tt La \hto Ua-La.4}
+				{\tt La \hto Ua:La.4}
 			}
-			\item{Result: {\tt La \hto Ua-La.4 \eq [Ua-La.3-Ma, Ub-La.2-Mb]}}
+			\item{Result: {\tt La \hto Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.2:Mb\}}}
 		\end{enumerate}
 		
 	\subsection*{To be continued...}
