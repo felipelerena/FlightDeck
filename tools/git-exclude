@@ -21,3 +21,7 @@ flightdeck/jetpack/media/media
 .*swp
 .log
 *.log
+*.aux
+*.log
+*.synctex.gz
+
