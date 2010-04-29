@@ -61,14 +61,14 @@
 			\noindent Following steps had to happen to achieve above status:
 			\begin{enumerate}
 				\item{\Ua\ creates a package \La\\
-				    {\tt \# La \hto  Ua:La.0} \\
-				    {\tt \# Ua:La.0 \eq \{\}}
+				    {\tt La \hto  Ua:La.0} \\
+				    {\tt Ua:La.0 \eq \{\}}
 				}
 				\item{\Ua\ adds \Ma\ to \La\\
-					{\tt \# Ua:La.1 \eq \{Ua:La.1:Ma\}}
+					{\tt Ua:La.1 \eq \{Ua:La.1:Ma\}}
 				}
 				\item{\Ua\ sets the HEAD\\
-					{\tt \# La \hto  Ua:La.1}
+					{\tt La \hto  Ua:La.1}
 				}
 			\end{enumerate}
 			
@@ -99,7 +99,7 @@
 				{\tt Ua:La.2 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
 			}
 			\item{\Ua\ sets the HEAD\\
-				{\La \hto Ua:La.2}
+				{\tt La \hto Ua:La.2}
 			}
 			\item{\Ub\ modifies \Mb\\				
 				{\tt Ub:La.0 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}} --- automatic fork of \La\\
@@ -188,6 +188,15 @@
 			\item{Result: {\tt La \hto Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.2:Mb\}}}
 		\end{enumerate}
 		
-	\subsection*{To be continued...}
+	\subsection*{Draft/Ideas}
+	\begin{description}
+		\item[update Library] if Library HEAD has been changed something should tell the User that an update is possible. It should then (on request) change the versions of all Modules which are not in conflict with updating Library. If \\
+			{\tt Ua:La.1 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}} is a Library to be updated and \\
+			{\tt La \hto Uc:La.3 \eq \{Ub:La.1:Ma, Uc:La.3:Mb, Uc:La.1:Mc\}} is current HEAD, then\\
+			{\tt Ub:La.2:Mb} should be updated to {\tt Uc:La.3:Mb} and {\tt Uc:La.1:Mc} should be added.\\
+			User should receive a notification that {\tt Ua:La.1:Ma} is not in sync with HEAD.
+		\item[forking] Consider forcing users to fork a Library before entering to edit mode (as in {\em github})
+	\end{description}
 
+	\subsection*{To be continued\ldots}
 \end{document}
