@@ -16,7 +16,7 @@
 \def\hto{\headsto}
 \def\eq{${\supset}$ }
 
-\usepackage{fullpage, url}
+\usepackage{fullpage, url, tikz}
 \begin{document}
 \maketitle
 
@@ -54,41 +54,70 @@
 \section{Editing Library and its Modules}
 
 	\subsection{Starting point}
-
+		\noindent All next scenarios start from the {\tt Ua:La.1} defined as follows.
 		\subsubsection*{{\tt La \hto  Ua:La.1 \eq \{Ua:La.1:Ma\}}}
 			Package \La\ is created by User \Ua.\\
 			\La's HEAD is PackageRevision identified as {\tt Ua:La.1}\\
 			It contains only one module - \Ma
 			
 			\noindent Following steps had to happen to achieve above status:
-			\begin{enumerate}
-				\item{\Ua\ creates a package \La\\
-				    {\tt La \hto  Ua:La.0} \\
-				    {\tt Ua:La.0 \eq \{\}}
-				}
-				\item{\Ua\ adds \Ma\ to \La\\
-					{\tt Ua:La.1 \eq \{Ua:La.1:Ma\}}
-				}
-				\item{\Ua\ sets the HEAD\\
-					{\tt La \hto  Ua:La.1}
-				}
-			\end{enumerate}
+
+			\vspace{5mm}\begin{tikzpicture}[
+				save/.style={circle,draw,minimum size=1.5mm},
+				branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
+				heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
+				branchfrom/.style={circle},
+				labr/.style={anchor=west,font=\tt},
+				labl/.style={anchor=east},
+				bend angle=45,
+				inner sep=0pt]
+				\node [branch] 		(UaLa0) 		at (0,0)				{};
+					\node [labr] at (5mm,0) 	{Ua:La.0 \eq \{\}};
+					\node [labl] at (-5mm,0)	{\Ua\ creates empty Library \La};
+				\node [heads]		(LaUaLa0)		at (0,-5mm)			{}
+					edge [-] (UaLa0);
+					\node [labr] at (5mm,-5mm)	{La \hto Ua:La.0};
+					\node [labl] at (-5mm,-5mm)	{System sets \La's HEAD};
+				\node [save]		(UaLa1)		at (0,-10mm)			{}
+					edge [-] (LaUaLa0); 
+					\node [labr] at (5mm,-10mm)	{Ua:La.1 \eq \{Ua:La.1:Ma\}};
+					\node [labl] at (-5mm,-10mm)	{\Ua\ adds new Milestone \Ma\ to \La};
+				\node [branch]		(LaUaLa1)		at (0,-15mm)			{}
+					edge [-] (UaLa1);
+					\node [labr] at (5mm,-15mm) 	{La \hto Ua.La.1};
+					\node [labl] at (-5mm,-15mm)	{\Ua\ sets the HEAD};
+			\end{tikzpicture}
 			
 	\subsection{Scenario (1 Module, 2 Users, no dependencies)}
 		\Ua\ and \Ub\ are working on \La\\
 		\Ub\ modified one module
 
-		\begin{enumerate}
-			\item{\Ub\ modifies \Ma\\
-            		{\tt Ub:La.0 \eq \{Ua:La.1:Ma\}} --- automatic fork of \La\\
-				{\tt Ub:La.1 \eq \{Ub:La.1:Ma\}}
-			}
-			\item{\Ub\ sends {\em request} to \La's creator (\Ua) to upgrade \La\ from {\tt Ub:La.1}}
-			\item{\Ua\ accepts the request by setting the HEAD to \Ub's version\\
-				{\tt La \hto  Ub:La.1}
-			}
-			\item{Result: {\tt La \hto  Ub:La.1 \eq \{Ub:La.1:Ma\}}}
-		\end{enumerate}
+		\vspace{5mm}\begin{tikzpicture}[
+			save/.style={circle,draw,minimum size=1.5mm},
+			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
+			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
+			branchfrom/.style={circle},
+			labr/.style={anchor=west,font=\tt},
+			labl/.style={anchor=east},
+			bend angle=45,
+			inner sep=0pt]
+			\node [heads] 		(UaLa1) 		at (0,0)				{};
+			\node [branch]		(UbLa0)		at (5mm,-5mm)			{}
+				edge [-,bend right] (UaLa1); 
+				\node [labr] at (10mm,-5mm)	{Ub:La.0 \eq \{Ua:La.1:Ma\}};
+				\node [labl] at (-5mm,-5mm)	{\Ub\ creates new branch};
+			\node [save]		(UbLa1)		at (5mm,-10mm)			{}
+				edge [-] (UbLa0);
+				\node [labr] at (10mm,-10mm)	{Ub:La.1 \eq \{Ub:La.1:Ma\}};
+				\node [labl] at (-5mm,-10mm)	{\Ub\ saved changes to \Ma};
+				\node [labl] at (-5mm,-15mm)	{\Ub\ sends {\em request} to \La's creator to updade \La's HEAD};
+			\node [heads]		(LaUbLa1)		at (5mm,-20mm)			{}
+				edge[-] (UbLa1);
+				\node [labr] at (10mm,-20mm)	{La \hto Ub:La.1};
+				\node [labl] at (-5mm,-20mm)	{\Ua\ accepts the request by setting the HEAD to \Ub's version};
+		\end{tikzpicture}\vspace{5mm}
+
+		\noindent Result: {\tt La \hto  Ub:La.1 \eq \{Ub:La.1:Ma\}}
 
 	\subsection{Scenario (2 Modules, 2 Users, no dependencies)}
 
