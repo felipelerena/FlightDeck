@@ -54,10 +54,59 @@
 			{\tt Ua:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}} --- Second revision of Library \La\ saved by \Ua\ contains \Ma\ saved by \Ua\ in his \La's first revision and \Mb\ saved by \Ub\ in his second \La's revision.
 	\end{description}
 
+\section{Relations between database objects}
+	Graph of a sample database stage for the {\tt La \hto Ua:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}
+	
+	\vspace{0mm}\begin{tikzpicture}[
+			package/.style={rectangle,draw=blue!80,fill=blue!20,font=\tt,anchor=west},
+			user/.style={rectangle,draw=orange!80,fill=orange!20,font=\tt,anchor=west},
+			revision/.style={rectangle,draw=blue!80,fill=blue!20,font=\tt,anchor=west},
+			module/.style={rectangle,draw=green!80,fill=green!20,font=\tt,anchor=west},
+			created/.style={draw=orange!80,thick},
+			createdlab/.style={auto,swap,orange,font=\small},
+			parent/.style={draw=blue!80,thick,blue},
+			parentlab/.style={auto,swap,blue,font=\small},
+			origin/.style={draw=gray!90,thick,gray},
+			originlab/.style={auto,swap,gray,font=\small},
+			ismodule/.style={draw=green!80,thick},
+			ismodulelab/.style={auto,swap,green,font=\small},
+			heads/.style={draw=red,very thick},
+			headslab/.style={auto,swap,red,font=\small}
+		]
+		\node [package]		(La) 		at (0,-1) 					{La};
+		\node [user]			(Ua) 		at (2,0)						{Ua}
+			edge [<-,created,bend right=45] node [createdlab,rotate=20,anchor=south] {created by} (La);
+		\node [user]			(Ub) 		at (8,0)						{Ub};
+		\node [revision]		(UaLa0)		at (2,-1)						{Ua:La.0}
+			edge [->,created,bend right=45] (Ua);
+			edge [->,parent] (La);
+		\node [revision]		(UaLa1)		at (2,-2)						{Ua:La.1}
+			edge [->,created,bend right=90] (Ua)
+			edge [->,parent,bend left=30] (La)
+			edge [->,origin]  (UaLa0);
+		\node [module]		(UaLa1Ma)		at (4.5,-2)						{Ua:La.1:Ma}
+			edge [->,created,bend right=20] (Ua)
+			edge [->,ismodule] (UaLa1);
+		\node [revision]		(UbLa0)		at (8,-3)						{Ub:La.0}
+			edge [->,created,bend right=20] (Ub)
+			edge [->,parent,bend left=30] (La)
+			edge [->,origin,bend left=30] node [originlab,anchor=south,rotate=350] {originated from} (UaLa1)
+			edge [<-,ismodule,bend left=20] node [ismodulelab,anchor=south,rotate=340] {belongs to} (UaLa1Ma);
+		\node [revision]		(UbLa1)		at (8,-4)						{Ub:La.1}
+			edge [->,created,bend right=60] (Ub)
+			edge [->,parent,bend left=30] node [parentlab,anchor=south,rotate=340] {relates to} (La)
+			edge [->,origin] (UbLa0)
+			edge [<-,ismodule,bend left=20] (UaLa1Ma)
+			edge [<-,heads,bend left=40] node [headslab,below,rotate=345] {HEAD revision} (La);			
+		\node [module]		(UbLa1Mb)		at (10.5,-4)					{Ub:La.1:Mb}
+			edge [->,created,bend right=30] node [createdlab,rotate=315,anchor=south] {saved by} (Ub)
+			edge [->,ismodule] (UbLa1);
+	\end{tikzpicture}
+	
 \section{Editing Library and its Modules}
 
 	\subsection{Starting point}
-		\noindent All next scenarios start from the {\tt Ua:La.1} defined as follows.
+		\noindent All next scenarios start from the {\tt Ua:La.1} defined as below.
 		\subsubsection*{{\tt La \hto  Ua:La.1 \eq \{Ua:La.1:Ma\}}}
 			Package \La\ is created by User \Ua.\\
 			\La's HEAD is PackageRevision identified as {\tt Ua:La.1}\\
@@ -75,28 +124,28 @@
 				bend angle=45,
 				inner sep=0pt]
 				\node at (0,5mm) [rotate=270] {\Ua};
-				\node [branch] 		(UaLa0) 		at (0,0)				{};
-					\node [labr] at (5mm,0) 	{Ua:La.0 \eq \{\}};
-					\node [labl] at (-5mm,0)	{\Ua\ creates empty Library \La};
+				\node [branch] 		(UaLa0) 		at (0,0)				{}
+					node [labr] at (5mm,0) 	{Ua:La.0 \eq \{\}}
+					node [labl] at (-5mm,0)	{\Ua\ creates empty Library \La};
 				\node [heads]		(LaUaLa0)		at (0,-5mm)			{}
-					edge [-] (UaLa0);
-					\node [labr] at (5mm,-5mm)	{La \hto Ua:La.0};
-					\node [labl] at (-5mm,-5mm)	{System sets \La's HEAD};
+					edge [-] (UaLa0)
+					node [labr] at (5mm,-5mm)	{La \hto Ua:La.0}
+					node [labl] at (-5mm,-5mm)	{System sets \La's HEAD};
 				\node [save]		(UaLa1)		at (0,-10mm)			{}
-					edge [-] (LaUaLa0); 
-					\node [labr] at (5mm,-10mm)	{Ua:La.1 \eq \{Ua:La.1:Ma\}};
-					\node [labl] at (-5mm,-10mm)	{\Ua\ adds new Milestone \Ma\ to \La};
-				\node [branch]		(LaUaLa1)		at (0,-15mm)			{}
-					edge [-] (UaLa1);
-					\node [labr] at (5mm,-15mm) 	{La \hto Ua.La.1};
-					\node [labl] at (-5mm,-15mm)	{\Ua\ sets the HEAD};
+					edge [-] (LaUaLa0)
+					node [labr] at (5mm,-10mm)	{Ua:La.1 \eq \{Ua:La.1:Ma\}}
+					node [labl] at (-5mm,-10mm)	{\Ua\ adds new Milestone \Ma\ to \La};
+				\node [heads]		(LaUaLa1)		at (0,-15mm)			{}
+					edge [<-] (UaLa1)
+					node [labr] at (5mm,-15mm) 	{La \hto Ua.La.1}
+					node [labl] at (-5mm,-15mm)	{\Ua\ sets the HEAD};
 			\end{tikzpicture}
 			
 	\subsection{Scenario (1 Module, 2 Users, no dependencies)}
 		\Ua\ and \Ub\ are working on \La\\
 		\Ub\ modified one module
 
-		\vspace{5mm}\begin{tikzpicture}[
+		\vspace{3mm}\begin{tikzpicture}[
 			save/.style={circle,draw,minimum size=1.5mm},
 			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
 			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
@@ -108,18 +157,18 @@
 			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
 			\node [heads] 		(UaLa1) 		at (0,0)				{};
 			\node [branch]		(UbLa0)		at (5mm,-5mm)			{}
-				edge [-,bend right] (UaLa1); 
-				\node [labr] at (10mm,-5mm)	{Ub:La.0 \eq \{Ua:La.1:Ma\}};
-				\node [labl] at (-5mm,-5mm)	{\Ub\ creates new branch};
+				edge [-,bend right] (UaLa1)
+				node [labr] at (10mm,-5mm)	{Ub:La.0 \eq \{Ua:La.1:Ma\}}
+				node [labl] at (-5mm,-5mm)	{\Ub\ creates new branch};
 			\node [save]		(UbLa1)		at (5mm,-10mm)			{}
-				edge [-] (UbLa0);
-				\node [labr] at (10mm,-10mm)	{Ub:La.1 \eq \{Ub:La.1:Ma\}};
-				\node [labl] at (-5mm,-10mm)	{\Ub\ saved changes to \Ma};
-				\node [labl] at (-5mm,-15mm)	{\Ub\ sends {\em request} to \La's creator to updade \La's HEAD};
+				edge [-] (UbLa0)
+				node [labr] at (10mm,-10mm)	{Ub:La.1 \eq \{Ub:La.1:Ma\}}
+				node [labl] at (-5mm,-10mm)	{\Ub\ saved changes to \Ma}
+				node [labl] at (-5mm,-15mm)	{\Ub\ sends {\em request} to \La's creator to updade \La's HEAD};
 			\node [heads]		(LaUbLa1)		at (5mm,-20mm)			{}
-				edge[-] (UbLa1);
-				\node [labr] at (10mm,-20mm)	{La \hto Ub:La.1};
-				\node [labl] at (-5mm,-20mm)	{\Ua\ accepts the request by setting the HEAD to \Ub's version};
+				edge[<-] (UbLa1)
+				node [labr] at (10mm,-20mm)	{La \hto Ub:La.1}
+				node [labl] at (-5mm,-20mm)	{\Ua\ accepts the request by setting the HEAD to \Ub's version};
 		\end{tikzpicture}\vspace{5mm}
 
 		\noindent Result: {\tt La \hto  Ub:La.1 \eq \{Ub:La.1:Ma\}}
@@ -143,36 +192,36 @@
 			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
 			\node [heads] 		(UaLa1) 		at (0,0)					{};
 			\node [save]			(UaLa2)		at (0,-5mm)				{}
-				edge [-] (UaLa1);
-				\node [labr] at (10mm,-5mm)	{Ua:La.2 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}};
-				\node [labl] at (-5mm,-5mm)	{\Ua\ adds a new module \Mb\ to \La};
+				edge [-] (UaLa1)
+				node [labr] at (10mm,-5mm)	{Ua:La.2 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
+				node [labl] at (-5mm,-5mm)	{\Ua\ adds a new module \Mb\ to \La};
 			\node [heads]			(LaUaLa2)		at (0,-10mm)				{}
-				edge [-] (UaLa2);
-				\node [labr] at (10mm,-10mm) {La \hto Ua:La.2};
-				\node [labl] at (-5mm,-10mm) {\Ua\ sets the HEAD};
+				edge [-] (UaLa2)
+				node [labr] at (10mm,-10mm) {La \hto Ua:La.2}
+				node [labl] at (-5mm,-10mm) {\Ua\ sets the HEAD};
 			\node [branch]		(UbLa0)		at (5mm,-15mm)			{}
-				edge [-,bend right] (LaUaLa2);
-				\node [labr] at (10mm,-15mm) {Ub:La.0 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}};
-				\node [labl] at (-5mm,-15mm) {\Ub\ creates new branch};
+				edge [-,bend right] (LaUaLa2)
+				node [labr] at (10mm,-15mm) {Ub:La.0 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
+				node [labl] at (-5mm,-15mm) {\Ub\ creates new branch};
 			\node [save] 			(UbLa1)		at (5mm,-20mm)			{}
-				edge [-] (UbLa0);
-				\node [labr] at (10mm,-20mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}};
-				\node [labl] at (-5mm,-20mm) {\Ub\ modifies \Mb};
-				\node [labl] at (-5mm,-25mm) {\Ub\ sends request to \Ua\ to upgrade \La};
-				\node [point] (p1) at (5mm,-30mm) {} edge [-] (UbLa1);
+				edge [-] (UbLa0)
+				node [labr] at (10mm,-20mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}
+				node [labl] at (-5mm,-20mm) {\Ub\ modifies \Mb}
+				node [labl] at (-5mm,-25mm) {\Ub\ sends request to \Ua\ to upgrade \La}
+				node [point] (p1) at (5mm,-30mm) {} edge [-] (UbLa1);
 			\node [save]			(UaLa3)		at (0,-30mm)				{}
-				edge [-] (LaUaLa2);
-				\node [labr] at (10mm,-30mm) {Ua:La.3 \eq \{Ua:La.3:Ma, Ua:La.2:Mb\}};
-				\node [labl] at (-5mm,-30mm) {\Ua\ modifies \Ma};
+				edge [-] (LaUaLa2)
+				node [labr] at (10mm,-30mm) {Ua:La.3 \eq \{Ua:La.3:Ma, Ua:La.2:Mb\}}
+				node [labl] at (-5mm,-30mm) {\Ua\ modifies \Ma};
 			\node [branch]		(UaLa4)		at (0,-35mm)				{}
 				edge [-] (UaLa3)
-				edge [-,bend right] (p1);
-				\node [labr] at (10mm,-35mm) {Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.1:Mb\}};
-				\node [labl] at (-5mm,-35mm) {\Ua\ acepts \Ub's request, upgrades \La};
+				edge [-,bend right] (p1)
+				node [labr] at (10mm,-35mm) {Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.1:Mb\}}
+				node [labl] at (-5mm,-35mm) {\Ua\ acepts \Ub's request, upgrades \La};
 			\node [heads]			(LaUaLa4)		at (0,-40mm)				{}
-				edge [-] (UaLa4);
-				\node [labr] at (10mm,-40mm) {La \hto Ua:La.4};
-				\node [labl] at (-5mm,-40mm) {\Ua\ sets the HEAD};
+				edge [<-] (UaLa4)
+				node [labr] at (10mm,-40mm) {La \hto Ua:La.4}
+				node [labl] at (-5mm,-40mm) {\Ua\ sets the HEAD};
 		\end{tikzpicture}\vspace{4mm}
 
 		\noindent Result: {\tt La \hto Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.1:Mb\}}
@@ -182,26 +231,48 @@
 		\Ua\ and \Ub\ are working on \La\\ 
 		\Ub\ created module \Mb\
 		
-		\begin{enumerate}
-			\item{\Ub\ adds a new module \Mb\ to \La\\
-				{\tt Ub:La.0 \eq \{Ua:La.1:Ma\}} --- automatic fork of \La\\
-				{\tt Ub:La.1 \eq \{Ua:La.1:Ma, Ua:La.1:Mb\}}
-			}
-			\item{\Ub\ modifies \Mb\\
-				{\tt Ub:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}}
-			}
-			\item{\Ub\ sends request to \Ua\ to upgrade \La\ from {\tt Ub:La.2}}
-			\item{\Ua\ modifies \Ma\\
-				{\tt Ua:La.2 \eq \{Ua:La.2:Ma\}}
-			}
-			\item{\Ua\ acepts \Ub's request\\
-				{\tt Ua:La.3 \eq \{Ua:La.2:Ma, Ub:La.2:Mb\}}
-			}
-			\item{\Ua\ sets the HEAD\\
-				{\tt La \hto Ua:La.3}
-			}
-			\item{Result: {\tt La \hto Ua:La.3 \eq \{Ua:La.2:Ma, Ub:La.2:Mb\}}}
-		\end{enumerate}
+		\vspace{5mm}\begin{tikzpicture}[
+			save/.style={circle,draw,minimum size=1.5mm},
+			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
+			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
+			branchfrom/.style={circle},
+			point/.style={circle,minimum size=0pt},
+			labr/.style={anchor=west,font=\tt},
+			labl/.style={anchor=east},
+			bend angle=45,
+			inner sep=0pt]
+			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
+			\node [heads] 		(UaLa1) 		at (0,0)					{};
+			\node [branch]		(UbLa0)		at (5mm,-5mm)				{}
+				edge [-,bend right] (UaLa1)
+				node [labr] at (10mm,-5mm)	{Ub:La.0 \eq \{Ua:La.1:Ma\}}
+				node [labl] at (-5mm,-5mm)	{\Ub\ creates new branch};
+			\node [save]			(UaLa2)		at (0,-10mm)				{}
+				edge [-] (UaLa1)
+				node [labr] at (10mm,-10mm) {Ua:La.2 \eq \{Ua:La.2:Ma\}}
+				node [labl] at (-5mm,-10mm) {\Ua\ modifies \Ma};
+			\node [save]			(UbLa1)		at (5mm,-15mm)			{}
+				edge [-] (UbLa0)
+				node [labr] at (10mm,-15mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ua:La.1:Mb\}}
+				node [labl] at (-5mm,-15mm) {\Ub\ adds a new module \Mb\ to \La};
+			\node [save]			(UbLa2)		at (5mm,-20mm)			{}
+				edge [-] (UbLa1)
+				node [labr] at (10mm,-20mm) {Ub:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}}
+				node [labl] at (-5mm,-20mm) {\Ub\ modifies \Mb}
+				node [labl] at (-5mm,-25mm) {\Ub\ sends request to \Ua\ to upgrade \La}
+				node [point] (p1) at (5mm,-25mm) {} edge [-] (UbLa2);
+			\node [branch]		(UaLa3)		at (0,-30mm)				{}
+				edge [-] (UaLa2)
+				edge [-, bend right] (p1)
+				node [labr] at (10mm,-30mm) {Ua:La.3 \eq \{Ua:La.2:Ma, Ub:La.2:Mb\}}
+				node [labl] at (-5mm,-30mm) {\Ua\ acepts \Ub's request};
+			\node [heads]			(LaUaLa3)		at (0,-35mm)				{}
+				edge [<-] (UaLa3)
+				node [labr] at (10mm,-35mm) {La \hto Ua:La.3}
+				node [labl] at (-5mm,-35mm) {\Ua\ sets the HEAD};
+		\end{tikzpicture}\vspace{5mm}
+		
+		\noindent Result: {\tt La \hto Ua:La.3 \eq \{Ua:La.2:Ma, Ub:La.2:Mb\}}
 
 	\subsection{Scenario with conflict (2 Modules, 2 Users, no dependencies)}
 
