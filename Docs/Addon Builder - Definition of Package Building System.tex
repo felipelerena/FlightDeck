@@ -71,6 +71,7 @@
 				labl/.style={anchor=east},
 				bend angle=45,
 				inner sep=0pt]
+				\node at (0,5mm) [rotate=270] {\Ua};
 				\node [branch] 		(UaLa0) 		at (0,0)				{};
 					\node [labr] at (5mm,0) 	{Ua:La.0 \eq \{\}};
 					\node [labl] at (-5mm,0)	{\Ua\ creates empty Library \La};
@@ -101,6 +102,7 @@
 			labl/.style={anchor=east},
 			bend angle=45,
 			inner sep=0pt]
+			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
 			\node [heads] 		(UaLa1) 		at (0,0)				{};
 			\node [branch]		(UbLa0)		at (5mm,-5mm)			{}
 				edge [-,bend right] (UaLa1); 
