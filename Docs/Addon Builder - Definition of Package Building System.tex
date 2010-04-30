@@ -20,7 +20,10 @@
 \begin{document}
 \maketitle
 
-\noindent\hfill{\small \em This document is written in \LaTeX\ \footnote{For quick doc please follow to \url{http://web.mit.edu/olh/Latex/ess:Latex.html}, All used symbols may be found here: \url{http://www.artofproblemsolving.com/Wiki/index.php/LaTeX:Symbols}}}
+% This document is written in LaTeX
+% For quick doc please follow to http://web.mit.edu/olh/Latex/ess:Latex.html
+% All used symbols may be found here: http://www.artofproblemsolving.com/Wiki/index.php/LaTeX:Symbols
+% Graphz are using the TikZ package: http://texamples.net/tikz
 
 \noindent If in doubts, please take a look at the accompanied document:\\ {\tt http://github.com/zalun/FlightDeck/raw/master/Docs/Addon\%20Builder\%20-\%20Build\%20System.pdf}.
 
@@ -35,7 +38,7 @@
 		\item[{\tt Ux}] is the specific User (identified by {\em User:name})
 		\item[{\tt Px}] is the specific Package (identified by {\em Package:name})\\
 			It should always be used within its {\tt type} context as {\tt Lx} --- Library or {\tt Ax} --- Addon\\
-			Every Package has an associated PackageRevision\footnote{PackageRevision is not the same as Package version. The latter is just meta-data, a text field of PackageRevision object used only in exported \xpi. It will no longer be used for data identification.} (identified by a triplet {\tt Ux:Py.n} {\em User/Package/PackageRevision:revisionNumber})
+			Every Package has an associated PackageRevision\footnote{PackageRevision is not the same as Package version. The latter is just meta-data, a text field of PackageRevision object used only in exported \xpi. It will no longer be used for data identification.} (identified by a triplet {\tt Ux:Py.n} \\{\em User/Package/PackageRevision:revisionNumber})
 		\item[{\tt Mx}] is the Module (identified by {\tt Ux:Py.n:Mz} {\em PackageRevision/Module:name}\footnote{Every data object is identified by a PackageRevision. The concept is similar to {\em git}'s commits. In essence, for every saved Module change, a new PackageRevision is created.})
 	\end{description}
 
