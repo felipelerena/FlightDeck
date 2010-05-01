@@ -380,13 +380,15 @@
 		\subsubsection{\Ub\ sends update request, \Ua\ decides to drop his changes}
 		
 		\Ub\ thinks his change to \Mb\ is finished and requests update of the Library from its manager --- \Ua.
-		He accepts the request and marks his version of this module as discontinued. 
+		He accepts the request and marks his version of this module as discontinued. This mark prevents from 
+		the automatic set to conflicted revision.
 		
 		\vspace{5mm}\begin{tikzpicture}[
 			save/.style={circle,draw,minimum size=1.5mm},
 			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
 			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
 			conflict/.style={rectangle,draw=red,fill=red,minimum size=1.5mm},
+			discontinued/.style={rectangle,draw=black,fill=black,minimum size=1.5mm},
 			branchfrom/.style={circle},
 			point/.style={circle,minimum size=0pt},
 			labr/.style={anchor=west,font=\tt},
@@ -398,7 +400,16 @@
 				node [labr] at (10mm,-0mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}};
 			\node [save] 			(UaLa3)		at (0mm,-5mm)			{}
 				node [labr] at (10mm,-5mm) {Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.3:Mb\}};
-			\node at (-5mm,-10mm) {\Ub\ sends request to \Ua\ to upgrade \La};
+			\node [labl] at (-5mm,-10mm) {\Ub\ sends request to \Ua\ to upgrade \La};
+			\node [discontinued] 	(DUaLa3)		at (0,-15mm)			{}
+				edge (UaLa3)
+				node [labl] at (-5mm,-15mm) {\Ua\ marks the revision as discontinued (optional)}
+				node [labr,gray] at (1cm,-15mm) {{Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.3:Mb\}}};
+			\node [heads]		(LaUbLa1)		at (5mm,-20mm)			{}
+				edge (UbLa1)
+				node [labr] at (1cm,-2cm) {La \hto Ub:La.1}
+				node [labl] at (-5mm,-2cm) {\Ua\ sets \La's HEAD};
+					
 		\end{tikzpicture}\vspace{5mm}
 		
 	\subsection*{Draft/Ideas}
