@@ -37,9 +37,16 @@
 	\begin{description}
 		\item[{\tt Ux}] is the specific User (identified by {\em User:name})
 		\item[{\tt Px}] is the specific Package (identified by {\em Package:name})\\
-			It should always be used within its {\tt type} context as {\tt Lx} --- Library or {\tt Ax} --- Addon\\
-			Every Package has an associated PackageRevision\footnote{PackageRevision is not the same as Package version. The latter is just meta-data, a text field of PackageRevision object used only in exported \xpi. It will no longer be used for data identification.} (identified by a triplet {\tt Ux:Py.n} \\{\em User/Package/PackageRevision:revisionNumber})
-		\item[{\tt Mx}] is the Module (identified by {\tt Ux:Py.n:Mz} {\em PackageRevision/Module:name}\footnote{Every data object is identified by a PackageRevision. The concept is similar to {\em git}'s commits. In essence, for every saved Module change, a new PackageRevision is created.})
+			It should always be used within its {\tt type} context as {\tt Lx} --- Library or {\tt Ax} --- 
+			Addon\\
+			Every Package has an associated PackageRevision\footnote{PackageRevision is not the same as 
+			Package version. The latter is just meta-data, a text field of PackageRevision object used only 
+			in exported \xpi. It will no longer be used for data identification.} (identified by a triplet 
+			{\tt Ux:Py.n} \\{\em User/Package/PackageRevision:revisionNumber})
+		\item[{\tt Mx}] is the Module (identified by {\tt Ux:Py.n:Mz} 
+		{\em PackageRevision/Module:name}\footnote{Every data object is identified by a PackageRevision. 
+		The concept is similar to {\em git}'s commits. In essence, for every saved Module change, a new 
+		PackageRevision is created.})
 	\end{description}
 
 	\subsection{Object identification --- revision numbers and HEAD}
@@ -51,11 +58,14 @@
 		\item[{\tt Px \hto  Uy:Px.n}] is the HEAD revision of the Package\\ 
 			{\tt La \hto  Ua:La.1} --- \La's HEAD points to the first revision of Library \La\ saved by \Ua.
 		\item[{\tt Ux:Py.n \eq \{Ux:Py.m:Mz, \ldots\}}] Modules inside the Package revision.\\ 
-			{\tt Ua:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}} --- Second revision of Library \La\ saved by \Ua\ contains \Ma\ saved by \Ua\ in his \La's first revision and \Mb\ saved by \Ub\ in his second \La's revision.
+			{\tt Ua:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}} --- Second revision of Library \La\ saved by 
+			\Ua\ contains \Ma\ saved by \Ua\ in his \La's first revision and \Mb\ saved by \Ub\ in his 
+			second \La's revision.
 	\end{description}
 
 \section{Relations between database objects}
-	Graph of a sample database stage for the {\tt La \hto Ua:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}
+	Graph of a sample database stage for the {\tt La \hto Ua:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}. All objects 
+	relate to the appropriate Users.
 	
 	\vspace{0mm}\begin{tikzpicture}[
 			package/.style={rectangle,draw=blue!80,fill=blue!20,font=\tt,anchor=west},
@@ -77,31 +87,29 @@
 		\node [user]			(Ua) 		at (2,0)						{Ua}
 			edge [<-,created,bend right=45] node [createdlab,rotate=20,anchor=south] {created by} (La);
 		\node [user]			(Ub) 		at (8,0)						{Ub};
-		\node [revision]		(UaLa0)		at (2,-1)						{Ua:La.0}
-			edge [->,created,bend right=45] (Ua);
+		\node [revision]		(UaLa0)		at (2,-1)						{Ua:La.0};
 			edge [->,parent] (La);
 		\node [revision]		(UaLa1)		at (2,-2)						{Ua:La.1}
-			edge [->,created,bend right=90] (Ua)
 			edge [->,parent,bend left=30] (La)
 			edge [->,origin]  (UaLa0);
 		\node [module]		(UaLa1Ma)		at (4.5,-2)						{Ua:La.1:Ma}
-			edge [->,created,bend right=20] (Ua)
 			edge [->,ismodule] (UaLa1);
 		\node [revision]		(UbLa0)		at (8,-3)						{Ub:La.0}
-			edge [->,created,bend right=20] (Ub)
 			edge [->,parent,bend left=30] (La)
 			edge [->,origin,bend left=30] node [originlab,anchor=south,rotate=350] {originated from} (UaLa1)
 			edge [<-,ismodule,bend left=20] node [ismodulelab,anchor=south,rotate=340] {belongs to} (UaLa1Ma);
 		\node [revision]		(UbLa1)		at (8,-4)						{Ub:La.1}
-			edge [->,created,bend right=60] (Ub)
 			edge [->,parent,bend left=30] node [parentlab,anchor=south,rotate=340] {relates to} (La)
 			edge [->,origin] (UbLa0)
 			edge [<-,ismodule,bend left=20] (UaLa1Ma)
 			edge [<-,heads,bend left=40] node [headslab,below,rotate=345] {HEAD revision} (La);			
 		\node [module]		(UbLa1Mb)		at (10.5,-4)					{Ub:La.1:Mb}
-			edge [->,created,bend right=30] node [createdlab,rotate=315,anchor=south] {saved by} (Ub)
 			edge [->,ismodule] (UbLa1);
 	\end{tikzpicture}
+	
+	Real world example will be more complicated. In essence a PackageRevision might (and most of the time 
+	will) be originated from more than one PackageRevisions.
+	
 	
 \section{Editing Library and its Modules}
 
@@ -128,11 +136,11 @@
 					node [labr] at (5mm,0) 	{Ua:La.0 \eq \{\}}
 					node [labl] at (-5mm,0)	{\Ua\ creates empty Library \La};
 				\node [heads]		(LaUaLa0)		at (0,-5mm)			{}
-					edge [-] (UaLa0)
+					edge (UaLa0)
 					node [labr] at (5mm,-5mm)	{La \hto Ua:La.0}
 					node [labl] at (-5mm,-5mm)	{System sets \La's HEAD};
 				\node [save]		(UaLa1)		at (0,-10mm)			{}
-					edge [-] (LaUaLa0)
+					edge (LaUaLa0)
 					node [labr] at (5mm,-10mm)	{Ua:La.1 \eq \{Ua:La.1:Ma\}}
 					node [labl] at (-5mm,-10mm)	{\Ua\ adds new Milestone \Ma\ to \La};
 				\node [heads]		(LaUaLa1)		at (0,-15mm)			{}
@@ -157,7 +165,7 @@
 			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
 			\node [heads] 		(UaLa1) 		at (0,0)				{};
 			\node [branch]		(UbLa0)		at (5mm,-5mm)			{}
-				edge [-,bend right] (UaLa1)
+				edge [bend right] (UaLa1)
 				node [labr] at (10mm,-5mm)	{Ub:La.0 \eq \{Ua:La.1:Ma\}}
 				node [labl] at (-5mm,-5mm)	{\Ub\ creates new branch};
 			\node [save]		(UbLa1)		at (5mm,-10mm)			{}
@@ -192,30 +200,30 @@
 			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
 			\node [heads] 		(UaLa1) 		at (0,0)					{};
 			\node [save]			(UaLa2)		at (0,-5mm)				{}
-				edge [-] (UaLa1)
+				edge (UaLa1)
 				node [labr] at (10mm,-5mm)	{Ua:La.2 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
 				node [labl] at (-5mm,-5mm)	{\Ua\ adds a new module \Mb\ to \La};
 			\node [heads]			(LaUaLa2)		at (0,-10mm)				{}
-				edge [-] (UaLa2)
+				edge (UaLa2)
 				node [labr] at (10mm,-10mm) {La \hto Ua:La.2}
 				node [labl] at (-5mm,-10mm) {\Ua\ sets the HEAD};
 			\node [branch]		(UbLa0)		at (5mm,-15mm)			{}
-				edge [-,bend right] (LaUaLa2)
+				edge [bend right] (LaUaLa2)
 				node [labr] at (10mm,-15mm) {Ub:La.0 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
 				node [labl] at (-5mm,-15mm) {\Ub\ creates new branch};
 			\node [save] 			(UbLa1)		at (5mm,-20mm)			{}
-				edge [-] (UbLa0)
+				edge (UbLa0)
 				node [labr] at (10mm,-20mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}
 				node [labl] at (-5mm,-20mm) {\Ub\ modifies \Mb}
 				node [labl] at (-5mm,-25mm) {\Ub\ sends request to \Ua\ to upgrade \La}
 				node [point] (p1) at (5mm,-30mm) {} edge [-] (UbLa1);
 			\node [save]			(UaLa3)		at (0,-30mm)				{}
-				edge [-] (LaUaLa2)
+				edge (LaUaLa2)
 				node [labr] at (10mm,-30mm) {Ua:La.3 \eq \{Ua:La.3:Ma, Ua:La.2:Mb\}}
 				node [labl] at (-5mm,-30mm) {\Ua\ modifies \Ma};
 			\node [branch]		(UaLa4)		at (0,-35mm)				{}
-				edge [-] (UaLa3)
-				edge [-,bend right] (p1)
+				edge (UaLa3)
+				edge [bend right] (p1)
 				node [labr] at (10mm,-35mm) {Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.1:Mb\}}
 				node [labl] at (-5mm,-35mm) {\Ua\ acepts \Ub's request, upgrades \La};
 			\node [heads]			(LaUaLa4)		at (0,-40mm)				{}
@@ -244,26 +252,26 @@
 			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
 			\node [heads] 		(UaLa1) 		at (0,0)					{};
 			\node [branch]		(UbLa0)		at (5mm,-5mm)				{}
-				edge [-,bend right] (UaLa1)
+				edge [bend right] (UaLa1)
 				node [labr] at (10mm,-5mm)	{Ub:La.0 \eq \{Ua:La.1:Ma\}}
 				node [labl] at (-5mm,-5mm)	{\Ub\ creates new branch};
 			\node [save]			(UaLa2)		at (0,-10mm)				{}
-				edge [-] (UaLa1)
+				edge (UaLa1)
 				node [labr] at (10mm,-10mm) {Ua:La.2 \eq \{Ua:La.2:Ma\}}
 				node [labl] at (-5mm,-10mm) {\Ua\ modifies \Ma};
 			\node [save]			(UbLa1)		at (5mm,-15mm)			{}
-				edge [-] (UbLa0)
+				edge (UbLa0)
 				node [labr] at (10mm,-15mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ua:La.1:Mb\}}
 				node [labl] at (-5mm,-15mm) {\Ub\ adds a new module \Mb\ to \La};
 			\node [save]			(UbLa2)		at (5mm,-20mm)			{}
-				edge [-] (UbLa1)
+				edge (UbLa1)
 				node [labr] at (10mm,-20mm) {Ub:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}}
 				node [labl] at (-5mm,-20mm) {\Ub\ modifies \Mb}
 				node [labl] at (-5mm,-25mm) {\Ub\ sends request to \Ua\ to upgrade \La}
 				node [point] (p1) at (5mm,-25mm) {} edge [-] (UbLa2);
 			\node [branch]		(UaLa3)		at (0,-30mm)				{}
-				edge [-] (UaLa2)
-				edge [-, bend right] (p1)
+				edge (UaLa2)
+				edge [bend right] (p1)
 				node [labr] at (10mm,-30mm) {Ua:La.3 \eq \{Ua:La.2:Ma, Ub:La.2:Mb\}}
 				node [labl] at (-5mm,-30mm) {\Ua\ acepts \Ub's request};
 			\node [heads]			(LaUaLa3)		at (0,-35mm)				{}
@@ -280,54 +288,128 @@
 		\Ua\ created module \Mb\\
 		\Ua\ and \Ub\ are working on \Mb\\
 		Conflict arises...
+		
+		
+		
+		\vspace{5mm}\begin{tikzpicture}[
+			save/.style={circle,draw,minimum size=1.5mm},
+			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
+			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
+			conflict/.style={rectangle,draw=red,fill=red,minimum size=1.5mm},
+			branchfrom/.style={circle},
+			point/.style={circle,minimum size=0pt},
+			labr/.style={anchor=west,font=\tt},
+			labl/.style={anchor=east},
+			bend angle=45,
+			inner sep=0pt]
+			\node at (0,15mm) {\bf Steps driving to the conflict:};
+			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
+			\node [heads] 		(UaLa1) 		at (0,0)					{};			
+			\node [save]			(UaLa2)		at (0,-5mm)				{}
+				edge (UaLa1)
+				node [labr] at (10mm,-5mm)	{Ua:La.2 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
+				node [labl] at (-5mm,-5mm)	{\Ua\ adds a new module \Mb\ to \La};
+			\node [heads]			(LaUaLa2)		at (0,-10mm)				{}
+				edge (UaLa2)
+				node [labr] at (10mm,-10mm) {La \hto Ua:La.2}
+				node [labl] at (-5mm,-10mm) {\Ua\ sets the HEAD};
+			\node [branch]		(UbLa0)		at (5mm,-15mm)			{}
+				edge [bend right] (LaUaLa2)
+				node [labr] at (10mm,-15mm) {Ub:La.0 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
+				node [labl] at (-5mm,-15mm) {\Ub\ creates new branch};
+			\node [save] 			(UbLa1)		at (5mm,-20mm)			{}
+				edge (UbLa0)
+				node [labr] at (10mm,-20mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}
+				node [labl] at (-5mm,-20mm) {\Ub\ modifies \Mb};
+			\node [save] 			(UaLa3)		at (0mm,-25mm)			{}
+				edge (LaUaLa2)
+				node [labr] at (10mm,-25mm) {Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.3:Mb\}}
+				node [labl] at (-5mm,-25mm) {\Ua\ modifies \Mb};
 
-		\begin{enumerate}
-			\item{\Ua\ adds a new module \Mb\ to \La\\
-            		{\tt Ua:La.2 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
-			}
-			\item{\Ua\ sets the HEAD\\
-				{\tt La \hto Ua:La.2}
-			}
-			\item{\Ub\ modifies \Mb\\
-				{\tt Ub:La.0 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}} --- automatic fork of \La\\
-				{\tt Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}
-			}
-			\item{\Ua\ modifies \Mb\\
-				{\tt Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
-			}
-			\item{{\bf CONFLICT}\\
-            		At the time we've got two versions of La.Mb which came out from the same version
-            	}
-            	\item{\Ua\ sets the HEAD\\
-            		{\tt La \eq Ua:La.3}
-            	}
-            	\item{\Ub\ receives info that his source is behind the HEAD\\
-				{\tt Ub:La.1:Mb} (and {\tt Ub:La.1}) is marked as {\em conflicted}\\
-				\Ub\ can't send the update request
-			}
-			\item{\Ub\ manually solves conflict by editing the \Mb\ and removing the {\em conflict flag}\\
-				{\tt Ub:La.2 \eq \{Ua:La.1, Ub:La.2:Mb\}}
-			}
-			\item{\Ub\ sends request to \Ua\ to upgrade \La\ from {\tt Ub:La.2}}
-			\item{\Ua\ acepts \Ub's request\\
-				{\tt Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.2:Mb\}}
-			}
-			\item{\Ua\ sets the HEAD\\
-				{\tt La \hto Ua:La.4}
-			}
-			\item{Result: {\tt La \hto Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.2:Mb\}}}
-		\end{enumerate}
+		\end{tikzpicture}\vspace{5mm}
+		
+		\noindent Libraries {\tt Ub:La.1} and {\tt Ua:La.3} are {\bf conflicted} because {\tt Ub:La.1:Mb} and 
+		{\tt Ua:La.3:Mb} are both an evolution of the {\tt Ua:La.2:Mb}. From that moment many scenarios may 
+		happen. Just a few of them will follow.
+		
+		\subsubsection{\Ua\ sets HEAD and \Ub's revision is outdated}
+		
+		\La's manager --- \Ua\ has chosen the HEAD. At that moment he doesn't know about \Ub's changes to \Mb.
+		
+		\vspace{5mm}\begin{tikzpicture}[
+			save/.style={circle,draw,minimum size=1.5mm},
+			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
+			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
+			conflict/.style={rectangle,draw=red,fill=red,minimum size=1.5mm},
+			branchfrom/.style={circle},
+			point/.style={circle,minimum size=0pt},
+			labr/.style={anchor=west,font=\tt},
+			labl/.style={anchor=east},
+			bend angle=45,
+			inner sep=0pt]
+			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
+			\node [save] 			(UbLa1)		at (5mm,0mm)			{}
+				node [labr] at (10mm,-0mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}};
+			\node [save] 			(UaLa3)		at (0mm,-5mm)			{}
+				node [labr] at (10mm,-5mm) {Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.3:Mb\}};
+			\node [heads]			(LaUaLa3)		at (0,-10mm)				{}
+				edge (UaLa3)
+				node [labr] at (10mm,-10mm) {La \hto Ua:La.3}
+				node [labl] at (-5mm,-10mm) {\Ua\ sets the HEAD}
+				node [point] (p1) at (0,-20mm) {}
+				edge [dotted] (LaUaLa3);
+			\node [conflict] 		(CUbLa1)		at (5mm,-15mm)			{}
+				edge (UbLa1)
+				node [labl] at (-5mm,-15mm) {{\tt Ub:La.1} is marked as {\em conflicted}. Send update 
+										request disabled}
+				node [labl] at (-5mm,-20mm) {\Ub\ receives info that his source is behind the HEAD}
+				node [labr,red] at (1cm,-15mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}};
+			\node [save]			(UbLa2)		at (5mm,-25mm)			{}
+				edge (CUbLa1)
+				edge [dotted, bend left] (p1)
+				node [labr] at (1cm,-25mm) {Ub:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}}
+				node [labl] at (-5mm,-25mm) {\Ub\ manually solves conflict by editing \Mb}
+				node [labl] at (-5mm,-30mm) {\Ub\ sets the conflict as resolved};
+		\end{tikzpicture}\vspace{5mm}
+		
+		From that moment {\Ub:La.2} becomes a normal (not conflicted) PackageRevision. \Ub\ may send
+		Package manager an upgrade request which could end by switching \La's HEAD to {\Ub:La.2}.
+		It is important to note, that the {\tt Ub:La.2} is not an evolution of {\tt Ua:La.3}, it will not be
+		originated from it.\footnote{Decide if this is the right thing to do.}
+
+		\subsubsection{\Ub\ sends update request, \Ua\ decides to drop his changes}
+		
+		\Ub\ thinks his change to \Mb\ is finished and requests update of the Library from its manager --- \Ua.
+		He accepts the request and marks his version of this module as discontinued. 
+		
+		\vspace{5mm}\begin{tikzpicture}[
+			save/.style={circle,draw,minimum size=1.5mm},
+			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
+			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
+			conflict/.style={rectangle,draw=red,fill=red,minimum size=1.5mm},
+			branchfrom/.style={circle},
+			point/.style={circle,minimum size=0pt},
+			labr/.style={anchor=west,font=\tt},
+			labl/.style={anchor=east},
+			bend angle=45,
+			inner sep=0pt]
+			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
+			\node [save] 			(UbLa1)		at (5mm,0mm)			{}
+				node [labr] at (10mm,-0mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}};
+			\node [save] 			(UaLa3)		at (0mm,-5mm)			{}
+				node [labr] at (10mm,-5mm) {Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.3:Mb\}};
+			\node at (-5mm,-10mm) {\Ub\ sends request to \Ua\ to upgrade \La};
+		\end{tikzpicture}\vspace{5mm}
 		
 	\subsection*{Draft/Ideas}
 	\begin{description}
-		\item[update Library] if Library HEAD has been changed something should tell the User that an update is possible. It should then (on request) change the versions of all Modules which are not in conflict with updating Library. In essence, if \\
+		\item[update Library] if Library HEAD has been changed something should tell the User that an update 
+		is possible. It should then (on request) change the versions of all Modules which are not in conflict 
+		with updating Library. In essence, if \\
 			{\tt Ua:La.1 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}} is a Library to be updated and \\
 			{\tt La \hto Uc:La.3 \eq \{Ub:La.1:Ma, Uc:La.3:Mb, Uc:La.1:Mc\}} is current HEAD, then\\
 			{\tt Ub:La.2:Mb} should be updated to {\tt Uc:La.3:Mb} and {\tt Uc:La.1:Mc} should be added.\\
 			User should receive a notification that {\tt Ua:La.1:Ma} is not in sync with HEAD.
-		\item[forking] Consider forcing users to create their copy of a Package before entering to edit mode (as in {\em github}), find a better name if needed ...
-		\item[revision graphs] should be created inside this documentation. \\
-			Consider using tikz \url{http://www.texample.net/tikz/examples/}
 	\end{description}
 
 	\subsection*{To be continued\ldots}
