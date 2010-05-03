@@ -2,7 +2,7 @@
 
 \title{Mozilla Addon Builder\\ Definition of the Package Building System}
 \author{Piotr Zalewa}
-\date{\today}
+\date{build --- \today}
 
 \def\Ua{{\tt Ua}}
 \def\Ub{{\tt Ub}}
@@ -26,8 +26,13 @@
 % All used symbols may be found here: http://www.artofproblemsolving.com/Wiki/index.php/LaTeX:Symbols
 % Graphz are using the TikZ package: http://texamples.net/tikz
 
-\noindent If in doubts, please take a look at the accompanied slides:\\ {\tt http://github.com/zalun/FlightDeck/raw/master/Docs/Addon\%20Builder\%20-\%20Build\%20System.pdf}.
-
+{\scriptsize
+	\noindent This document is under heavy development - please always download the newest version from \\
+\url{http://github.com/zalun/FlightDeck/raw/master/Docs/Addon\%20Builder\%20-\%20Definition\%20of\%20Package\%20Building\%20System.pdf}
+}{\scriptsize
+	\noindent If in doubts, please take a look at the accompanied slides at \\
+	\url{http://github.com/zalun/FlightDeck/raw/master/Docs/Addon\%20Builder\%20-\%20Build\%20System.pdf}
+}
 \section{Syntax}
 
 	\subsection{Objects}
@@ -65,8 +70,8 @@
 	\end{description}
 
 \section{Relations between database objects}
-	Graph of a sample database stage for the {\tt La \hto Ua:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}. All objects 
-	relate to the appropriate Users.
+	Graph of a sample database stage for the {\tt La \hto Ua:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}. Every object 
+	relates to the appropriate User.
 	
 	\vspace{0mm}\begin{tikzpicture}[
 			package/.style={rectangle,draw=blue!80,fill=blue!20,font=\tt,anchor=west},
@@ -109,10 +114,73 @@
 	\end{tikzpicture}
 	
 	Real world example will be more complicated. In essence a PackageRevision might (and most of the time 
-	will) be originated from more than one PackageRevisions.
+	will) be originated from more than one PackageRevisions. There is also no mention of Library dependencies.
 	
+
+\section{Exporting XPI}
+
+	Be aware that it is possible and common to export \xpi\footnote{An XPI (pronounced "zippy" and derived 
+	from XPInstall) installer module is a ZIP file that contains an install script or a manifest at the root 
+	of the file, and a number of data files.} from partially unsaved data. This happens when User will use 
+	the "Try in browser" 	functionality. In this case \xpi\ may not be send to 
+	\amo\footnote{\url{http://addons.mozilla.org/}}.
 	
-\section{Editing Library and its Modules}
+	\subsection{Creating directory structure}
+		
+		Directory structure should be as close as standard Jetpack SDK as possible. 
+		
+		\subsubsection*{Create temporary directory and copy Jetpack SDK Packages}
+		
+		\begin{itemize}
+			\item{\tt /tmp/packages\_\{hash\}\footnote{hash is a random string, different for every 
+			exported \xpi}/
+				\begin{itemize}
+					\item{development-mode/}
+					\item{jetpack-core/}
+					\item{nsjetpack/}
+					\item{test-harness/}
+				\end{itemize}
+			}
+		\end{itemize}
+	
+	\subsection{Exporting Packages with Modules}
+		
+		\begin{enumerate}
+			\item{Create Package and its Modules directories\\
+				{\tt /tmp/packages\_\{hash\}/\{Package:name\}/}\\
+				{\tt /tmp/packages\_\{hash\}/\{Package:name\}/lib/}
+			}
+			\item{Use collected data to create the Manifest.\\
+				{\tt /tmp/packages\_\{hash\}/\{Package:name\}/package.json}
+			}
+			\item{Create Module files\\
+				Iterate over the assigned Modules and create a "{\tt .js}" file with its content inside 
+				Package's {\tt lib/} directory.
+			}
+			\item{Export dependencies\\
+				Iterate over Libraries on which a Package depends and repeat this section ({\em Export 
+				the Package with Modules}) for every Library.
+			}
+		\end{enumerate}
+	
+	\subsection{Building \xpi}
+	
+		System is already in a virtual environment knowing about Jetpack SDK. It is enough to change 
+		directory to {\tt /tmp/packages\_\{hash\}/\{Package:name\}/} and call {\tt cfx xpi}. The 
+		{\tt \{Package:name\}.xpi} file will be created in current directory. Its location is then send
+		to the front-end to be used in further actions. Usually calling the {\em FlightDeck Addon}\footnote{
+		FlightDeck Addon is a Jetpack extension allowing to temporary installation of the \xpi. It 
+		needs to be called with an URL of the \xpi.} to download and install the \xpi.
+	
+	\subsection{Uploading to AMO}
+	
+		Create \xpi\ from the database object. Use {\tt mechanize} lib to login to \amo and upload the 
+		file faking it was done directly from the browser.
+							
+\section{Editing Package and its Modules}
+
+	How database evolves by changing the Packages and Modules. This description will be used later to design 
+	structure and functionalities of the system.
 
 	\subsection{Starting point}
 		\noindent All next scenarios start from the {\tt Ua:La.1} defined as below.
@@ -413,21 +481,6 @@
 					
 		\end{tikzpicture}\vspace{5mm}
 
-\section{Exporting XPI}
-
-	Code used to export \xpi\footnote{An XPI (pronounced "zippy" and derived from XPInstall) installer module 
-	is a ZIP file that contains an install script or a manifest at the root of the file, and a number of data 
-	files.} may be unsaved. This happens when User will use the "Try in browser" 	functionality. In this case 
-	\xpi\ may not be send to \amo\footnote{\url{http://addons.mozilla.org/}}.
-	
-	\subsection{Creating directory structure}
-		
-		Directory structure should be as close as standard Jetpack SDK as possible.
-	
-	\subsection{Exporting Addon with Modules}
-	
-	\subsection{Exporting dependencies}
-						
 \section*{Draft/Ideas}
 	\begin{description}
 		\item[update Library] if Library HEAD has been changed something should tell the User that an update 
