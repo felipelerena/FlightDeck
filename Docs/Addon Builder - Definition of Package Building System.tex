@@ -11,6 +11,7 @@
 \def\Mb{{\tt Mb}}
 
 \def\xpi{{\tt XPI}}
+\def\amo{{\tt AMO}}
 
 \def\headsto{${\Longrightarrow}$ }
 \def\hto{\headsto}
@@ -25,7 +26,7 @@
 % All used symbols may be found here: http://www.artofproblemsolving.com/Wiki/index.php/LaTeX:Symbols
 % Graphz are using the TikZ package: http://texamples.net/tikz
 
-\noindent If in doubts, please take a look at the accompanied document:\\ {\tt http://github.com/zalun/FlightDeck/raw/master/Docs/Addon\%20Builder\%20-\%20Build\%20System.pdf}.
+\noindent If in doubts, please take a look at the accompanied slides:\\ {\tt http://github.com/zalun/FlightDeck/raw/master/Docs/Addon\%20Builder\%20-\%20Build\%20System.pdf}.
 
 \section{Syntax}
 
@@ -411,8 +412,23 @@
 				node [labl] at (-5mm,-2cm) {\Ua\ sets \La's HEAD};
 					
 		\end{tikzpicture}\vspace{5mm}
+
+\section{Exporting XPI}
+
+	Code used to export \xpi\footnote{An XPI (pronounced "zippy" and derived from XPInstall) installer module 
+	is a ZIP file that contains an install script or a manifest at the root of the file, and a number of data 
+	files.} may be unsaved. This happens when User will use the "Try in browser" 	functionality. In this case 
+	\xpi\ may not be send to \amo\footnote{\url{http://addons.mozilla.org/}}.
+	
+	\subsection{Creating directory structure}
 		
-	\subsection*{Draft/Ideas}
+		Directory structure should be as close as standard Jetpack SDK as possible.
+	
+	\subsection{Exporting Addon with Modules}
+	
+	\subsection{Exporting dependencies}
+						
+\section*{Draft/Ideas}
 	\begin{description}
 		\item[update Library] if Library HEAD has been changed something should tell the User that an update 
 		is possible. It should then (on request) change the versions of all Modules which are not in conflict 
@@ -423,6 +439,6 @@
 			User should receive a notification that {\tt Ua:La.1:Ma} is not in sync with HEAD.
 	\end{description}
 
-	\subsection*{To be continued\ldots}
+\section*{To be continued\ldots}
 \end{document}
 

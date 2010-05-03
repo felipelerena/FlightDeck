@@ -1,22 +1,27 @@
 from django.test import TestCase
 
 from test_utils import create_test_user
-from jetpack.models import Jet, JetVersion, Cap, CapVersion
+from jetpack.models import Package, PackageRevision
 from jetpack import settings
 
 TEST_USERNAME = 'test_user'
-TEST_JETPACK_NAME = 'test Jetpack'
-TEST_CAP_NAME = 'test Capability'
+TEST_ADDON_NAME = 'test Addon'
+TEST_ADDON_SLUG = 'test-addon'
+TEST_LIBRARY_NAME = 'test Library'
+TEST_LIBRARY_SLUG = 'test-library'
+TEST_ADDON2_NAME = 'test Addon 2'
 
-class JetpackTest(TestCase):
+class PackageTest(TestCase):
 
 	def setUp(self):
 		self.to_delete = []
 		self.user = create_test_user(username=TEST_USERNAME)
-		self.jetpack = Jet(name=TEST_JETPACK_NAME, creator=self.user)
-		self.jetpack.save()
-		self.version = JetVersion(jetpack=self.jetpack, name='first', author=self.user)
-		self.version.save()
+		self.addon = Package(name=TEST_ADDON_NAME, creator=self.user, type='a')
+		self.addon.save()
+		self.to_delete.append(self.addon)
+		self.library = Package(name=TEST_LIBRARY_NAME, creator=self.user, type='l')
+		self.library.save()
+		self.to_delete.append(self.library)
 
 	def tearDown(self):
 		self.user.delete()
@@ -24,61 +29,49 @@ class JetpackTest(TestCase):
 			try:
 				o.delete()
 			except:
-				print "Object %s can't be deleted" % str(o)
+				print 'Object %s can\'t be deleted' % str(o)
 
-	def test_jetpack_creation(self):
-		jetpack = Jet.objects.get(name=TEST_JETPACK_NAME)
-		self.failUnless(jetpack)
+	def test_addon_creation(self):
+		addon = Package.objects.get(name=TEST_ADDON_NAME)
+		self.failUnless(addon)
 
-	def test_first_as_base(self):
-		"""
-		First is base
-		"""
-		# first created version is base one
-		self.failUnless(self.jetpack.base_version)
-		self.assertEqual(self.jetpack.base_version.name, 'first')
+	def test_library_creation(self):
+		library = Package.objects.get(name=TEST_LIBRARY_NAME)
+		self.failUnless(library)
 
-	def test_version_numbering(self):
-		self.assertEqual(self.jetpack.base_version.fullname, 'first.0')
+	def test_slug_creation(self):
+		self.assertEqual(self.addon.slug, TEST_ADDON_SLUG)
+		self.assertEqual(self.library.slug, TEST_LIBRARY_SLUG)
 
-	def test_switch_base(self):
-		"""
-		There is only one base version per Jetpack
-		"""
-		# next base version 
-		first_base_id = self.jetpack.base_version.id
-		second_base = JetVersion(
-			jetpack=self.jetpack, name='second', is_base=True, author=self.user
-		)
-		second_base.save()
-		self.assertEqual(second_base.name, self.jetpack.base_version.name)
+	def test_ordering(self):
+		addon2 = Package(name=TEST_ADDON2_NAME, creator=self.user, type='a')
+		addon2.save()
+		self.to_delete.append(addon2)
+		self.assertEqual(Package.objects.all()[0].name, TEST_ADDON2_NAME)
 		
-		first_base = JetVersion.objects.get(pk=first_base_id)
-		self.assertEqual(first_base.is_base, False)
+	def test_filtering(self):
+		addon2 = Package(name=TEST_ADDON2_NAME, creator=self.user, type='a')
+		addon2.save()
+		self.to_delete.append(addon2)
+		self.assertEqual(len(list((Package.objects.addons().all()))), 2)
+		self.assertEqual(len(list((Package.objects.libraries().all()))), 1)
 
-	def test_assign_capability(self):
-		capability = Cap(name="Capability assigned", creator=self.user)
-		capability.save()
-		version = CapVersion(capability=capability, name='0.0', author=self.user)
-		version.save()
-		self.jetpack.base_version.capabilities.add(version)
-		self.failUnless(version in self.jetpack.base_version.capabilities.all())
-		
-	def test_increase_counter(self):
-		second_version=JetVersion(jetpack=self.jetpack, name='first', author=self.user)
-		second_version.save()
-		self.assertEqual(second_version.counter,1)
+	def test_related_name(self):
+		self.assertEqual(len(list(self.user.packages_originated.all())), 2)
 
-		
-class CapabilityTest(TestCase):
+
+class PackageRevisionTest(TestCase):
 
 	def setUp(self):
 		self.to_delete = []
 		self.user = create_test_user(username=TEST_USERNAME)
-		self.capability = Cap(name=TEST_CAP_NAME, creator=self.user)
-		self.capability.save()
-		self.version = CapVersion(capability=self.capability, name='first', author=self.user)
-		self.version.save()
+		self.addon = Package(name=TEST_ADDON_NAME, creator=self.user, type='a')
+		self.addon.save()
+		self.to_delete.append(self.addon)
+		self.library = Package(name=TEST_LIBRARY_NAME, creator=self.user, type='l')
+		self.library.save()
+		self.to_delete.append(self.library)
+		# signals have also created the first revisions
 
 	def tearDown(self):
 		self.user.delete()
@@ -86,54 +79,15 @@ class CapabilityTest(TestCase):
 			try:
 				o.delete()
 			except:
-				print "Object %s can't be deleted" % str(o)
+				print 'Object %s can\'t be deleted' % str(o)
 
-	def test_capability_creation(self):
-		capability = Cap.objects.get(name=TEST_CAP_NAME)
-		self.failUnless(capability)
-
-	def test_first_as_base(self):
-		"""
-		First is base
-		"""
-		# first created version is base one
-		self.failUnless(self.capability.base_version)
-		self.assertEqual(self.capability.base_version.name, 'first')
-
-	def test_version_numbering(self):
-		self.assertEqual(self.capability.base_version.fullname, 'first.0')
-
-	def test_switch_base(self):
-		"""
-		There is only one base version per capability
-		"""
-		# next base version 
-		first_base_id = self.capability.base_version.id
-		second_base = CapVersion(
-			capability=self.capability, name='second', is_base=True, author=self.user
+	def test_first_revision(self):
+		revisions = PackageRevision.objects.filter(package__slug=self.addon.slug)
+		self.assertEqual(
+			len(list(revisions)),
+			1
 		)
-		second_base.save()
-		self.assertEqual(second_base.name, self.capability.base_version.name)
-		
-		first_base = CapVersion.objects.get(pk=first_base_id)
-		self.assertEqual(first_base.is_base, False)
-
-
-	def test_assign_capability(self):
-		capability = Cap(name="Capability assigned", creator=self.user)
-		capability.save()
-		version = CapVersion(capability=capability, name='0.0', author=self.user)
-		version.save()
-		self.capability.base_version.capabilities.add(version)
-		self.failUnless(version in self.capability.base_version.capabilities.all())
-		
-
-	def test_increase_counter(self):
-		# assert save with given counter does not change it
-		self.version.save()
-		self.assertEqual(self.version.counter, 0)
-		# assert save without given counter sets it automatically
-		second_version=CapVersion(capability=self.capability, name='first', author=self.user)
-		second_version.save()
-		self.assertEqual(second_version.counter,1)
-
+		revision = revisions[0]
+		self.failUnless(revision.was_head)
+		self.assertEqual(revision.owner.username, self.addon.creator.username)
+		self.assertEqual(revision.revision_number, 0)
