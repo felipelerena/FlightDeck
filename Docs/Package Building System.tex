@@ -9,8 +9,7 @@
 % All used symbols may be found here: http://www.artofproblemsolving.com/Wiki/index.php/LaTeX:Symbols
 % Graphz are using the TikZ package: http://texamples.net/tikz
 
-\usepackage{fullpage, url, tikz, tikz-er2, listings, sidecap, floatrow}
-\usepackage{graphicx}
+\usepackage{fullpage, url, tikz, tikz-er2, listings, sidecap, boxedminipage, graphicx, floatrow}
 % TikZ is included in the TeXLive distribution
 % TikZ-ER2 (Creative Commons Attribution 2.5 Generic License) 
 % needs to be installed https://www.assembla.com/wiki/show/tikz-er2 
@@ -117,27 +116,30 @@
 	
 	\subsection{Creating directory structure}
 		
-		Directory structure should be as close as standard Jetpack SDK as possible. 
+		Directory structure should be as close as standard Jetpack SDK as possible. Jetpack SDK should 
+		be copied to a temporary directory as more than one Addon compilation could take action at the 
+		same time. Desired revisions of Libraries and Addons will be exported into {\tt packages} directory.
+
+			\begin{figure}[htp,capbesideposition={right,top},capbesideframe=yes]
+				\begin{boxedminipage}{6cm}{\footnotesize\begin{lstlisting}		
+ /tmp/jetpack-sdk-\{hash\}/
+ |-- bin/
+ |   |-- activate
+ |   |-- cfx
+ |   `-- [...]
+ |-- packages/
+ |   |-- jetpack-core/
+ |   `-- [...]
+ |-- python-lib/
+ |-- static-files/
+ `-- [...]
+				\end{lstlisting}}\end{boxedminipage}
+				\caption{Excerpts from a copied Jetpack SDK}
+			\end{figure}
+	
 		
-		\subsubsection*{Copy Jetpack SDK to a temporary dir}
-		
-			\begin{lstlisting}
-/tmp/jetpack-sdk-
-|-- bin
-|   |-- activate
-|   |-- bin
-|   `-- [...]
-|-- packages
-|   |-- development-mode
-|   |-- jetpack-core
-|   |-- nsjetpack
-|   `-- test-harness
-|-- python-lib
-|-- static-files
-`-- [...]
-			\end{lstlisting}
-		
-	\subsection{Exporting Packages with Modules}
+	
+	\subsection{Export Packages with Modules}
 		
 		\begin{enumerate}
 			\item{Create Package and its Modules directories\\
@@ -171,321 +173,6 @@
 		Create \xpi\ from the database object. Use {\tt mechanize} lib to login to \amo and upload the 
 		file faking it was done directly from the browser.
 							
-\section{Editing Package and its Modules}
-
-	How database evolves by changing the Packages and Modules. This description will be used later to design 
-	structure and functionalities of the system.
-
-	\subsection{Starting point}
-		\noindent All next scenarios start from the {\tt Ua:La.1} defined as below.
-		\subsubsection*{{\tt La \hto  Ua:La.1 \eq \{Ua:La.1:Ma\}}}
-			Package \La\ is created by User \Ua.\\
-			\La's HEAD is PackageRevision identified as {\tt Ua:La.1}\\
-			It contains only one module - \Ma
-			
-			\noindent Following steps had to happen to achieve above status:
-
-			\vspace{5mm}\begin{tikzpicture}[
-				save/.style={circle,draw,minimum size=1.5mm},
-				branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
-				heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
-				branchfrom/.style={circle},
-				labr/.style={anchor=west,font=\tt},
-				labl/.style={anchor=east},
-				bend angle=45,
-				inner sep=0pt]
-				\node at (0,5mm) [rotate=270] {\Ua};
-				\node [branch] 		(UaLa0) 		at (0,0)				{}
-					node [labr] at (5mm,0) 	{Ua:La.0 \eq \{\}}
-					node [labl] at (-5mm,0)	{\Ua\ creates empty Library \La};
-				\node [heads]		(LaUaLa0)		at (0,-5mm)			{}
-					edge (UaLa0)
-					node [labr] at (5mm,-5mm)	{La \hto Ua:La.0}
-					node [labl] at (-5mm,-5mm)	{System sets \La's HEAD};
-				\node [save]		(UaLa1)		at (0,-10mm)			{}
-					edge (LaUaLa0)
-					node [labr] at (5mm,-10mm)	{Ua:La.1 \eq \{Ua:La.1:Ma\}}
-					node [labl] at (-5mm,-10mm)	{\Ua\ adds new Milestone \Ma\ to \La};
-				\node [heads]		(LaUaLa1)		at (0,-15mm)			{}
-					edge [<-] (UaLa1)
-					node [labr] at (5mm,-15mm) 	{La \hto Ua.La.1}
-					node [labl] at (-5mm,-15mm)	{\Ua\ sets the HEAD};
-			\end{tikzpicture}
-			
-	\subsection{Scenario (1 Module, 2 Users, no dependencies)}
-		\Ua\ and \Ub\ are working on \La\\
-		\Ub\ modified one module
-
-		\vspace{3mm}\begin{tikzpicture}[
-			save/.style={circle,draw,minimum size=1.5mm},
-			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
-			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
-			branchfrom/.style={circle},
-			labr/.style={anchor=west,font=\tt},
-			labl/.style={anchor=east},
-			bend angle=45,
-			inner sep=0pt]
-			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
-			\node [heads] 		(UaLa1) 		at (0,0)				{};
-			\node [branch]		(UbLa0)		at (5mm,-5mm)			{}
-				edge [bend right] (UaLa1)
-				node [labr] at (10mm,-5mm)	{Ub:La.0 \eq \{Ua:La.1:Ma\}}
-				node [labl] at (-5mm,-5mm)	{\Ub\ creates new branch};
-			\node [save]		(UbLa1)		at (5mm,-10mm)			{}
-				edge [-] (UbLa0)
-				node [labr] at (10mm,-10mm)	{Ub:La.1 \eq \{Ub:La.1:Ma\}}
-				node [labl] at (-5mm,-10mm)	{\Ub\ saved changes to \Ma}
-				node [labl] at (-5mm,-15mm)	{\Ub\ sends {\em request} to \La's creator to updade \La's HEAD};
-			\node [heads]		(LaUbLa1)		at (5mm,-20mm)			{}
-				edge[<-] (UbLa1)
-				node [labr] at (10mm,-20mm)	{La \hto Ub:La.1}
-				node [labl] at (-5mm,-20mm)	{\Ua\ accepts the request by setting the HEAD to \Ub's version};
-		\end{tikzpicture}\vspace{5mm}
-
-		\noindent Result: {\tt La \hto  Ub:La.1 \eq \{Ub:La.1:Ma\}}
-
-	\subsection{Scenario (2 Modules, 2 Users, no dependencies)}
-
-		\Ua\ and \Ub\ are working on \La\\ 
-		\Ua\ created module \Mb\\
-		\Ub\ is working on \Mb\
-		
-		\vspace{-3mm}\begin{tikzpicture}[
-			save/.style={circle,draw,minimum size=1.5mm},
-			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
-			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
-			branchfrom/.style={circle},
-			point/.style={circle,minimum size=0pt},
-			labr/.style={anchor=west,font=\tt},
-			labl/.style={anchor=east},
-			bend angle=45,
-			inner sep=0pt]
-			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
-			\node [heads] 		(UaLa1) 		at (0,0)					{};
-			\node [save]			(UaLa2)		at (0,-5mm)				{}
-				edge (UaLa1)
-				node [labr] at (10mm,-5mm)	{Ua:La.2 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
-				node [labl] at (-5mm,-5mm)	{\Ua\ adds a new module \Mb\ to \La};
-			\node [heads]			(LaUaLa2)		at (0,-10mm)				{}
-				edge (UaLa2)
-				node [labr] at (10mm,-10mm) {La \hto Ua:La.2}
-				node [labl] at (-5mm,-10mm) {\Ua\ sets the HEAD};
-			\node [branch]		(UbLa0)		at (5mm,-15mm)			{}
-				edge [bend right] (LaUaLa2)
-				node [labr] at (10mm,-15mm) {Ub:La.0 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
-				node [labl] at (-5mm,-15mm) {\Ub\ creates new branch};
-			\node [save] 			(UbLa1)		at (5mm,-20mm)			{}
-				edge (UbLa0)
-				node [labr] at (10mm,-20mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}
-				node [labl] at (-5mm,-20mm) {\Ub\ modifies \Mb}
-				node [labl] at (-5mm,-25mm) {\Ub\ sends request to \Ua\ to upgrade \La}
-				node [point] (p1) at (5mm,-30mm) {} edge [-] (UbLa1);
-			\node [save]			(UaLa3)		at (0,-30mm)				{}
-				edge (LaUaLa2)
-				node [labr] at (10mm,-30mm) {Ua:La.3 \eq \{Ua:La.3:Ma, Ua:La.2:Mb\}}
-				node [labl] at (-5mm,-30mm) {\Ua\ modifies \Ma};
-			\node [branch]		(UaLa4)		at (0,-35mm)				{}
-				edge (UaLa3)
-				edge [bend right] (p1)
-				node [labr] at (10mm,-35mm) {Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.1:Mb\}}
-				node [labl] at (-5mm,-35mm) {\Ua\ acepts \Ub's request, upgrades \La};
-			\node [heads]			(LaUaLa4)		at (0,-40mm)				{}
-				edge [<-] (UaLa4)
-				node [labr] at (10mm,-40mm) {La \hto Ua:La.4}
-				node [labl] at (-5mm,-40mm) {\Ua\ sets the HEAD};
-		\end{tikzpicture}\vspace{4mm}
-
-		\noindent Result: {\tt La \hto Ua:La.4 \eq \{Ua:La.3:Ma, Ub:La.1:Mb\}}
-
-	\subsection{Scenario (2 Modules, 2 Users, no dependencies)}
-	
-		\Ua\ and \Ub\ are working on \La\\ 
-		\Ub\ created module \Mb\
-		
-		\vspace{5mm}\begin{tikzpicture}[
-			save/.style={circle,draw,minimum size=1.5mm},
-			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
-			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
-			branchfrom/.style={circle},
-			point/.style={circle,minimum size=0pt},
-			labr/.style={anchor=west,font=\tt},
-			labl/.style={anchor=east},
-			bend angle=45,
-			inner sep=0pt]
-			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
-			\node [heads] 		(UaLa1) 		at (0,0)					{};
-			\node [branch]		(UbLa0)		at (5mm,-5mm)				{}
-				edge [bend right] (UaLa1)
-				node [labr] at (10mm,-5mm)	{Ub:La.0 \eq \{Ua:La.1:Ma\}}
-				node [labl] at (-5mm,-5mm)	{\Ub\ creates new branch};
-			\node [save]			(UaLa2)		at (0,-10mm)				{}
-				edge (UaLa1)
-				node [labr] at (10mm,-10mm) {Ua:La.2 \eq \{Ua:La.2:Ma\}}
-				node [labl] at (-5mm,-10mm) {\Ua\ modifies \Ma};
-			\node [save]			(UbLa1)		at (5mm,-15mm)			{}
-				edge (UbLa0)
-				node [labr] at (10mm,-15mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ua:La.1:Mb\}}
-				node [labl] at (-5mm,-15mm) {\Ub\ adds a new module \Mb\ to \La};
-			\node [save]			(UbLa2)		at (5mm,-20mm)			{}
-				edge (UbLa1)
-				node [labr] at (10mm,-20mm) {Ub:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}}
-				node [labl] at (-5mm,-20mm) {\Ub\ modifies \Mb}
-				node [labl] at (-5mm,-25mm) {\Ub\ sends request to \Ua\ to upgrade \La}
-				node [point] (p1) at (5mm,-25mm) {} edge [-] (UbLa2);
-			\node [branch]		(UaLa3)		at (0,-30mm)				{}
-				edge (UaLa2)
-				edge [bend right] (p1)
-				node [labr] at (10mm,-30mm) {Ua:La.3 \eq \{Ua:La.2:Ma, Ub:La.2:Mb\}}
-				node [labl] at (-5mm,-30mm) {\Ua\ acepts \Ub's request};
-			\node [heads]			(LaUaLa3)		at (0,-35mm)				{}
-				edge [<-] (UaLa3)
-				node [labr] at (10mm,-35mm) {La \hto Ua:La.3}
-				node [labl] at (-5mm,-35mm) {\Ua\ sets the HEAD};
-		\end{tikzpicture}\vspace{5mm}
-		
-		\noindent Result: {\tt La \hto Ua:La.3 \eq \{Ua:La.2:Ma, Ub:La.2:Mb\}}
-
-	\subsection{Scenario with conflict (2 Modules, 2 Users, no dependencies)}
-
-		\Ua\ and \Ub\ are working on \La\\ 
-		\Ua\ created module \Mb\\
-		\Ua\ and \Ub\ are working on \Mb\\
-		Conflict arises...
-		
-		
-		
-		\vspace{5mm}\begin{tikzpicture}[
-			save/.style={circle,draw,minimum size=1.5mm},
-			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
-			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
-			conflict/.style={rectangle,draw=red,fill=red,minimum size=1.5mm},
-			branchfrom/.style={circle},
-			point/.style={circle,minimum size=0pt},
-			labr/.style={anchor=west,font=\tt},
-			labl/.style={anchor=east},
-			bend angle=45,
-			inner sep=0pt]
-			\node at (0,15mm) {\bf Steps leading to the conflict:};
-			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
-			\node [heads] 		(UaLa1) 		at (0,0)					{};			
-			\node [save]			(UaLa2)		at (0,-5mm)				{}
-				edge (UaLa1)
-				node [labr] at (10mm,-5mm)	{Ua:La.2 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
-				node [labl] at (-5mm,-5mm)	{\Ua\ adds a new module \Mb\ to \La};
-			\node [heads]			(LaUaLa2)		at (0,-10mm)				{}
-				edge (UaLa2)
-				node [labr] at (10mm,-10mm) {La \hto Ua:La.2}
-				node [labl] at (-5mm,-10mm) {\Ua\ sets the HEAD};
-			\node [branch]		(UbLa0)		at (5mm,-15mm)			{}
-				edge [bend right] (LaUaLa2)
-				node [labr] at (10mm,-15mm) {Ub:La.0 \eq \{Ua:La.1:Ma, Ua:La.2:Mb\}}
-				node [labl] at (-5mm,-15mm) {\Ub\ creates new branch};
-			\node [save] 			(UbLa1)		at (5mm,-20mm)			{}
-				edge (UbLa0)
-				node [labr] at (10mm,-20mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}}
-				node [labl] at (-5mm,-20mm) {\Ub\ modifies \Mb};
-			\node [save] 			(UaLa3)		at (0mm,-25mm)			{}
-				edge (LaUaLa2)
-				node [labr] at (10mm,-25mm) {Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.3:Mb\}}
-				node [labl] at (-5mm,-25mm) {\Ua\ modifies \Mb};
-
-		\end{tikzpicture}\vspace{5mm}
-		
-		\noindent Libraries {\tt Ub:La.1} and {\tt Ua:La.3} are {\bf conflicted} because {\tt Ub:La.1:Mb} and 
-		{\tt Ua:La.3:Mb} are both an evolution of the {\tt Ua:La.2:Mb}. From that moment many scenarios may 
-		happen. Just a few of them will follow.
-		
-		\subsubsection{\Ua\ sets HEAD and \Ub's revision is outdated}
-		
-		\La's manager --- \Ua\ has chosen the HEAD. At that moment he doesn't know about \Ub's changes to \Mb.
-		
-		\vspace{5mm}\begin{tikzpicture}[
-			save/.style={circle,draw,minimum size=1.5mm},
-			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
-			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
-			conflict/.style={rectangle,draw=red,fill=red,minimum size=1.5mm},
-			branchfrom/.style={circle},
-			point/.style={circle,minimum size=0pt},
-			labr/.style={anchor=west,font=\tt},
-			labl/.style={anchor=east},
-			bend angle=45,
-			inner sep=0pt]
-			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
-			\node [save] 			(UbLa1)		at (5mm,0mm)			{}
-				node [labr] at (10mm,-0mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}};
-			\node [save] 			(UaLa3)		at (0mm,-5mm)			{}
-				node [labr] at (10mm,-5mm) {Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.3:Mb\}};
-			\node [heads]			(LaUaLa3)		at (0,-10mm)				{}
-				edge (UaLa3)
-				node [labr] at (10mm,-10mm) {La \hto Ua:La.3}
-				node [labl] at (-5mm,-10mm) {\Ua\ sets the HEAD}
-				node [point] (p1) at (0,-20mm) {}
-				edge [dotted] (LaUaLa3);
-			\node [conflict] 		(CUbLa1)		at (5mm,-15mm)			{}
-				edge (UbLa1)
-				node [labl] at (-5mm,-15mm) {{\tt Ub:La.1} is marked as {\em conflicted}. Send update 
-										request disabled}
-				node [labl] at (-5mm,-20mm) {\Ub\ receives info that his source is behind the HEAD}
-				node [labr,red] at (1cm,-15mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}};
-			\node [save]			(UbLa2)		at (5mm,-25mm)			{}
-				edge (CUbLa1)
-				edge [dotted, bend left] (p1)
-				node [labr] at (1cm,-25mm) {Ub:La.2 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}}
-				node [labl] at (-5mm,-25mm) {\Ub\ manually solves conflict by editing \Mb}
-				node [labl] at (-5mm,-30mm) {\Ub\ sets the conflict as resolved};
-		\end{tikzpicture}\vspace{5mm}
-		
-		From that moment {\Ub:La.2} becomes a normal (not conflicted) PackageRevision. \Ub\ may send
-		Package manager an upgrade request which could end by switching \La's HEAD to {\Ub:La.2}.
-		It is important to note, that the {\tt Ub:La.2} is not an evolution of {\tt Ua:La.3}, it will not be
-		originated from it.\footnote{Decide if this is the right thing to do.}
-
-		\subsubsection{\Ub\ sends update request, \Ua\ decides to drop his changes}
-		
-		\Ub\ thinks his change to \Mb\ is finished and requests update of the Library from its manager --- \Ua.
-		He accepts the request and marks his version of this module as discontinued. This mark prevents from 
-		the automatic set to conflicted revision.
-		
-		\vspace{5mm}\begin{tikzpicture}[
-			save/.style={circle,draw,minimum size=1.5mm},
-			branch/.style={circle,draw=red!80,fill=red!20,minimum size=1.5mm},
-			heads/.style={circle,draw=green!80,fill=green!20,minimum size=1.5mm},
-			conflict/.style={rectangle,draw=red,fill=red,minimum size=1.5mm},
-			discontinued/.style={rectangle,draw=black,fill=black,minimum size=1.5mm},
-			branchfrom/.style={circle},
-			point/.style={circle,minimum size=0pt},
-			labr/.style={anchor=west,font=\tt},
-			labl/.style={anchor=east},
-			bend angle=45,
-			inner sep=0pt]
-			\node at (0,5mm) [rotate=270] {\Ua};\node at (5mm,5mm) [rotate=270] {\Ub};
-			\node [save] 			(UbLa1)		at (5mm,0mm)			{}
-				node [labr] at (10mm,-0mm) {Ub:La.1 \eq \{Ua:La.1:Ma, Ub:La.1:Mb\}};
-			\node [save] 			(UaLa3)		at (0mm,-5mm)			{}
-				node [labr] at (10mm,-5mm) {Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.3:Mb\}};
-			\node [labl] at (-5mm,-10mm) {\Ub\ sends request to \Ua\ to upgrade \La};
-			\node [discontinued] 	(DUaLa3)		at (0,-15mm)			{}
-				edge (UaLa3)
-				node [labl] at (-5mm,-15mm) {\Ua\ marks the revision as discontinued (optional)}
-				node [labr,gray] at (1cm,-15mm) {{Ua:La.3 \eq \{Ua:La.1:Ma, Ua:La.3:Mb\}}};
-			\node [heads]		(LaUbLa1)		at (5mm,-20mm)			{}
-				edge (UbLa1)
-				node [labr] at (1cm,-2cm) {La \hto Ub:La.1}
-				node [labl] at (-5mm,-2cm) {\Ua\ sets \La's HEAD};
-					
-		\end{tikzpicture}\vspace{5mm}
-
-\section*{Draft/Ideas}
-	\begin{description}
-		\item[update Library] if Library HEAD has been changed something should tell the User that an update 
-		is possible. It should then (on request) change the versions of all Modules which are not in conflict 
-		with updating Library. In essence, if \\
-			{\tt Ua:La.1 \eq \{Ua:La.1:Ma, Ub:La.2:Mb\}} is a Library to be updated and \\
-			{\tt La \hto Uc:La.3 \eq \{Ub:La.1:Ma, Uc:La.3:Mb, Uc:La.1:Mc\}} is current HEAD, then\\
-			{\tt Ub:La.2:Mb} should be updated to {\tt Uc:La.3:Mb} and {\tt Uc:La.1:Mc} should be added.\\
-			User should receive a notification that {\tt Ua:La.1:Ma} is not in sync with HEAD.
-	\end{description}
-
 \section*{To be continued\ldots}
 \end{document}
 
