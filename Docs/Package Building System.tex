@@ -72,13 +72,14 @@
 			{\tt /library/123456/}}
 		\item{Version is a tag.\\
 			Version is important. It is used to tag major {\em Revisions}. If a package is called without any
-			Version specified, the latest versioned Revision will be used.\\
+			Version specified (as above), the latest versioned Revision will be used.\\
 			{\tt /library/123456/version/0.1/}}
 		\item{Revision Number is used to precisely identify a Revision.\\
 			It is completely parallel to the Package Version\\
 			{\tt /library/123456/revision/654/}}
 		\item{No collaborative editing.\\
-			That means there is no connection between Packages owned by different Users.}
+			Althought there will be no connection between Packages owned by different Users, design the 
+			system to not complicate future implementation of such functionality.}
 		\item{Package remembers wich SDK version was used to build it.\\
 			This is very complicated also on the front-end side. It will be created during the next
 			iteration.}
@@ -134,7 +135,7 @@
  |-- static-files/
  `-- [...]
 				\end{lstlisting}}\end{boxedminipage}
-				\caption{Excerpts from a copied Jetpack SDK}
+				\caption{Parts of the tree of a copied Jetpack SDK directory}
 			\end{figure}
 	
 		
@@ -143,11 +144,11 @@
 		
 		\begin{enumerate}
 			\item{Create Package and its Modules directories\\
-				{\tt /tmp/packages\_\{hash\}/\{Package:name\}/}\\
-				{\tt /tmp/packages\_\{hash\}/\{Package:name\}/lib/}
+				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:name\}/}\\
+				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:name\}/lib/}
 			}
 			\item{Use collected data to create the Manifest.\\
-				{\tt /tmp/packages\_\{hash\}/\{Package:name\}/package.json}
+				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:name\}/package.json}
 			}
 			\item{Create Module files\\
 				Iterate over the assigned Modules and create a "{\tt .js}" file with its content inside 
@@ -160,18 +161,21 @@
 		\end{enumerate}
 	
 	\subsection{Building \xpi}
-	
-		System is already in a virtual environment knowing about Jetpack SDK. It is enough to change 
-		directory to {\tt /tmp/packages\_\{hash\}/\{Package:name\}/} and call {\tt cfx xpi}. The 
-		{\tt \{Package:name\}.xpi} file will be created in current directory. Its location is then send
-		to the front-end to be used in further actions, usually calling the {\em FlightDeck Addon}\footnote{
-		FlightDeck Addon is a Jetpack extension allowing to temporary installation of the \xpi. It 
-		needs to be called with an URL of the \xpi.} to download and install the \xpi.
+		\begin{enumerate}
+			\item{Set virtual environment to the temporary Jetpack SDK}
+			\item{Change directory to {\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:name\}/}}
+			\item{Call {\tt cfx xpi}.\\
+				The {\tt \{Package:name\}.xpi} file will be created in current directory.} 
+			\item{Send location to the front-end to be used in further actions\\
+				In example calling the {\em FlightDeck Addon}\footnote{FlightDeck Addon is a Jetpack extension 
+				allowing to temporary installation of the \xpi. It needs to be called with an URL of 
+				the \xpi.} to download and install the \xpi.}
+		\end{enumerate}
 	
 	\subsection{Uploading to AMO}
 	
-		Create \xpi\ from the database object. Use {\tt mechanize} lib to login to \amo and upload the 
-		file faking it was done directly from the browser.
+		\xpi\ needs to be created from a database object. Then use {\tt mechanize} lib to login 
+		to \amo and upload the file faking it was done directly from the browser.
 							
 \section*{To be continued\ldots}
 \end{document}
