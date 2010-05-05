@@ -16,21 +16,13 @@
 
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
-\def\Ua{{\tt Ua}}
-\def\Ub{{\tt Ub}}
-\def\La{{\tt La}}
-\def\Ma{{\tt Ma}}
-\def\Mb{{\tt Mb}}
+\def\version{alpha 0.1}
 
+% Common names definitions
 \def\xpi{{\tt XPI}}
 \def\amo{{\tt AMO}}
 
-\def\headsto{${\Longrightarrow}$ }
-\def\hto{\headsto}
-\def\eq{${\supset}$ }
-
-\def\version{alpha 0.1}
-
+% TikZ settings
 \usetikzlibrary{positioning}
 \usetikzlibrary{shadows}
 
@@ -45,6 +37,10 @@
 \tikzstyle{every isa} = [top color=white, bottom color=green!20, 
                          draw=green!50!black!100, drop shadow, rounded corners]
                          
+% listings style
+\lstset{basicstyle=\small\sffamily, numbers=left, numberstyle=\tiny\sffamily, frame=tb, columns=fullflexible, 
+					showstringspaces=false}
+               
 % CONTENT -----------------------------------------------------------------------------                         
                          
 \title{Mozilla Addon Builder\\ Package Building System}
@@ -107,23 +103,22 @@
 	\end{tikzpicture}}
 
 
-\section{Exporting \xpi}
+\section{Export \xpi}
 
 	Be aware that it is possible and common to export \xpi\footnote{An \xpi\ (pronounced "zippy" and derived 
 	from XPInstall) installer module is a ZIP file that contains an install script or a manifest at the root 
 	of the file, and a number of data files.} from partially unsaved data. This happens when User will use 
-	the "Try in browser" 	functionality. In this case \xpi\ may not be send to 
+	the "Try in browser" 	functionality. In this case \xpi\ can not be send to 
 	\amo\footnote{\url{http://addons.mozilla.org/}}.
 	
-	\subsection{Creating directory structure}
+	\subsection{Create directory structure}
 		
 		Directory structure should be as close as standard Jetpack SDK as possible. Jetpack SDK should 
 		be copied to a temporary directory as more than one Addon compilation could take action at the 
 		same time. Desired revisions of Libraries and Addons will be exported into {\tt packages} directory.
-
-			\begin{figure}[htp,capbesideposition={right,top},capbesideframe=yes]
-				\begin{boxedminipage}{6cm}{\footnotesize\begin{lstlisting}		
- /tmp/jetpack-sdk-\{hash\}/
+		
+		\begin{lstlisting}[caption=Parts of the tree of a copied Jetpack SDK directory.]
+ /tmp/jetpack-sdk-{hash}/
  |-- bin/
  |   |-- activate
  |   |-- cfx
@@ -134,9 +129,7 @@
  |-- python-lib/
  |-- static-files/
  `-- [...]
-				\end{lstlisting}}\end{boxedminipage}
-				\caption{Parts of the tree of a copied Jetpack SDK directory}
-			\end{figure}
+		\end{lstlisting}
 	
 		
 	
@@ -160,7 +153,7 @@
 			}
 		\end{enumerate}
 	
-	\subsection{Building \xpi}
+	\subsection{Build \xpi}
 		\begin{enumerate}
 			\item{Set virtual environment to the temporary Jetpack SDK}
 			\item{Change directory to {\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:name\}/}}
@@ -172,7 +165,7 @@
 				the \xpi.} to download and install the \xpi.}
 		\end{enumerate}
 	
-	\subsection{Uploading to AMO}
+	\subsection{Upload to AMO}
 	
 		\xpi\ needs to be created from a database object. Then use {\tt mechanize} lib to login 
 		to \amo and upload the file faking it was done directly from the browser.
