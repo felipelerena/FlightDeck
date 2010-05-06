@@ -1,0 +1,32 @@
+% Mozilla Addon Builder document style
+% 
+% This is a LaTeX document style which will be used
+% by all \latex documents in Mozilla Addon Builder
+% Common names definitions
+\ProvidesPackage{mozillaaddonbuilderstyle}
+
+\usepackage{fullpage, url, tikz, tikz-er2, listings, sidecap, boxedminipage, graphicx, floatrow, color}
+
+\def\xpi{{\tt XPI}}
+\def\amo{{\tt AMO}}
+
+% TikZ settings
+\usetikzlibrary{positioning}
+\usetikzlibrary{shadows}
+
+\tikzstyle{every entity} = [top color=white, bottom color=blue!30, 
+                            draw=blue!50!black!100, drop shadow, rounded corners]
+\tikzstyle{every weak entity} = [drop shadow={shadow xshift=.7ex, 
+                                 shadow yshift=-.7ex}, rounded corners]
+\tikzstyle{every attribute} = [top color=white, bottom color=yellow!20, 
+                               draw=yellow, node distance=1cm, drop shadow, rounded corners]
+\tikzstyle{every relationship} = [top color=white, bottom color=red!20, minimum size=2.3cm,
+                                  draw=red!50!black!100, drop shadow, rounded corners]
+\tikzstyle{every isa} = [top color=white, bottom color=green!20, 
+                         draw=green!50!black!100, drop shadow, rounded corners]
+                         
+% listings style
+\lstset{basicstyle=\small\sffamily, numbers=left, numberstyle=\footnotesize\sffamily\color{gray}, frame=tb, columns=fullflexible, 
+					showstringspaces=false, tabsize=2}
+
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
