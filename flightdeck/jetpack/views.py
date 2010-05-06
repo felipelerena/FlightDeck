@@ -18,8 +18,27 @@ from django.db.models import Q
 from base.shortcuts import get_object_or_create, get_object_with_related_or_404, get_random_string
 from utils.os_utils import whereis
 
-from jetpack.models import Jet, JetVersion, Cap, CapVersion
+from jetpack.models_old import Jet, JetVersion, Cap, CapVersion
 from jetpack import settings
+
+def homepage(r):
+	"""
+	Display description of the website with a set of fresh stuff
+	"""
+	
+	# TODO: filter out items without base version
+	jet_limit = settings.HOMEPAGE_ITEMS_LIMIT+1
+	jetpacks = Jet.objects.all()[:jet_limit]
+	capabilities = Cap.objects.all()[:settings.HOMEPAGE_ITEMS_LIMIT]
+
+	page = 'homepage'
+	
+	return render_to_response(
+		'homepage.html', 
+		locals(),
+		context_instance=RequestContext(r))
+
+
 
 def gallery(r, page_number=1, with_new=False, type=None):
 	"""

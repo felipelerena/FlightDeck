@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load base_helpers %}
+
+
+{% block app_sidebar %}
+	<section id='module-info'>
+		<h2>{{ module.name }}</h2>
+	</section>
+	<section id='modules'>
+		{% for module in package.modules %}
+			<a href='#'>{{ module.name }}</a>
+		{% endfor %}
+	</section>
+{% endblock %}
+{% block app_content %}
+	{% for module in package.modules %}
+		<h3>{{ module.name }}</h3>
+		<div class='module-info'>
+			<p>{{ module.info|safe }}</p>
+			<a href='#{{ module.name }}'>show Module doc</a>
+		</div>
+	{% endfor %}
+	</dl>
+{% endblock %}
+

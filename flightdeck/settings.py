@@ -121,6 +121,7 @@ INSTALLED_APPS.extend([
 	'person',			# user related stuff (profile etc.)
 	'amo',				# addons.mozilla.org integration (authentication state updates)
 	'jetpack',			# Jetpack functionality
+	'api',				# API browser
 ])
 
 # devserver is optional

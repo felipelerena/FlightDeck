@@ -8,6 +8,7 @@ from jetpack import settings
 from jetpack.managers import PackageManager
 
 PERMISSION_CHOICES = (
+	(0, 'private'),
 	(1, 'view'),
 	(2, 'edit')
 )
@@ -20,31 +21,32 @@ class Package(models.Model):
 	"""
 	Holds the meta data shared across all PackageRevisions
 	"""
-	# name of the Package - has to be unique - it's slug is used for identificatio
-	name = models.CharField(max_length=255, unique=True)
+	# identification
+	# it can be the same as database id, but if we want to copy the database some day or change
+	# to a document-oriented database it shouldn't rely on database model
+	id_number = models.PositiveIntegerField(unique=True)
+
+	# name of the Package
+	name = models.CharField(max_length=255)
+	# made from the name 
+	# it is used to create a directory of Modules
+	slug = models.CharField(max_length=255, blank=True)
 	# description
 	description = models.TextField(blank=True)
-	
-	# unified id made from the name used to identify Packages
-	# it is used to create a directory of Modules
-	slug = models.CharField(max_length=255, unique=True, blank=True, primary_key=True)
 
 	# type - determining ability to specific options
 	type = models.CharField(max_length=30, choices=TYPE_CHOICES)
 	
-	# currently default PackageRevision
-	head = models.ForeignKey('PackageRevision', blank=True, null=True, related_name='head')
-
 	# creator is the first person who created the Package
 	# TODO: consider ability to change this (UI)
 	creator = models.ForeignKey(User, related_name='packages_originated')
 	# group of users who have management rights
-	managers = models.ManyToManyField(User, related_name='packages_managed', blank=True)
+	# managers = models.ManyToManyField(User, related_name='packages_managed', blank=True)
 	# developers is a collected group of all developers who participated in Package development
-	developers = models.ManyToManyField(User, related_name='packages_developed', blank=True)
+	# developers = models.ManyToManyField(User, related_name='packages_developed', blank=True)
 	
 	# is the Package visible for public?
-	public_permission = models.IntegerField(choices=PERMISSION_CHOICES, default=2, blank=True)
+	public_permission = models.IntegerField(choices=PERMISSION_CHOICES, default=1, blank=True)
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	last_update = models.DateTimeField(auto_now=True)
@@ -66,13 +68,6 @@ class Package(models.Model):
 	def make_slug(self):
 		return slugify(self.name)
 
-	def set_head(self, revision):
-		self.revision = revision
-		self.save()
-		if not revision.was_head:
-			revision.was_head = True
-			revision.save()
-
 
 class PackageRevision(models.Model):
 	"""
@@ -80,8 +75,8 @@ class PackageRevision(models.Model):
 	"""
 	package = models.ForeignKey(Package, related_name='revisions')
 	# public version name 
-	# WARNING: it's not unique!
-	version_name = models.CharField(max_length=250, blank=True, default='alpha 0.01')
+	# this is a tag used to mark important revisions
+	version_name = models.CharField(max_length=250, blank=True, default='initial')
 	# this makes the revision unique across the same package/user
 	revision_number = models.IntegerField(blank=True, default=0)
 	# commit message
@@ -89,9 +84,6 @@ class PackageRevision(models.Model):
 
 	# Libraries on which current package depends
 	libraries = models.ManyToManyField('self', blank=True, null=True, symmetrical=False)
-
-	# was_head - record if it was used as HEAD of the package
-	was_head = models.BooleanField(blank=True, default=False)
 
 	# from which revision this mutation was originated
 	origin = models.ForeignKey('PackageRevision', related_name='mutations', 
@@ -146,7 +138,7 @@ class Module(models.Model):
 	author = models.ForeignKey(User, related_name='module revisions')
 
 	class Meta:
-		unique_together('revision', 'filename')
+		unique_together = ('revision', 'filename')
 
 
 ########################################################################################

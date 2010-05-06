@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from models import Jet, JetVersion, Cap, CapVersion
+from models_old import Jet, JetVersion, Cap, CapVersion
 
 class JetAdmin(admin.ModelAdmin):
 	pass
