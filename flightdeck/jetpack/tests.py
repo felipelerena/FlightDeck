@@ -12,24 +12,7 @@ TEST_LIBRARY_SLUG = 'test-library'
 TEST_ADDON2_NAME = 'test Addon 2'
 
 class PackageTest(TestCase):
-
-	def setUp(self):
-		self.to_delete = []
-		self.user = create_test_user(username=TEST_USERNAME)
-		self.addon = Package(name=TEST_ADDON_NAME, creator=self.user, type='a')
-		self.addon.save()
-		self.to_delete.append(self.addon)
-		self.library = Package(name=TEST_LIBRARY_NAME, creator=self.user, type='l')
-		self.library.save()
-		self.to_delete.append(self.library)
-
-	def tearDown(self):
-		self.user.delete()
-		for o in self.to_delete:
-			try:
-				o.delete()
-			except:
-				print 'Object %s can\'t be deleted' % str(o)
+	# self user, addon, library are created
 
 	def test_addon_creation(self):
 		addon = Package.objects.get(name=TEST_ADDON_NAME)
@@ -59,6 +42,31 @@ class PackageTest(TestCase):
 	def test_related_name(self):
 		self.assertEqual(len(list(self.user.packages_originated.all())), 2)
 
+	def setUp(self):
+		self.to_delete = []
+		self.user = create_test_user(username=TEST_USERNAME)
+		self.addon = Package(
+			name=TEST_ADDON_NAME, 
+			creator=self.user, 
+			type='a'
+		)
+		self.addon.save()
+		self.to_delete.append(self.addon)
+		self.library = Package(
+			name=TEST_LIBRARY_NAME, 
+			creator=self.user, 
+			type='l'
+		)
+		self.library.save()
+		self.to_delete.append(self.library)
+
+	def tearDown(self):
+		self.user.delete()
+		for o in self.to_delete:
+			try:
+				o.delete()
+			except:
+				print 'Object %s can\'t be deleted' % str(o)
 
 class PackageRevisionTest(TestCase):
 

@@ -17,13 +17,15 @@ TYPE_CHOICES = (
 	('a', 'Addon')
 )
 
+
 class Package(models.Model):
 	"""
 	Holds the meta data shared across all PackageRevisions
 	"""
 	# identification
-	# it can be the same as database id, but if we want to copy the database some day or change
-	# to a document-oriented database it shouldn't rely on database model
+	# it can be the same as database id, but if we want to copy the database 
+	# some day or change to a document-oriented database it would be bad 
+	# to have this relied on any database model
 	id_number = models.PositiveIntegerField(unique=True)
 
 	# name of the Package
@@ -31,22 +33,18 @@ class Package(models.Model):
 	# made from the name 
 	# it is used to create a directory of Modules
 	slug = models.CharField(max_length=255, blank=True)
-	# description
 	description = models.TextField(blank=True)
 
 	# type - determining ability to specific options
 	type = models.CharField(max_length=30, choices=TYPE_CHOICES)
 	
 	# creator is the first person who created the Package
-	# TODO: consider ability to change this (UI)
 	creator = models.ForeignKey(User, related_name='packages_originated')
-	# group of users who have management rights
-	# managers = models.ManyToManyField(User, related_name='packages_managed', blank=True)
-	# developers is a collected group of all developers who participated in Package development
-	# developers = models.ManyToManyField(User, related_name='packages_developed', blank=True)
 	
 	# is the Package visible for public?
-	public_permission = models.IntegerField(choices=PERMISSION_CHOICES, default=1, blank=True)
+	public_permission = models.IntegerField(
+									choices=PERMISSION_CHOICES, 
+									default=1, blank=True)
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	last_update = models.DateTimeField(auto_now=True)
@@ -59,14 +57,19 @@ class Package(models.Model):
 	##################
 	# Methods
 
-	def __unicode__(self):
-		return self.name
-
 	def set_slug(self):
 		self.slug = self.make_slug()
 
 	def make_slug(self):
 		return slugify(self.name)
+	
+	def get_next_id_number(self):
+		""" 
+		get the highest id number and increment it
+		"""
+		all_packages = Package.objects.all().order_by('-id_number')
+		return all_packages[0].id_number + 1 if all_packages else 1000000
+
 
 
 class PackageRevision(models.Model):
@@ -76,14 +79,16 @@ class PackageRevision(models.Model):
 	package = models.ForeignKey(Package, related_name='revisions')
 	# public version name 
 	# this is a tag used to mark important revisions
-	version_name = models.CharField(max_length=250, blank=True, default='initial')
+	version_name = models.CharField(max_length=250, blank=True, null=True, 
+									default='initial')
 	# this makes the revision unique across the same package/user
 	revision_number = models.IntegerField(blank=True, default=0)
 	# commit message
 	message = models.TextField(blank=True)
 
 	# Libraries on which current package depends
-	libraries = models.ManyToManyField('self', blank=True, null=True, symmetrical=False)
+	dependencies = models.ManyToManyField('self', blank=True, null=True, 
+											symmetrical=False)
 
 	# from which revision this mutation was originated
 	origin = models.ForeignKey('PackageRevision', related_name='mutations', 
@@ -101,48 +106,86 @@ class PackageRevision(models.Model):
 	######################
 	# revision save methoda
 
-	def set_as_head(self):
-		self.was_head = True
-		self.save()
-	
-	# save as a copy of the object (new revision) 
-	def save_revision(self, user):
+	def save(self, **kwargs):
+		"""
+		overloading save is needed to prevent from updating the same revision
+		use super(PackageRevision, self).save(**kwargs) if needed
+		"""
 		if self.id:
-			origin = deepcopy(self)
-			self.id = None
-			self.origin = origin
-			self.revision_number = self.get_next_revision_number()
-		else:
-			self.was_head = True
+			# create new revision
+			return self.save_new_revision(**kwargs)
+		return super(PackageRevision, self).save(**kwargs)
 
-		self.owner = user
-		self.save()
+	
+	def save_new_revision(self, **kwargs):
+		"""
+		save self as new revision with link to the origin.
+		"""
+		origin = deepcopy(self)
+		self.id = None
+		self.origin = origin
+		self.revision_number = self.get_next_revision_number()
+		# a hook for future "branching"
+		if kwargs.has_key('user'):
+			self.owner = kwargs['user']
+			del kwargs['user']
+
+		return super(PackageRevision, self).save(**kwargs)
+
 
 	def get_next_revision_number(self):
-		# find latest revision_number for the self.package and self.user
+		""" 
+		find latest revision_number for the self.package and self.user
+		@return latest revisiion number or 1
+		"""
 		revision_numbers = PackageRevision.objects.filter(
 									owner__username=self.owner.username,
-									package__slug=self.package.slug
+									package__id_number=self.package.id_number
 								).order_by('-revision_number')
-		return revision_numbers[0].revision_number + 1 if revision_number else 1
+		return revision_numbers[0].revision_number + 1 if revision_numbers else 1
+
+	
+	def set_version(self, version):
+		"""
+		Set the version and update the revision obeying the overload save
+		"""
+		self.version = version
+		return super(PackageRevision, self).save()
+		
 
 
 class Module(models.Model):
 	
-	revision = models.ForeignKey(PackageRevision)
+	revisions = models.ManyToManyField(PackageRevision, 
+									related_name='modules', blank=True)
 	# name of the Module - it will be used as javascript file name
-	filename = models.CharField(max_length=255, unique=True)
-	# Capability Content - main code of the Capability
-	content = models.TextField(blank=True)
+	filename = models.CharField(max_length=255)
+	# Code of the module
+	code = models.TextField(blank=True)
 	# user who has written current revision of the module
-	author = models.ForeignKey(User, related_name='module revisions')
-
-	class Meta:
-		unique_together = ('revision', 'filename')
+	author = models.ForeignKey(User, related_name='module_revisions')
 
 
-########################################################################################
+class Attachment(models.Model):
+	
+	revisions = models.ManyToManyField(PackageRevision, 
+									related_name='atachments', blank=True)
+	# path to the attachment
+	filename = models.CharField(max_length=255)
+	# user who has uploaded the file
+	author = models.ForeignKey(User, related_name='attachments')
+
+
+
+#################################################################################
 ## Catching Signals
+
+def set_package_id_number(instance, **kwargs):
+	if kwargs.get('raw', False): return
+	if instance.id: return
+	instance.id_number = instance.get_next_id_number()
+pre_save.connect(set_package_id_number, sender=Package)
+
 
 def make_slug_on_create(instance, **kwargs):
 	if kwargs.get('raw',False): return
@@ -153,14 +196,13 @@ pre_save.connect(make_slug_on_create, sender=Package)
 
 def save_first_revision(instance, **kwargs):
 	"""
-	Create first PackageRevision and set as head
+	Create first PackageRevision
 	"""
 	if kwargs.get('raw', False): return
 	# only for the new Package
 	if not kwargs.get('created', False): return
 
-	revision = PackageRevision(package=instance)
-	revision.save_revision(instance.creator)
-	instance.set_head(revision)
+	revision = PackageRevision(package=instance, owner=instance.creator)
+	revision.save()
 post_save.connect(save_first_revision, sender=Package)
 

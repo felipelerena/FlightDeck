@@ -61,6 +61,7 @@
 
 \section{Logical structure}
 
+	\begin{figure}[H]
 	\scalebox{1}{\begin{tikzpicture}[node distance=1cm, every edge/.style={link}]
 		\node [entity] (User) {User};
 		\node [entity] [right=of User] (Package) {Package} edge [->] (User)
@@ -75,18 +76,22 @@
 			(PackageRevision.60) edge [<-] (depends.320) 
 			(PackageRevision.130) edge node [rectangle,fill=white,rotate=277] {Library} (depends.220);
 		\node [entity] [right=of PackageRevision] (Module) {Module} edge [total] (PackageRevision)
-			node [attribute] [right=of Module] {Code} edge (Module);
+			node [attribute] [right=of Module] {Code} edge (Module)
+			node [attribute] [above right=of Module] {Filename} edge (Module);
 		\node [entity] [below=of Module] (Attachment) {Attachment} 	edge [total] (PackageRevision)
 			node [attribute] [right=of Attachment] {Filename} edge (Attachment);		
 	\end{tikzpicture}}
-
+	\caption{
+		Database design. It does not secure unique filenames for Modules or Attachments. Additional code needs to 
+		be written to prevent duplicating filenames. }
+	\end{figure}
+	
 
 \section{Export \xpi}
 
-	Be aware that it is possible and common to export \xpi\footnote{An \xpi\ (pronounced "zippy" and derived 
-	from XPInstall) installer module is a ZIP file that contains an install script or a manifest at the root 
-	of the file, and a number of data files.} from partially unsaved data. This happens when User will use 
-	the "Try in browser" 	functionality. In this case \xpi\ can not be send to 
+	Be aware that it is possible and common to export \xpi\footnote{An \xpi\ installer module is a ZIP file 
+	that contains a Package --- Manifest with all code needed to run the Addon} from partially unsaved data. 
+	This happens when User will use the "Try in browser" functionality. In this case \xpi\ can not be send to 
 	\amo\footnote{\url{http://addons.mozilla.org/}}.
 	
 	\subsection{Create directory structure}
