@@ -1,0 +1,6 @@
+<ul>
+{% for module in package.modules %}
+	<li><a href='{% url api_module package_name module.name %}'>{{ module.name }}</a></li>
+{% endfor %}
+</ul>
+

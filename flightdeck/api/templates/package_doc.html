@@ -6,9 +6,8 @@
 		<h2>{{ package.name }}</h2>
 	</section>
 	<section id='modules'>
-		{% for module in package.modules %}
-			<a href='#'>{{ module.name }}</a>
-		{% endfor %}
+		<h3>Modules:</h3>
+		{% include "_modules_list.html" %}
 	</section>
 {% endblock %}
 

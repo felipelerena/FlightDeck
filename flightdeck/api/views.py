@@ -14,34 +14,41 @@ from base.shortcuts import get_object_or_create, get_object_with_related_or_404,
 
 from api import settings
 
+def _get_module_filenames(package_name):
+	files = os.listdir(os.path.join(settings.SDKPACKAGESDIR,package_name,'docs'))
+	files.sort()
+	return files
 
-def package(r, package_name):
+def _get_module_names(package_name):
+	DOC_FILES = _get_module_filenames(package_name)
+	return [{'name': os.path.splitext(d)[0]} for d in DOC_FILES]
+	modules.sort()
+	return modules
+
+def package(r, package_name='jetpack-core'):
 	"""
 	containing a listing of all modules docs
 	"""
+	page = 'api'
 
-	DOC_FILES = os.listdir(os.path.join(settings.SDKPACKAGESDIR,package_name,'docs'))
+	DOC_FILES = _get_module_filenames(package_name)
 
 	package = {'name': package_name, 'modules': []}
-	import pprint
 	for d in DOC_FILES:
+		print d
 		text = open(os.path.join(settings.SDKPACKAGESDIR,package_name,'docs',d)).read()
 		(doc_name, extension) = os.path.splitext(d)
 		# changing the tuples to dictionaries
 		hunks = list(apiparser.parse_hunks(text))
-		pprint.pprint(hunks)
-		print('-------------------------------------')
 		data = {}
 		for h in hunks:
 			data[h[0]] = h[1]
 		package['modules'].append({
 			'name': doc_name,
-			'info': data['markdown'],
+			'info': hunks[0][1],
 			'data': data,
 			'hunks': hunks
 		})
-	
-	page = 'api'
 	
 	return render_to_response(
 		'package_doc.html', 
@@ -49,21 +56,26 @@ def package(r, package_name):
 		context_instance=RequestContext(r))
 		
 def module(r, package_name, module_name):
+	page = 'api'
+	
 	doc_file = '.'.join((module_name,'md'))
-	text = open(os.path.join(settings.SDKPACKAGESDIR,package_name,'docs',doc_file,'.rd')).read()
+	text = open(os.path.join(settings.SDKPACKAGESDIR,package_name,'docs',doc_file)).read()
 	# changing the tuples to dictionaries
 	hunks = list(apiparser.parse_hunks(text))
-	data = {}
+	print hunks
+	data = []
 	for h in hunks:
-		data[h[0]] = h[1]
+		# convert JSON to a nice list
+		print h[0]
+		if h[0] == 'api-json':
+			data.append(h[1])
 	module = {
-		'name': doc_name,
-		'info': data['markdown'],
+		'name': module_name,
+		'info': hunks[0][1],
 		'data': data,
 		'hunks': hunks
 	}
-	
-	page = 'api'
+	package = {'name': package_name, 'modules': _get_module_names(package_name)}
 	
 	return render_to_response(
 		'module_doc.html', 
