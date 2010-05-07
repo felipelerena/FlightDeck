@@ -1,0 +1,12 @@
+<h4>returns {{ entity.returns.type }}</h4>
+{% if entity.returns.description %}
+	<p>{{ entity.returns.description }}</p>
+{% endif %}
+
+{% if entity.params %}
+	<h4>params:</h4>
+	<dl>{% for param in entity.params %}
+		<dt>{{ param.type }}: {{ param.name }}</dt>
+		<dd>{{ param.description }}</dd>
+	{% endfor %}</dl>
+{% endif %}

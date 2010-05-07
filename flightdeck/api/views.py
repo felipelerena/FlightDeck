@@ -35,7 +35,6 @@ def package(r, package_name='jetpack-core'):
 
 	package = {'name': package_name, 'modules': []}
 	for d in DOC_FILES:
-		print d
 		text = open(os.path.join(settings.SDKPACKAGESDIR,package_name,'docs',d)).read()
 		(doc_name, extension) = os.path.splitext(d)
 		# changing the tuples to dictionaries
@@ -62,13 +61,14 @@ def module(r, package_name, module_name):
 	text = open(os.path.join(settings.SDKPACKAGESDIR,package_name,'docs',doc_file)).read()
 	# changing the tuples to dictionaries
 	hunks = list(apiparser.parse_hunks(text))
-	print hunks
 	data = []
 	for h in hunks:
 		# convert JSON to a nice list
-		print h[0]
 		if h[0] == 'api-json':
-			data.append(h[1])
+			entity = h[1]
+			entity['template'] = '_entity_%s.html' % entity['type']
+			data.append(entity)
+		
 	module = {
 		'name': module_name,
 		'info': hunks[0][1],

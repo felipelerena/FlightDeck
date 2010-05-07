@@ -14,9 +14,10 @@
 {% block app_content %}
 	<p>{{ module.info|safe }}</p>
 	{% for entity in module.data %}
-		<h3>{{ entity.name }}</h3>
+		<h3 class='{{ entity.type }}'>{{ entity.type }}: {{ entity.name }}</h3>
+		{# I believe this should be hidden by default #}
 		<div class='module-info'>
-			<p>{{ entity.info|safe }}</p>
+			{% include entity.template %}
 		</div>
 	{% endfor %}
 	</dl>
