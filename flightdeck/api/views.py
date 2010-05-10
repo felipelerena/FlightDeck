@@ -29,7 +29,7 @@ def package(r, package_name='jetpack-core'):
 	"""
 	containing a listing of all modules docs
 	"""
-	page = 'api'
+	page = 'apibrowser'
 
 	DOC_FILES = _get_module_filenames(package_name)
 
@@ -55,7 +55,7 @@ def package(r, package_name='jetpack-core'):
 		context_instance=RequestContext(r))
 		
 def module(r, package_name, module_name):
-	page = 'api'
+	page = 'apibrowser'
 	
 	doc_file = '.'.join((module_name,'md'))
 	text = open(os.path.join(settings.SDKPACKAGESDIR,package_name,'docs',doc_file)).read()
