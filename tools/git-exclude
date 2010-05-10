@@ -14,6 +14,7 @@ flightdeck/media/jetpack
 flightdeck/media/bespin
 flightdeck/media/codemirror
 flightdeck/media/roar
+flightdeck/media/api
 flightdeck/jetpack/media/media
 *local.py
 *local.wsgi

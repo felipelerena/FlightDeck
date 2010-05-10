@@ -33,6 +33,11 @@ then
 	ln -fs $SITE_PACKAGES/django/contrib/admin/media/ $PROJECT_NAME/adminmedia
 fi
 
+### link api application 
+if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/api ]
+then
+	ln -fs $PROJECT_DIR/$PROJECT_NAME/api/media/ $PROJECT_DIR/$PROJECT_NAME/media/api
+fi
 
 ### Roar
 cd $V_ENV/lib/

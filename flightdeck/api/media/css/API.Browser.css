@@ -1,0 +1,24 @@
+#app-content a,
+#app-sidebar a {
+	color:#478CDE;
+}
+#app-content h3 { 
+	margin-left: 10px;
+	margin-top: 5px;
+	font-weight: bold;
+	cursor: pointer;
+}
+#app-content .module-info {
+	margin-left: 10px;
+}
+#subject-name {
+	margin: 10px;
+	font-weight: bold;
+}
+#modules {
+	margin: 10px;
+}
+#modules h3 {
+	font-weight: bold;
+}
+
