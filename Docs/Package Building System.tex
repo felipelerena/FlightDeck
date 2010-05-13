@@ -56,7 +56,8 @@
 			system to not complicate future implementation of such functionality.}
 		\item{Package remembers wich SDK version was used to build it.\\
 			This is very complicated also on the front-end side. It will be created during the next
-			iteration.}
+			iteration. However, for the future implementations we will save the Jetpack SDK version number 
+			which was installed at the moment the Package was created.}
 	\end{enumerate}
 
 \section{Logical structure}
@@ -121,8 +122,8 @@
 		
 		\begin{enumerate}
 			\item{Create Package and its Modules directories\\
-				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:name\}/}\\
-				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:name\}/lib/}
+				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:ID\}/}\\
+				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:ID\}/lib/}
 			}
 			\item{Use collected data to create the Manifest.\\
 				{\tt /tmp/jetpack-sdk-\{hash\}/packages/\{Package:name\}/package.json}
@@ -153,7 +154,10 @@
 		An \xpi\ will be build from current data displayed inside the Addon Builder\footnote{As UI will 
 		probably be designed in the way that the Libraries will be open in different Browser Tab than the 
 		Addon, only the latter	data will be taken directly from editor}. Addon will be installed temporarily
-		--- it will be automatically removed after browser restart. The process takes following steps:
+		--- it will be automatically removed after certain conditions will happen\footnote{It is not yet 
+		decided what these conditions are. Should it happen after User will {\em "leave the editing 
+		environment"} or restart the browser}. 
+		The process takes following steps:
 		\begin{enumerate}
 			\item{Build an \xpi\ from code in editor}
 			\item{Send a {\em load Addon request} to the {\em FlightDeck Addon}\footnote{FlightDeck Addon is a 
@@ -172,6 +176,45 @@
 		\noindent \xpi\ needs to be created from a database object. Then {\tt mechanize} lib will
 		be used to login to \amo\ and upload the file faking it was done directly from the browser.
 							
+\section{Integration with the Browser}
+
+	\note{FlightDeck Addon is provided and developed by Mozilla}
+	Integration with the Browser is provided by FlightDeck Addon.
+
+	\subsection{Current status}
+	
+		Currently there is a {\em proof of concept} version of that Addon. It provides the support for instant 
+		addons. These are installed temporarily until the browser will be restarted.
+		
+	\subsection{Try in browser}
+	
+		Provide a temporary instalaltion of the Addon.
+		
+		\subsection*{Install Addon}
+		
+			Addon will download and install an \xpi\ created by the Package Builder. Afterwards it will send
+			back a command to remove the SDK. Installation should use the built-in support for instant addons.
+		
+		\subsection*{Remove Addon}
+		
+			This should happen on request or automatically after a specific action will happen. It is still
+			not decided if leaving the editing environment should be considered as a {\em remove addon} 
+			action.
+			
+			\begin{description}
+				\item[On request] means that the User has the information about temporarily installed Addon/s 
+					and is able to send request to uninstall it/them.
+				\item[On browser quit] --- all of the Addons Iser is currently testing are gonna be removed 
+					after Browser will quit or restarted. This should happen after User will quit the Browser,
+					terminate it or restart after crash.
+				\item[On leaving the editing environment] --- this happens whith the onunload event fired 
+					on the Addon tab (navigating away or closing the tab)
+			\end{description}
+	
+		
+	
+	
+\pagebreak
 \section*{To be continued\ldots}
 \end{document}
 
