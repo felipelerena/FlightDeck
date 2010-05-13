@@ -209,6 +209,9 @@
 					terminate it or restart after crash.
 				\item[On leaving the editing environment] --- this happens whith the onunload event fired 
 					on the Addon tab (navigating away or closing the tab)
+				\item[On uninstall/reinstall the FlightDeck Addon] all of the temporarily installed 
+					packages should be unloaded. At the moment it requires the browser to be reloaded, but
+					it will eventually change if FlightDeck Addon will become a Jetpack addon itself.
 			\end{description}
 	
 		
