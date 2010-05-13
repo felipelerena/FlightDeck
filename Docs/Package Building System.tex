@@ -89,9 +89,10 @@
 
 \section{Export \xpi}
 
-	Be aware that it is possible and common to export \xpi\footnote{An \xpi\ installer module is a ZIP file 
-	that contains a Package --- Manifest with all code needed to run the Addon} from partially unsaved data. 
-	This happens when User will use the "Try in browser" functionality. In this case \xpi\ can not be send to 
+	Only Addons may be used to create an \xpi\footnote{An \xpi\ installer module is a ZIP file 
+	that contains a Package --- Manifest with all code needed to run the Addon}. Be aware that it is 
+	possible and common to export \xpi\ from partially unsaved data. 
+	This happens when User will use the {\em Try in browser} functionality. In this case \xpi\ can not be send to 
 	\amo\footnote{\url{http://addons.mozilla.org/}}.
 	
 	\subsection{Create directory structure}
@@ -143,15 +144,33 @@
 			\item{Call {\tt cfx xpi}.\\
 				The {\tt \{Package:name\}.xpi} file will be created in current directory.} 
 			\item{Send location to the front-end to be used in further actions\\
-				In example calling the {\em FlightDeck Addon}\footnote{FlightDeck Addon is a Jetpack extension 
-				allowing to temporary installation of the \xpi. It needs to be called with an URL of 
-				the \xpi.} to download and install the \xpi.}
+				In example calling Test in Browser.}
+		\end{enumerate}
+		
+	\subsection{Test in browser}
+		
+		To test the Addon in the Browser it is not necessary to save current code in the PackageRevision.
+		An \xpi\ will be build from current data displayed inside the Addon Builder\footnote{As UI will 
+		probably be designed in the way that the Libraries will be open in different Browser Tab than the 
+		Addon, only the latter	data will be taken directly from editor}. Addon will be installed temporarily
+		--- it will be automatically removed after browser restart. The process takes following steps:
+		\begin{enumerate}
+			\item{Build an \xpi\ from code in editor}
+			\item{Send a {\em load Addon request} to the {\em FlightDeck Addon}\footnote{FlightDeck Addon is a 
+				Jetpack extension 	allowing to temporary installation of the \xpi. It needs to be called 
+				with an URL of the \xpi. It is currently in {\em alpha} stage, there is a proposition 
+				to replace it with a more generic Addon}}
+			\item{\xpi\ is downloaded and installed by the Addon}
+			\item{Addon sends a remove request after the \xpi\ is downloaded}
+			\item{Whole Jetpack SDK used to create \xpi\ is removed}
 		\end{enumerate}
 	
 	\subsection{Upload to AMO}
 	
-		\xpi\ needs to be created from a database object. Then use {\tt mechanize} lib to login 
-		to \amo and upload the file faking it was done directly from the browser.
+		{\em Sending the \xpi's to \amo\ is postponed and will be coded after current iteration.}
+	
+		\noindent \xpi\ needs to be created from a database object. Then {\tt mechanize} lib will
+		be used to login to \amo\ and upload the file faking it was done directly from the browser.
 							
 \section*{To be continued\ldots}
 \end{document}
