@@ -43,9 +43,14 @@ class AMOAuthentication:
 		br['data[Login][password]'] = password
 
 		response = br.submit()
-		if response.geturl() != 'https://addons.mozilla.org/en-US/firefox':
+		response_url = response.geturl()
+		valid_urls = [
+					'https://addons.mozilla.org/en-US/firefox/', 
+					'https://addons.mozilla.org/en-US/firefox'
+		]
+		if not response_url in valid_urls:
 			return None
-
+		
 		link = br.find_link(text='View Profile')
 		email = username
 		username = link.url.split('/')[-1]
