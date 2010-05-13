@@ -8,6 +8,9 @@
 	font-weight: bold;
 	cursor: pointer;
 }
+#app-content h3:hover { 
+	background: #E5E9EE;
+}
 #app-content .module-info {
 	margin-left: 10px;
 }
