@@ -1,4 +1,5 @@
 from copy import deepcopy
+from exceptions import TypeError
 
 from django.db.models.signals import pre_save, post_save
 from django.db import models
@@ -8,6 +9,7 @@ from django.template.defaultfilters import slugify
 
 from jetpack import settings
 from jetpack.managers import PackageManager
+from jetpack.errors import SelfDependencyException
 
 PERMISSION_CHOICES = (
 	(0, 'private'),
@@ -123,9 +125,7 @@ class PackageRevision(models.Model):
 
 	
 	def save_new_revision(self, **kwargs):
-		"""
-		save self as new revision with link to the origin.
-		"""
+		" save self as new revision with link to the origin. "
 		origin = deepcopy(self)
 		self.id = None
 		self.origin = origin
@@ -139,6 +139,13 @@ class PackageRevision(models.Model):
 		# reassign all dependencies
 		for dep in origin.dependencies.all():
 			self.dependencies.add(dep)
+
+		for mod in origin.modules.all():
+			self.modules.add(mod)
+
+		for att in origin.attachments.all():
+			self.attachments.add(att)
+
 		return save_return
 
 
@@ -155,25 +162,61 @@ class PackageRevision(models.Model):
 
 	
 	def set_version(self, version):
-		"""
-		Set the version and update the revision obeying the overload save
-		"""
+		" Set the version and update the revision obeying the overload save "
 		self.version = version
 		return super(PackageRevision, self).save()
 
+	def module_create(self, **kwargs):
+		" create module and add to modules "
+		mod = Module.objects.create(**kwargs)
+		self.module_add(mod)
+
+	def module_add(self, mod):
+		" copy to new revision, add module "
+		# save as new version
+		self.save()
+		return self.modules.add(mod)
+		
+	def module_remove(self, dep):
+		" copy to new revision, remove module "
+		# save as new version
+		self.save()
+		return self.modules.remove(dep)
+		
+
+	def attachment_create(self, **kwargs):
+		" create attachment and add to attachments "
+		mod = Attachment.objects.create(**kwargs)
+		self.attachment_add(mod)
+
+	def attachment_add(self, att):
+		" copy to new revision, add attachment "
+		# save as new version
+		self.save()
+		return self.attachments.add(att)
+		
+	def attachment_remove(self, dep):
+		" copy to new revision, remove attachment "
+		# save as new version
+		self.save()
+		return self.attachments.remove(dep)
+		
 
 	def dependency_add(self, dep):
-		"""
-		copy to new revision, add dependency
-		"""
+		" copy to new revision, add dependency (Library - PackageVersion) "
+		# a PackageRevision has to depend on the LibraryRevision only
+		if dep.package.type != 'l': 
+			raise TypeError('Dependency has to be a Library')
+		# a LibraryRevision can't depend on another LibraryRevision linked with the same
+		# Library
+		if dep.package.id_number == self.package.id_number:
+			raise SelfDependencyException('A Library can not depend on itself!')
 		# save as new version
 		self.save()
 		return self.dependencies.add(dep)
 		
 	def dependency_remove(self, dep):
-		"""
-		copy to new revision, remove dependency
-		"""
+		" copy to new revision, remove dependency "
 		# save as new version
 		self.save()
 		return self.dependencies.remove(dep)
@@ -191,20 +234,29 @@ class Module(models.Model):
 	# user who has written current revision of the module
 	author = models.ForeignKey(User, related_name='module_revisions')
 
+	class Meta:
+		ordering = ('filename',)
+
 	def get_filename(self):
 		return "%s.js" % self.filename
+
 
 
 class Attachment(models.Model):
 	
 	revisions = models.ManyToManyField(PackageRevision, 
-									related_name='atachments', blank=True)
+									related_name='attachments', blank=True)
 	# path to the attachment
 	filename = models.CharField(max_length=255)
 	# extension name
 	ext = models.CharField(max_length=10)
 	# user who has uploaded the file
 	author = models.ForeignKey(User, related_name='attachments')
+	# mime will help with displaying the attachment
+	mimetype = models.CharField(max_length=255, blank=True, null=True)
+
+	class Meta:
+		ordering = ('filename',)
 
 	def get_filename(self):
 		return "%s.%s" % (self.filename, self.ext)

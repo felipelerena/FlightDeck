@@ -1,8 +1,11 @@
+from exceptions import TypeError
+
 from django.test import TestCase
 
 from test_utils import create_test_user
-from jetpack.models import Package, PackageRevision
+from jetpack.models import Package, PackageRevision, Module, Attachment
 from jetpack import settings
+from jetpack.errors import SelfDependencyException
 
 TEST_USERNAME = 'test_user'
 TEST_ADDON_NAME = 'test Addon'
@@ -10,7 +13,8 @@ TEST_ADDON_SLUG = 'test-addon'
 TEST_LIBRARY_NAME = 'test Library'
 TEST_LIBRARY_SLUG = 'test-library'
 TEST_ADDON2_NAME = 'test Addon 2'
-
+TEST_FILENAME = 'file-name'
+TEST_FILENAME_EXTENSION = 'css'
 
 class PackageTestCase(TestCase):
 	def setUp(self):
@@ -124,6 +128,18 @@ class PackageRevisionTest(PackageTestCase):
 		)
 
 
+	def test_adding_addon_as_dependency(self):
+		lib = PackageRevision.objects.filter(package__slug=self.library.slug)[0]
+		addon = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		self.assertRaises(TypeError, lib.dependency_add, addon)
+		self.assertEqual(0, len(lib.dependencies.all()))
+
+
+	def test_adding_library_to_itself_as_dependency(self):
+		lib = PackageRevision.objects.filter(package__slug=self.library.slug)[0]
+		self.assertRaises(SelfDependencyException, lib.dependency_add, lib)
+
+
 	def test_adding_and_removing_dependency(self):
 		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
 		lib = PackageRevision.objects.filter(package__slug=self.library.slug)[0]
@@ -148,3 +164,32 @@ class PackageRevisionTest(PackageTestCase):
 		self.assertEqual(1, len(second.dependencies.all()))
 		self.assertEqual(0, len(third.dependencies.all()))
 		
+
+	def test_adding_attachment(self):
+		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first.attachment_create(
+			filename=TEST_FILENAME,
+			ext=TEST_FILENAME_EXTENSION,
+			author=self.user
+		)
+
+		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[1]
+		second = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		
+		self.assertEqual(0, len(first.attachments.all()))
+		self.assertEqual(1, len(second.attachments.all()))
+
+
+	def test_adding_module(self):
+		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first.module_create(
+			filename=TEST_FILENAME,
+			author=self.user
+		)
+
+		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[1]
+		second = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		
+		self.assertEqual(0, len(first.modules.all()))
+		self.assertEqual(1, len(second.modules.all()))
+
