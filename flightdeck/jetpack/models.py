@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from django.db.models.signals import pre_save, post_save
 from django.db import models
 from django.contrib.auth.models import User
@@ -68,7 +70,10 @@ class Package(models.Model):
 		get the highest id number and increment it
 		"""
 		all_packages = Package.objects.all().order_by('-id_number')
-		return all_packages[0].id_number + 1 if all_packages else 1000000
+		return all_packages[0].id_number + 1 if all_packages else settings.MINIMUM_PACKAGE_ID
+
+	def get_directory_name(self):
+		return "%s-%d" % (self.slug, self.id_number)
 
 
 
@@ -104,7 +109,7 @@ class PackageRevision(models.Model):
 		unique_together = ('package', 'owner', 'revision_number')
 
 	######################
-	# revision save methoda
+	# revision save methods
 
 	def save(self, **kwargs):
 		"""
@@ -130,7 +135,11 @@ class PackageRevision(models.Model):
 			self.owner = kwargs['user']
 			del kwargs['user']
 
-		return super(PackageRevision, self).save(**kwargs)
+		save_return = super(PackageRevision, self).save(**kwargs)
+		# reassign all dependencies
+		for dep in origin.dependencies.all():
+			self.dependencies.add(dep)
+		return save_return
 
 
 	def get_next_revision_number(self):
@@ -151,6 +160,23 @@ class PackageRevision(models.Model):
 		"""
 		self.version = version
 		return super(PackageRevision, self).save()
+
+
+	def dependency_add(self, dep):
+		"""
+		copy to new revision, add dependency
+		"""
+		# save as new version
+		self.save()
+		return self.dependencies.add(dep)
+		
+	def dependency_remove(self, dep):
+		"""
+		copy to new revision, remove dependency
+		"""
+		# save as new version
+		self.save()
+		return self.dependencies.remove(dep)
 		
 
 
@@ -165,6 +191,9 @@ class Module(models.Model):
 	# user who has written current revision of the module
 	author = models.ForeignKey(User, related_name='module_revisions')
 
+	def get_filename(self):
+		return "%s.js" % self.filename
+
 
 class Attachment(models.Model):
 	
@@ -172,9 +201,13 @@ class Attachment(models.Model):
 									related_name='atachments', blank=True)
 	# path to the attachment
 	filename = models.CharField(max_length=255)
+	# extension name
+	ext = models.CharField(max_length=10)
 	# user who has uploaded the file
 	author = models.ForeignKey(User, related_name='attachments')
 
+	def get_filename(self):
+		return "%s.%s" % (self.filename, self.ext)
 
 
 #################################################################################
