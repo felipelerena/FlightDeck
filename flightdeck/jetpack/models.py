@@ -166,14 +166,26 @@ class PackageRevision(models.Model):
 		self.version = version
 		return super(PackageRevision, self).save()
 
+	def validate_module_filename(self, filename):
+		for mod in self.modules.all():
+			if mod.filename == filename:
+				return False
+		return True
+
 	def module_create(self, **kwargs):
 		" create module and add to modules "
+		# validate if given filename is valid
+		if not self.validate_module_filename(kwargs['filename']):
+			raise FilenameExistException('Module with filename %s already exists')
 		mod = Module.objects.create(**kwargs)
 		self.module_add(mod)
 
 	def module_add(self, mod):
 		" copy to new revision, add module "
 		# save as new version
+		# validate if given filename is valid
+		if not self.validate_module_filename(mod.filename):
+			raise FilenameExistException('Module with filename %s already exists')
 		self.save()
 		return self.modules.add(mod)
 		
