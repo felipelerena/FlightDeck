@@ -5,7 +5,8 @@ from django.test import TestCase
 from test_utils import create_test_user
 from jetpack.models import Package, PackageRevision, Module, Attachment
 from jetpack import settings
-from jetpack.errors import SelfDependencyException
+from jetpack.errors import 	SelfDependencyException, FilenameExistException, \
+							UpdateDeniedException
 
 TEST_USERNAME = 'test_user'
 TEST_ADDON_NAME = 'test Addon'
@@ -193,3 +194,65 @@ class PackageRevisionTest(PackageTestCase):
 		self.assertEqual(0, len(first.modules.all()))
 		self.assertEqual(1, len(second.modules.all()))
 
+
+	def test_adding_module_with_existing_filename(self):
+		
+		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first.module_create(
+			filename=TEST_FILENAME,
+			author=self.user
+		)
+		self.assertRaises(FilenameExistException, first.module_create,
+			**{'filename':TEST_FILENAME,'author':self.user}
+		)
+		mod = Module.objects.create(
+			filename=TEST_FILENAME,
+			author=self.user
+		)
+		self.assertRaises(FilenameExistException, first.module_add, mod)
+		
+
+	def test_adding_attachment_with_existing_filename(self):
+		
+		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first.attachment_create(
+			filename=TEST_FILENAME,
+			ext=TEST_FILENAME_EXTENSION,
+			author=self.user
+		)
+		self.assertRaises(FilenameExistException, first.attachment_create,
+			**{'filename':TEST_FILENAME,'ext':TEST_FILENAME_EXTENSION,'author':self.user}
+		)
+
+		att = Attachment.objects.create(
+			filename=TEST_FILENAME,
+			ext=TEST_FILENAME_EXTENSION,
+			author=self.user
+		)
+		self.assertRaises(FilenameExistException, first.attachment_add, att)
+
+
+
+class ModuleTest(PackageTestCase):
+
+	def test_update_module(self):
+		" updating module is not allowed "
+		mod = Module.objects.create(
+			filename=TEST_FILENAME,
+			author=self.user
+		)
+		self.assertRaises(UpdateDeniedException,mod.save)
+		
+
+
+class AttachmentTest(PackageTestCase):
+
+	def test_update_attachment(self):
+		" updating attachment is not allowed "
+		att = Attachment.objects.create(
+			filename=TEST_FILENAME,
+			ext=TEST_FILENAME_EXTENSION,
+			author=self.user
+		)
+		self.assertRaises(UpdateDeniedException,att.save)
+		

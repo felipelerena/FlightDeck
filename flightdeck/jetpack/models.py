@@ -9,7 +9,8 @@ from django.template.defaultfilters import slugify
 
 from jetpack import settings
 from jetpack.managers import PackageManager
-from jetpack.errors import SelfDependencyException
+from jetpack.errors import 	SelfDependencyException, FilenameExistException, \
+							UpdateDeniedException
 
 PERMISSION_CHOICES = (
 	(0, 'private'),
@@ -172,38 +173,70 @@ class PackageRevision(models.Model):
 				return False
 		return True
 
+	def validate_attachment_filename(self, filename, ext):
+		for mod in self.attachments.all():
+			if mod.filename == filename and mod.ext == ext:
+				return False
+		return True
+
 	def module_create(self, **kwargs):
 		" create module and add to modules "
 		# validate if given filename is valid
 		if not self.validate_module_filename(kwargs['filename']):
-			raise FilenameExistException('Module with filename %s already exists')
+			raise FilenameExistException(
+				'module with filename %s already exists' % kwargs['filename']
+			)
 		mod = Module.objects.create(**kwargs)
 		self.module_add(mod)
+		return mod
 
 	def module_add(self, mod):
 		" copy to new revision, add module "
 		# save as new version
 		# validate if given filename is valid
 		if not self.validate_module_filename(mod.filename):
-			raise FilenameExistException('Module with filename %s already exists')
+			raise FilenameExistException(
+				'module with filename %s already exists' % mod.filename
+			)
 		self.save()
 		return self.modules.add(mod)
 		
-	def module_remove(self, dep):
+	def module_remove(self, mod):
 		" copy to new revision, remove module "
 		# save as new version
 		self.save()
-		return self.modules.remove(dep)
+		return self.modules.remove(mod)
 		
+	def module_update(self, mod):
+		" to update a module, new package revision has to be created "
+		self.save()
+		self.modules.remove(mod)
+		mod.id = None
+		mod.save()
+		self.modules.add(mod)
 
 	def attachment_create(self, **kwargs):
 		" create attachment and add to attachments "
-		mod = Attachment.objects.create(**kwargs)
-		self.attachment_add(mod)
+		# validate if given filename is valid
+		if not self.validate_attachment_filename(kwargs['filename'], kwargs['ext']):
+			raise FilenameExistException(
+				'Attachment with filename %s.%s already exists' % (
+					kwargs['filename'], kwargs['ext']
+				)
+			)
+		att = Attachment.objects.create(**kwargs)
+		self.attachment_add(att)
+		return att
+
 
 	def attachment_add(self, att):
 		" copy to new revision, add attachment "
 		# save as new version
+		# validate if given filename is valid
+		if not self.validate_attachment_filename(att.filename, att.ext):
+			raise FilenameExistException(
+				'Attachment with filename %s.%s already exists' % (att.filename, att.ext)
+			)
 		self.save()
 		return self.attachments.add(att)
 		
@@ -236,7 +269,7 @@ class PackageRevision(models.Model):
 
 
 class Module(models.Model):
-	
+	" the only way to 'change' the module is to assign it to different PackageRequest "
 	revisions = models.ManyToManyField(PackageRevision, 
 									related_name='modules', blank=True)
 	# name of the Module - it will be used as javascript file name
@@ -251,6 +284,11 @@ class Module(models.Model):
 
 	def get_filename(self):
 		return "%s.js" % self.filename
+
+	def save(self, **kwargs):
+		if self.id:
+			raise UpdateDeniedException('Module can not be updated in the same row')
+		return super(Module, self).save(**kwargs)
 
 
 
@@ -272,6 +310,11 @@ class Attachment(models.Model):
 
 	def get_filename(self):
 		return "%s.%s" % (self.filename, self.ext)
+
+	def save(self, **kwargs):
+		if self.id:
+			raise UpdateDeniedException('Attachment can not be updated in the same row')
+		return super(Attachment, self).save(**kwargs)
 
 
 #################################################################################
