@@ -34,10 +34,10 @@ class Package(models.Model):
 	id_number = models.PositiveIntegerField(unique=True)
 
 	# name of the Package
-	name = models.CharField(max_length=255)
+	full_name = models.CharField(max_length=255)
 	# made from the name 
 	# it is used to create a directory of Modules
-	slug = models.CharField(max_length=255, blank=True)
+	name = models.CharField(max_length=255, blank=True)
 	description = models.TextField(blank=True)
 
 	# type - determining ability to specific options
@@ -62,11 +62,11 @@ class Package(models.Model):
 	##################
 	# Methods
 
-	def set_slug(self):
-		self.slug = self.make_slug()
+	def set_name(self):
+		self.name = self.make_name()
 
-	def make_slug(self):
-		return slugify(self.name)
+	def make_name(self):
+		return slugify(self.full_name)
 	
 	def get_next_id_number(self):
 		""" 
@@ -76,7 +76,7 @@ class Package(models.Model):
 		return all_packages[0].id_number + 1 if all_packages else settings.MINIMUM_PACKAGE_ID
 
 	def get_directory_name(self):
-		return "%s-%d" % (self.slug, self.id_number)
+		return "%s-%d" % (self.name, self.id_number)
 
 
 
@@ -327,11 +327,11 @@ def set_package_id_number(instance, **kwargs):
 pre_save.connect(set_package_id_number, sender=Package)
 
 
-def make_slug_on_create(instance, **kwargs):
+def make_name_on_create(instance, **kwargs):
 	if kwargs.get('raw',False): return
-	if not instance.slug:
-		instance.set_slug()
-pre_save.connect(make_slug_on_create, sender=Package)
+	if not instance.name:
+		instance.set_name()
+pre_save.connect(make_name_on_create, sender=Package)
 
 
 def save_first_revision(instance, **kwargs):

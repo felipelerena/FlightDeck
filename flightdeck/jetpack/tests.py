@@ -9,11 +9,11 @@ from jetpack.errors import 	SelfDependencyException, FilenameExistException, \
 							UpdateDeniedException
 
 TEST_USERNAME = 'test_user'
-TEST_ADDON_NAME = 'test Addon'
-TEST_ADDON_SLUG = 'test-addon'
-TEST_LIBRARY_NAME = 'test Library'
-TEST_LIBRARY_SLUG = 'test-library'
-TEST_ADDON2_NAME = 'test Addon 2'
+TEST_ADDON_FULLNAME = 'test Addon'
+TEST_ADDON_NAME = 'test-addon'
+TEST_LIBRARY_FULLNAME = 'test Library'
+TEST_LIBRARY_NAME = 'test-library'
+TEST_ADDON2_FULLNAME = 'test Addon 2'
 TEST_FILENAME = 'file-name'
 TEST_FILENAME_EXTENSION = 'css'
 
@@ -22,14 +22,14 @@ class PackageTestCase(TestCase):
 		self.to_delete = []
 		self.user = create_test_user(username=TEST_USERNAME)
 		self.addon = Package(
-			name=TEST_ADDON_NAME, 
+			full_name=TEST_ADDON_FULLNAME, 
 			creator=self.user, 
 			type='a'
 		)
 		self.addon.save()
 		self.to_delete.append(self.addon)
 		self.library = Package(
-			name=TEST_LIBRARY_NAME, 
+			full_name=TEST_LIBRARY_FULLNAME, 
 			creator=self.user, 
 			type='l'
 		)
@@ -50,32 +50,32 @@ class PackageTest(PackageTestCase):
 	# self user, addon, library are created
 
 	def test_addon_creation(self):
-		addon = Package.objects.get(name=TEST_ADDON_NAME)
+		addon = Package.objects.get(full_name=TEST_ADDON_FULLNAME)
 		self.failUnless(addon)
 		self.assertEqual(addon.id_number, settings.MINIMUM_PACKAGE_ID)
 
 
 	def test_library_creation(self):
-		library = Package.objects.get(name=TEST_LIBRARY_NAME)
+		library = Package.objects.get(full_name=TEST_LIBRARY_FULLNAME)
 		self.failUnless(library)
 		self.assertEqual(library.id_number, settings.MINIMUM_PACKAGE_ID + 1)
 
 
-	def test_slug_creation(self):
-		self.assertEqual(self.addon.slug, TEST_ADDON_SLUG)
-		self.assertEqual(self.library.slug, TEST_LIBRARY_SLUG)
+	def test_name_creation(self):
+		self.assertEqual(self.addon.name, TEST_ADDON_NAME)
+		self.assertEqual(self.library.name, TEST_LIBRARY_NAME)
 
 
 	def test_ordering(self):
-		addon2 = Package(name=TEST_ADDON2_NAME, creator=self.user, type='a')
+		addon2 = Package(full_name=TEST_ADDON2_FULLNAME, creator=self.user, type='a')
 		addon2.save()
 		self.to_delete.append(addon2)
 
-		self.assertEqual(Package.objects.all()[0].name, TEST_ADDON2_NAME)
+		self.assertEqual(Package.objects.all()[0].full_name, TEST_ADDON2_FULLNAME)
 		
 
 	def test_filtering(self):
-		addon2 = Package(name=TEST_ADDON2_NAME, creator=self.user, type='a')
+		addon2 = Package(full_name=TEST_ADDON2_FULLNAME, creator=self.user, type='a')
 		addon2.save()
 		self.to_delete.append(addon2)
 
@@ -90,14 +90,14 @@ class PackageTest(PackageTestCase):
 	def test_directory_name(self):
 		self.assertEqual(
 			self.addon.get_directory_name(),
-			"%s-%d" % (TEST_ADDON_SLUG, settings.MINIMUM_PACKAGE_ID)
+			"%s-%d" % (TEST_ADDON_NAME, settings.MINIMUM_PACKAGE_ID)
 		)
 
 
 class PackageRevisionTest(PackageTestCase):
 
 	def test_first_revision(self):
-		revisions = PackageRevision.objects.filter(package__slug=self.addon.slug)
+		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
 		self.assertEqual(1, len(list(revisions)))
 		revision = revisions[0]
 		self.assertEqual(revision.owner.username, self.addon.creator.username)
@@ -106,60 +106,60 @@ class PackageRevisionTest(PackageTestCase):
 	
 	def test_save(self):
 		# system should create new revision on save
-		revisions = PackageRevision.objects.filter(package__slug=self.addon.slug)
+		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
 		first = revisions[0]
 		first.save()
-		revisions = PackageRevision.objects.filter(package__slug=self.addon.slug)
+		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
 		self.assertEqual(2, len(list(revisions)))
 
 	
 	def test_save_with_dependency(self):
 		# system should copy on save with all dependencies
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
-		lib = PackageRevision.objects.filter(package__slug=self.library.slug)[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		lib = PackageRevision.objects.filter(package__name=self.library.name)[0]
 		first.dependencies.add(lib)
 		first.save()
 
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[1]
-		second = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
-		self.assertEqual(second.dependencies.all()[0].package.slug, lib.package.slug)
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[1]
+		second = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		self.assertEqual(second.dependencies.all()[0].package.name, lib.package.name)
 		self.assertEqual(
-			first.dependencies.all()[0].package.slug, 
-			second.dependencies.all()[0].package.slug
+			first.dependencies.all()[0].package.name, 
+			second.dependencies.all()[0].package.name
 		)
 
 
 	def test_adding_addon_as_dependency(self):
-		lib = PackageRevision.objects.filter(package__slug=self.library.slug)[0]
-		addon = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		lib = PackageRevision.objects.filter(package__name=self.library.name)[0]
+		addon = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		self.assertRaises(TypeError, lib.dependency_add, addon)
 		self.assertEqual(0, len(lib.dependencies.all()))
 
 
 	def test_adding_library_to_itself_as_dependency(self):
-		lib = PackageRevision.objects.filter(package__slug=self.library.slug)[0]
+		lib = PackageRevision.objects.filter(package__name=self.library.name)[0]
 		self.assertRaises(SelfDependencyException, lib.dependency_add, lib)
 
 
 	def test_adding_and_removing_dependency(self):
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
-		lib = PackageRevision.objects.filter(package__slug=self.library.slug)[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		lib = PackageRevision.objects.filter(package__name=self.library.name)[0]
 
 		first.dependency_add(lib)
-		revisions = PackageRevision.objects.filter(package__slug=self.addon.slug)
+		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
 		self.assertEqual(2, len(list(revisions)))
 
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[1]
-		second = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[1]
+		second = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 
 		self.assertEqual(0, len(first.dependencies.all()))
 		self.assertEqual(1, len(second.dependencies.all()))
 
 		second.dependency_remove(lib)
 
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[2]
-		second = PackageRevision.objects.filter(package__slug=self.addon.slug)[1]
-		third = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[2]
+		second = PackageRevision.objects.filter(package__name=self.addon.name)[1]
+		third = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 
 		self.assertEqual(0, len(first.dependencies.all()))
 		self.assertEqual(1, len(second.dependencies.all()))
@@ -167,29 +167,29 @@ class PackageRevisionTest(PackageTestCase):
 		
 
 	def test_adding_attachment(self):
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		first.attachment_create(
 			filename=TEST_FILENAME,
 			ext=TEST_FILENAME_EXTENSION,
 			author=self.user
 		)
 
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[1]
-		second = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[1]
+		second = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		
 		self.assertEqual(0, len(first.attachments.all()))
 		self.assertEqual(1, len(second.attachments.all()))
 
 
 	def test_adding_module(self):
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		first.module_create(
 			filename=TEST_FILENAME,
 			author=self.user
 		)
 
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[1]
-		second = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[1]
+		second = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		
 		self.assertEqual(0, len(first.modules.all()))
 		self.assertEqual(1, len(second.modules.all()))
@@ -197,7 +197,7 @@ class PackageRevisionTest(PackageTestCase):
 
 	def test_adding_module_with_existing_filename(self):
 		
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		first.module_create(
 			filename=TEST_FILENAME,
 			author=self.user
@@ -214,7 +214,7 @@ class PackageRevisionTest(PackageTestCase):
 
 	def test_adding_attachment_with_existing_filename(self):
 		
-		first = PackageRevision.objects.filter(package__slug=self.addon.slug)[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		first.attachment_create(
 			filename=TEST_FILENAME,
 			ext=TEST_FILENAME_EXTENSION,
