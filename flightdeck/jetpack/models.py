@@ -1,5 +1,6 @@
 from copy import deepcopy
 from exceptions import TypeError
+import csv
 
 from django.db.models.signals import pre_save, post_save
 from django.db import models
@@ -51,6 +52,16 @@ class Package(models.Model):
 									choices=PERMISSION_CHOICES, 
 									default=1, blank=True)
 
+	# url for the Manifest
+	url = models.URLField(verify_exists=False, blank=True, default='')
+
+	# license on which this package is rekeased to the public
+	license = models.CharField(max_length=255, blank=True, default='')
+	
+	# this is set in the PackageRevision.set_version
+	version_name = models.CharField(max_length=250, blank=True, null=True, 
+									default=settings.INITIAL_VERSION_NAME)
+
 	created_at = models.DateTimeField(auto_now_add=True)
 	last_update = models.DateTimeField(auto_now=True)
 
@@ -61,6 +72,12 @@ class Package(models.Model):
 
 	##################
 	# Methods
+
+	def is_addon(self):
+		return self.type == 'a'
+
+	def get_package_name(self):
+		return "%s-%d" % (self.name, self.id_number)
 
 	def set_name(self):
 		self.name = self.make_name()
@@ -88,7 +105,7 @@ class PackageRevision(models.Model):
 	# public version name 
 	# this is a tag used to mark important revisions
 	version_name = models.CharField(max_length=250, blank=True, null=True, 
-									default='initial')
+									default=settings.INITIAL_VERSION_NAME)
 	# this makes the revision unique across the same package/user
 	revision_number = models.IntegerField(blank=True, default=0)
 	# commit message
@@ -107,9 +124,54 @@ class PackageRevision(models.Model):
 
 	created_at = models.DateTimeField(auto_now_add=True)
 
+	#contributors
+	contributors = models.CharField(max_length=255, blank=True, default='')
+
 	class Meta: 
 		ordering = ('-revision_number',)
 		unique_together = ('package', 'owner', 'revision_number')
+
+	######################
+	# Manifest
+
+	def get_contributors_list(self):
+		csv_r = csv.reader([self.contributors], skipinitialspace=True)
+		for c in csv_r:
+			return c
+
+	def get_dependencies_list(self):
+		return [dep.package.get_package_name() for dep in self.dependencies.all()]
+
+	def get_manifest(self, test_in_browser=False):
+		description = self.package.description
+		#if self.description:
+		#	description = "%s\n%s" % (description, self.description)
+		
+		if self.version_name:
+			version = self.version_name
+		else:
+			version = "%s rev. %d" % (self.package.version_name, self.revision_number)
+
+		if test_in_browser: 
+			version = "%s - test" % version
+
+		manifest = {
+			'fullName': self.package.full_name,
+			'name': self.package.name,
+			'description': description,
+			'author': self.package.author.username,
+			'id': self.package.id_number,
+			'version': version,
+			'dependencies': self.get_dependencies_list(),
+			'license': self.package.license,
+			'url': str(self.package.url),
+			'contributors': self.get_contributors_list()
+		}
+		return manifest
+
+	def get_manifest_json(self, **kwargs):
+		return simplejson.dumps(self.get_manifest(**kwargs))
+
 
 	######################
 	# revision save methods
@@ -129,6 +191,7 @@ class PackageRevision(models.Model):
 		" save self as new revision with link to the origin. "
 		origin = deepcopy(self)
 		self.id = None
+		self.version_name = None
 		self.origin = origin
 		self.revision_number = self.get_next_revision_number()
 		# a hook for future "branching"
@@ -162,9 +225,14 @@ class PackageRevision(models.Model):
 		return revision_numbers[0].revision_number + 1 if revision_numbers else 1
 
 	
-	def set_version(self, version):
-		" Set the version and update the revision obeying the overload save "
-		self.version = version
+	def set_version(self, version_name):
+		"""
+		Set the version_name
+		update the PackageRevision obeying the overload save
+		Save current Package:version_name
+		"""
+		self.version_name = version_name
+		self.package.version_name = version_name
 		return super(PackageRevision, self).save()
 
 	def validate_module_filename(self, filename):
@@ -267,7 +335,6 @@ class PackageRevision(models.Model):
 		return self.dependencies.remove(dep)
 		
 
-
 class Module(models.Model):
 	" the only way to 'change' the module is to assign it to different PackageRequest "
 	revisions = models.ManyToManyField(PackageRevision, 
@@ -345,5 +412,13 @@ def save_first_revision(instance, **kwargs):
 
 	revision = PackageRevision(package=instance, owner=instance.author)
 	revision.save()
+	if instance.is_addon():
+		mod = Module.objects.create(
+			filename='main',
+			author=instance.author,
+			code="// This is an active module of the %s Add-on" % instance.full_name
+		)
+		revision.modules.add(mod)
+
 post_save.connect(save_first_revision, sender=Package)
 

@@ -1,3 +1,4 @@
+from copy import deepcopy
 from exceptions import TypeError
 
 from django.test import TestCase
@@ -6,7 +7,7 @@ from test_utils import create_test_user
 from jetpack.models import Package, PackageRevision, Module, Attachment
 from jetpack import settings
 from jetpack.errors import 	SelfDependencyException, FilenameExistException, \
-							UpdateDeniedException
+							UpdateDeniedException, AddingModuleDenied
 
 TEST_USERNAME = 'test_user'
 TEST_ADDON_FULLNAME = 'test Addon'
@@ -111,6 +112,7 @@ class PackageRevisionTest(PackageTestCase):
 		first.save()
 		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
 		self.assertEqual(2, len(list(revisions)))
+		self.assertEqual(None, first.version_name)
 
 	
 	def test_save_with_dependency(self):
@@ -191,9 +193,26 @@ class PackageRevisionTest(PackageTestCase):
 		first = PackageRevision.objects.filter(package__name=self.addon.name)[1]
 		second = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		
-		self.assertEqual(0, len(first.modules.all()))
-		self.assertEqual(1, len(second.modules.all()))
+		self.assertEqual(1, len(first.modules.all()))
+		self.assertEqual(2, len(second.modules.all()))
 
+
+	def test_adding_module_which_was_added_to_other_package_before(self):
+		" assigning module to more than one packages should be prevented! "
+		addon = Package.objects.create(
+			full_name="Other Package", 
+			author=self.user, 
+			type='a'
+		)
+		rev = PackageRevision.objects.filter(package__name='other-package')[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		mod = Module.objects.create(
+			filename=TEST_FILENAME,
+			author=self.user
+		)
+		first.module_add(mod)
+		self.assertRaises(AddingModuleDenied, rev.module_add, mod)
+		
 
 	def test_adding_module_with_existing_filename(self):
 		
@@ -255,4 +274,99 @@ class AttachmentTest(PackageTestCase):
 			author=self.user
 		)
 		self.assertRaises(UpdateDeniedException,att.save)
+		
+class ManifestsTest(PackageTestCase):
+	" tests strictly about manifest creation "
+
+	manifest = {
+		'fullName': TEST_ADDON_FULLNAME,
+		'name': TEST_ADDON_NAME,
+		'description': '',
+		'author': TEST_USERNAME,
+		'id': settings.MINIMUM_PACKAGE_ID,
+		'version': settings.INITIAL_VERSION_NAME,
+		'dependencies': [],
+		'license': '',
+		'url': '',
+		'contributors': []
+	}
+	
+	def test_minimal_manifest(self):
+		" test if self.manifest is created for the clean addon "
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		self.assertEqual(self.manifest, first.get_manifest())
+
+
+	def test_manifest_tested(self):
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		
+		manifest = deepcopy(self.manifest)
+		manifest['version'] = "%s - test" % settings.INITIAL_VERSION_NAME
+
+		self.assertEqual(manifest, first.get_manifest(True))
+		
+
+	def test_mnifest_from_not_current_revision(self):
+		" test if the version in the manifest changes after 'updating' PackageRevision "
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		first.save()
+
+		manifest = deepcopy(self.manifest)
+		manifest['version'] = "%s rev. 1" % settings.INITIAL_VERSION_NAME
+
+		self.assertEqual(manifest, first.get_manifest())
+
+
+	def test_manifest_with_dependency(self):
+		" test if Manifest has the right dependency list "
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		lib = PackageRevision.objects.filter(package__name=self.library.name)[0]
+		first.dependency_add(lib)
+
+		manifest = deepcopy(self.manifest)
+		manifest['dependencies'] = ['%s-%d' % (TEST_LIBRARY_NAME, settings.MINIMUM_PACKAGE_ID + 1)]
+		manifest['version'] = "%s rev. 1" % settings.INITIAL_VERSION_NAME
+
+		self.assertEqual(manifest, first.get_manifest())
+
+	def test_contributors_list(self):
+		" test if the contributors list is exported properly "
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		first.contributors = "one, 12345, two words,no space"
+		first.save()
+
+		manifest = deepcopy(self.manifest)
+		manifest['version'] = "%s rev. 1" % settings.INITIAL_VERSION_NAME
+		manifest['contributors'] = ['one', '12345', 'two words', 'no space']
+
+		self.assertEqual(manifest, first.get_manifest())
+		
+
+class XPIBuildTest(PackageTest):
+	"""
+	Test if the stuff is properly build
+	"""
+	def setUp(self):
+		super (XPIBuildTest, self).setUp()
+		self.addonrev = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		self.librev = PackageRevision.objects.filter(package__name=self.library.name)[0]
+		self.librev.module_create(
+			filename=TEST_FILENAME,
+			author=self.user
+		)
+
+	def test_minimal_xpi_creation(self):
+		" xpi build from an addon straight after creation "
+
+
+	def test_addon_with_other_modules(self):
+		" addon has now moremodules "
+
+
+	def test_xpi_with_empty_dependency(self):
+		" empty lib is created "
+
+	def test_xpi_with_dependency(self):
+		" addon has one dependency with a file "
+		self.addonrev.dependency_add(self.librev)
 		
