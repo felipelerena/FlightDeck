@@ -217,9 +217,9 @@
 \section{Maintaining and building Manifest}
 
 	Manifest is the Addon's metadata. It is exported to {\tt package.json} in the main Addon directory. It is 
-	described on \url{https://jetpack.mozillalabs.com/sdk/0.1/docs/#guide/package-spec}.
+	described on \url{https://jetpack.mozillalabs.com/sdk/0.1/docs/\#guide/package-spec}.
 	
-	\subsection{Attributes which will be obtained during the system build}
+	\subsection{Manifest's attributes representation in the system}
 	
 	\begin{description}
 		\item[fullName] from {\tt Package:fullName}
@@ -232,16 +232,12 @@
 			(if build PackageRevision was not the one containing the version\_name) or  
 			{\tt test in browser} (if \xpi\ is build for testing only).
 		\item[dependencies] is a list created on the basis of {\tt PackageRevision:dependencies}
-		\item[license] {\tt License:name} and {\tt License:url}
+		\item[license] from {\tt Package:license}
+		\item[url] from {\tt Package:url}
+		\item[contributors] {PackageRevision:contributors} --- needs to be a comma separated list as 
+			current version will not support collaborative editing 
 	\end{description}
 	
-	\subsection{Attributes being held inside Manifest object}
-	
-	\begin{description}
-		\item[contributors] needs to be a comma separated list as current version will not give collaborative
-			editing 
-		\item[url] is just a string up to 255 chars
-	\end{description}
 	
 	
 \pagebreak
