@@ -43,8 +43,8 @@ class Package(models.Model):
 	# type - determining ability to specific options
 	type = models.CharField(max_length=30, choices=TYPE_CHOICES)
 	
-	# creator is the first person who created the Package
-	creator = models.ForeignKey(User, related_name='packages_originated')
+	# author is the first person who created the Package
+	author = models.ForeignKey(User, related_name='packages_originated')
 	
 	# is the Package visible for public?
 	public_permission = models.IntegerField(
@@ -342,7 +342,7 @@ def save_first_revision(instance, **kwargs):
 	# only for the new Package
 	if not kwargs.get('created', False): return
 
-	revision = PackageRevision(package=instance, owner=instance.creator)
+	revision = PackageRevision(package=instance, owner=instance.author)
 	revision.save()
 post_save.connect(save_first_revision, sender=Package)
 

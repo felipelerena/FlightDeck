@@ -23,14 +23,14 @@ class PackageTestCase(TestCase):
 		self.user = create_test_user(username=TEST_USERNAME)
 		self.addon = Package(
 			full_name=TEST_ADDON_FULLNAME, 
-			creator=self.user, 
+			author=self.user, 
 			type='a'
 		)
 		self.addon.save()
 		self.to_delete.append(self.addon)
 		self.library = Package(
 			full_name=TEST_LIBRARY_FULLNAME, 
-			creator=self.user, 
+			author=self.user, 
 			type='l'
 		)
 		self.library.save()
@@ -67,7 +67,7 @@ class PackageTest(PackageTestCase):
 
 
 	def test_ordering(self):
-		addon2 = Package(full_name=TEST_ADDON2_FULLNAME, creator=self.user, type='a')
+		addon2 = Package(full_name=TEST_ADDON2_FULLNAME, author=self.user, type='a')
 		addon2.save()
 		self.to_delete.append(addon2)
 
@@ -75,7 +75,7 @@ class PackageTest(PackageTestCase):
 		
 
 	def test_filtering(self):
-		addon2 = Package(full_name=TEST_ADDON2_FULLNAME, creator=self.user, type='a')
+		addon2 = Package(full_name=TEST_ADDON2_FULLNAME, author=self.user, type='a')
 		addon2.save()
 		self.to_delete.append(addon2)
 
@@ -100,7 +100,7 @@ class PackageRevisionTest(PackageTestCase):
 		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
 		self.assertEqual(1, len(list(revisions)))
 		revision = revisions[0]
-		self.assertEqual(revision.owner.username, self.addon.creator.username)
+		self.assertEqual(revision.owner.username, self.addon.author.username)
 		self.assertEqual(revision.revision_number, 0)
 
 	
