@@ -38,6 +38,7 @@ class AMOAuthentication:
 		# TODO: here contact AMO and receive authentication status
 		br = Browser()
 		br.open("https://addons.mozilla.org/en-US/firefox/users/login?to=en-US")
+		
 		br.select_form(nr=2)
 		br['data[Login][email]'] = username
 		br['data[Login][password]'] = password
@@ -53,7 +54,7 @@ class AMOAuthentication:
 		
 		link = br.find_link(text='View Profile')
 		email = username
-		username = link.url.split('/')[-1]
+		username = link.url.split('/')[-2]
 		
 		try:
 			user = User.objects.get(username=username)
