@@ -35,7 +35,7 @@
 	<div id="feature-wrapper">
 		<div class="UI_Feature">
 			{% with jetpacks.0 as item %}{% if item %}
-			<h3>{{ item.name }} <span>by <a title="" href="{% url person_public_profile item.creator.username %}">{{ item.creator.get_profile }}</a></span></h3>
+			<h3>{{ item.name }} <span>by <a title="" href="{# url person_public_profile item.creator.username #}">{{ item.creator.get_profile }}</a></span></h3>
 
 			<p>{{ item.description }}</p>
 			
