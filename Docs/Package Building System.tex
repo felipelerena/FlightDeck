@@ -30,7 +30,7 @@
 
 {\scriptsize
 	\noindent Download this document from \\
-\url{http://github.com/zalun/FlightDeck/raw/master/Docs/Package%20Building\%20System.pdf}\\
+\url{http://github.com/zalun/FlightDeck/raw/master/Docs/Package%20Building%20System.pdf}\\
 }{\scriptsize
 	\noindent Some relevant graph slides are available \\
 	\url{http://github.com/zalun/FlightDeck/raw/master/Docs/Addon%20Builder%20-%20Build%20System.pdf}
@@ -214,7 +214,34 @@
 					it will eventually change if FlightDeck Addon will become a Jetpack addon itself.
 			\end{description}
 	
-		
+\section{Maintaining and building Manifest}
+
+	Manifest is the Addon's metadata. It is exported to {\tt package.json} in the main Addon directory. It is 
+	described on \url{https://jetpack.mozillalabs.com/sdk/0.1/docs/#guide/package-spec}.
+	
+	\subsection{Attributes which will be obtained during the system build}
+	
+	\begin{description}
+		\item[fullName] from {\tt Package:fullName}
+		\item[name] from {\tt Package:name}
+		\item[description] from {\tt Package:description} and {\tt PackageRevision:description}
+		\item[author] from {\tt Package:author}
+		\item[id] from {\tt Package:ID}
+		\item[version] depends on the way the \xpi\ was build. It will always contain according 
+			{\tt PackageRevision:version\_name} plus {\tt PackageRevision:revision\_number} 
+			(if build PackageRevision was not the one containing the version\_name) or  
+			{\tt test in browser} (if \xpi\ is build for testing only).
+		\item[dependencies] is a list created on the basis of {\tt PackageRevision:dependencies}
+		\item[license] {\tt License:name} and {\tt License:url}
+	\end{description}
+	
+	\subsection{Attributes being held inside Manifest object}
+	
+	\begin{description}
+		\item[contributors] needs to be a comma separated list as current version will not give collaborative
+			editing 
+		\item[url] is just a string up to 255 chars
+	\end{description}
 	
 	
 \pagebreak
