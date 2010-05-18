@@ -11,7 +11,8 @@ from django.template.defaultfilters import slugify
 from jetpack import settings
 from jetpack.managers import PackageManager
 from jetpack.errors import 	SelfDependencyException, FilenameExistException, \
-							UpdateDeniedException
+							UpdateDeniedException, AddingModuleDenied
+
 
 PERMISSION_CHOICES = (
 	(0, 'private'),
@@ -266,6 +267,10 @@ class PackageRevision(models.Model):
 			raise FilenameExistException(
 				'module with filename %s already exists' % mod.filename
 			)
+		for rev in mod.revisions.all():
+			if rev.package.id_number != self.package.id_number:
+				raise AddingModuleDenied('this module is already assigned to other Library - %s' % rev.package.get_package_name())
+			
 		self.save()
 		return self.modules.add(mod)
 		
