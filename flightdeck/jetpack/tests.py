@@ -197,6 +197,21 @@ class PackageRevisionTest(PackageTestCase):
 		self.assertEqual(2, len(second.modules.all()))
 
 
+	def test_updating_module(self):
+		
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		mod = first.module_create(
+			filename=TEST_FILENAME,
+			author=self.user
+		)
+		mod.code = 'test'
+		first.module_update(mod)
+
+		self.assertEqual(3, len(PackageRevision.objects.filter(package__name=self.addon.name)))
+		self.assertEqual(2, len(Module.objects.filter(package__name=self.addon.name, filename=TEST_FILENAME)))
+		
+
+
 	def test_adding_module_which_was_added_to_other_package_before(self):
 		" assigning module to more than one packages should be prevented! "
 		addon = Package.objects.create(
@@ -271,19 +286,18 @@ class PackageRevisionTest(PackageTestCase):
 
 class ModuleTest(PackageTestCase):
 
-	def test_update_module(self):
+	def test_update_module_using_save(self):
 		" updating module is not allowed "
 		mod = Module.objects.create(
 			filename=TEST_FILENAME,
 			author=self.user
 		)
 		self.assertRaises(UpdateDeniedException,mod.save)
-		
 
 
 class AttachmentTest(PackageTestCase):
 
-	def test_update_attachment(self):
+	def test_update_attachment_using_save(self):
 		" updating attachment is not allowed "
 		att = Attachment.objects.create(
 			filename=TEST_FILENAME,
@@ -323,7 +337,7 @@ class ManifestsTest(PackageTestCase):
 		self.assertEqual(manifest, first.get_manifest(True))
 		
 
-	def test_mnifest_from_not_current_revision(self):
+	def test_manifest_from_not_current_revision(self):
 		" test if the version in the manifest changes after 'updating' PackageRevision "
 		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		first.save()
