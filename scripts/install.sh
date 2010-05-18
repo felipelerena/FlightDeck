@@ -4,7 +4,7 @@ source scripts/config_local.sh
 
 ### PIP packages installation
 export PYTHONPATH=
-pip install --upgrade -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
+pip install -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
 
 # src dir
 SRC=$V_ENV/src
@@ -73,26 +73,27 @@ then
 fi
 
 ### CodeMirror installation
-if [ ! -e $V_ENV/src/CodeMirror-0.66 ]
-then 
-	cd $V_ENV/src/
-	wget http://marijn.haverbeke.nl/codemirror/codemirror.zip
-	unzip -x codemirror.zip
-	rm codemirror.zip
-	if [ -e $V_ENV/lib/codemirror ]
-	then 
-		rm $V_ENV/lib/codemirror
-	fi
-fi
-if [ ! -e $V_ENV/lib/codemirror ]
-then
-	ln -fs $V_ENV/src/CodeMirror-0.66/ $V_ENV/lib/codemirror
-fi
+# deprecated
+#if [ ! -e $V_ENV/src/CodeMirror-0.66 ]
+#then 
+#	cd $V_ENV/src/
+#	wget http://marijn.haverbeke.nl/codemirror/codemirror.zip
+#	unzip -x codemirror.zip
+#	rm codemirror.zip
+#	if [ -e $V_ENV/lib/codemirror ]
+#	then 
+#		rm $V_ENV/lib/codemirror
+#	fi
+#fi
+#if [ ! -e $V_ENV/lib/codemirror ]
+#then
+#	ln -fs $V_ENV/src/CodeMirror-0.66/ $V_ENV/lib/codemirror
+#fi
 
-if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/codemirror ]
-then
-	ln -fs $V_ENV/lib/codemirror $PROJECT_DIR/$PROJECT_NAME/media/codemirror
-fi
+#if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/codemirror ]
+#then
+#	ln -fs $V_ENV/lib/codemirror $PROJECT_DIR/$PROJECT_NAME/media/codemirror
+#fi
 
 ### Jetpack SDK
 if [ ! -e $V_ENV/src/jetpack-sdk ]
@@ -109,10 +110,6 @@ then
 	ln -fs $V_ENV/src/jetpack-sdk/python-lib/cuddlefish $SITE_PACKAGES/cuddlefish
 	# link static files
 	ln -fs $V_ENV/src/jetpack-sdk/static-files $V_ENV/static-files
-else
-	echo "updating Jetpack SDK"
-	cd $V_ENV/src/jetpack-sdk/
-	hg update 
 fi
 
 

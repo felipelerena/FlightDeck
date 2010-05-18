@@ -17,7 +17,7 @@
 		
 	
 		<form class="UI_Forms" id="login_form" method="post" action="{% url django.contrib.auth.views.login %}" accept-charset="utf-8">
-			{# csrf_token #}
+			{% csrf_token %}
 			<fieldset>
 				<legend>Login</legend>
 				{% if settings.AMO_LIMITED_ACCESS %}
