@@ -20,7 +20,7 @@
 		<h3 class='{{ entity.type }}'>{{ entity.type }}: {{ entity.name }}</h3>
 		{# I believe this should be hidden by default #}
 		<div class='module-info'>
-			<p>{% include entity.template|markdown %}</p>
+			<p>{% include entity.template %}</p>
 		</div>
 	{% endfor %}
 	</dl>

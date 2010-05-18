@@ -16,7 +16,7 @@
 		<h3>{{ module.name }}</h3>
 		{# I believe this should be hidden by default #}
 		<div class='module-info'>
-			<p>{{ module.info|markdown }}</p>
+			{{ module.info|markdown }}
 			<a href='{% url api_module package_name module.name %}'>show {{ module.name }} page</a>
 		</div>
 	{% endfor %}
