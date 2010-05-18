@@ -111,6 +111,7 @@ INSTALLED_APPS.extend([
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
 	'django.contrib.sites',
+	'django.contrib.markup',
 	# extensions
 	'django_extensions',
 	'debug_toolbar',

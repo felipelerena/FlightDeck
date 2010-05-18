@@ -4,7 +4,7 @@ source scripts/config_local.sh
 
 ### PIP packages installation
 export PYTHONPATH=
-pip install -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
+pip install --upgrade -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
 
 # src dir
 SRC=$V_ENV/src
@@ -110,6 +110,10 @@ then
 	ln -fs $V_ENV/src/jetpack-sdk/python-lib/cuddlefish $SITE_PACKAGES/cuddlefish
 	# link static files
 	ln -fs $V_ENV/src/jetpack-sdk/static-files $V_ENV/static-files
+else
+	echo "updating Jetpack SDK"
+	cd $V_ENV/src/jetpack-sdk/
+	hg update 
 fi
 
 

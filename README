@@ -19,8 +19,9 @@ Production uses following third-party software:
  * Mootools (http://mootools.net/) [MIT]
  * Roar (http://digitarald.de/project/roar/) [MIT]
  * StickyWin (http://www.clientcide.com/docs/UI/StickyWin) [MIT]
- * ClientForm
- * mechanize
+ * mechanize [BSD]
+ * ElementTree (http://effbot.org/zone/element.htm) [old-style Python license http://effbot.org/zone/copyright.htm]
+ * Markdown (http://www.freewisdom.org/projects/python-markdown/) [http://www.freewisdom.org/projects/python-markdown/License]
 
 Needed for Jetpack integration
  * mozrunner
@@ -30,7 +31,5 @@ Needed for Jetpack integration
 Following third-party software is used only for development:
  * GraphViz (http://www.graphviz.org/) [GPL]
  * PyGraphViz (http://networkx.lanl.gov/pygraphviz/) [?]
- * DevServer (http://github.com/dcramer/django-devserver) [?] // switched off at the moment
  * Debug Toolbar (http://github.com/robhudson/django-debug-toolbar) [Django like]
  * wget (http://www.gnu.org/software/wget/) [GPL]
- * CodeMirror (http://marijn.haverbeke.nl/codemirror/) [http://github.com/marijnh/CodeMirror/blob/master/LICENSE]
