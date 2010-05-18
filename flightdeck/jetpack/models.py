@@ -11,7 +11,7 @@ from django.template.defaultfilters import slugify
 from jetpack import settings
 from jetpack.managers import PackageManager
 from jetpack.errors import 	SelfDependencyException, FilenameExistException, \
-							UpdateDeniedException, AddingModuleDenied
+							UpdateDeniedException, AddingModuleDenied, AddingAttachmentDenied
 
 
 PERMISSION_CHOICES = (
@@ -310,6 +310,9 @@ class PackageRevision(models.Model):
 			raise FilenameExistException(
 				'Attachment with filename %s.%s already exists' % (att.filename, att.ext)
 			)
+		for rev in att.revisions.all():
+			if rev.package.id_number != self.package.id_number:
+				raise AddingAttachmentDenied('this attachment is already assigned to other Library - %s' % rev.package.get_package_name())
 		self.save()
 		return self.attachments.add(att)
 		

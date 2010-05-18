@@ -7,7 +7,7 @@ from test_utils import create_test_user
 from jetpack.models import Package, PackageRevision, Module, Attachment
 from jetpack import settings
 from jetpack.errors import 	SelfDependencyException, FilenameExistException, \
-							UpdateDeniedException, AddingModuleDenied
+							UpdateDeniedException, AddingModuleDenied, AddingAttachmentDenied
 
 TEST_USERNAME = 'test_user'
 TEST_ADDON_FULLNAME = 'test Addon'
@@ -229,6 +229,23 @@ class PackageRevisionTest(PackageTestCase):
 			author=self.user
 		)
 		self.assertRaises(FilenameExistException, first.module_add, mod)
+		
+	def test_adding_attachment_which_was_added_to_other_package_before(self):
+		" assigning attachment to more than one packages should be prevented! "
+		addon = Package.objects.create(
+			full_name="Other Package", 
+			author=self.user, 
+			type='a'
+		)
+		rev = PackageRevision.objects.filter(package__name='other-package')[0]
+		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+		att = Attachment.objects.create(
+			filename=TEST_FILENAME,
+			ext=TEST_FILENAME_EXTENSION,
+			author=self.user
+		)
+		first.attachment_add(att)
+		self.assertRaises(AddingAttachmentDenied, rev.attachment_add, att)
 		
 
 	def test_adding_attachment_with_existing_filename(self):
