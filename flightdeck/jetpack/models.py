@@ -1,9 +1,11 @@
+import os
+import csv
 from copy import deepcopy
 from exceptions import TypeError
-import csv
 
 from django.db.models.signals import pre_save, post_save
 from django.db import models
+from django.utils import simplejson
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
@@ -58,7 +60,10 @@ class Package(models.Model):
 
 	# license on which this package is rekeased to the public
 	license = models.CharField(max_length=255, blank=True, default='')
-	
+
+	# packages for the Manifest
+	lib_dir = models.CharField(max_length=100, blank=True, default='lib')
+
 	# this is set in the PackageRevision.set_version
 	version_name = models.CharField(max_length=250, blank=True, null=True, 
 									default=settings.INITIAL_VERSION_NAME)
@@ -97,6 +102,17 @@ class Package(models.Model):
 		return "%s-%d" % (self.name, self.id_number)
 
 
+	def make_dir(self, packages_dir):
+		"""
+		create package directories inside packages
+		return package directory name
+		"""
+		package_dir = '%s/%s' % (packages_dir, self.get_directory_name())
+		os.mkdir(package_dir)
+		os.mkdir('%s/%s' % (package_dir, self.lib_dir))
+		return package_dir
+
+
 
 class PackageRevision(models.Model):
 	"""
@@ -125,8 +141,12 @@ class PackageRevision(models.Model):
 
 	created_at = models.DateTimeField(auto_now_add=True)
 
-	#contributors
+	#contributors for Manifest
 	contributors = models.CharField(max_length=255, blank=True, default='')
+
+	# main for the Manifest
+	module_main = models.CharField(max_length=100, blank=True, default='main')
+	
 
 	class Meta: 
 		ordering = ('-revision_number',)
@@ -341,6 +361,30 @@ class PackageRevision(models.Model):
 		# save as new version
 		self.save()
 		return self.dependencies.remove(dep)
+
+
+	def export_manifest(self, package_dir):
+		handle = open('%s/package.json' % package_dir, 'w')
+		handle.write(self.get_manifest_json())
+		handle.close()
+		
+
+	def export_modules(self, lib_dir):
+		for mod in self.modules.all():
+			mod.export_code(lib_dir)
+
+	def export_dependencies(self, packages_dir):
+		for lib in self.dependencies.all():
+			lib.export_files_with_dependencies(packages_dir)
+
+	def export_files(self, packages_dir):
+		package_dir = self.package.make_dir(packages_dir)
+		self.export_manifest(package_dir)
+		self.export_modules('%s/%s' % (package_dir, self.package.lib_dir))
+
+	def export_files_with_dependencies(self, packages_dir):
+		self.export_files(packages_dir)
+		self.export_dependencies(packages_dir)
 		
 
 class Module(models.Model):
@@ -364,6 +408,12 @@ class Module(models.Model):
 		if self.id:
 			raise UpdateDeniedException('Module can not be updated in the same row')
 		return super(Module, self).save(**kwargs)
+
+	def export_code(self, lib_dir):
+		handle = open('%s/%s.js' % (lib_dir, self.filename), 'w')
+		handle.write(self.code)
+		handle.close()
+		
 
 
 
@@ -422,7 +472,7 @@ def save_first_revision(instance, **kwargs):
 	revision.save()
 	if instance.is_addon():
 		mod = Module.objects.create(
-			filename='main',
+			filename=revision.module_main,
 			author=instance.author,
 			code="// This is an active module of the %s Add-on" % instance.full_name
 		)
