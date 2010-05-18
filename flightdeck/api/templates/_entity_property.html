@@ -1,1 +1,2 @@
-<p>{{ entity.description }}</p>
+{% load markup %}
+<p>{{ entity.description|markdown }}</p>

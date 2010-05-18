@@ -1,5 +1,5 @@
 {% extends "api.html" %}
-{% load base_helpers %}
+{% load base_helpers markup %}
 
 {% block app_sidebar %}
 	<section id='subject-name'>
@@ -14,13 +14,13 @@
 {% block app_content %}
 	<h3>Module {{ module_name }}</h3>
 	<div class='module-info'>
-		<p>{{ module.info|safe }}</p>
+		<p>{{ module.info|markdown }}</p>
 	</div>
 	{% for entity in module.data %}
 		<h3 class='{{ entity.type }}'>{{ entity.type }}: {{ entity.name }}</h3>
 		{# I believe this should be hidden by default #}
 		<div class='module-info'>
-			<p>{% include entity.template %}</p>
+			<p>{% include entity.template|markdown %}</p>
 		</div>
 	{% endfor %}
 	</dl>

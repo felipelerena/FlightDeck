@@ -4,7 +4,7 @@ source scripts/config_local.sh
 
 ### PIP packages installation
 export PYTHONPATH=
-pip install -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
+pip install --upgrade -E $V_ENV/ -r $PROJECT_DIR/tools/pip-requirements.txt
 
 # src dir
 SRC=$V_ENV/src

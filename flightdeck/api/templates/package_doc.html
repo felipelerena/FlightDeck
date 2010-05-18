@@ -1,5 +1,5 @@
 {% extends "api.html" %}
-{% load base_helpers %}
+{% load base_helpers markup %}
 
 {% block app_sidebar %}
 	<section id='subject-name'>
@@ -16,7 +16,7 @@
 		<h3>{{ module.name }}</h3>
 		{# I believe this should be hidden by default #}
 		<div class='module-info'>
-			<p>{{ module.info|safe }}</p>
+			<p>{{ module.info|markdown }}</p>
 			<a href='{% url api_module package_name module.name %}'>show {{ module.name }} page</a>
 		</div>
 	{% endfor %}
