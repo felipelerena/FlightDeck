@@ -1,5 +1,6 @@
 import os
 import shutil
+import subprocess
 from copy import deepcopy
 from exceptions import TypeError
 
@@ -11,6 +12,7 @@ from jetpack.models import Package, PackageRevision, Module, Attachment
 from jetpack import settings
 from jetpack.errors import 	SelfDependencyException, FilenameExistException, \
 							UpdateDeniedException, AddingModuleDenied, AddingAttachmentDenied
+from jetpack.utils import sdk_copy, xpi_build, xpi_remove
 
 TEST_USERNAME = 'test_user'
 TEST_ADDON_FULLNAME = 'test Addon'
@@ -325,22 +327,26 @@ class ManifestsTest(PackageTestCase):
 		'author': TEST_USERNAME,
 		'id': settings.MINIMUM_PACKAGE_ID,
 		'version': settings.INITIAL_VERSION_NAME,
-		'dependencies': [],
+		'dependencies': ['jetpack-core'],
 		'license': '',
 		'url': '',
-		'contributors': []
+		'contributors': [],
+		'lib': 'lib'
 	}
 	
 	def test_minimal_manifest(self):
 		" test if self.manifest is created for the clean addon "
 		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
-		self.assertEqual(self.manifest, first.get_manifest())
+		manifest = deepcopy(self.manifest)
+		manifest['main'] = 'main'
+		self.assertEqual(manifest, first.get_manifest())
 
 
 	def test_manifest_tested(self):
 		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		
 		manifest = deepcopy(self.manifest)
+		manifest['main'] = 'main'
 		manifest['version'] = "%s - test" % settings.INITIAL_VERSION_NAME
 
 		self.assertEqual(manifest, first.get_manifest(True))
@@ -352,6 +358,7 @@ class ManifestsTest(PackageTestCase):
 		first.save()
 
 		manifest = deepcopy(self.manifest)
+		manifest['main'] = 'main'
 		manifest['version'] = "%s rev. 1" % settings.INITIAL_VERSION_NAME
 
 		self.assertEqual(manifest, first.get_manifest())
@@ -364,7 +371,8 @@ class ManifestsTest(PackageTestCase):
 		first.dependency_add(lib)
 
 		manifest = deepcopy(self.manifest)
-		manifest['dependencies'] = ['%s-%d' % (TEST_LIBRARY_NAME, settings.MINIMUM_PACKAGE_ID + 1)]
+		manifest['main'] = 'main'
+		manifest['dependencies'].append('%s-%d' % (TEST_LIBRARY_NAME, settings.MINIMUM_PACKAGE_ID + 1))
 		manifest['version'] = "%s rev. 1" % settings.INITIAL_VERSION_NAME
 
 		self.assertEqual(manifest, first.get_manifest())
@@ -376,6 +384,7 @@ class ManifestsTest(PackageTestCase):
 		first.save()
 
 		manifest = deepcopy(self.manifest)
+		manifest['main'] = 'main'
 		manifest['version'] = "%s rev. 1" % settings.INITIAL_VERSION_NAME
 		manifest['contributors'] = ['one', '12345', 'two words', 'no space']
 
@@ -387,31 +396,40 @@ class XPIBuildTest(PackageTest):
 	Test if the stuff is properly build
 	"""
 	SDKDIR = '/tmp/test-SDK'
+
+	def mkdir(self):
+		os.mkdir (self.SDKDIR) 
+		os.mkdir('%s/packages' % self.SDKDIR)
+
+	def rmdir(self):
+		shutil.rmtree(self.SDKDIR)
+
 	def setUp(self):
 		super (XPIBuildTest, self).setUp()
 		self.addonrev = PackageRevision.objects.filter(package__name=self.addon.name)[0]
 		self.librev = PackageRevision.objects.filter(package__name=self.library.name)[0]
 		self.librev.module_create(
 			filename=TEST_FILENAME,
-			author=self.user
-		)
-		os.mkdir (self.SDKDIR) 
-		os.mkdir('%s/packages' % self.SDKDIR)
+			author=self.user)
 
 	def tearDown(self):
-		super (XPIBuildTest, self).tearDown()
-		shutil.rmtree(self.SDKDIR)
-		
+		super(XPIBuildTest, self).tearDown()
+		if os.path.isdir(self.SDKDIR):
+			self.rmdir()
+
 
 	def test_package_dir_generation(self):
 		" test if all package dirs are created properly "
+		self.mkdir()
 		package_dir = self.library.make_dir('%s/packages' % self.SDKDIR)
 		self.failUnless(os.path.isdir(package_dir))
 		self.failUnless(os.path.isdir('%s/%s' % (package_dir, self.library.lib_dir)))
+		self.rmdir()
 		
 
 	def test_save_modules(self):
 		" test if module is saved "
+		self.mkdir()
 		package_dir = self.library.make_dir('%s/packages' % self.SDKDIR)
 		self.librev.export_modules('%s/%s' % (package_dir, self.library.lib_dir))
 
@@ -420,9 +438,11 @@ class XPIBuildTest(PackageTest):
 							self.library.get_directory_name(), 
 							self.library.lib_dir,
 							TEST_FILENAME)))
+		self.rmdir()
 		
 	def test_manifest_file_creation(self):
 		" test if manifest is created properly "
+		self.mkdir()
 		package_dir = self.library.make_dir('%s/packages' % self.SDKDIR)
 		self.librev.export_manifest(package_dir)
 		self.failUnless(os.path.isfile('%s/package.json' % package_dir))
@@ -430,10 +450,12 @@ class XPIBuildTest(PackageTest):
 		manifest_json = handle.read()
 		manifest = simplejson.loads(manifest_json)
 		self.assertEqual(manifest, self.librev.get_manifest())
-		
+		self.rmdir()
+
 		
 	def test_minimal_lib_export(self):
 		" test if all the files are in place "
+		self.mkdir()
 		self.librev.export_files_with_dependencies('%s/packages' % self.SDKDIR)
 		package_dir = '%s/packages/%s' % (self.SDKDIR, self.library.get_directory_name())
 		self.failUnless(os.path.isdir(package_dir))
@@ -443,10 +465,12 @@ class XPIBuildTest(PackageTest):
 							package_dir, 
 							self.library.lib_dir,
 							TEST_FILENAME)))
-		
+		self.rmdir()
+
 
 	def test_addon_export_with_dependency(self):
 		" test if lib and main.js are properly exported "
+		self.mkdir()
 		addon_dir = '%s/packages/%s' % (self.SDKDIR, self.addon.get_directory_name())
 		lib_dir = '%s/packages/%s' % (self.SDKDIR, self.library.get_directory_name())
 
@@ -458,20 +482,73 @@ class XPIBuildTest(PackageTest):
 							addon_dir, 
 							self.addon.lib_dir,
 							self.addonrev.module_main)))
+		self.rmdir()
 		
-		
+
+	def test_copying_sdk(self):
+		sdk_copy(self.SDKDIR)
+		self.failUnless(os.path.isdir(self.SDKDIR))
+
 
 	def test_minimal_xpi_creation(self):
 		" xpi build from an addon straight after creation "
+		sdk_copy(self.SDKDIR)
+		self.addonrev.export_files_with_dependencies('%s/packages' % self.SDKDIR)
+		out = xpi_build(self.SDKDIR, 
+					'%s/packages/%s' % (self.SDKDIR, self.addon.get_directory_name()))
+		# assert no error output
+		self.assertEqual('', out[1])
+		# assert xpi was created
+		self.failUnless(os.path.isfile('%s/packages/%s/%s.xpi' % (
+			self.SDKDIR, self.addon.get_directory_name(), self.addon.name)))
 
 	def test_addon_with_other_modules(self):
-		" addon has now moremodules "
+		" addon has now more modules "
+		self.addonrev.module_create(
+			filename=TEST_FILENAME,
+			author=self.user
+		)
+		sdk_copy(self.SDKDIR)
+		self.addonrev.export_files_with_dependencies('%s/packages' % self.SDKDIR)
+		out = xpi_build(self.SDKDIR, 
+					'%s/packages/%s' % (self.SDKDIR, self.addon.get_directory_name()))
+		# assert no error output
+		self.assertEqual('', out[1])
+		# assert xpi was created
+		self.failUnless(os.path.isfile('%s/packages/%s/%s.xpi' % (
+			self.SDKDIR, self.addon.get_directory_name(), self.addon.name)))
 
 
 	def test_xpi_with_empty_dependency(self):
 		" empty lib is created "
+		lib = Package.objects.create(
+			full_name=TEST_LIBRARY_FULLNAME, 
+			author=self.user, 
+			type='l'
+		)
+		librev = PackageRevision.objects.filter(package__id_number=lib.id_number)[0]
+		self.addonrev.dependency_add(librev)
+		sdk_copy(self.SDKDIR)
+		self.addonrev.export_files_with_dependencies('%s/packages' % self.SDKDIR)
+		out = xpi_build(self.SDKDIR, 
+					'%s/packages/%s' % (self.SDKDIR, self.addon.get_directory_name()))
+		# assert no error output
+		self.assertEqual('', out[1])
+		# assert xpi was created
+		self.failUnless(os.path.isfile('%s/packages/%s/%s.xpi' % (
+			self.SDKDIR, self.addon.get_directory_name(), self.addon.name)))
+
 
 	def test_xpi_with_dependency(self):
 		" addon has one dependency with a file "
 		self.addonrev.dependency_add(self.librev)
+		sdk_copy(self.SDKDIR)
+		self.addonrev.export_files_with_dependencies('%s/packages' % self.SDKDIR)
+		out = xpi_build(self.SDKDIR, 
+					'%s/packages/%s' % (self.SDKDIR, self.addon.get_directory_name()))
+		# assert no error output
+		self.assertEqual('', out[1])
+		# assert xpi was created
+		self.failUnless(os.path.isfile('%s/packages/%s/%s.xpi' % (
+			self.SDKDIR, self.addon.get_directory_name(), self.addon.name)))
 		

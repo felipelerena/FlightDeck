@@ -161,7 +161,9 @@ class PackageRevision(models.Model):
 			return c
 
 	def get_dependencies_list(self):
-		return [dep.package.get_package_name() for dep in self.dependencies.all()]
+		deps = ['jetpack-core']
+		deps.extend([dep.package.get_package_name() for dep in self.dependencies.all()])
+		return deps
 
 	def get_manifest(self, test_in_browser=False):
 		description = self.package.description
@@ -176,9 +178,10 @@ class PackageRevision(models.Model):
 		if test_in_browser: 
 			version = "%s - test" % version
 
+		name = self.package.name if self.package.is_addon() else self.package.get_directory_name()
 		manifest = {
 			'fullName': self.package.full_name,
-			'name': self.package.name,
+			'name': name,
 			'description': description,
 			'author': self.package.author.username,
 			'id': self.package.id_number,
@@ -186,8 +189,12 @@ class PackageRevision(models.Model):
 			'dependencies': self.get_dependencies_list(),
 			'license': self.package.license,
 			'url': str(self.package.url),
-			'contributors': self.get_contributors_list()
+			'contributors': self.get_contributors_list(),
+			'lib': self.package.lib_dir
 		}
+		if self.package.is_addon():
+			manifest['main'] = self.module_main
+			
 		return manifest
 
 	def get_manifest_json(self, **kwargs):
