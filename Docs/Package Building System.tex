@@ -41,8 +41,7 @@
 	\begin{enumerate}
 		\item{Name of the Package is not unique anymore.\\
 			Packages are identified by it's {\em unique ID}. There may and probably often will be many
-			Packages with the same name\footnote{Check if it will not make any problem with Addons and 
-			uploading to \amo}.\\
+			Packages with the same name.\\
 			{\tt /library/123456/}}
 		\item{Version is a tag.\\
 			Version is important. It is used to tag major {\em Revisions}. If a package is called without any
@@ -54,19 +53,20 @@
 		\item{No collaborative editing.\\
 			Althought there will be no connection between Packages owned by different Users, design the 
 			system to not complicate future implementation of such functionality.}
-		\item{Package remembers wich SDK version was used to build it.\\
+		\item{Package remembers which SDK version was used to build it.\\
 			This is very complicated also on the front-end side. It will be created during the next
 			iteration. However, for the future implementations we will save the Jetpack SDK version number 
 			which was installed at the moment the Package was created.}
 	\end{enumerate}
 
-\section{Logical structure}
+\section{Data structure}
 
 	\begin{figure}[H]
 	\scalebox{1}{\begin{tikzpicture}[node distance=1cm, every edge/.style={link}]
 		\node [entity] (User) {User};
 		\node [entity] [right=of User] (Package) {Package} edge [->] (User)
-			node [attribute] [above=of Package] {ID} edge (Package);
+			node [attribute] [above=of Package] {ID} edge (Package)
+			node [attribute] [above left=of Package] {Version} edge (Package);
 		\node [entity] [right=1.5cm of Package] (PackageRevision) {PackageRevision} edge [->] (Package)
 			node [attribute] [below=of PackageRevision] {Version} edge [dashed] (PackageRevision)
 			node [attribute] (meta) [below left=6mm of PackageRevision] {Meta} edge (PackageRevision)
@@ -80,12 +80,16 @@
 			node [attribute] [right=of Module] {Code} edge (Module)
 			node [attribute] [above right=of Module] {Filename} edge (Module);
 		\node [entity] [below=of Module] (Attachment) {Attachment} 	edge [total] (PackageRevision)
-			node [attribute] [right=of Attachment] {Filename} edge (Attachment);		
+			node [attribute] [right=of Attachment] {Filename} edge (Attachment)
+			node [attribute] [below right=of Attachment] {Upload Path} edge (Attachment);		
 	\end{tikzpicture}}
-	\caption{
-		Database design. It does not secure unique filenames for Modules or Attachments. Additional code needs to 
-		be written to prevent duplicating filenames. }
+	\caption{	Database design.} 
 	\end{figure}
+	\begin{itemize}
+		\item{Unique filenames for Modules or Attachments are not given by design. Additional code needs to 
+			be written to prevent duplicating filenames.}
+		\item{{\tt Package:version} is set automatically with setting the {\tt PackageRevision:version}}
+	\end{itemize}
 	
 
 \section{Export \xpi}

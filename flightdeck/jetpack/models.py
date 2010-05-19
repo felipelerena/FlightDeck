@@ -1,5 +1,6 @@
 import os
 import csv
+import shutil
 from copy import deepcopy
 from exceptions import TypeError
 
@@ -39,8 +40,8 @@ class Package(models.Model):
 
 	# name of the Package
 	full_name = models.CharField(max_length=255)
-	# made from the name 
-	# it is used to create a directory of Modules
+	# made from the full_name 
+	# it is used to create Package directory for export
 	name = models.CharField(max_length=255, blank=True)
 	description = models.TextField(blank=True)
 
@@ -61,8 +62,11 @@ class Package(models.Model):
 	# license on which this package is rekeased to the public
 	license = models.CharField(max_length=255, blank=True, default='')
 
-	# packages for the Manifest
+	# where to export modules
 	lib_dir = models.CharField(max_length=100, blank=True, default='lib')
+
+	# where to export attachments
+	static_dir = models.CharField(max_length=100, blank=True, default='lib')
 
 	# this is set in the PackageRevision.set_version
 	version_name = models.CharField(max_length=250, blank=True, null=True, 
@@ -78,6 +82,9 @@ class Package(models.Model):
 
 	##################
 	# Methods
+
+	def __unicode__(self):
+		return self.full_name
 
 	def is_addon(self):
 		return self.type == 'a'
@@ -380,6 +387,12 @@ class PackageRevision(models.Model):
 		for mod in self.modules.all():
 			mod.export_code(lib_dir)
 
+
+	def export_attachments(self, static_dir):
+		for att in self.attachments.all():
+			att.export_file(static_dir)
+
+
 	def export_dependencies(self, packages_dir):
 		for lib in self.dependencies.all():
 			lib.export_files_with_dependencies(packages_dir)
@@ -388,6 +401,7 @@ class PackageRevision(models.Model):
 		package_dir = self.package.make_dir(packages_dir)
 		self.export_manifest(package_dir)
 		self.export_modules('%s/%s' % (package_dir, self.package.lib_dir))
+		self.export_attachments('%s/%s' % (package_dir, self.package.static_dir))
 
 	def export_files_with_dependencies(self, packages_dir):
 		self.export_files(packages_dir)
@@ -428,10 +442,14 @@ class Attachment(models.Model):
 	
 	revisions = models.ManyToManyField(PackageRevision, 
 									related_name='attachments', blank=True)
-	# path to the attachment
+	# filename of the attachment
 	filename = models.CharField(max_length=255)
 	# extension name
 	ext = models.CharField(max_length=10)
+
+	# upload path
+	path = models.CharField(max_length=255)
+
 	# user who has uploaded the file
 	author = models.ForeignKey(User, related_name='attachments')
 	# mime will help with displaying the attachment
@@ -447,6 +465,10 @@ class Attachment(models.Model):
 		if self.id:
 			raise UpdateDeniedException('Attachment can not be updated in the same row')
 		return super(Attachment, self).save(**kwargs)
+
+	def export_file(self, static_dir):
+		shutil.copy('%s/%s' % (settings.UPLOAD_DIR, self.path), 
+					'%s/%s.%s' % (static_dir, self.filename, self.ext))
 
 
 

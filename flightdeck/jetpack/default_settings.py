@@ -5,6 +5,7 @@ JETPACK_NEW_IS_BASE = False # it shouldn't be changed
 JETPACK_ITEMS_PER_PAGE = getattr(settings, 'JETPACK_ITEMS_PER_PAGE', 10)
 MINIMUM_PACKAGE_ID = getattr(settings, 'MINIMUM_PACKAGE_ID', 1000000)
 INITIAL_VERSION_NAME = getattr(settings, 'INITIAL_VERSION_NAME', 'initial')
+UPLOAD_DIR = getattr(settings, 'UPLOAD_DIR', '%s/upload' % settings.FRAMEWORK_PATH)
 
 # TODO: check if thatr's really needed
 VIRTUAL_ENV = settings.VIRTUAL_ENV
