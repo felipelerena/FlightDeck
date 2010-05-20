@@ -74,13 +74,13 @@ class PackageTest(PackageTestCase):
 	def test_addon_creation(self):
 		addon = Package.objects.get(full_name=TEST_ADDON_FULLNAME)
 		self.failUnless(addon)
-		self.assertEqual(addon.id_number, settings.MINIMUM_PACKAGE_ID)
+		self.assertEqual(addon.id_number, str(settings.MINIMUM_PACKAGE_ID))
 
 
 	def test_library_creation(self):
 		library = Package.objects.get(full_name=TEST_LIBRARY_FULLNAME)
 		self.failUnless(library)
-		self.assertEqual(library.id_number, settings.MINIMUM_PACKAGE_ID + 1)
+		self.assertEqual(library.id_number, str(settings.MINIMUM_PACKAGE_ID + 1))
 
 
 	def test_name_creation(self):
@@ -111,7 +111,7 @@ class PackageTest(PackageTestCase):
 
 	def test_directory_name(self):
 		self.assertEqual(
-			self.addon.get_directory_name(),
+			self.addon.get_unique_package_name(),
 			"%s-%d" % (TEST_ADDON_NAME, settings.MINIMUM_PACKAGE_ID)
 		)
 
@@ -360,7 +360,7 @@ class ManifestsTest(PackageTestCase):
 		'name': TEST_ADDON_NAME,
 		'description': '',
 		'author': TEST_USERNAME,
-		'id': settings.MINIMUM_PACKAGE_ID,
+		'id': str(settings.MINIMUM_PACKAGE_ID),
 		'version': settings.INITIAL_VERSION_NAME,
 		'dependencies': ['jetpack-core'],
 		'license': '',
@@ -460,7 +460,7 @@ class XPIBuildTest(PackageTest):
 
 		self.failUnless(os.path.isfile('%s/packages/%s/%s/%s.js' % (
 							SDKDIR, 
-							self.library.get_directory_name(), 
+							self.library.get_unique_package_name(), 
 							self.library.lib_dir,
 							TEST_FILENAME)))
 		
@@ -480,7 +480,7 @@ class XPIBuildTest(PackageTest):
 		" test if all the files are in place "
 		self.makeSDKDir()
 		self.librev.export_files_with_dependencies('%s/packages' % SDKDIR)
-		package_dir = '%s/packages/%s' % (SDKDIR, self.library.get_directory_name())
+		package_dir = '%s/packages/%s' % (SDKDIR, self.library.get_unique_package_name())
 		self.failUnless(os.path.isdir(package_dir))
 		self.failUnless(os.path.isdir('%s/%s' % (package_dir, self.library.lib_dir)))
 		self.failUnless(os.path.isfile('%s/package.json' % package_dir))
@@ -493,8 +493,8 @@ class XPIBuildTest(PackageTest):
 	def test_addon_export_with_dependency(self):
 		" test if lib and main.js are properly exported "
 		self.makeSDKDir()
-		addon_dir = '%s/packages/%s' % (SDKDIR, self.addon.get_directory_name())
-		lib_dir = '%s/packages/%s' % (SDKDIR, self.library.get_directory_name())
+		addon_dir = '%s/packages/%s' % (SDKDIR, self.addon.get_unique_package_name())
+		lib_dir = '%s/packages/%s' % (SDKDIR, self.library.get_unique_package_name())
 
 		self.addonrev.dependency_add(self.librev)
 		self.addonrev.export_files_with_dependencies('%s/packages' % SDKDIR)
@@ -510,7 +510,7 @@ class XPIBuildTest(PackageTest):
 		" test if attachment file is coped "
 		self.makeSDKDir()
 		self.createFile()
-		addon_dir = '%s/packages/%s' % (SDKDIR, self.addon.get_directory_name())
+		addon_dir = '%s/packages/%s' % (SDKDIR, self.addon.get_unique_package_name())
 		self.addonrev.attachment_create(
 			filename=TEST_FILENAME,
 			ext=TEST_FILENAME_EXTENSION,
@@ -534,12 +534,12 @@ class XPIBuildTest(PackageTest):
 		sdk_copy(SDKDIR)
 		self.addonrev.export_files_with_dependencies('%s/packages' % SDKDIR)
 		out = xpi_build(SDKDIR, 
-					'%s/packages/%s' % (SDKDIR, self.addon.get_directory_name()))
+					'%s/packages/%s' % (SDKDIR, self.addon.get_unique_package_name()))
 		# assert no error output
 		self.assertEqual('', out[1])
 		# assert xpi was created
 		self.failUnless(os.path.isfile('%s/packages/%s/%s.xpi' % (
-			SDKDIR, self.addon.get_directory_name(), self.addon.name)))
+			SDKDIR, self.addon.get_unique_package_name(), self.addon.name)))
 
 	def test_addon_with_other_modules(self):
 		" addon has now more modules "
@@ -550,12 +550,12 @@ class XPIBuildTest(PackageTest):
 		sdk_copy(SDKDIR)
 		self.addonrev.export_files_with_dependencies('%s/packages' % SDKDIR)
 		out = xpi_build(SDKDIR, 
-					'%s/packages/%s' % (SDKDIR, self.addon.get_directory_name()))
+					'%s/packages/%s' % (SDKDIR, self.addon.get_unique_package_name()))
 		# assert no error output
 		self.assertEqual('', out[1])
 		# assert xpi was created
 		self.failUnless(os.path.isfile('%s/packages/%s/%s.xpi' % (
-			SDKDIR, self.addon.get_directory_name(), self.addon.name)))
+			SDKDIR, self.addon.get_unique_package_name(), self.addon.name)))
 
 
 	def test_xpi_with_empty_dependency(self):
@@ -570,12 +570,12 @@ class XPIBuildTest(PackageTest):
 		sdk_copy(SDKDIR)
 		self.addonrev.export_files_with_dependencies('%s/packages' % SDKDIR)
 		out = xpi_build(SDKDIR, 
-					'%s/packages/%s' % (SDKDIR, self.addon.get_directory_name()))
+					'%s/packages/%s' % (SDKDIR, self.addon.get_unique_package_name()))
 		# assert no error output
 		self.assertEqual('', out[1])
 		# assert xpi was created
 		self.failUnless(os.path.isfile('%s/packages/%s/%s.xpi' % (
-			SDKDIR, self.addon.get_directory_name(), self.addon.name)))
+			SDKDIR, self.addon.get_unique_package_name(), self.addon.name)))
 
 
 	def test_xpi_with_dependency(self):
@@ -584,10 +584,10 @@ class XPIBuildTest(PackageTest):
 		sdk_copy(SDKDIR)
 		self.addonrev.export_files_with_dependencies('%s/packages' % SDKDIR)
 		out = xpi_build(SDKDIR, 
-					'%s/packages/%s' % (SDKDIR, self.addon.get_directory_name()))
+					'%s/packages/%s' % (SDKDIR, self.addon.get_unique_package_name()))
 		# assert no error output
 		self.assertEqual('', out[1])
 		# assert xpi was created
 		self.failUnless(os.path.isfile('%s/packages/%s/%s.xpi' % (
-			SDKDIR, self.addon.get_directory_name(), self.addon.name)))
+			SDKDIR, self.addon.get_unique_package_name(), self.addon.name)))
 		

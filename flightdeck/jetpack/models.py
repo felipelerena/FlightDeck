@@ -36,7 +36,7 @@ class Package(models.Model):
 	# it can be the same as database id, but if we want to copy the database 
 	# some day or change to a document-oriented database it would be bad 
 	# to have this relied on any database model
-	id_number = models.PositiveIntegerField(unique=True)
+	id_number = models.CharField(max_length=255, unique=True, blank=True)
 
 	# name of the Package
 	full_name = models.CharField(max_length=255)
@@ -89,8 +89,8 @@ class Package(models.Model):
 	def is_addon(self):
 		return self.type == 'a'
 
-	def get_package_name(self):
-		return "%s-%d" % (self.name, self.id_number)
+	def get_unique_package_name(self):
+		return "%s-%s" % (self.name, self.id_number)
 
 	def set_name(self):
 		self.name = self.make_name()
@@ -98,15 +98,12 @@ class Package(models.Model):
 	def make_name(self):
 		return slugify(self.full_name)
 	
-	def get_next_id_number(self):
+	def create_id_number(self):
 		""" 
 		get the highest id number and increment it
 		"""
 		all_packages = Package.objects.all().order_by('-id_number')
-		return all_packages[0].id_number + 1 if all_packages else settings.MINIMUM_PACKAGE_ID
-
-	def get_directory_name(self):
-		return "%s-%d" % (self.name, self.id_number)
+		return str(int(all_packages[0].id_number) + 1) if all_packages else str(settings.MINIMUM_PACKAGE_ID)
 
 
 	def make_dir(self, packages_dir):
@@ -114,7 +111,7 @@ class Package(models.Model):
 		create package directories inside packages
 		return package directory name
 		"""
-		package_dir = '%s/%s' % (packages_dir, self.get_directory_name())
+		package_dir = '%s/%s' % (packages_dir, self.get_unique_package_name())
 		os.mkdir(package_dir)
 		os.mkdir('%s/%s' % (package_dir, self.lib_dir))
 		return package_dir
@@ -169,7 +166,7 @@ class PackageRevision(models.Model):
 
 	def get_dependencies_list(self):
 		deps = ['jetpack-core']
-		deps.extend([dep.package.get_package_name() for dep in self.dependencies.all()])
+		deps.extend([dep.package.get_unique_package_name() for dep in self.dependencies.all()])
 		return deps
 
 	def get_manifest(self, test_in_browser=False):
@@ -185,7 +182,7 @@ class PackageRevision(models.Model):
 		if test_in_browser: 
 			version = "%s - test" % version
 
-		name = self.package.name if self.package.is_addon() else self.package.get_directory_name()
+		name = self.package.name if self.package.is_addon() else self.package.get_unique_package_name()
 		manifest = {
 			'fullName': self.package.full_name,
 			'name': name,
@@ -303,7 +300,7 @@ class PackageRevision(models.Model):
 			)
 		for rev in mod.revisions.all():
 			if rev.package.id_number != self.package.id_number:
-				raise AddingModuleDenied('this module is already assigned to other Library - %s' % rev.package.get_package_name())
+				raise AddingModuleDenied('this module is already assigned to other Library - %s' % rev.package.get_unique_package_name())
 			
 		self.save()
 		return self.modules.add(mod)
@@ -346,7 +343,7 @@ class PackageRevision(models.Model):
 			)
 		for rev in att.revisions.all():
 			if rev.package.id_number != self.package.id_number:
-				raise AddingAttachmentDenied('this attachment is already assigned to other Library - %s' % rev.package.get_package_name())
+				raise AddingAttachmentDenied('this attachment is already assigned to other Library - %s' % rev.package.get_unique_package_name())
 		self.save()
 		return self.attachments.add(att)
 		
@@ -478,7 +475,7 @@ class Attachment(models.Model):
 def set_package_id_number(instance, **kwargs):
 	if kwargs.get('raw', False): return
 	if instance.id: return
-	instance.id_number = instance.get_next_id_number()
+	instance.id_number = instance.create_id_number()
 pre_save.connect(set_package_id_number, sender=Package)
 
 

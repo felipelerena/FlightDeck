@@ -1,22 +1,22 @@
 from django.contrib import admin
 
-from models_old import Jet, JetVersion, Cap, CapVersion
+from models import Package, PackageRevision, Module, Attachment
 
-class JetAdmin(admin.ModelAdmin):
+class PackageAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(Jet, JetAdmin)
+admin.site.register(Package, PackageAdmin)
 
 
-class JetVersionAdmin(admin.ModelAdmin):
+class PackageRevisionAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(JetVersion, JetVersionAdmin)
+admin.site.register(PackageRevision, PackageRevisionAdmin)
 
-class CapAdmin(admin.ModelAdmin):
+class ModuleAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(Cap, CapAdmin)
+admin.site.register(Module, ModuleAdmin)
 
 
-class CapVersionAdmin(admin.ModelAdmin):
+class AttachmentAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(CapVersion, CapVersionAdmin)
+admin.site.register(Attachment, AttachmentAdmin)
 
