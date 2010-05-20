@@ -14,6 +14,11 @@ do
 	SITE_PACKAGES=$i/site-packages
 done
 
+### upload dir 
+if [ ! -e $PROJECT_DIR/upload/ ]
+then
+	mkdir $PROJECT_DIR/upload/
+fi
 
 ### flightdeck media dir 
 if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/ ]
