@@ -12,7 +12,7 @@ from jetpack.models import Package, PackageRevision, Module, Attachment
 from jetpack import settings
 from jetpack.errors import 	SelfDependencyException, FilenameExistException, \
 							UpdateDeniedException, AddingModuleDenied, AddingAttachmentDenied
-from jetpack.utils import sdk_copy, xpi_build, xpi_remove
+from jetpack.xpi_utils import sdk_copy, xpi_build, xpi_remove
 
 TEST_USERNAME = 'test_user'
 TEST_ADDON_FULLNAME = 'test Addon'
