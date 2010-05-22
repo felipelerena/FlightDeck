@@ -63,10 +63,10 @@ class Package(models.Model):
 	license = models.CharField(max_length=255, blank=True, default='')
 
 	# where to export modules
-	lib_dir = models.CharField(max_length=100, blank=True, default='lib')
+	lib_dir = models.CharField(max_length=100, blank=True, null=True)
 
 	# where to export attachments
-	static_dir = models.CharField(max_length=100, blank=True, default='lib')
+	static_dir = models.CharField(max_length=100, blank=True, null=True)
 
 	# this is set in the PackageRevision.set_version
 	version_name = models.CharField(max_length=250, blank=True, null=True, 
@@ -88,6 +88,12 @@ class Package(models.Model):
 
 	def is_addon(self):
 		return self.type == 'a'
+
+	def get_lib_dir(self):
+		return self.lib_dir or settings.DEFAULT_LIB_DIR
+
+	def get_static_dir(self):
+		return self.static_dir or settings.DEFAULT_STATIC_DIR
 
 	def get_unique_package_name(self):
 		return "%s-%s" % (self.name, self.id_number)
@@ -113,7 +119,7 @@ class Package(models.Model):
 		"""
 		package_dir = '%s/%s' % (packages_dir, self.get_unique_package_name())
 		os.mkdir(package_dir)
-		os.mkdir('%s/%s' % (package_dir, self.lib_dir))
+		os.mkdir('%s/%s' % (package_dir, self.get_lib_dir()))
 		return package_dir
 
 
@@ -194,7 +200,7 @@ class PackageRevision(models.Model):
 			'license': self.package.license,
 			'url': str(self.package.url),
 			'contributors': self.get_contributors_list(),
-			'lib': self.package.lib_dir
+			'lib': self.package.get_lib_dir()
 		}
 		if self.package.is_addon():
 			manifest['main'] = self.module_main
@@ -397,8 +403,8 @@ class PackageRevision(models.Model):
 	def export_files(self, packages_dir):
 		package_dir = self.package.make_dir(packages_dir)
 		self.export_manifest(package_dir)
-		self.export_modules('%s/%s' % (package_dir, self.package.lib_dir))
-		self.export_attachments('%s/%s' % (package_dir, self.package.static_dir))
+		self.export_modules('%s/%s' % (package_dir, self.package.get_lib_dir()))
+		self.export_attachments('%s/%s' % (package_dir, self.package.get_static_dir()))
 
 	def export_files_with_dependencies(self, packages_dir):
 		self.export_files(packages_dir)

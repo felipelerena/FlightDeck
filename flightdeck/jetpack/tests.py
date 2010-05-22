@@ -449,19 +449,19 @@ class XPIBuildTest(PackageTest):
 		self.makeSDKDir()
 		package_dir = self.library.make_dir('%s/packages' % SDKDIR)
 		self.failUnless(os.path.isdir(package_dir))
-		self.failUnless(os.path.isdir('%s/%s' % (package_dir, self.library.lib_dir)))
+		self.failUnless(os.path.isdir('%s/%s' % (package_dir, self.library.get_lib_dir())))
 		
 
 	def test_save_modules(self):
 		" test if module is saved "
 		self.makeSDKDir()
 		package_dir = self.library.make_dir('%s/packages' % SDKDIR)
-		self.librev.export_modules('%s/%s' % (package_dir, self.library.lib_dir))
+		self.librev.export_modules('%s/%s' % (package_dir, self.library.get_lib_dir()))
 
 		self.failUnless(os.path.isfile('%s/packages/%s/%s/%s.js' % (
 							SDKDIR, 
 							self.library.get_unique_package_name(), 
-							self.library.lib_dir,
+							self.library.get_lib_dir(),
 							TEST_FILENAME)))
 		
 	def test_manifest_file_creation(self):
@@ -482,11 +482,11 @@ class XPIBuildTest(PackageTest):
 		self.librev.export_files_with_dependencies('%s/packages' % SDKDIR)
 		package_dir = '%s/packages/%s' % (SDKDIR, self.library.get_unique_package_name())
 		self.failUnless(os.path.isdir(package_dir))
-		self.failUnless(os.path.isdir('%s/%s' % (package_dir, self.library.lib_dir)))
+		self.failUnless(os.path.isdir('%s/%s' % (package_dir, self.library.get_lib_dir())))
 		self.failUnless(os.path.isfile('%s/package.json' % package_dir))
 		self.failUnless(os.path.isfile('%s/%s/%s.js' % (
 							package_dir, 
-							self.library.lib_dir,
+							self.library.get_lib_dir(),
 							TEST_FILENAME)))
 
 
@@ -498,11 +498,11 @@ class XPIBuildTest(PackageTest):
 
 		self.addonrev.dependency_add(self.librev)
 		self.addonrev.export_files_with_dependencies('%s/packages' % SDKDIR)
-		self.failUnless(os.path.isdir('%s/%s' % (addon_dir, self.addon.lib_dir)))
-		self.failUnless(os.path.isdir('%s/%s' % (lib_dir, self.library.lib_dir)))
+		self.failUnless(os.path.isdir('%s/%s' % (addon_dir, self.addon.get_lib_dir())))
+		self.failUnless(os.path.isdir('%s/%s' % (lib_dir, self.library.get_lib_dir())))
 		self.failUnless(os.path.isfile('%s/%s/%s.js' % (
 							addon_dir, 
-							self.addon.lib_dir,
+							self.addon.get_lib_dir(),
 							self.addonrev.module_main)))
 		
 
@@ -520,7 +520,7 @@ class XPIBuildTest(PackageTest):
 		self.addonrev.export_files_with_dependencies('%s/packages' % SDKDIR)
 		self.failUnless(os.path.isfile('%s/%s/%s.%s' % (
 							addon_dir,
-							self.addon.static_dir,
+							self.addon.get_static_dir(),
 							TEST_FILENAME, TEST_FILENAME_EXTENSION)))
 
 
