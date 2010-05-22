@@ -72,6 +72,8 @@ class Package(models.Model):
 	version_name = models.CharField(max_length=250, blank=True, null=True, 
 									default=settings.INITIAL_VERSION_NAME)
 
+	version = models.ForeignKey('PackageRevision', blank=True, null=True, related_name='package_deprecated')
+
 	created_at = models.DateTimeField(auto_now_add=True)
 	last_update = models.DateTimeField(auto_now=True)
 
@@ -84,7 +86,7 @@ class Package(models.Model):
 	# Methods
 
 	def __unicode__(self):
-		return '%s by %s' % (self.full_name, self.author)
+		return '%s v. %s by %s' % (self.full_name, self.version_name, self.author)
 
 	def is_addon(self):
 		return self.type == 'a'
@@ -163,7 +165,9 @@ class PackageRevision(models.Model):
 		unique_together = ('package', 'owner', 'revision_number')
 
 	def __unicode__(self):
-		return '%s r. %d by %s' % (self.package.full_name, self.revision_number, self.owner)
+		version = 'v. %s ' % self.version_name if self.version_name else ''
+		return '%s %sr. %d by %s' % (self.package.full_name, version, 
+									self.revision_number, self.owner)
 
 	######################
 	# Manifest
@@ -266,14 +270,18 @@ class PackageRevision(models.Model):
 		return revision_numbers[0].revision_number + 1 if revision_numbers else 1
 
 	
-	def set_version(self, version_name):
+	def set_version(self, version_name, current=True):
 		"""
 		Set the version_name
 		update the PackageRevision obeying the overload save
-		Save current Package:version_name
+		Save current Package:version_name and Package:version if current
 		"""
 		self.version_name = version_name
-		self.package.version_name = version_name
+		if current:
+			self.package.version_name = version_name
+			self.package.version = self
+			self.package.save()
+
 		return super(PackageRevision, self).save()
 
 	def validate_module_filename(self, filename):
@@ -430,11 +438,17 @@ class Module(models.Model):
 
 
 	def __unicode__(self):
-		return '%s by %s (%s)' % (self.get_filename(), self.author, self.get_package().full_name)
+		return '%s by %s (%s)' % (self.get_filename(), self.author, self.get_package_fullName())
 
+	def get_package(self):
+		try:
+			return self.revisions.all()[0].package
+		except:
+			return None
 
-	def get_package():
-		return self.revisions.all()[0]
+	def get_package_fullName(self):
+		package = self.get_package()
+		return package.full_name if package else ''
 
 	def get_filename(self):
 		return "%s.js" % self.filename

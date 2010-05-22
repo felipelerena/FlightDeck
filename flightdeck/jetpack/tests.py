@@ -6,6 +6,7 @@ from exceptions import TypeError
 
 from django.test import TestCase
 from django.utils import simplejson
+from django.contrib.auth.models import User
 
 from test_utils import create_test_user
 from jetpack.models import Package, PackageRevision, Module, Attachment
@@ -591,3 +592,11 @@ class XPIBuildTest(PackageTest):
 		self.failUnless(os.path.isfile('%s/packages/%s/%s.xpi' % (
 			SDKDIR, self.addon.get_unique_package_name(), self.addon.name)))
 		
+
+class ManyUsersTests(TestCase):
+	
+	fixtures = ['test_users.json', 'test_basic_usecase.json']
+
+	def test_fixtures_loaded(self):
+		self.failUnless(User.objects.get(username='1234567'))
+		self.failUnless(Package.objects.all()[0])
