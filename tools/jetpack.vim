@@ -8,18 +8,21 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 /tmp/------------Jetpack
-badd +33 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
-badd +289 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
+badd +170 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
 badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/managers.py
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/admin.py
-badd +107 ~/Projects/FlightDeck/flightdeck/jetpack/tests.py
-badd +58 ~/Projects/FlightDeck/flightdeck/jetpack/urls.py
-badd +113 ~/Projects/FlightDeck/flightdeck/settings.py
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/urls.py
+badd +30 ~/Projects/FlightDeck/flightdeck/jetpack/tests.py
+badd +118 ~/Projects/FlightDeck/flightdeck/settings.py
 badd +16 ~/Projects/FlightDeck/flightdeck/jetpack/errors.py
+badd +10 ~/Projects/FlightDeck/flightdeck/jetpack/default_settings.py
 badd +1 /tmp/---old
+badd +62 ~/Projects/FlightDeck/flightdeck/jetpack/views_old.py
 badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/managers_old.py
 badd +8 ~/Projects/FlightDeck/flightdeck/jetpack/models_old.py
 badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/tests_old.py
+badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/urls_old.py
 badd +1 /tmp/----------Jtemplates
 badd +37 ~/Projects/FlightDeck/flightdeck/jetpack/templatetags/jetpack_extras.py
 badd +21 ~/Projects/FlightDeck/flightdeck/jetpack/templates/editor.html
@@ -98,8 +101,7 @@ badd +61 ~/Projects/FlightDeck/flightdeck/api/views.py
 badd +1 ~/Projects/FlightDeck/flightdeck/api/models.py
 badd +7 ~/Projects/FlightDeck/flightdeck/api/default_settings.py
 badd +15 ~/Projects/FlightDeck/flightdeck/api/tests.py
-badd +1 ~/Projects/FlightDeck/flightdeck/api/templates/module_doc.html 
-badd +1 ~/Projects/FlightDeck/flightdeck/api/templates/package_doc.html
+badd +2 ~/Projects/FlightDeck/flightdeck/api/templates/module_doc.html
 badd +19 ~/Projects/FlightDeck/flightdeck/api/templates/package_doc.html
 badd +5 ~/Projects/FlightDeck/flightdeck/api/urls.py
 badd +1 ~/Projects/FlightDeck/flightdeck/api/templates/_modules_list.html
@@ -112,7 +114,7 @@ badd +12 ~/Projects/FlightDeck/flightdeck/api/media/css/API.Browser.css
 badd +1 /tmp/------------scripts
 badd +18 ~/Projects/FlightDeck/scripts/install.sh
 badd +117 ~/Projects/FlightDeck/scripts/upgrade.sh
-badd +5 ~/Projects/FlightDeck/scripts/environment.sh
+badd +12 ~/Projects/FlightDeck/scripts/environment.sh
 badd +1 ~/Projects/FlightDeck/scripts/setenv.sh
 badd +3 ~/Projects/FlightDeck/scripts/rundevserver.sh
 badd +1 ~/Projects/FlightDeck/scripts/config.sh
@@ -126,7 +128,6 @@ badd +1 ~/Projects/FlightDeck/scripts/syncdb.sh
 badd +1 ~/Projects/FlightDeck/scripts/test.sh
 badd +16 ~/Projects/FlightDeck/tools/pip-requirements.txt
 badd +1 ~/Projects/FlightDeck/scripts/cfx.sh
-badd +2 ~/Projects/FlightDeck/flightdeck/api/templates/module_doc.html
 badd +17 ~/Projects/FlightDeck/tools/git-exclude
 badd +30 ~/Projects/FlightDeck/apache/config_local-default.wsgi
 badd +1 /tmp/------------AMO
@@ -134,15 +135,19 @@ badd +4 ~/Projects/FlightDeck/flightdeck/amo/default_settings.py
 badd +1 tmp/-----------DOCS
 badd +15 ~/Projects/FlightDeck/Docs/mozillaaddonbuilderstyle.sty
 badd +22 ~/Projects/FlightDeck/README
-
-edit ~/Projects/FlightDeck/flightdeck/jetpack/models.py
+silent! argdel *
+edit ~/Projects/FlightDeck/flightdeck/urls.py
 set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
+wincmd =
 argglobal
-edit ~/Projects/FlightDeck/flightdeck/jetpack/models.py
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -152,12 +157,32 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 289 - ((30 * winheight(0) + 31) / 62)
+let s:l = 35 - ((34 * winheight(0) + 31) / 62)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-289
-normal! 02l
+35
+normal! 032l
+wincmd w
+argglobal
+edit ~/Projects/FlightDeck/flightdeck/jetpack/tests.py
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 602 - ((61 * winheight(0) + 31) / 62)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+602
+normal! 042l
+wincmd w
+wincmd =
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif
