@@ -84,7 +84,7 @@ class Package(models.Model):
 	# Methods
 
 	def __unicode__(self):
-		return self.full_name
+		return '%s by %s' % (self.full_name, self.author)
 
 	def is_addon(self):
 		return self.type == 'a'
@@ -161,6 +161,9 @@ class PackageRevision(models.Model):
 	class Meta: 
 		ordering = ('-revision_number',)
 		unique_together = ('package', 'owner', 'revision_number')
+
+	def __unicode__(self):
+		return '%s r. %d by %s' % (self.package.full_name, self.revision_number, self.owner)
 
 	######################
 	# Manifest
@@ -424,6 +427,14 @@ class Module(models.Model):
 
 	class Meta:
 		ordering = ('filename',)
+
+
+	def __unicode__(self):
+		return '%s by %s (%s)' % (self.get_filename(), self.author, self.get_package().full_name)
+
+
+	def get_package():
+		return self.revisions.all()[0]
 
 	def get_filename(self):
 		return "%s.js" % self.filename
