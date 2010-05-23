@@ -14,7 +14,6 @@ badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/managers.py
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/admin.py
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/urls.py
 badd +30 ~/Projects/FlightDeck/flightdeck/jetpack/tests.py
-badd +118 ~/Projects/FlightDeck/flightdeck/settings.py
 badd +16 ~/Projects/FlightDeck/flightdeck/jetpack/errors.py
 badd +10 ~/Projects/FlightDeck/flightdeck/jetpack/default_settings.py
 badd +1 /tmp/---old
@@ -86,6 +85,7 @@ badd +109 ~/Projects/FlightDeck/flightdeck/media/js/FlightDeck.js
 badd +26 ~/Projects/FlightDeck/flightdeck/media/js/Clientcide.ModalWindow.js
 badd +23 ~/Projects/FlightDeck/flightdeck/media/js/FlightDeck.Roar.js
 badd +12 ~/Projects/FlightDeck/flightdeck/media/js/FlightDeck.Modal.js
+badd +118 ~/Projects/FlightDeck/flightdeck/settings.py
 badd +31 ~/Projects/FlightDeck/flightdeck/urls.py
 badd +34 ~/Projects/FlightDeck/flightdeck/settings_local-default.py
 badd +33 ~/Projects/FlightDeck/flightdeck/settings_local.py

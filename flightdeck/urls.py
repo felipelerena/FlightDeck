@@ -32,6 +32,9 @@ urls.extend([
 
 	# Jetpack
 	(r'^user/', include('person.urls')),
-	(r'^', include('jetpack.urls_old')),
 ])
+if getattr(settings, 'NEW_WEBSITE', False):
+	urls.append((r'^', include('jetpack.urls')))
+else:
+	urls.append((r'^', include('jetpack.urls_old')))
 urlpatterns = patterns('', *urls)
