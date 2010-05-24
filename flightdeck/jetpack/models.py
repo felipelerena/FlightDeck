@@ -94,8 +94,8 @@ class Package(models.Model):
 	def get_lib_dir(self):
 		return self.lib_dir or settings.DEFAULT_LIB_DIR
 
-	def get_static_dir(self):
-		return self.static_dir or settings.DEFAULT_STATIC_DIR
+	def get_data_dir(self):
+		return self.static_dir or settings.DEFAULT_DATA_DIR
 
 	def get_unique_package_name(self):
 		return "%s-%s" % (self.name, self.id_number)
@@ -122,6 +122,8 @@ class Package(models.Model):
 		package_dir = '%s/%s' % (packages_dir, self.get_unique_package_name())
 		os.mkdir(package_dir)
 		os.mkdir('%s/%s' % (package_dir, self.get_lib_dir()))
+		if not os.path.isdir('%s/%s' % (package_dir, self.get_data_dir())):
+			os.mkdir('%s/%s' % (package_dir, self.get_data_dir()))
 		return package_dir
 
 
@@ -415,7 +417,7 @@ class PackageRevision(models.Model):
 		package_dir = self.package.make_dir(packages_dir)
 		self.export_manifest(package_dir)
 		self.export_modules('%s/%s' % (package_dir, self.package.get_lib_dir()))
-		self.export_attachments('%s/%s' % (package_dir, self.package.get_static_dir()))
+		self.export_attachments('%s/%s' % (package_dir, self.package.get_data_dir()))
 
 	def export_files_with_dependencies(self, packages_dir):
 		self.export_files(packages_dir)

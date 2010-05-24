@@ -5,7 +5,7 @@ MINIMUM_PACKAGE_ID = getattr(settings, 'MINIMUM_PACKAGE_ID', 1000000)
 INITIAL_VERSION_NAME = getattr(settings, 'INITIAL_VERSION_NAME', 'initial')
 UPLOAD_DIR = getattr(settings, 'UPLOAD_DIR', '%s/upload' % settings.FRAMEWORK_PATH)
 DEFAULT_LIB_DIR = getattr(settings, 'JETPACK_LIB_DIR', 'lib')
-DEFAULT_STATIC_DIR = getattr(settings, 'JETPACK_STATIC_DIR', 'lib')
+DEFAULT_DATA_DIR = getattr(settings, 'JETPACK_DATA_DIR', 'data')
 # ------------------------------------------------------------------------
 JETPACK_NEW_IS_BASE = False # it shouldn't be changed
 JETPACK_ITEMS_PER_PAGE = getattr(settings, 'JETPACK_ITEMS_PER_PAGE', 10)

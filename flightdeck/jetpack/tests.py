@@ -521,7 +521,7 @@ class XPIBuildTest(PackageTest):
 		self.addonrev.export_files_with_dependencies('%s/packages' % SDKDIR)
 		self.failUnless(os.path.isfile('%s/%s/%s.%s' % (
 							addon_dir,
-							self.addon.get_static_dir(),
+							self.addon.get_data_dir(),
 							TEST_FILENAME, TEST_FILENAME_EXTENSION)))
 
 
