@@ -28,6 +28,7 @@ def homepage(r):
 	"""
 	Get mixed packages for homepage
 	"""
+	return HttpResponse("Homepage here")
 
 def package_browser(r, page_number=1, type=None):
 	"""
