@@ -65,9 +65,6 @@ class Package(models.Model):
 	# where to export modules
 	lib_dir = models.CharField(max_length=100, blank=True, null=True)
 
-	# where to export attachments
-	static_dir = models.CharField(max_length=100, blank=True, null=True)
-
 	# this is set in the PackageRevision.set_version
 	version_name = models.CharField(max_length=250, blank=True, null=True, 
 									default=settings.INITIAL_VERSION_NAME)
@@ -95,7 +92,7 @@ class Package(models.Model):
 		return self.lib_dir or settings.DEFAULT_LIB_DIR
 
 	def get_data_dir(self):
-		return self.static_dir or settings.DEFAULT_DATA_DIR
+		return settings.DEFAULT_DATA_DIR
 
 	def get_unique_package_name(self):
 		return "%s-%s" % (self.name, self.id_number)
@@ -274,9 +271,13 @@ class PackageRevision(models.Model):
 	
 	def set_version(self, version_name, current=True):
 		"""
+		@param String version_name: name of the version
+		@param Boolean current: should the version become a current one
+		@returns result of save revision
+
 		Set the version_name
 		update the PackageRevision obeying the overload save
-		Save current Package:version_name and Package:version if current
+		Set current Package:version_name and Package:version if current
 		"""
 		self.version_name = version_name
 		if current:
@@ -529,6 +530,7 @@ def save_first_revision(instance, **kwargs):
 
 	revision = PackageRevision(package=instance, owner=instance.author)
 	revision.save()
+	instance.version = revision
 	if instance.is_addon():
 		mod = Module.objects.create(
 			filename=revision.module_main,
@@ -536,6 +538,7 @@ def save_first_revision(instance, **kwargs):
 			code="// This is an active module of the %s Add-on" % instance.full_name
 		)
 		revision.modules.add(mod)
+	instance.save()
 
 post_save.connect(save_first_revision, sender=Package)
 

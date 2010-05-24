@@ -3,7 +3,6 @@
         "pk": 3, 
         "model": "jetpack.package", 
         "fields": {
-            "static_dir": "", 
             "name": "test-library-one", 
             "license": "", 
             "author": 2, 
@@ -24,7 +23,6 @@
         "pk": 5, 
         "model": "jetpack.package", 
         "fields": {
-            "static_dir": "", 
             "name": "test-addon-three", 
             "license": "", 
             "author": 3, 
@@ -45,7 +43,6 @@
         "pk": 4, 
         "model": "jetpack.package", 
         "fields": {
-            "static_dir": "", 
             "name": "test-library-two", 
             "license": "", 
             "author": 2, 
@@ -66,7 +63,6 @@
         "pk": 2, 
         "model": "jetpack.package", 
         "fields": {
-            "static_dir": "", 
             "name": "test-addon-two", 
             "license": "", 
             "author": 2, 
@@ -87,7 +83,6 @@
         "pk": 1, 
         "model": "jetpack.package", 
         "fields": {
-            "static_dir": "", 
             "name": "test-addon-one", 
             "license": "", 
             "author": 2, 

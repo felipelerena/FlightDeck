@@ -26,11 +26,8 @@ TEST_FILENAME_EXTENSION = 'css'
 TEST_UPLOAD_PATH = 'test/abc'
 SDKDIR = '/tmp/test-SDK'
 
-print "wtf"
-
 class PackageTestCase(TestCase):
-	def test_dupa(self):
-		"x"
+
 	def setUp(self):
 		self.to_delete = []
 		self.user = create_test_user(username=TEST_USERNAME)
@@ -80,12 +77,14 @@ class PackageTest(PackageTestCase):
 		addon = Package.objects.get(full_name=TEST_ADDON_FULLNAME)
 		self.failUnless(addon)
 		self.assertEqual(addon.id_number, str(settings.MINIMUM_PACKAGE_ID))
+		self.failUnless(addon.version)
 
 
 	def test_library_creation(self):
 		library = Package.objects.get(full_name=TEST_LIBRARY_FULLNAME)
 		self.failUnless(library)
 		self.assertEqual(library.id_number, str(settings.MINIMUM_PACKAGE_ID + 1))
+		self.failUnless(library.version)
 
 
 	def test_name_creation(self):
@@ -140,6 +139,19 @@ class PackageRevisionTest(PackageTestCase):
 		self.assertEqual(2, len(list(revisions)))
 		self.assertEqual(None, first.version_name)
 
+
+	def test_set_version(self):
+		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
+		first = revisions[0]
+		old_id = first.id
+		first.set_version('test')
+		# setting version does not make new revision
+		self.assertEqual(first.id, old_id)
+		# setting version sets it for revision, package and assigns revision to package
+		self.assertEqual(first.version_name,'test')
+		self.assertEqual(first.package.version_name,'test')
+		self.assertEqual(first.package.version.id, first.id)
+		
 	
 	def test_save_with_dependency(self):
 		# system should copy on save with all dependencies
