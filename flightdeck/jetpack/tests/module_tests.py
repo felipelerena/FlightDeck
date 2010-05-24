@@ -26,7 +26,11 @@ TEST_FILENAME_EXTENSION = 'css'
 TEST_UPLOAD_PATH = 'test/abc'
 SDKDIR = '/tmp/test-SDK'
 
+print "wtf"
+
 class PackageTestCase(TestCase):
+	def test_dupa(self):
+		"x"
 	def setUp(self):
 		self.to_delete = []
 		self.user = create_test_user(username=TEST_USERNAME)
