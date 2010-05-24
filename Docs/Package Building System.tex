@@ -45,10 +45,12 @@
 			{\tt /library/123456/}}
 		\item{Version is a tag.\\
 			Version is important. It is used to tag major {\em Revisions}. If a package is called without any
-			Version specified (as above), the latest versioned Revision will be used.\\
+			Version specified (as above), the latest versioned Revision will be used. Version is build from 
+			restricted set of characters --- alphanumeric extended by ".-\_"\\
 			{\tt /library/123456/version/0.1/}}
 		\item{Revision Number is used to precisely identify a Revision.\\
-			It is completely parallel to the Package Version\\
+			It is completely parallel to the Package Version. That means that a Package Revision Number is 
+			unique per Package.\\
 			{\tt /library/123456/revision/654/}}
 		\item{No collaborative editing.\\
 			Althought there will be no connection between Packages owned by different Users, design the 
