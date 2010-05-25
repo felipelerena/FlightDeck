@@ -85,6 +85,10 @@ class Package(models.Model):
 	def __unicode__(self):
 		return '%s v. %s by %s' % (self.full_name, self.version_name, self.author)
 
+	def get_absolute_url(self):
+		return reverse('jp_%s_details' % settings.PACKAGE_SINGULAR_NAMES[self.type],
+						args=[self.id_number])
+
 	def is_addon(self):
 		return self.type == 'a'
 
@@ -167,6 +171,18 @@ class PackageRevision(models.Model):
 		version = 'v. %s ' % self.version_name if self.version_name else ''
 		return '%s %sr. %d by %s' % (self.package.full_name, version, 
 									self.revision_number, self.owner)
+
+	def get_absolute_url(self):
+		if self.version_name:
+			if self.package.version.revision_number == self.revision_number:
+				return self.package.get_absolute_url()
+			return reverse(
+				'jp_%s_version_details' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
+				args=[self.package.id_number, self.version_name])
+		return reverse(
+			'jp_%s_revision_details' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
+			args=[self.package.id_number, self.revision_number])
+
 
 	######################
 	# Manifest

@@ -7,6 +7,7 @@ from exceptions import TypeError
 from django.test import TestCase
 from django.utils import simplejson
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 from test_utils import create_test_user
 from jetpack.models import Package, PackageRevision, Module, Attachment
@@ -151,6 +152,32 @@ class PackageRevisionTest(PackageTestCase):
 		self.assertEqual(first.version_name,'test')
 		self.assertEqual(first.package.version_name,'test')
 		self.assertEqual(first.package.version.id, first.id)
+		
+	def test_absolute_urls(self):
+		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
+		p_rev = revisions[0]
+		self.assertEqual(
+			reverse('jp_addon_details', args=[self.addon.id_number]),
+			p_rev.get_absolute_url())
+
+		p_rev.set_version('test')
+		self.assertEqual(
+			reverse('jp_addon_details', args=[self.addon.id_number]),
+			p_rev.get_absolute_url())
+
+		p_rev.save()
+		# p_rev needs to be reloaded as package.version points to an instance
+		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
+		p_rev = revisions[0]
+		self.assertEqual(
+			reverse('jp_addon_revision_details', 
+					args=[self.addon.id_number, p_rev.revision_number]),
+			p_rev.get_absolute_url())
+
+		p_rev.set_version('test2', False)
+		self.assertEqual(
+			reverse('jp_addon_version_details', args=[self.addon.id_number, 'test2']),
+			p_rev.get_absolute_url())
 		
 	
 	def test_save_with_dependency(self):

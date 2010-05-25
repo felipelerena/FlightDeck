@@ -19,11 +19,6 @@ from utils.os_utils import whereis
 from jetpack.models import Package, PackageRevision, Module, Attachment
 from jetpack import settings
 
-PACKAGES_PLURAL_NAMES = {
-	'l': 'libraries',
-	'a': 'addons'
-}
-
 def homepage(r):
 	"""
 	Get mixed packages for homepage
@@ -43,11 +38,11 @@ def package_browser(r, page_number=1, type=None):
 	).page(page_number)
 	
 	return render_to_response(
-		'package_browser_%s.html' % PACKAGES_PLURAL_NAMES[type], 
+		'package_browser_%s.html' % settings.PACKAGE_PLURAL_NAMES[type], 
 		{
 			'page': 'packages',
 			'pager': pager,
-			'packages_name': PACKAGES_PLURAL_NAMES[type],
+			'packages_name': settings.PACKAGE_PLURAL_NAMES[type],
 			'type': type
 		},
 		context_instance=RequestContext(r))
