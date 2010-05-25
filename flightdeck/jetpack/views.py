@@ -31,9 +31,11 @@ def package_browser(r, page_number=1, type=None):
 	"""
 	packages = Package.objects.filter(type=type)
 
+	limit = r.GET.get('limit', settings.PACKAGES_PER_PAGE)
+
 	pager = Paginator(
 		packages,
-		per_page = settings.PACKAGES_PER_PAGE,
+		per_page = limit,
 		orphans = 1
 	).page(page_number)
 	
