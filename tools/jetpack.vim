@@ -8,9 +8,9 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 /private/tmp/------------Jetpack
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
-badd +170 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
-badd +0 ~/Projects/FlightDeck/flightdeck/jetpack/tests/module_tests.py
+badd +59 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
+badd +37 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
+badd +169 ~/Projects/FlightDeck/flightdeck/jetpack/tests/module_tests.py
 badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/managers.py
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/admin.py
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/urls.py
@@ -42,7 +42,7 @@ badd +5 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/_edit_editors.htm
 badd +5 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/_dependency_add.html
 badd +29 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/_create.html
 badd +1 /private/tmp/----------JGtemp
-badd +21 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/gallery.html
+badd +25 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/gallery.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/_gallery_item_link.html
 badd +1 /private/tmp/----------JJSON
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/json/capability_created.json
@@ -82,8 +82,8 @@ badd +21 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/UI.Sidebar.css
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/edit.css
 badd +1 /private/tmp/-----------Base
 badd +3 ~/Projects/FlightDeck/flightdeck/base/views.py
-badd +25 ~/Projects/FlightDeck/flightdeck/base/templates/base.html
-badd +7 ~/Projects/FlightDeck/flightdeck/base/templates/_header.html
+badd +67 ~/Projects/FlightDeck/flightdeck/base/templates/base.html
+badd +6 ~/Projects/FlightDeck/flightdeck/base/templates/_header.html
 badd +109 ~/Projects/FlightDeck/flightdeck/media/js/FlightDeck.js
 badd +26 ~/Projects/FlightDeck/flightdeck/media/js/Clientcide.ModalWindow.js
 badd +23 ~/Projects/FlightDeck/flightdeck/media/js/FlightDeck.Roar.js
@@ -139,8 +139,10 @@ badd +1 tmp/-----------DOCS
 badd +15 ~/Projects/FlightDeck/Docs/mozillaaddonbuilderstyle.sty
 badd +22 ~/Projects/FlightDeck/README
 badd +22 ~/Projects/FlightDeck/INSTALL
+badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser.html
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_item.html
 silent! argdel *
-edit ~/Projects/FlightDeck/flightdeck/jetpack/tests/module_tests.py
+edit ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_addons.html
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -156,12 +158,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 26) / 53)
+let s:l = 30 - ((29 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+30
+normal! 05l
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif
