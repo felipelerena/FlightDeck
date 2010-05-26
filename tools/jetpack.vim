@@ -8,8 +8,8 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 /private/tmp/------------Jetpack
-badd +59 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
-badd +37 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
+badd +187 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
 badd +169 ~/Projects/FlightDeck/flightdeck/jetpack/tests/module_tests.py
 badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/managers.py
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/admin.py
@@ -23,8 +23,11 @@ badd +8 ~/Projects/FlightDeck/flightdeck/jetpack/models_old.py
 badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/tests_old.py
 badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/urls_old.py
 badd +1 /private/tmp/----------Jtemplates
+badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_addons.html
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_libraries.html
+badd +16 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_libraries.html
+badd +18 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_library.html
+badd +25 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_addon.html
 badd +1 /private/tmp/----------Jtemplates_old
 badd +37 ~/Projects/FlightDeck/flightdeck/jetpack/templatetags/jetpack_extras.py
 badd +21 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/editor.html
@@ -98,7 +101,8 @@ badd +1 /private/tmp/------------Person
 badd +1 ~/Projects/FlightDeck/flightdeck/person/views.py
 badd +34 ~/Projects/FlightDeck/flightdeck/person/templates/dashboard.html
 badd +4 ~/Projects/FlightDeck/flightdeck/person/templates/profile.html
-badd +20 ~/Projects/FlightDeck/flightdeck/person/templates/registration/login.html
+badd +21 ~/Projects/FlightDeck/flightdeck/person/templates/registration/login.html
+badd +9 ~/Projects/FlightDeck/flightdeck/person/urls.py
 badd +1 /private/tmp/------------API
 badd +61 ~/Projects/FlightDeck/flightdeck/api/views.py
 badd +1 ~/Projects/FlightDeck/flightdeck/api/models.py
@@ -139,10 +143,8 @@ badd +1 tmp/-----------DOCS
 badd +15 ~/Projects/FlightDeck/Docs/mozillaaddonbuilderstyle.sty
 badd +22 ~/Projects/FlightDeck/README
 badd +22 ~/Projects/FlightDeck/INSTALL
-badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser.html
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_item.html
 silent! argdel *
-edit ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_addons.html
+edit ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_libraries.html
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -158,12 +160,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 30 - ((29 * winheight(0) + 36) / 72)
+let s:l = 16 - ((2 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-30
-normal! 05l
+16
+normal! 01l
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

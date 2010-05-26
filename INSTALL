@@ -60,8 +60,6 @@ these steps (some commands are specific to Ubuntu with Bash):
 
 8. Configure the Django application
    $ vi flightdeck/settings_local.py # **
-   # You may want to switch the application to work after 1.0 alpha 1 
-   # Add NEW_WEBSITE = True
 
 9. Check local scripts configuration
    $ vi scripts/config_local.sh

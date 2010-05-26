@@ -412,5 +412,29 @@
             "email": "jan@kowalski.com", 
             "date_joined": "2010-05-22 13:33:09"
         }
-    }
+    },
+    {
+        "pk": 2, 
+        "model": "person.profile", 
+        "fields": {
+            "nickname": "johnd", 
+            "location": "", 
+            "user": 2, 
+            "photo": null, 
+            "homepage": null, 
+            "occupation": null
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "person.profile", 
+        "fields": {
+            "nickname": "jank", 
+            "location": "", 
+            "user": 3, 
+            "photo": null, 
+            "homepage": null, 
+            "occupation": null
+        }
+    } 
 ]

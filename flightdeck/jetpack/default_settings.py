@@ -14,6 +14,7 @@ PACKAGE_SINGULAR_NAMES = {
 	'l': 'library',
 	'a': 'addon'
 }
+HOMEPAGE_PACKAGES_NUMBER = getattr(settings, 'HOMEPAGE_PACKAGES_NUMBER', 3)
 
 # ------------------------------------------------------------------------
 JETPACK_NEW_IS_BASE = False # it shouldn't be changed

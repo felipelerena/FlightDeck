@@ -8,53 +8,35 @@
 {% endblock %}
 
 {% block app_sidebar %}
-	<h2 class="UI_Heading">Categories</h2>
-	{% comment %}
-	
-	<ul class="UI_Action_List">
-		<li><a title="" href="#">Notifiers</a> <strong>(20)</strong></li>
-		<li class="selected"><a title="" href="#">Site alteration</a> <strong>(10)</strong></li>
-		<li><a title="" href="#">Development</a> <strong>(20)</strong></li>
-		<li><a title="" href="#">Misc</a> <strong>(234)</strong></li>
-		<li><a title="" href="#">Utilities</a> <strong>(20)</strong></li>
-	</ul> <!-- /UI_Action_List -->
-	{% endcomment %}
-	
-	<ul id="install-jetpack">
-		<li>
-			<a title="Install FlightDeck extension" 
-				href="https://secure.toolness.com/xpi/flightdeck.xpi">
-				Install FlightDeck
-			</a>
-		</li>
-	</ul>
 {% endblock %}
 	
 {% block app_content %}
 	
 	<div id="feature-wrapper">
 		<div class="UI_Feature">
-			{% with jetpacks.0 as item %}{% if item %}
-			<h3>{{ item.name }} <span>by <a title="" href="{% url person_public_profile item.creator.username %}">{{ item.creator.get_profile }}</a></span></h3>
+			{% if featured %}
+			<h3>{{ featured.full_name }} 
+				<span>by 
+					<a title="" href="{% url person_public_profile featured.author.username %}">
+							{{ featured.author.get_profile }}
+					</a>
+				</span>
+			</h3>
 
-			<p>{{ item.description }}</p>
+			<p>{{ featured.description }}</p>
 			
 			<ul class="UI_Actions">
 				<li class="UI_Try_in_Browser">
-					<a title="Try in browser" href="{{ item.base_version.get_create_xpi_url }}">
+					<a title="Try in browser" href="{{ featured.version.get_create_xpi_url }}">
 						Try in browser
 					</a>
 				</li>
 				<li class="UI_Edit_Version">
-					<a title="Edit {{ item.name }}" href="{{ item.get_absolute_url }}">Edit</a>
-				</li>
-
-				<li class="UI_Pick_Version">
-					<a title="Select version" href="{{ item.get_versions_url }}">
-						<strong>{{ item.base_version.fullname }}</strong>
-						<span></span>
-					</a>
-					<ul class="UI_Versions loading"></ul>
+					{% if user == featured.author %}
+						<a title="Edit {{ featured.full_name }}" href="{{ featured.get_edit_url }}">Edit</a>
+					{% else %}
+						<a title="View {{ featured.full_name }}" href="{{ featured.get_absolute_url }}">View Source</a>
+					{% endif %}
 				</li>
 			</ul>
 			
@@ -63,52 +45,33 @@
 					<li><a title="" href="#"></a></li>
 				</ul> -->
 			</div>
-			{% endif %}{% endwith %}
+			{% endif %}
 		</div> <!-- /UI_Feature -->
 	</div> <!-- /feature-wrapper -->
 	
 	<div id="libs-and-extensions">
 		<div class="UI_LE_Col">
-			{% if jetpacks %}
-				<h2 class="UI_Heading">Recent Extensions <a class="UI_SeeMore" title="See more" href="{% url jetpacks %}">See more</a></h2>
+			{% if addons %}
+				<h2 class="UI_Heading">Recent Extensions</h2>
 				<ul class="UI_Browser">
-					{% for item in jetpacks %}{% if not forloop.first %}
-						<li class="UI_Item">{{ item|render_base_link }}</li>
-					{% endif %}{% endfor %}
+					{% for item in addons %}
+						<li class="UI_Item">{% include "_package_browser_addon.html" %}</li>
+					{% endfor %}
 				</ul>
 			{% endif %}
 		</div>
 		<div class="UI_LE_Col">
-			{% if capabilities %}
-				<h2 class="UI_Heading">Recent Libraries <a class="UI_SeeMore" title="See more" href="{% url capabilities %}">See more</a></h2>
+			{% if libraries %}
+				<h2 class="UI_Heading">Recent Libraries 
+					<a class="UI_SeeMore" title="See more" href="{% url jp_browser_libraries %}">See more</a>
+				</h2>
 				<ul class="UI_Browser">
-					{% for item in capabilities %}
-						<li class="UI_Item">{{ item|render_base_link }}</li>
+					{% for item in libraries %}
+						<li class="UI_Item">{% include "_package_browser_library.html" %}</li>
 					{% endfor %}
 				</ul>
 			{% endif %}
 			
 		</div>
 	</div>
-	
-	{% comment %}
-		{% if jetpacks %}
-			<h2 class="UI_Heading">Recent Extensions <a class="UI_SeeMore" title="See more" href="{% url jetpacks %}">See more</a></h2>
-			<ul class="UI_Browser">
-				{% for item in jetpacks %}
-					<li class="UI_Item">{{ item|render_base_link }}</li>
-				{% endfor %}
-			</ul>
-		{% endif %}
-
-		{% if capabilities %}
-			<h2 class="UI_Heading">Recent Libraries <a class="UI_SeeMore" title="See more" href="{% url capabilities %}">See more</a></h2>
-			<ul class="UI_Browser">
-				{% for item in capabilities %}
-					<li class="UI_Item">{{ item|render_base_link }}</li>
-				{% endfor %}
-			</ul>
-		{% endif %}
-	{% endcomment %}
-	
 {% endblock %}

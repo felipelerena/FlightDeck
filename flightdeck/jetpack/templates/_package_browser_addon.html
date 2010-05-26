@@ -1,0 +1,30 @@
+<h3>
+	{{ item.full_name }}
+	<span>by 
+	<a title="" href="{% url person_public_profile item.author.username %}">{{ item.author.get_profile }}</a>
+	</span>
+</h3>
+<h4>{{ item.version_name }}</h4>
+<p>{{ item.description }}</p>
+
+
+
+<ul class="UI_Actions">
+	<li class="UI_Try_in_Browser">
+		<a title="Test Add-on" href="{{ item.version.get_create_xpi_url }}">
+			Test
+		</a>
+	</li>
+	<li class="UI_Edit_Version">
+		{% if user == item.author %}
+			<a title="Edit {{ item.full_name }}" href="{{ item.get_edit_url }}">Edit</a>
+		{% else %}
+			<a title="View {{ item.full_name }}" href="{{ item.get_absolute_url }}">View Source</a>
+		{% endif %}
+	</li>
+</ul>
+<div class="UI_Icon {{ item.type }}">
+	<!-- <ul class="UI_Ratings_Display">
+		<li><a title="" href="#"></a></li>
+	</ul> -->
+</div>

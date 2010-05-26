@@ -8,7 +8,7 @@
 
 \documentclass[10pt]{article}
 \usepackage{mozillaaddonbuilderstyle}
-\def\version{alpha 0.1}
+\def\version{alpha 0.7}
 
 % mozillaaddonbuilderstyle package loads following packages:
 % fullpage, url, tikz, tikz-er2, listings, graphicx, color
@@ -41,8 +41,9 @@
 	\begin{enumerate}
 		\item{Name of the Package is not unique anymore.\\
 			Packages are identified by it's {\em unique ID}. There may and probably often will be many
-			Packages with the same name.\\
-			{\tt /library/123456/}}
+			Packages with the same name. Add-ons do have ID generated based on the author's key, 
+			Libraries may work on the "internal" ID number.\\
+			{\tt /library/123456/}}, {\tt /addon/4wedo230ei@jetpack/ }
 		\item{Version is a tag.\\
 			Version is important. It is used to tag major {\em Revisions}. If a package is called without any
 			Version specified (as above), the latest versioned Revision will be used. Version is build from 

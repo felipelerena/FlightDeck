@@ -183,6 +183,9 @@ class PackageRevision(models.Model):
 			'jp_%s_revision_details' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
 			args=[self.package.id_number, self.revision_number])
 
+	def get_test_xpi_url(self):
+		# TODO: connect it
+		return ""
 
 	######################
 	# Manifest
