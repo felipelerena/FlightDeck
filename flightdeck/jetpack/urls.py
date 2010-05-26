@@ -21,5 +21,9 @@ urlpatterns = patterns('jetpack.views',
 		'package_details', {'type': 'a'}, name='jp_addon_revision_details'),
 	url(r'^library/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
 		'package_details',{'type': 'l'},  name='jp_library_revision_details'),
+	url(r'^addon/edit/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_edit', {'type': 'a'}, name='jp_addon_revision_edit'),
+	url(r'^library/edit/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_edit',{'type': 'l'},  name='jp_library_revision_edit'),
 )
 

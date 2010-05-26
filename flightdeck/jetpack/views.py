@@ -49,7 +49,8 @@ def package_browser(r, page_number=1, type=None):
 		},
 		context_instance=RequestContext(r))
 
-def package_details(r, id, type, revision_number=None, version_name=None):
+
+def get_package_revision(id, type, revision_number=None, version_name=None):
 
 	if not (revision_number or version_name):
 		# get default revision - one linked via Package:version
@@ -66,7 +67,17 @@ def package_details(r, id, type, revision_number=None, version_name=None):
 		package_revision = get_object_with_related_or_404(PackageRevision, 
 							package__id_number=id, package__type=type,
 							version_name=version_name)
+	return package_revision
 
-	return HttpResponse(package_revision.__unicode__())
+
+def package_details(r, id, type, revision_number=None, version_name=None):
+
+	package_revision = get_package_revision(id, type, revision_number, version_name)
+	return HttpResponse('VIEW: %s' % package_revision)
+		
+def package_edit(r, id, type, revision_number=None, version_name=None):
+
+	package_revision = get_package_revision(id, type, revision_number, version_name)
+	return HttpResponse('EDIT: %s' % package_revision)
 		
 

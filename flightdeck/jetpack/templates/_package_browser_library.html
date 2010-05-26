@@ -10,7 +10,7 @@
 <ul class="UI_Actions">
 	<li class="UI_Edit_Version">
 		{% if user == item.author %}
-			<a title="Edit {{ item.full_name }}" href="{{ item.get_edit_url }}">Edit</a>
+			<a title="Edit {{ item.full_name }}" href="{{ item.version.get_edit_url }}">Edit</a>
 		{% else %}
 			<a title="View {{ item.full_name }}" href="{{ item.get_absolute_url }}">View Source</a>
 		{% endif %}

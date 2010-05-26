@@ -75,7 +75,7 @@ class Package(models.Model):
 	last_update = models.DateTimeField(auto_now=True)
 
 	class Meta: 
-		ordering = ('-last_update',)
+		ordering = ('-last_update','-created_at')
 
 	objects = PackageManager()
 
@@ -182,6 +182,13 @@ class PackageRevision(models.Model):
 		return reverse(
 			'jp_%s_revision_details' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
 			args=[self.package.id_number, self.revision_number])
+
+
+	def get_edit_url(self):
+		return reverse(
+			'jp_%s_revision_edit' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
+			args=[self.package.id_number, self.revision_number])
+
 
 	def get_test_xpi_url(self):
 		# TODO: connect it
