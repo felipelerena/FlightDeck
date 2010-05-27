@@ -2,19 +2,18 @@
 
 {% block page_content %}
 	<h2 class="UI_Heading">
-		Recent Add-ons (See <a href="{% url jp_browser_libraries %}">Libraries</a>)
+		<a href='{% url person_public_profile author.username %}'>{{ author.get_profile }}</a>: 
+		Libraries (See <a href="{% url jp_browser_user_addons author.username %}">Add-ons</a>)
 	</h2>
 
-	<ul class="UI_Browser">
-		{% include "_package_browser_addons_list.html" %}
-	</ul>
+	{% include "_package_browser_libraries_list.html" %}
 
 	{% if pager.has_other_pages %}
 		<ul class="UI_Pagination">
 			{% if pager.has_previous %}
 				<li class="UI_Pagin_Action prev">
 					<span></span> 
-					<a title="" href="{% url jp_browser_addons_page pager.previous_page_number %}">
+					<a title="" href="{% url jp_browser_user_libraries_page pager.previous_page_number %}">
 						Previous
 					</a>
 				</li>
@@ -22,10 +21,11 @@
 			<li class='current'>{{ pager.number }}</li>
 			{% if pager.has_next %}
 				<li class="UI_Pagin_Action next">
-					<a title="" href="{% url jp_browser_addons_page pager.next_page_number %}">Next</a>
+					<a title="" href="{% url jp_browser_user_libraries_page pager.next_page_number %}">Next</a>
 					<span></span> 
 				</li>
 			{% endif %}
 		</ul>
 	{% endif %}
+
 {% endblock %}

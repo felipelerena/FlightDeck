@@ -8,7 +8,7 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 /private/tmp/------------Jetpack
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
+badd +53 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
 badd +187 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
 badd +169 ~/Projects/FlightDeck/flightdeck/jetpack/tests/module_tests.py
 badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/managers.py
@@ -24,10 +24,12 @@ badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/tests_old.py
 badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/urls_old.py
 badd +1 /private/tmp/----------Jtemplates
 badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser.html
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_addons.html
-badd +16 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_libraries.html
+badd +24 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_addons.html
+badd +15 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_user_libraries.html
 badd +18 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_library.html
 badd +25 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_addon.html
+badd +8 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_libraries_list.html
+badd +23 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_libraries.html
 badd +1 /private/tmp/----------Jtemplates_old
 badd +37 ~/Projects/FlightDeck/flightdeck/jetpack/templatetags/jetpack_extras.py
 badd +21 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/editor.html
@@ -144,7 +146,7 @@ badd +15 ~/Projects/FlightDeck/Docs/mozillaaddonbuilderstyle.sty
 badd +22 ~/Projects/FlightDeck/README
 badd +22 ~/Projects/FlightDeck/INSTALL
 silent! argdel *
-edit ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_libraries.html
+edit ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_libraries_list.html
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -160,12 +162,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 16 - ((2 * winheight(0) + 36) / 72)
+let s:l = 8 - ((7 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-16
-normal! 01l
+8
+normal! 0
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

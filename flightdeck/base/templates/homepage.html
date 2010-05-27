@@ -27,9 +27,7 @@
 			
 			<ul class="UI_Actions">
 				<li class="UI_Try_in_Browser">
-					<a title="Try in browser" href="{{ featured.version.get_create_xpi_url }}">
-						Try in browser
-					</a>
+					<a title="Test" href="{{ featured.version.get_create_xpi_url }}">Test</a>
 				</li>
 				<li class="UI_Edit_Version">
 					{% if user == featured.author %}
@@ -52,24 +50,29 @@
 	<div id="libs-and-extensions">
 		<div class="UI_LE_Col">
 			{% if addons %}
-				<h2 class="UI_Heading">Recent Extensions</h2>
+				<h2 class="UI_Heading">Recent Add-ons</h2>
 				<ul class="UI_Browser">
 					{% for item in addons %}
 						<li class="UI_Item">{% include "_package_browser_addon.html" %}</li>
 					{% endfor %}
 				</ul>
+				<p>
+					<a class="UI_SeeMore" title="See more" href="{% url jp_browser_addons %}">Browse</a>
+				</p>
 			{% endif %}
 		</div>
 		<div class="UI_LE_Col">
 			{% if libraries %}
 				<h2 class="UI_Heading">Recent Libraries 
-					<a class="UI_SeeMore" title="See more" href="{% url jp_browser_libraries %}">See more</a>
 				</h2>
 				<ul class="UI_Browser">
 					{% for item in libraries %}
 						<li class="UI_Item">{% include "_package_browser_library.html" %}</li>
 					{% endfor %}
 				</ul>
+				<p>
+					<a class="UI_SeeMore" title="See more" href="{% url jp_browser_libraries %}">Browse</a>
+				</p>
 			{% endif %}
 			
 		</div>

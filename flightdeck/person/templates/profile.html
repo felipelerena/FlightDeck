@@ -13,16 +13,10 @@
 	</div>
 
 	<ul class="UI_Action_List">
-		{% if person.authored_jetpacks.all %}
+		{% if person.packages_originated.all %}
 			<li>
-				<a title="Extensions" href="/user/{{ person }}/extensions">Extensions</a> 
-				<strong>({{ person.authored_jetpacks.all|length }})</strong>
-			</li>
-		{% endif %}
-		{% if person.authored_capabilities.all %}
-			<li>
-				<a title="Libraries" href="/user/{{ person }}/libraries">Libraries</a> 
-				<strong>({{ person.authored_capabilities.all|length }})</strong>
+				<a title="Extensions" href="{% url jp_browser_user_addons person.username %}">Extensions</a> 
+				<strong>({{ person.packages_originated.all|length }})</strong>
 			</li>
 		{% endif %}
 	</ul>

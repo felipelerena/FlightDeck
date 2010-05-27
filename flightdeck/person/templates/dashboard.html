@@ -15,16 +15,16 @@
 	</div>
 
 	<ul class="UI_Action_List">
-		{% if user.authored_jetpacks.all %}
+		{% if addons %}
 			<li>
-				<a title="Your Extensions" href="{% url person_public_profile user.username %}extensions">Your Extensions</a> 
-				<strong>({{ user.authored_jetpacks.all|length }})</strong>
+				<a title="Your Add-ons" href="{% url jp_browser_user_addons user.username %}">Your Add-ons</a> 
+				<strong>({{ addons|length }})</strong>e
 			</li>
 		{% endif %}
-		{% if user.authored_capabilities.all %}
+		{% if libraries %}
 			<li>
-				<a title="Your Libraries" href="{% url person_public_profile user.username %}modules">Your Libraries</a> 
-				<strong>({{ user.authored_capabilities.all|length }})</strong>
+				<a title="Your Libraries" href="{% url jp_browser_user_libraries user.username %}">Your Libraries</a> 
+				<strong>({{ libraries|length }})</strong>
 			</li>
 		{% endif %}
 	</ul>

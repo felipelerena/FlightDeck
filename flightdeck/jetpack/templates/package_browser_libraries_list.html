@@ -1,0 +1,28 @@
+<ul class="UI_Browser">
+{% for item in pager.object_list %}
+	<li class="UI_Item">
+		{% include "_package_browser_library.html" %}
+	</li>
+{% endfor %}
+</ul>
+
+{% if pager.has_other_pages %}
+	<ul class="UI_Pagination">
+		{% if pager.has_previous %}
+			<li class="UI_Pagin_Action prev">
+				<span></span> 
+				<a title="" href="{% url jp_browser_addons_page pager.previous_page_number %}">
+					Previous
+				</a>
+			</li>
+		{% endif %}
+		<li class='current'>{{ pager.number }}</li>
+		{% if pager.has_next %}
+			<li class="UI_Pagin_Action next">
+				<a title="" href="{% url jp_browser_addons_page pager.next_page_number %}">Next</a>
+				<span></span> 
+			</li>
+		{% endif %}
+	</ul>
+{% endif %}
+

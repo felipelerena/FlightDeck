@@ -25,5 +25,7 @@ def dashboard(r):
 	Dashboard of the user
 	"""
 	page = "dashboard"
+	addons = r.user.packages_originated.filter(type='a')
+	libraries = r.user.packages_originated.filter(type='l')
 	return render_to_response("dashboard.html", locals(),
 				context_instance=RequestContext(r))

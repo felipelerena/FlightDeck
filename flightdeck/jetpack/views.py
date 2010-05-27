@@ -10,6 +10,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse, \
 from django.template import RequestContext#,Template
 from django.utils import simplejson
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
 
@@ -25,11 +26,21 @@ def homepage(r):
 	"""
 	return HttpResponse("Homepage here")
 
-def package_browser(r, page_number=1, type=None):
+def package_browser(r, page_number=1, type=None, username=None):
 	"""
 	Display a list of addons or libraries
 	"""
-	packages = Package.objects.filter(type=type)
+	# calculate which template to use
+	template_suffix = ''
+	packages = Package.objects
+
+	if username:
+		author = User.objects.get(username=username)
+		packages = packages.filter(author__username=username)
+		template_suffix = '%s_user' % template_suffix
+	if type: 
+		packages = packages.filter(type=type)
+		template_suffix = '%s_%s' % (template_suffix, settings.PACKAGE_PLURAL_NAMES[type])
 
 	limit = r.GET.get('limit', settings.PACKAGES_PER_PAGE)
 
@@ -39,14 +50,9 @@ def package_browser(r, page_number=1, type=None):
 		orphans = 1
 	).page(page_number)
 	
+
 	return render_to_response(
-		'package_browser_%s.html' % settings.PACKAGE_PLURAL_NAMES[type], 
-		{
-			'page': 'packages',
-			'pager': pager,
-			'packages_name': settings.PACKAGE_PLURAL_NAMES[type],
-			'type': type
-		},
+		'package_browser%s.html' % template_suffix, locals(),
 		context_instance=RequestContext(r))
 
 
