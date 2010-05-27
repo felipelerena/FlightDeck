@@ -24,11 +24,11 @@ badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/tests_old.py
 badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/urls_old.py
 badd +1 /private/tmp/----------Jtemplates
 badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser.html
-badd +24 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_addons.html
+badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_addons.html
 badd +15 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_user_libraries.html
-badd +18 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_library.html
+badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_library.html
 badd +25 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_addon.html
-badd +8 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_libraries_list.html
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_libraries_list.html
 badd +23 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_browser_libraries.html
 badd +1 /private/tmp/----------Jtemplates_old
 badd +37 ~/Projects/FlightDeck/flightdeck/jetpack/templatetags/jetpack_extras.py
@@ -100,10 +100,10 @@ badd +33 ~/Projects/FlightDeck/flightdeck/settings_local.py
 badd +1 ~/Projects/FlightDeck/flightdeck/utils/os_utils.py
 badd +39 ~/Projects/FlightDeck/flightdeck/base/templates/homepage.html
 badd +1 /private/tmp/------------Person
-badd +1 ~/Projects/FlightDeck/flightdeck/person/views.py
+badd +30 ~/Projects/FlightDeck/flightdeck/person/views.py
 badd +34 ~/Projects/FlightDeck/flightdeck/person/templates/dashboard.html
-badd +4 ~/Projects/FlightDeck/flightdeck/person/templates/profile.html
-badd +21 ~/Projects/FlightDeck/flightdeck/person/templates/registration/login.html
+badd +10 ~/Projects/FlightDeck/flightdeck/person/templates/profile.html
+badd +29 ~/Projects/FlightDeck/flightdeck/person/templates/registration/login.html
 badd +9 ~/Projects/FlightDeck/flightdeck/person/urls.py
 badd +1 /private/tmp/------------API
 badd +61 ~/Projects/FlightDeck/flightdeck/api/views.py
@@ -145,8 +145,9 @@ badd +1 tmp/-----------DOCS
 badd +15 ~/Projects/FlightDeck/Docs/mozillaaddonbuilderstyle.sty
 badd +22 ~/Projects/FlightDeck/README
 badd +22 ~/Projects/FlightDeck/INSTALL
+badd +12 ~/Projects/FlightDeck/flightdeck/person/templates/_profile_info.html
 silent! argdel *
-edit ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_libraries_list.html
+edit ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/editor.html
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -162,11 +163,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 8 - ((7 * winheight(0) + 36) / 72)
+let s:l = 21 - ((20 * winheight(0) + 29) / 59)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-8
+21
 normal! 0
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
