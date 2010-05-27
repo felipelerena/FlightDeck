@@ -5,7 +5,9 @@
 		Recent Libraries (See <a href="{% url jp_browser_addons %}">Add-ons</a>)
 	</h2>
 
-	{% include "_package_browser_libraries_list.html" %}
+	<ul class="UI_Browser">
+		{% include "_package_browser_libraries_list.html" %}
+	</ul>
 
 	{% if pager.has_other_pages %}
 		<ul class="UI_Pagination">

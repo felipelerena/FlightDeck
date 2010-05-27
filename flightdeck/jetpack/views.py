@@ -39,6 +39,8 @@ def package_browser(r, page_number=1, type=None, username=None):
 		packages = packages.filter(author__username=username)
 		template_suffix = '%s_user' % template_suffix
 	if type: 
+		other_type = 'l' if type == 'a' else 'a'
+		other_packages_number = len(packages.filter(type=other_type))
 		packages = packages.filter(type=type)
 		template_suffix = '%s_%s' % (template_suffix, settings.PACKAGE_PLURAL_NAMES[type])
 
