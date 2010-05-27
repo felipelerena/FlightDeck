@@ -14,6 +14,8 @@ def public_profile(r, username, force=None):
 	"""
 	person = get_object_or_404(User, username=username)
 	profile = person.get_profile()
+	addons = person.packages_originated.filter(type='a')
+	libraries = person.packages_originated.filter(type='l')
 	# if owner of the profile and not specially wanted to see it - redirect to dashboard
 	page = "profile"
 	return render_to_response("profile.html", locals(),
@@ -25,6 +27,7 @@ def dashboard(r):
 	Dashboard of the user
 	"""
 	page = "dashboard"
+	person = r.user
 	addons = r.user.packages_originated.filter(type='a')
 	libraries = r.user.packages_originated.filter(type='l')
 	return render_to_response("dashboard.html", locals(),

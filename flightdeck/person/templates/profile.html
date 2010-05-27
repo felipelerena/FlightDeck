@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load jetpack_extras %}
 
 {% block head %}
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Browser.css" type="text/css" media="screen" />
@@ -13,45 +12,41 @@
 	</div>
 
 	<ul class="UI_Action_List">
-		{% if person.packages_originated.all %}
+		{% if addons %}
 			<li>
-				<a title="Extensions" href="{% url jp_browser_user_addons person.username %}">Extensions</a> 
-				<strong>({{ person.packages_originated.all|length }})</strong>
+				<a title="Add-ons" href="{% url jp_browser_user_addons person.username %}">Add-ons</a> 
+				<strong>({{ addons|length }})</strong>
+			</li>
+		{% endif %}
+		{% if libraries %}
+			<li>
+				<a title="Libraries" href="{% url jp_browser_user_libraries person.username %}">Libraries</a> 
+				<strong>({{ libraries|length }})</strong>
 			</li>
 		{% endif %}
 	</ul>
 {% endblock %}
 
 {% block app_content %}
-	{% if person.authored_jetpacks.all %}
-		<h2 class="UI_Heading">Extensions</h2>
+	{% if addons %}
+		<h2 class="UI_Heading">Addons</h2>
 		<ul class="UI_Browser">
-			{% for jet in person.authored_jetpacks.all %}
-				<li class="UI_Item">{{ jet|render_base_link }}</li>
+			{% for item in addons %}
+				<li class="UI_Item">
+					{% include "_package_browser_addon.html" %}
+				</li>
 			{% endfor %}
 		</ul>
-		
-		{% comment %}
-		Not relevant as we show all jetpacks and modules atm
-		<ul class="UI_Pagination">
-			<li class="UI_Pagin_Action more"><a title="See more extensions" href="/user/{{ person }}/extensions">See more extensions</a> <span></span></li>
-		</ul>
-		{% endcomment %}
 	{% endif %}
 	
-	{% if person.authored_capabilities.all %}
+	{% if libraries %}
 		<h2 class="UI_Heading">Libraries</h2>
 		<ul class="UI_Browser">
-			{% for cap in person.authored_capabilities.all %}
-				<li class="UI_Item">{{ cap|render_base_link }}</li>
+			{% for item in libraries %}
+				<li class="UI_Item">
+					{% include "_package_browser_library.html" %}
+				</li>
 			{% endfor %}
 		</ul>
-		
-		{% comment %}
-		Not relevant as we show all jetpacks and modules atm
-		<ul class="UI_Pagination">
-			<li class="UI_Pagin_Action more"><a title="See more modules" href="/user/{{ person }}/modules">See more modules</a> <span></span></li>
-		</ul>
-		{% endcomment %}
 	{% endif %}
 {% endblock %}

@@ -1,7 +1,7 @@
 <ul class="piWrapper">
 	{% comment %}
 		<li class="mail">
-			<span></span> <a title="" href="mailto:{{ user.email }}">{{ user.email }}</a>
+			<span></span> <a title="" href="mailto:{{ person.email }}">{{ person.email }}</a>
 		</li>
 	{% endcomment %}
 	{% if profile.homepage %}
@@ -9,5 +9,5 @@
 			<span></span> <a title="" href="{{ profile.homepage }}">{{ profile.homepage }}</a>
 		</li>
 	{% endif %}
-	<li class="amo"><span></span> <a class="window" title="AMO profile" href="https://addons.mozilla.org/en-US/firefox/user/{{ user.username }}">AMO profile</a></li>
+	<li class="amo"><span></span> <a class="window" title="AMO profile" href="https://addons.mozilla.org/en-US/firefox/user/{{ person.username }}">AMO profile</a></li>
 </ul>
