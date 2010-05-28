@@ -6,13 +6,14 @@ from django.core.urlresolvers import reverse
 from django.views.static import serve
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404, HttpResponseRedirect, HttpResponse, \
-						HttpResponseNotAllowed, HttpResponseServerError
+						HttpResponseForbidden, HttpResponseServerError
 from django.template import RequestContext#,Template
 from django.utils import simplejson
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
+from django.views.decorators.http import require_POST
 
 from base.shortcuts import get_object_or_create, get_object_with_related_or_404, get_random_string
 from utils.os_utils import whereis
@@ -72,12 +73,15 @@ def package_details(r, id, type, revision_number=None, version_name=None):
 @login_required
 def package_edit(r, id, type, revision_number=None, version_name=None):
 	"""
-	Edit package - only for the owner
+	Edit package - only for the author
 	"""
 	package_revision = get_package_revision(id, type, revision_number, version_name)
+	if r.user.pk != package_revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this Package')
 	return HttpResponse('EDIT: %s' % package_revision)
 		
 
+@require_POST
 @login_required
 def package_create(r, type):
 	"""

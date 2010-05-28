@@ -154,7 +154,7 @@ class PackageRevision(models.Model):
 								blank=True, null=True)
 
 	# person who owns this revision
-	owner = models.ForeignKey(User, related_name='package_revisions')
+	author = models.ForeignKey(User, related_name='package_revisions')
 
 	created_at = models.DateTimeField(auto_now_add=True)
 
@@ -167,12 +167,12 @@ class PackageRevision(models.Model):
 
 	class Meta: 
 		ordering = ('-revision_number',)
-		unique_together = ('package', 'owner', 'revision_number')
+		unique_together = ('package', 'author', 'revision_number')
 
 	def __unicode__(self):
 		version = 'v. %s ' % self.version_name if self.version_name else ''
 		return '%s %sr. %d by %s' % (self.package.full_name, version, 
-									self.revision_number, self.owner)
+									self.revision_number, self.author)
 
 	def get_absolute_url(self):
 		if self.version_name:
@@ -268,7 +268,7 @@ class PackageRevision(models.Model):
 		self.revision_number = self.get_next_revision_number()
 		# a hook for future "branching"
 		if kwargs.has_key('user'):
-			self.owner = kwargs['user']
+			self.author = kwargs['user']
 			del kwargs['user']
 
 		save_return = super(PackageRevision, self).save(**kwargs)
@@ -293,7 +293,7 @@ class PackageRevision(models.Model):
 		@return latest revisiion number or 1
 		"""
 		revision_numbers = PackageRevision.objects.filter(
-									owner__username=self.owner.username,
+									author__username=self.author.username,
 									package__id_number=self.package.id_number
 								).order_by('-revision_number')
 		return revision_numbers[0].revision_number + 1 if revision_numbers else 1
@@ -558,7 +558,7 @@ def save_first_revision(instance, **kwargs):
 	# only for the new Package
 	if not kwargs.get('created', False): return
 
-	revision = PackageRevision(package=instance, owner=instance.author)
+	revision = PackageRevision(package=instance, author=instance.author)
 	revision.save()
 	instance.version = revision
 	instance.latest = revision
