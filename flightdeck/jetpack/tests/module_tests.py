@@ -79,6 +79,7 @@ class PackageTest(PackageTestCase):
 		self.failUnless(addon)
 		self.assertEqual(addon.id_number, str(settings.MINIMUM_PACKAGE_ID))
 		self.failUnless(addon.version)
+		self.failUnless(addon.latest)
 
 
 	def test_library_creation(self):
@@ -86,6 +87,7 @@ class PackageTest(PackageTestCase):
 		self.failUnless(library)
 		self.assertEqual(library.id_number, str(settings.MINIMUM_PACKAGE_ID + 1))
 		self.failUnless(library.version)
+		self.failUnless(library.latest)
 
 
 	def test_name_creation(self):
@@ -94,10 +96,12 @@ class PackageTest(PackageTestCase):
 
 
 	def test_ordering(self):
+		"""
+		Newest is first
+		"""
 		addon2 = Package(full_name=TEST_ADDON2_FULLNAME, author=self.user, type='a')
 		addon2.save()
 		self.to_delete.append(addon2)
-
 		self.assertEqual(Package.objects.all()[0].full_name, TEST_ADDON2_FULLNAME)
 		
 
@@ -106,8 +110,8 @@ class PackageTest(PackageTestCase):
 		addon2.save()
 		self.to_delete.append(addon2)
 
-		self.assertEqual(len(list((Package.objects.addons().all()))), 2)
-		self.assertEqual(len(list((Package.objects.libraries().all()))), 1)
+		self.assertEqual(len(list((Package.objects.addons()))), 2)
+		self.assertEqual(len(list((Package.objects.libraries()))), 1)
 
 
 	def test_related_name(self):
@@ -139,6 +143,9 @@ class PackageRevisionTest(PackageTestCase):
 		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
 		self.assertEqual(2, len(list(revisions)))
 		self.assertEqual(None, first.version_name)
+		addon = Package.objects.get(pk=self.addon.pk)
+		self.assertEqual(addon.latest.revision_number, first.revision_number)
+		self.assertNotEqual(addon.version.revision_number, addon.latest.revision_number)
 
 
 	def test_set_version(self):
@@ -151,7 +158,7 @@ class PackageRevisionTest(PackageTestCase):
 		# setting version sets it for revision, package and assigns revision to package
 		self.assertEqual(first.version_name,'test')
 		self.assertEqual(first.package.version_name,'test')
-		self.assertEqual(first.package.version.id, first.id)
+		self.assertEqual(first.package.version.pk, first.pk)
 		
 	def test_absolute_urls(self):
 		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
