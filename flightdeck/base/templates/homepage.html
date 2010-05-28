@@ -14,36 +14,28 @@
 	
 	<div id="feature-wrapper">
 		<div class="UI_Feature">
-			{% if featured %}
-			<h3>{{ featured.full_name }} 
-				<span>by 
-					<a title="" href="{% url person_public_profile featured.author.username %}">
-							{{ featured.author.get_profile }}
-					</a>
-				</span>
-			</h3>
-
-			<p>{{ featured.description }}</p>
-			
-			<ul class="UI_Actions">
-				<li class="UI_Try_in_Browser">
-					<a title="Test" href="{{ featured.version.get_create_xpi_url }}">Test</a>
-				</li>
-				<li class="UI_Edit_Version">
-					{% if user == featured.author %}
-						<a title="Edit {{ featured.full_name }}" href="{{ featured.get_edit_url }}">Edit</a>
-					{% else %}
-						<a title="View {{ featured.full_name }}" href="{{ featured.get_absolute_url }}">View Source</a>
-					{% endif %}
-				</li>
-			</ul>
-			
-			<div class="UI_Icon jetpack">
-				<!-- <ul class="UI_Ratings_Display">
-					<li><a title="" href="#"></a></li>
-				</ul> -->
-			</div>
-			{% endif %}
+			{% if featured %}{% with featured as item %}
+				<h3>{{ item.full_name }} 
+					<span>by 
+						<a title="" href="{% url person_public_profile item.author.username %}">
+								{{ item.author.get_profile }}
+						</a>
+					</span>
+				</h3>
+				<p>{{ item.description }}</p>
+				<ul class="UI_Actions">
+					<li class="UI_Try_in_Browser">
+						<a title="Test" href="{{ item.version.get_create_xpi_url }}">Test</a>
+					</li>
+					{% include "_package_edit_view_source_bar.html" %}
+				</ul>
+				
+				<div class="UI_Icon jetpack">
+					<!-- <ul class="UI_Ratings_Display">
+						<li><a title="" href="#"></a></li>
+					</ul> -->
+				</div>
+			{% endwith %}{% endif %}
 		</div> <!-- /UI_Feature -->
 	</div> <!-- /feature-wrapper -->
 	

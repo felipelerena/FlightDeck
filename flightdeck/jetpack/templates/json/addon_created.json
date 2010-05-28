@@ -1,0 +1,5 @@
+{
+	"message": "Add-on \"{{ item.full_name }}\" created",
+	"edit_url": "{{ item.version.get_edit_url }}"
+}
+

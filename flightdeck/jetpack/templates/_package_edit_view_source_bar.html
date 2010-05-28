@@ -1,0 +1,18 @@
+<li class="UI_Edit_Version">
+	<a title="View {{ item.full_name }}" href="{{ item.get_absolute_url }}">View Source</a>
+</li>
+{% if user == item.author %}
+	<li class="UI_Edit_Version">
+		<a title="Edit {{ item.version }}" href="{{ item.version.get_edit_url }}">
+			Edit {% if item.latest.version_name != item.version_name %}({{ item.version_name }}){% endif %}
+		</a>
+	</li>
+	{% if item.latest.version_name != item.version_name %}
+		<li class="UI_Edit_Version">
+			<a title="Edit {{ item.latest }}" href="{{ item.latest.get_edit_url }}">
+				Edit (rev. {{ item.latest.revision_number }})
+			</a>
+		</li>
+	{% endif %}
+{% endif %}
+

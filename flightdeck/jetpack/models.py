@@ -70,6 +70,8 @@ class Package(models.Model):
 									default=settings.INITIAL_VERSION_NAME)
 
 	version = models.ForeignKey('PackageRevision', blank=True, null=True, related_name='package_deprecated')
+	latest = models.ForeignKey('PackageRevision', blank=True, null=True, related_name='package_deprecated2')
+
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	last_update = models.DateTimeField(auto_now=True)
@@ -280,6 +282,8 @@ class PackageRevision(models.Model):
 		for att in origin.attachments.all():
 			self.attachments.add(att)
 
+		self.package.latest = self
+		self.package.save()
 		return save_return
 
 
@@ -557,6 +561,7 @@ def save_first_revision(instance, **kwargs):
 	revision = PackageRevision(package=instance, owner=instance.author)
 	revision.save()
 	instance.version = revision
+	instance.latest = revision
 	if instance.is_addon():
 		mod = Module.objects.create(
 			filename=revision.module_main,

@@ -19,6 +19,7 @@ from utils.os_utils import whereis
 
 from jetpack.models import Package, PackageRevision, Module, Attachment
 from jetpack import settings
+from jetpack.browser_helpers import get_package_revision
 
 def homepage(r):
 	"""
@@ -28,7 +29,8 @@ def homepage(r):
 
 def package_browser(r, page_number=1, type=None, username=None):
 	"""
-	Display a list of addons or libraries
+	Display a list of addons or libraries with pages
+	Filter based on the request (type, username).
 	"""
 	# calculate which template to use
 	template_suffix = ''
@@ -58,34 +60,39 @@ def package_browser(r, page_number=1, type=None, username=None):
 		context_instance=RequestContext(r))
 
 
-def get_package_revision(id, type, revision_number=None, version_name=None):
-
-	if not (revision_number or version_name):
-		# get default revision - one linked via Package:version
-		package = get_object_with_related_or_404(Package, id_number=id, type=type)
-		package_revision = package.version
-
-	elif revision_number:
-		# get version given by revision number
-		package_revision = get_object_with_related_or_404(PackageRevision, 
-							package__id_number=id, package__type=type,
-							revision_number=revision_number)
-	elif version_name:
-		# get version given by version name
-		package_revision = get_object_with_related_or_404(PackageRevision, 
-							package__id_number=id, package__type=type,
-							version_name=version_name)
-	return package_revision
-
 
 def package_details(r, id, type, revision_number=None, version_name=None):
-
+	"""
+	Show package - read only
+	"""
 	package_revision = get_package_revision(id, type, revision_number, version_name)
 	return HttpResponse('VIEW: %s' % package_revision)
 		
-def package_edit(r, id, type, revision_number=None, version_name=None):
 
+@login_required
+def package_edit(r, id, type, revision_number=None, version_name=None):
+	"""
+	Edit package - only for the owner
+	"""
 	package_revision = get_package_revision(id, type, revision_number, version_name)
 	return HttpResponse('EDIT: %s' % package_revision)
 		
 
+@login_required
+def package_create(r, type):
+	"""
+	Create new Package (Add-on or Library)
+	Target of the Popup window with basic metadata
+	"""
+	item = Package(
+		author=r.user,
+		full_name=r.POST.get("full_name"),
+		description=r.POST.get("description"),
+		type=type
+		)
+	item.save()
+
+	return render_to_response("json/%s_created.json" % settings.PACKAGE_SINGULAR_NAMES[type], {'item': item},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+	

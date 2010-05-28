@@ -19,6 +19,12 @@ urlpatterns = patterns('jetpack.views',
 	url(r'^libraries/by/(?P<username>\w+)/(?P<page_number>\d+)/$', 
 		'package_browser', {'type': 'l'}, name='jp_browser_user_libraries_page'),
 
+	# create new add-on/library
+	url(r'^addon/new/',
+		'package_create', {"type": "a"}, name='jp_addon_create'),
+	url(r'^library/new/',
+		'package_create', {"type": "l"}, name='jp_library_create'),
+
 
 	# display details of the PackageRevision
 	url(r'^addon/(?P<id>[-\w]+)/$', 

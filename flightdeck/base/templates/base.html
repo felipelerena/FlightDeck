@@ -26,30 +26,29 @@
 			<link rel="stylesheet" href="/media/jetpack/css/FlightDeck.Roar.css" type="text/css" media="screen" />
 		{% endblock %}
 		
-		{% comment %}
 		<script type='text/javascript'>
 			var fd;
 			var settings = {
 				{% block app_settings %}{% endblock %}{% block page_settings %}{% endblock %}
-				jp_jetpack_create_url: '{% url jp_jetpack_create %}',
-				jp_capability_create_url: '{% url jp_capability_create %}',
+				person_login_url: '{{ settings.LOGIN_URL }}',
+				jp_addon_create_url: '{% url jp_addon_create %}',
+				jp_library_create_url: '{% url jp_library_create %}',
 				create_modal_template: '{% escape_template "_create.html" %}',
-				user: '{{ request.user }}',
+				user: '{{ user }}', // was request.user - TODO: check
 				DEBUG: {{ settings.DEBUG|yesno:"true,false" }}
 			};
 			window.addEvent('domready', function() {
 				fd = new FlightDeck({'user': '{{ user.username }}'});
 				{% block create_init %}
 					create.init(
-						['create_jetpack', 'create_capability'],
-						['jetpack','capability'],
+						['create_addon', 'create_library'],
+						['addon','library'],
 						'app-body'
 					);
 				{% endblock %}
 				{% block app_domready %}{% endblock %}
 				{% block page_domready %}{% endblock %}
 			});
-		{% endcomment %}
 		</script>
 		<style>.hidden { display: none; }</style>
 	</head>
@@ -64,10 +63,10 @@
 				<div id="editor-menu-wrapper">
 					<ul class="UI_Editor_Menu minimal">
 						<li class="UI_Editor_Menu_Button Icon_new">
-							<a id="create_jetpack" title="" href="#">New extension<span class="UI_Editor_Icon"></span></a>
+							<a id="create_addon" title="" href="#">New extension<span class="UI_Editor_Icon"></span></a>
 						</li>
 						<li class="UI_Editor_Menu_Button Icon_new">
-							<a id="create_capability" title="" href="#">New library<span class="UI_Editor_Icon"></span></a>
+							<a id="create_library" title="" href="#">New library<span class="UI_Editor_Icon"></span></a>
 						</li>
 					</ul>
 				</div>

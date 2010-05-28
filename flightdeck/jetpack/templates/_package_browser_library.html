@@ -8,14 +8,7 @@
 <p>{{ item.description }}</p>
 
 <ul class="UI_Actions">
-	<li class="UI_Edit_Version">
-		{% if user == item.author %}
-			<a title="Edit {{ item.full_name }}" href="{{ item.version.get_edit_url }}">Edit</a>
-		{% else %}
-			<a title="View {{ item.full_name }}" href="{{ item.get_absolute_url }}">View Source</a>
-		{% endif %}
-	</li>
-	
+	{% include "_package_edit_view_source_bar.html" %}
 </ul>
 <div class="UI_Icon {{ item.type }}">
 	<!-- <ul class="UI_Ratings_Display">

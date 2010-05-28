@@ -1,0 +1,40 @@
+<form class="UI_Forms" id="create_form" method="post" accept-charset="utf-8">
+	<h3>Create new Add-on/Library</h3>
+	<fieldset>
+		<legend>Create new Add-on/Library</legend>
+
+		<ul class="UI_Choice">
+			<li>
+				<input id="create-addon" type="radio" name="choice" value="addon" checked="checked" />
+				<label for="create-addon">Add-on</label>
+			</li>
+			<li>
+				<input id="create-library" type="radio" name="choice" value="library" />
+				<label for="create-library">Library</label>
+			</li>
+			<li id="add-new-library-li" class="hidden">
+				<input id="add-new-library" type="checkbox" name="add_to_addon"/>
+				<label for="add-new-library">Add to this Add-on</label>
+			</li>
+		</ul> <!-- /UI_Choice -->
+
+		<p class="UI_Field">
+			<label for="create-name">Name</label>
+			<input id="create-name" type="text" name="name" value="" />
+		</p> <!-- /UI_Field -->
+
+		<p class="UI_Field">
+			<label for="create-description">Description</label>
+			<textarea id="create-description" name="description" rows="8" cols="40"></textarea>
+		</p> <!-- /UI_Field -->
+	</fieldset>
+
+	<div class="UI_Modal_Actions">
+		<ul>
+			<li><input class="" type="submit" name="save" value="Create" /></li>
+			<li><input class="closeModal" type="reset" name="cancel" value="Cancel" id="create_form_cancel" /></li>
+		</ul>
+	</div> <!-- /UI_Modal_Actions -->
+
+</form> <!-- /UI_Forms -->
+
