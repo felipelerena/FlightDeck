@@ -67,6 +67,7 @@ def package_details(r, id, type, revision_number=None, version_name=None):
 	Show package - read only
 	"""
 	revision = get_package_revision(id, type, revision_number, version_name)
+	readonly = True
 	return render_to_response("%s_view.html" % settings.PACKAGE_SINGULAR_NAMES[type], locals(),
 				context_instance=RequestContext(r))
 		
