@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block create_init %}// create.init('create','jetpack','app-body');{% endblock %}
+
+{% block head %}
+	<title>{{ revision }} - {{ settings.SITE_TITLE }}</title>
+	<link rel="stylesheet" href="/media/jetpack/css/UI.Editor.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/media/jetpack/css/FlightDeck.Autocomplete.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/media/bespin/BespinEmbedded.css" type="text/css" media="screen" />
+	{% block app_head %}{% endblock %}
+{% endblock %}

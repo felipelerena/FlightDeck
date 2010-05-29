@@ -1,0 +1,44 @@
+{% extends "view.html" %}
+
+{% block app_head %}
+{% endblock %}
+
+{% block app_sidebar %}
+	<section id="addon-info" class="UI_Sidebar_Item">
+		<h3 id="ji-toggler"><span>{{ revision.package.full_name }}</span></h3>
+		{# here name and a INFO drop down #}
+	</section>
+	<section id="modules">
+		{% with revision.modules.all as modules %}
+			<h3 class="UI_Sidebar_Toggler modules opened"><a title="Modules" href="#">
+				Modules{% if modules %} <strong id="modules-counter">({{ modules|length }})</strong>{% endif %} 
+				<span class="UI_OC"></span>
+				<span class="UI_Sidebar_Toggler_Icon"></span>
+			</a></h3>
+			<div class="UI_Sidebar_ItemCont">
+				{% with revision.get_main_module as module %}
+					{% include "_sidebar_revision_module.html" %}
+				{% endwith %}
+				{% for module in modules %}{% if revision.module_main != module.filename %}
+					{% include "_sidebar_revision_module.html" %}
+				{% endif %}{% endfor %}
+				{% include "_sidebar_revision_add_module.html" %}
+			</div>
+		{% endwith %}
+	</section>
+	<section id="libraries">
+		{% include "_sidebar_revision_libraries.html" %}
+	</section>
+{% endblock %}
+
+{% block app_content %}
+	<div id="editor-wrapper">
+		<div id="package_description" class="UI_Editor_Area main">{{ revision.get_full_rendered_description|safe }}</div>
+		{% with revision.get_main_module as module %}
+			{% include "_module_code_textarea.html" %}
+		{% endwith %}
+		{% for module in revision.modules.all %}{% if module.filename != revision.module_main %}
+			{% include "_module_code_textarea.html" %}
+		{% endif %}{% endfor %}
+	</div>
+{% endblock %}

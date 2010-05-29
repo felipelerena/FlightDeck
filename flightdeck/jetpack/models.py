@@ -171,8 +171,11 @@ class PackageRevision(models.Model):
 
 	def __unicode__(self):
 		version = 'v. %s ' % self.version_name if self.version_name else ''
-		return '%s %sr. %d by %s' % (self.package.full_name, version, 
-									self.revision_number, self.author)
+		return '%s - %s %sr. %d by %s' % (
+									settings.PACKAGE_SINGULAR_NAMES[self.package.type],
+									self.package.full_name, version, 
+									self.revision_number, self.author
+									)
 
 	def get_absolute_url(self):
 		if self.version_name:
@@ -209,11 +212,18 @@ class PackageRevision(models.Model):
 		deps.extend([dep.package.get_unique_package_name() for dep in self.dependencies.all()])
 		return deps
 
-	def get_manifest(self, test_in_browser=False):
+	def get_full_description(self):
+		" return joined description "
 		description = self.package.description
 		#if self.description:
 		#	description = "%s\n%s" % (description, self.description)
+		return description
 		
+	def get_full_rendered_description(self):
+		" return description prepared for rendering "
+		return "<p>%s</p>" % self.get_full_description().replace("\n","<br/>")
+
+	def get_manifest(self, test_in_browser=False):
 		if self.version_name:
 			version = self.version_name
 		else:
@@ -226,7 +236,7 @@ class PackageRevision(models.Model):
 		manifest = {
 			'fullName': self.package.full_name,
 			'name': name,
-			'description': description,
+			'description': self.get_full_description(),
 			'author': self.package.author.username,
 			'id': self.package.id_number,
 			'version': version,
@@ -244,6 +254,16 @@ class PackageRevision(models.Model):
 	def get_manifest_json(self, **kwargs):
 		return simplejson.dumps(self.get_manifest(**kwargs))
 
+
+	def get_main_module(self):
+		" return executable Module for Add-ons "
+		if type == 'l': return None
+
+		# find main module
+		main = self.modules.filter(filename=self.module_main)
+		if not main:
+			raise Exception('Every Add-on needs to be linked with an executable Module')
+		return main[0]
 
 	######################
 	# revision save methods

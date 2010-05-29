@@ -20,7 +20,7 @@ from utils.os_utils import whereis
 
 from jetpack.models import Package, PackageRevision, Module, Attachment
 from jetpack import settings
-from jetpack.browser_helpers import get_package_revision
+from jetpack.package_helpers import get_package_revision
 
 def homepage(r):
 	"""
@@ -66,8 +66,9 @@ def package_details(r, id, type, revision_number=None, version_name=None):
 	"""
 	Show package - read only
 	"""
-	package_revision = get_package_revision(id, type, revision_number, version_name)
-	return HttpResponse('VIEW: %s' % package_revision)
+	revision = get_package_revision(id, type, revision_number, version_name)
+	return render_to_response("%s_view.html" % settings.PACKAGE_SINGULAR_NAMES[type], locals(),
+				context_instance=RequestContext(r))
 		
 
 @login_required
@@ -75,10 +76,10 @@ def package_edit(r, id, type, revision_number=None, version_name=None):
 	"""
 	Edit package - only for the author
 	"""
-	package_revision = get_package_revision(id, type, revision_number, version_name)
-	if r.user.pk != package_revision.author.pk:
+	revision = get_package_revision(id, type, revision_number, version_name)
+	if r.user.pk != revision.author.pk:
 		return HttpResponseForbidden('You are not the author of this Package')
-	return HttpResponse('EDIT: %s' % package_revision)
+	return HttpResponse('EDIT: %s' % revision)
 		
 
 @require_POST

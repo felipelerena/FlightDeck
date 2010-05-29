@@ -131,7 +131,7 @@ class PackageRevisionTest(PackageTestCase):
 		revisions = PackageRevision.objects.filter(package__name=self.addon.name)
 		self.assertEqual(1, len(list(revisions)))
 		revision = revisions[0]
-		self.assertEqual(revision.owner.username, self.addon.author.username)
+		self.assertEqual(revision.author.username, self.addon.author.username)
 		self.assertEqual(revision.revision_number, 0)
 
 	
