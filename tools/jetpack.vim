@@ -9,7 +9,7 @@ endif
 set shortmess=aoO
 badd +1 /private/tmp/------------Jetpack
 badd +70 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
-badd +221 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
+badd +428 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
 badd +135 ~/Projects/FlightDeck/flightdeck/jetpack/tests/module_tests.py
 badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/managers.py
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/admin.py
@@ -34,13 +34,14 @@ badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_libr
 badd +18 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_addon.html
 badd +11 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_library.html
 badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_edit_view_source_bar.html
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/view.html
-badd +36 ~/Projects/FlightDeck/flightdeck/jetpack/templates/addon_view.html
-badd +33 ~/Projects/FlightDeck/flightdeck/jetpack/templates/library_view.html
-badd +0 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_module_code_textarea.html
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_revision_libraries.html
+badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/templates/view.html
+badd +29 ~/Projects/FlightDeck/flightdeck/jetpack/templates/addon_view.html
+badd +26 ~/Projects/FlightDeck/flightdeck/jetpack/templates/library_view.html
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_module_code_textarea.html
+badd +12 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_view_revision_libraries.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_revision_module.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_revision_add_module.html
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_revision_libraries.html
 badd +25 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_create.html
 badd +1 /private/tmp/----------Jtemplates_old
 badd +37 ~/Projects/FlightDeck/flightdeck/jetpack/templatetags/jetpack_extras.py
@@ -156,7 +157,7 @@ badd +15 ~/Projects/FlightDeck/Docs/mozillaaddonbuilderstyle.sty
 badd +22 ~/Projects/FlightDeck/README
 badd +22 ~/Projects/FlightDeck/INSTALL
 silent! argdel *
-edit ~/Projects/FlightDeck/flightdeck/jetpack/templates/addon_view.html
+edit ~/Projects/FlightDeck/flightdeck/jetpack/models.py
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -172,12 +173,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 36 - ((35 * winheight(0) + 36) / 72)
+let s:l = 184 - ((69 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-36
-normal! 0105l
+184
+normal! 03l
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

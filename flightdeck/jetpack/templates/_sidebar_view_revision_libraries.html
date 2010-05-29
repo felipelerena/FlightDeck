@@ -1,0 +1,19 @@
+{% with revision.dependencies.all as libraries %}
+	{% if libraries %}
+		<h3 class="UI_Sidebar_Toggler libraries opened"><a title="Libraries" href="#">
+			Libraries <strong id="libraries-counter">({{ libraries|length }})</strong> 
+			<span class="UI_OC"></span>
+			<span class="UI_Sidebar_Toggler_Icon"></span>
+		</a></h3>
+		<div class="UI_Sidebar_ItemCont">
+			{% for library in libraries %}
+				<li class="UI_File_Normal">
+					<a title="" href="{{ library.get_absolute_url }} " class="library_link">
+						{{ library.package.full_name }}
+					</a>
+				</li>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endwith %}
+

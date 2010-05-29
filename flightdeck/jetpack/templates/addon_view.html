@@ -22,12 +22,11 @@
 				{% for module in modules %}{% if revision.module_main != module.filename %}
 					{% include "_sidebar_revision_module.html" %}
 				{% endif %}{% endfor %}
-				{% include "_sidebar_revision_add_module.html" %}
 			</div>
 		{% endwith %}
 	</section>
 	<section id="libraries">
-		{% include "_sidebar_revision_libraries.html" %}
+		{% include "_sidebar_view_revision_libraries.html" %}
 	</section>
 {% endblock %}
 

@@ -425,7 +425,7 @@ class PackageRevision(models.Model):
 		
 
 	def dependency_add(self, dep):
-		" copy to new revision, add dependency (Library - PackageVersion) "
+		" copy to new revision, add dependency (existing Library - PackageVersion) "
 		# a PackageRevision has to depend on the LibraryRevision only
 		if dep.package.type != 'l': 
 			raise TypeError('Dependency has to be a Library')
