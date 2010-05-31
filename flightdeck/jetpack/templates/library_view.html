@@ -1,10 +1,7 @@
 {% extends "view.html" %}
 
-{% block app_head %}
-{% endblock %}
-
 {% block app_sidebar %}
-	<section id="addon-info" class="UI_Sidebar_Item">
+	<section id="package-info" class="UI_Sidebar_Item">
 		<h3 id="ji-toggler"><span>{{ revision.package.full_name }}</span></h3>
 		{# here name and a INFO drop down #}
 	</section>
@@ -31,11 +28,6 @@
 	<div id="editor-menu-wrapper">
 		<ul class="UI_Editor_Menu">
 			{% include "_base_app_menu_items.html" %}
-			{% comment %}
-			<li class="UI_Editor_Menu_Button Icon_new">
-				<a id="create" title="" href="#">New <span class="UI_Editor_Icon"></span></a>
-			</li>
-			{% endcomment %}
 		</ul>
 	</div> <!-- /editor-menu-wrapper -->
 	<div id="editor-wrapper">

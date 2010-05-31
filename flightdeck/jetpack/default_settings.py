@@ -15,6 +15,7 @@ PACKAGE_SINGULAR_NAMES = {
 	'a': 'addon'
 }
 HOMEPAGE_PACKAGES_NUMBER = getattr(settings, 'HOMEPAGE_PACKAGES_NUMBER', 3)
+SDKDIR_PREFIX = '/tmp/SDK'
 
 # ------------------------------------------------------------------------
 JETPACK_NEW_IS_BASE = False # it shouldn't be changed

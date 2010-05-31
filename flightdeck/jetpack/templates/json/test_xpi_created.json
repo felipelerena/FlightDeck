@@ -1,0 +1,8 @@
+{
+	"test_xpi_url": "{{ test_xpi_url }}", 
+	"download_xpi_url": "{{ download_xpi_url }}", 
+	"rm_xpi_url": "{{ rm_xpi_url }}",
+	"stdout": "{{ stdout|escapejs }}", 
+	"stderr": "{{ stderr|escapejs }}"
+}
+

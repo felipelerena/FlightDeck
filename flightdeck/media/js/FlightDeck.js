@@ -7,6 +7,7 @@ var FlightDeck = new Class({
 	Implements: [Options, Events],
 	options: {
 		menu_el: 'UI_Editor_Menu',
+		try_in_browser_class: 'XPI_test'
 		//user: ''
 	},
 	initialize: function() {
@@ -16,13 +17,43 @@ var FlightDeck = new Class({
 			}
 		};
 		this.editors = [];
-
+		// loading XPI from saved objects
+		$$('.{try_in_browser_class} a'.substitute(this.options)).each(function(el) {
+			el.addEvent('click', function(e) {
+				e.stop();
+				if (fd.alertIfNoAddOn()) {
+					new Request.JSON({
+						url: this.get('href'),
+						onSuccess: fd.testXPI.bind(fd)
+					}).send();
+				}
+			});
+		});
+	},
+	/*
+	 * Method: testXPI
+	 */
+	testXPI: function(response) {
+		if (response.stderr) {
+			fd.alert('Error in building Add-on XPI', response.stderr);
+			return;
+		}
+		this.rm_xpi_url = response.rm_xpi_url;
+		this.installXPI(response.test_xpi_url);
 	},
 	/*
 	 * Method: hideEditors
 	 */
 	hideEditors: function() {
 		this.editors.each(function(ed){ ed.hide(); });
+	},
+	/*
+	 * Method: installXPI
+	 */
+	installXPI: function(url) {
+		if (fd.alertIfNoAddOn()) {
+			window.mozFlightDeck.send({cmd: "install", path: url});
+		}
 	},
 	/*
 	 * Method: enableMenuButtons
@@ -103,7 +134,7 @@ window.addEvent('load', function() {
 		window.mozFlightDeck.whenMessaged(function(data) {
 			// This gets called when one of our extensions has been installed
 			// successfully, or failed somehow.
-			fd.message.alert('Loading extension', 'Extension {msg}'.substitute(data));
+			fd.message.alert('Addon-builder', 'Add-on {msg}'.substitute(data));
 		});
 	}
 });

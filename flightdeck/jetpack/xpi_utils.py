@@ -16,6 +16,7 @@ def sdk_copy(sdk_dir):
 	create cfx.sh which will set environment and call 'real' cfx
 	"""
 	shutil.copytree('%s/src/jetpack-sdk' % settings.VIRTUAL_ENV, sdk_dir)
+	# create cfx.sh
 	handle = open('%s/bin/cfx.sh' % sdk_dir, 'w')
 	handle.write("""#!/bin/bash
 source %s/bin/activate

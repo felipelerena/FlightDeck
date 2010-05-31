@@ -15,6 +15,7 @@ from jetpack import settings
 from jetpack.managers import PackageManager
 from jetpack.errors import 	SelfDependencyException, FilenameExistException, \
 							UpdateDeniedException, AddingModuleDenied, AddingAttachmentDenied
+from jetpack.xpi_utils import sdk_copy, xpi_build, xpi_remove 
 
 
 PERMISSION_CHOICES = (
@@ -196,8 +197,17 @@ class PackageRevision(models.Model):
 
 
 	def get_test_xpi_url(self):
-		# TODO: connect it
-		return ""
+		if self.package.type != 'a': 
+			raise Exception('XPI might be created only from an Add-on')
+		return reverse(	
+			'jp_addon_revision_test', args=[self.package.id_number, self.revision_number])
+
+
+	def get_download_xpi_url(self):
+		if self.package.type != 'a': 
+			raise Exception('XPI might be created only from an Add-on')
+		return reverse(	
+			'jp_addon_revision_xpi', args=[self.package.id_number, self.revision_number])
 
 	######################
 	# Manifest
@@ -442,6 +452,28 @@ class PackageRevision(models.Model):
 		# save as new version
 		self.save()
 		return self.dependencies.remove(dep)
+
+
+	def get_sdk_name(self):
+		return '%s-%s' % (self.package.id_number, self.revision_number)
+
+	
+	def get_sdk_dir(self):
+		return '%s-%s' % (settings.SDKDIR_PREFIX, self.get_sdk_name())
+
+
+	def build_xpi(self):
+		" prepare and build XPI "
+		sdk_dir = self.get_sdk_dir()
+		# TODO: consider SDK staying per PackageRevision...
+		if os.path.isdir(sdk_dir):
+			xpi_remove(sdk_dir)
+		sdk_copy(sdk_dir)
+		self.export_files_with_dependencies('%s/packages' % sdk_dir)
+		return (xpi_build(sdk_dir, 
+				'%s/packages/%s' % (sdk_dir, self.package.get_unique_package_name()))
+				)
+
 
 
 	def export_manifest(self, package_dir):

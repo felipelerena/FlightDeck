@@ -153,18 +153,18 @@ a:hover {
 	background: #fff;
 }
 
-#jetpack-info {
+#package-info {
    
 }
 
-	#jetpack-info #ji-toggler {
+	#package-info #ji-toggler {
 		background: -moz-linear-gradient(270deg, #3A86DA, #022052);
 		padding-right: 1px;
 		position: relative;
 		right: -1px;
 	}
 
-		#jetpack-info #ji-toggler span {
+		#package-info #ji-toggler span {
 			display: block;
 			background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
 			border-top: solid 1px #9CC7F8;

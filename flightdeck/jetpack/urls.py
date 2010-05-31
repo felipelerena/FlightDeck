@@ -39,9 +39,24 @@ urlpatterns = patterns('jetpack.views',
 		'package_details', {'type': 'a'}, name='jp_addon_revision_details'),
 	url(r'^library/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
 		'package_details',{'type': 'l'},  name='jp_library_revision_details'),
+
+	# edit PackageRevision
 	url(r'^addon/edit/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
 		'package_edit', {'type': 'a'}, name='jp_addon_revision_edit'),
 	url(r'^library/edit/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
 		'package_edit',{'type': 'l'},  name='jp_library_revision_edit'),
+
+	# test Add-on's PackageRevision
+	url(r'^addon/test/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_create_xpi', name='jp_addon_revision_test'),
+	url(r'^addon/xpi/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_create_xpi', name='jp_addon_revision_xpi'),
+	
+	# get and remove created XPI
+	url(r'^addon/test_xpi/(?P<sdk_name>.*)/(?P<pkg_name>.*)/(?P<filename>.*)/$', 
+		'test_xpi', name='jp_test_xpi'),
+	url(r'^addon/download_xpi/(?P<sdk_name>.*)/(?P<pkg_name>.*)/(?P<filename>.*)/$', 
+		'download_xpi', name='jp_download_xpi'),
+	url(r'^addon/rm_xpi/(?P<sdk_name>.*)/$', 'remove_xpi', name='jp_rm_xpi'),
 )
 

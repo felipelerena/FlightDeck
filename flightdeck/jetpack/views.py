@@ -21,6 +21,7 @@ from utils.os_utils import whereis
 from jetpack.models import Package, PackageRevision, Module, Attachment
 from jetpack import settings
 from jetpack.package_helpers import get_package_revision
+from jetpack.xpi_utils import xpi_remove 
 
 def homepage(r):
 	"""
@@ -101,4 +102,61 @@ def package_create(r, type):
 	return render_to_response("json/%s_created.json" % settings.PACKAGE_SINGULAR_NAMES[type], {'item': item},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+
 	
+def package_create_xpi(r, id, revision_number=None, version_name=None):
+	"""
+	Edit package - only for the author
+	"""
+	revision = get_object_with_related_or_404(PackageRevision, 
+						package__id_number=id, package__type='a',
+						revision_number=revision_number)
+
+	(stdout, stderr) = revision.build_xpi()
+
+	if stderr and not settings.DEBUG:
+		xpi_remove(sdk_dir)
+
+	# return XPI url and cfx command stdout and stderr
+ 	return render_to_response('json/test_xpi_created.json', {
+ 					'stdout': stdout,
+					'stderr': stderr,
+ 					'test_xpi_url': reverse('jp_test_xpi', 
+									args=[
+										revision.get_sdk_name(), 
+										revision.package.get_unique_package_name(), 
+										revision.package.name
+										]), 
+ 					'download_xpi_url': reverse('jp_download_xpi', 
+									args=[
+										revision.get_sdk_name(), 
+										revision.package.get_unique_package_name(), 
+										revision.package.name
+										]), 
+ 					'rm_xpi_url': reverse('jp_rm_xpi', args=[revision.get_sdk_name()])
+ 				},
+				context_instance=RequestContext(r))
+			#	mimetype='application/json')
+	
+def test_xpi(r, sdk_name, pkg_name, filename):
+	"""
+	return XPI file for testing
+	"""
+	path = '%s-%s/packages/%s' % (settings.SDKDIR_PREFIX, sdk_name, pkg_name)
+	file = '%s.xpi' % filename 
+	return serve(r, file, path, show_indexes=False)
+
+
+def download_xpi(r, sdk_name, pkg_name, filename):
+	"""
+	return XPI file for testing
+	"""
+	path = '%s-%s/packages/%s' % (settings.SDKDIR_PREFIX, sdk_name, pkg_name)
+	file = '%s.xpi' % filename 
+	return serve(r, file, path, show_indexes=False)
+
+
+def remove_xpi(r, sdk_name):
+	xpi_remove('%s-%s' % (settings.SDKDIR_PREFIX, sdk_name))
+
+

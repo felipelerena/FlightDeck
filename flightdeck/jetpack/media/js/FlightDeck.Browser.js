@@ -4,7 +4,7 @@
 
 FlightDeck = Class.refactor(FlightDeck,{
 	options: {
-		try_in_browser_class: 'UI_Try_in_Browser'
+		try_in_browser_class: 'XPI_test'
 	},
 	initialize: function(options) {
 		this.setOptions(options);
