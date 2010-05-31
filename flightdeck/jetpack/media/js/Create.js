@@ -2,7 +2,7 @@
  * File: jetpack/Create.js
  */
 /*
- * Class Create
+ * object Create
  * Create new Add-on/Library
  */
 
@@ -48,8 +48,8 @@ var create = {
 					// 	}).delay(600, this);
 					// }.bind(modal));
 				}
-			});
-		}); 
+			}); // addEvent
+		}); // each
 	},
 	
 	submit: function(e) { 

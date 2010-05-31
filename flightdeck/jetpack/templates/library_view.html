@@ -28,6 +28,16 @@
 {% endblock %}
 
 {% block app_content %}
+	<div id="editor-menu-wrapper">
+		<ul class="UI_Editor_Menu">
+			{% include "_base_app_menu_items.html" %}
+			{% comment %}
+			<li class="UI_Editor_Menu_Button Icon_new">
+				<a id="create" title="" href="#">New <span class="UI_Editor_Icon"></span></a>
+			</li>
+			{% endcomment %}
+		</ul>
+	</div> <!-- /editor-menu-wrapper -->
 	<div id="editor-wrapper">
 		<div id="package_description" class="UI_Editor_Area main">{{ revision.get_full_rendered_description|safe }}</div>
 		{% for module in revision.modules.all %}

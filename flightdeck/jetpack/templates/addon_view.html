@@ -1,8 +1,5 @@
 {% extends "view.html" %}
 
-{% block app_head %}
-{% endblock %}
-
 {% block app_sidebar %}
 	<section id="addon-info" class="UI_Sidebar_Item">
 		<h3 id="ji-toggler"><span>{{ revision.package.full_name }}</span></h3>
@@ -31,6 +28,21 @@
 {% endblock %}
 
 {% block app_content %}
+	<div id="editor-menu-wrapper">
+		<ul class="UI_Editor_Menu">
+			<li class="UI_Editor_Menu_Button Icon_try">
+				<a id="try_in_browser" title="" href="#">Try in browser 
+					<span class="UI_Editor_Icon"></span>
+				</a>
+			</li>
+			<li class="UI_Editor_Menu_Button Icon_download">
+				<a id="download" title="" href="#">Download 
+					<span class="UI_Editor_Icon"></span>
+				</a>
+			</li>
+			{% include "_base_app_menu_items.html" %}
+		</ul>
+	</div> <!-- /editor-menu-wrapper -->
 	<div id="editor-wrapper">
 		<div id="package_description" class="UI_Editor_Area main">{{ revision.get_full_rendered_description|safe }}</div>
 		{% with revision.get_main_module as module %}

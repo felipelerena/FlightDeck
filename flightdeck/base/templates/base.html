@@ -34,7 +34,7 @@
 				jp_addon_create_url: '{% url jp_addon_create %}',
 				jp_library_create_url: '{% url jp_library_create %}',
 				create_modal_template: '{% escape_template "_create.html" %}',
-				user: '{{ user }}', // was request.user - TODO: check
+				user: '{{ user.username }}', // was request.user - TODO: check
 				DEBUG: {{ settings.DEBUG|yesno:"true,false" }}
 			};
 			window.addEvent('domready', function() {
@@ -62,12 +62,7 @@
 			{% block app_menu %}
 				<div id="editor-menu-wrapper">
 					<ul class="UI_Editor_Menu minimal">
-						<li class="UI_Editor_Menu_Button Icon_new">
-							<a id="create_addon" title="" href="#">New extension<span class="UI_Editor_Icon"></span></a>
-						</li>
-						<li class="UI_Editor_Menu_Button Icon_new">
-							<a id="create_library" title="" href="#">New library<span class="UI_Editor_Icon"></span></a>
-						</li>
+						{% include "_base_app_menu_items.html" %}
 					</ul>
 				</div>
 			{% endblock %}
