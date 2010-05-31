@@ -48,9 +48,9 @@ urlpatterns = patterns('jetpack.views',
 
 	# test Add-on's PackageRevision
 	url(r'^addon/test/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
-		'package_create_xpi', name='jp_addon_revision_test'),
+		'package_test_xpi', name='jp_addon_revision_test'),
 	url(r'^addon/xpi/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
-		'package_create_xpi', name='jp_addon_revision_xpi'),
+		'package_download_xpi', name='jp_addon_revision_xpi'),
 	
 	# get and remove created XPI
 	url(r'^addon/test_xpi/(?P<sdk_name>.*)/(?P<pkg_name>.*)/(?P<filename>.*)/$', 

@@ -104,9 +104,9 @@ def package_create(r, type):
 				mimetype='application/json')
 
 	
-def package_create_xpi(r, id, revision_number=None, version_name=None):
+def package_test_xpi(r, id, revision_number=None, version_name=None):
 	"""
-	Edit package - only for the author
+	Test XPI from data saved in the database
 	"""
 	revision = get_object_with_related_or_404(PackageRevision, 
 						package__id_number=id, package__type='a',
@@ -138,6 +138,26 @@ def package_create_xpi(r, id, revision_number=None, version_name=None):
 				context_instance=RequestContext(r))
 			#	mimetype='application/json')
 	
+def package_download_xpi(r, id, revision_number=None, version_name=None):
+	"""
+	Edit package - only for the author
+	"""
+	revision = get_object_with_related_or_404(PackageRevision, 
+						package__id_number=id, package__type='a',
+						revision_number=revision_number)
+
+	(stdout, stderr) = revision.build_xpi()
+
+	if stderr and not settings.DEBUG:
+		xpi_remove(sdk_dir)
+
+	return download_xpi(r, 
+					revision.get_sdk_name(), 
+					revision.package.get_unique_package_name(), 
+					revision.package.name
+					)
+
+
 def test_xpi(r, sdk_name, pkg_name, filename):
 	"""
 	return XPI file for testing
@@ -153,7 +173,11 @@ def download_xpi(r, sdk_name, pkg_name, filename):
 	"""
 	path = '%s-%s/packages/%s' % (settings.SDKDIR_PREFIX, sdk_name, pkg_name)
 	file = '%s.xpi' % filename 
-	return serve(r, file, path, show_indexes=False)
+	response = serve(r, file, path, show_indexes=False)
+	response['Content-Type'] = 'application/octet-stream';
+	response['Content-Disposition'] = 'attachment; filename="%s.xpi"' % filename
+	return response
+ 
 
 
 def remove_xpi(r, sdk_name):
