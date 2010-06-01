@@ -14,7 +14,8 @@
 			</li>
 		{% else %}
 			<li {% if page == "signin" %}class="active"{% endif %}>
-				<span><a title="Login" href="/user/login/">Sign in</a></span>
+				<span><a title="Sign in" id="signin" href="/user/login/">Sign in</a></span>
+				<label for="signin" class="tip" title="Sign in">Use you Add-ons Mozilla credentials</label>
 			</li>
 		{% endif %}
 	</ul>

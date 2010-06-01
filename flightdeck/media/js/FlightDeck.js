@@ -29,6 +29,17 @@ var FlightDeck = new Class({
 				}
 			});
 		});
+		this.tips = new Tips({
+			fixed: true,
+			className: 'tooltip'
+		});
+		$$('label.tip').each(function(tip){
+			tip.hide();
+			var target = $(tip.get('for'));
+			target.store('tip:title', tip.get('title'));
+			target.store('tip:text', tip.get('html'));
+			this.tips.attach(target);
+		}, this);
 	},
 	/*
 	 * Method: testXPI
