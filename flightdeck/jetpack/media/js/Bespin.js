@@ -13,14 +13,15 @@ Class.refactor(FDEditor, {
 	initialize: function(options) {
 		this.previous(options);
 	},
-	initEditor: function() {
+	initEditor: function(editor_id) {
 		var self = this;
-		this.element = $(this.options.element);
-		this.editor_id = this.element.get('id');
+		this.editor_id = editor_id || this.options.element;
+		this.element = $(this.editor_id);
 		// register element's content
 		fd.editor_contents[this.editor_id] = this.element.get('text')
 		// mark hidden elements and record initial state
-		if (this.element.hasClass('main')) { 
+		if (this.options.activate) { 
+			$log('FD: activate {element}'.substitute(this.options));
 			fd.addEvent('bespinLoad', function() {
 				// show the embedded content 
 				self.show();

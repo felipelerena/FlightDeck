@@ -31,16 +31,46 @@ var Package = new Class({
 				// origin_url: '', // link to a revision used to created this one
 				// revision_author: '',
 			// modules: [] // a list of module filename, author pairs
+		file_selected_class: 'UI_File_Selected',
+		file_normal_class: 'UI_File_Normal',
+		file_listing_class: 'UI_File_Listing'
 	},
 	modules: {},
 	initialize: function(options) {
 		this.setOptions(options);
+		var file_selected_class = this.options.file_selected_class;
+		var file_normal_class = this.options.file_normal_class;
+		var switch_mode_on  = function() {
+			$$('.' + file_selected_class).each(function(el) {
+				el.switch_mode_off();
+			});
+			this.removeClass(file_normal_class)
+				.addClass(file_selected_class);
+		};
+		var switch_mode_off = function() {
+			this.removeClass(file_selected_class)
+				.addClass(file_normal_class);
+		};
+		$$('.'+this.options.file_listing_class + ' li').each(function(file_el) {
+			file_el.switch_mode_on = switch_mode_on;
+			file_el.switch_mode_off = switch_mode_off;
+		});
+		$$('.'+this.options.file_listing_class).each(function(container) { 
+			container.addEvent('click:relay(li a)', function(e, el) {
+				var li = $(el).getParent('li');
+				if (!li.switch_mode_on) li.switch_mode_on = switch_mode_on;
+				if (!li.switch_mode_off) li.switch_mode_off = switch_mode_off;
+				li.switch_mode_on();
+			});
+		});
 		this.instantiate_modules();
 	},
 	instantiate_modules: function() {
 		// iterate by modules and instantiate Module
+		var main_module;
 		this.options.modules.each(function(module) {
 			module.readonly = this.options.readonly;
+			if (!main_module) module.main = true;
 			this.modules[module.filename] = new Module(module);
 		}, this);
 	}
@@ -57,17 +87,26 @@ var Module = new Class({
 		// DOM
 			code_trigger_suffix: '_switch', // id of an element which is used to switch editors
 			code_editor_suffix: '_textarea', // id of the textarea
-		readonly: false
+		readonly: false,
+		main: false,
+		executable: false
 	},
 	initialize: function(options) {
 		this.setOptions(options);
 		// connect trigger with editor
 		if ($(this.get_trigger_id()) && $(this.get_editor_id())) {
-			this.code_id = $(this.get_editor_id());
+			this.textarea = $(this.get_editor_id());
+			this.trigger = $(this.get_trigger_id());
+			this.editor = new FDEditor({
+				element: this.get_editor_id(),
+				activate: this.options.main || this.options.executable,
+				type: 'js'
+			});
 			// connect trigger
-			$(this.get_trigger_id()).addEvent('click', function(e) {
+			this.trigger.addEvent('click', function(e) {
 				e.stop();
-				$log('switch editor');
+				// placeholder for switching editors
+				$log('switch editor placeholder');
 			});
 			if (!this.options.readonly) {
 				// here special functionality for edit page

@@ -1,6 +1,7 @@
 <li class="UI_File_Normal">
-	<a title="" href="#" class="Module_file" id="{{ module.filename }}_switch">
-		{{ module.filename }}<span class="File_status"></span><span class="File_close"></span>
+	<a title="" href="#" class="Module_file {{ readonly }}" id="{{ module.filename }}_switch">
+		{{ module.filename }}<span class="File_status"></span>
+		{% if not readonly %}<span class="File_close"></span>{% endif %}
 	</a>
 </li>
 
