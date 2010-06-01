@@ -104,7 +104,8 @@ var Module = new Class({
 			this.editor = new FDEditor({
 				element: this.get_editor_id(),
 				activate: this.options.main || this.options.executable,
-				type: this.options.type
+				type: this.options.type,
+				readonly: this.options.readonly
 			});
 			// connect trigger
 			this.trigger.addEvent('click', function(e) {
