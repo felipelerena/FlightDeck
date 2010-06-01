@@ -175,7 +175,7 @@ class PackageRevision(models.Model):
 		return '%s - %s %sr. %d by %s' % (
 									settings.PACKAGE_SINGULAR_NAMES[self.package.type],
 									self.package.full_name, version, 
-									self.revision_number, self.author
+									self.revision_number, self.author.get_profile()
 									)
 
 	def get_absolute_url(self):
