@@ -8,7 +8,7 @@
 		<div class="UI_Sidebar_ItemCont">
 			{% for library in libraries %}
 				<li class="UI_File_Normal">
-					<a title="" href="{{ library.get_absolute_url }} " class="library_link">
+					<a title="" href="{{ library.get_absolute_url }}" target="{{ library.package.name }}" class="library_link">
 						{{ library.package.full_name }}
 					</a>
 				</li>
