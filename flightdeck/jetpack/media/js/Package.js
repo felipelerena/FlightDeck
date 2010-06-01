@@ -140,6 +140,15 @@ Package.View = new Class({
 	initialize: function(options) {
 		this.setOptions(options);
 		this.parent(options);
+		$('package-info').addEvent('click', this.showInfo.bind(this));
+	},
+	/*
+	 * Method: showInfo
+	   display a window with info about current Package
+	 */
+	showInfo: function() {
+		$log(this.options.package_info);
+		fd.displayModal(this.options.package_info);
 	}
 });
 /*

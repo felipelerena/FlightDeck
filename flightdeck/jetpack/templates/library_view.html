@@ -31,7 +31,6 @@
 		</ul>
 	</div> <!-- /editor-menu-wrapper -->
 	<div id="editor-wrapper">
-		<div id="package_description" class="UI_Editor_Area main">{{ revision.get_full_rendered_description|safe }}</div>
 		{% for module in revision.modules.all %}
 			{% include "_module_code_textarea.html" %}
 		{% endfor %}

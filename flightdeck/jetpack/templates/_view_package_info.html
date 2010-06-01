@@ -1,0 +1,16 @@
+<div id='display-package-info'>
+	<h2>{{ revision.package.get_type_name }}: {{ revision.package.full_name }}</h2>
+	<p>author: <a href="{% url person_public_profile revision.package.author.username %}">{{ revision.package.author.get_profile }}</a></p> 
+	{% if revision.revision_number == revision.package.version.revision_number %}
+		<p>version: {{ revision.version_name }}</p>
+	{% else %}
+		<p>revision: {{ revision.revision_number }}</p>
+		<p>latest version: <a href="{{ revision.package.version.get_absolute_url|safe }}">{{ revision.package.version_name }}</a></p>
+	{% endif %}
+	{% if revision.package.latest.revision_number != revision.revision_number %}
+		<p>latest revision: <a href="{{ revision.package.latest.get_absolute_url|safe }}">{{ revision.package.latest.revision_number }}</a></p>
+	{% endif %}
+	<div class='description'>
+		{{ revision.get_full_description }}
+	</div>
+</div>

@@ -96,6 +96,9 @@ class Package(models.Model):
 	def is_addon(self):
 		return self.type == 'a'
 
+	def get_type_name(self):
+		return settings.PACKAGE_SINGULAR_NAMES[self.type]
+
 	def get_lib_dir(self):
 		return self.lib_dir or settings.DEFAULT_LIB_DIR
 
