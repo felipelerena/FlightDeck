@@ -1,6 +1,7 @@
 import os
 import csv
 import shutil
+
 from copy import deepcopy
 from exceptions import TypeError
 
@@ -452,6 +453,25 @@ class PackageRevision(models.Model):
 		# save as new version
 		self.save()
 		return self.dependencies.remove(dep)
+
+
+	def get_dependencies_list_json(self):
+		l = [{
+				'full_name': d.package.full_name, 
+				'view_url': d.get_absolute_url(),
+				'edit_url': d.get_edit_url()
+				} for d in self.dependencies.all()
+			] if len(self.dependencies.all()) > 0 else []
+		return simplejson.dumps(l)
+		
+	def get_modules_list_json(self):
+		l = [{
+				'filename': m.filename,
+				'author': m.author.username,
+				'executable': self.module_main == m.filename
+				} for m in self.modules.all()
+			] if len(self.modules.all()) > 0 else []
+		return simplejson.dumps(l)
 
 
 	def get_sdk_name(self):

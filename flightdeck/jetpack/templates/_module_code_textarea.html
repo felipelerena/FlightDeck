@@ -1,2 +1,2 @@
-<textarea {% if readonly %}readonly="readonly" {% endif %}id="module_{{ module.filename }}_code" class="UI_Editor_Area" name="module_{{ module.filename }}_code">{{ module.code }}</textarea>
+<textarea {% if readonly %}readonly="readonly" {% endif %}id="{{ module.filename }}_textarea" class="UI_Editor_Area" name="{{ module.filename }}_textarea">{{ module.code }}</textarea>
 

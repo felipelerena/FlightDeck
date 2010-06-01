@@ -14,3 +14,6 @@
 
 {# switch off default menu bar #}
 {% block app_menu %}{% endblock %}
+
+{# initialize package view #}
+{% block app_domready %}{% include "js/_view_package_initiate.js" %}{% endblock %}

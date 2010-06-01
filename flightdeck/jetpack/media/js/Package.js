@@ -42,7 +42,7 @@ var Package = new Class({
 		this.options.modules.each(function(module) {
 			module.readonly = this.options.readonly;
 			this.modules[module.filename] = new Module(module);
-		});
+		}, this);
 	}
 });
 
@@ -63,11 +63,7 @@ var Module = new Class({
 		this.setOptions(options);
 		// connect trigger with editor
 		if ($(this.get_trigger_id()) && $(this.get_editor_id())) {
-			// instantiate editor
-			this.editor = new FDEditor({
-				element: $(this.get_editor_id()),
-				readonly: this.options.readonly
-			});
+			this.code_id = $(this.get_editor_id());
 			// connect trigger
 			$(this.get_trigger_id()).addEvent('click', function(e) {
 				e.stop();
