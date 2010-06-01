@@ -138,6 +138,7 @@ def package_test_xpi(r, id, revision_number=None, version_name=None):
 				context_instance=RequestContext(r))
 			#	mimetype='application/json')
 	
+
 def package_download_xpi(r, id, revision_number=None, version_name=None):
 	"""
 	Edit package - only for the author
@@ -165,6 +166,7 @@ def test_xpi(r, sdk_name, pkg_name, filename):
 	path = '%s-%s/packages/%s' % (settings.SDKDIR_PREFIX, sdk_name, pkg_name)
 	file = '%s.xpi' % filename 
 	return serve(r, file, path, show_indexes=False)
+
 
 
 def download_xpi(r, sdk_name, pkg_name, filename):

@@ -1,5 +1,7 @@
 {% extends "view.html" %}
 
+{% block app_domready %}{% include "js/_view_package_initiate.js" %}{% endblock %}
+
 {% block app_sidebar %}
 	<section id="package-info" class="UI_Sidebar_Item">
 		<h3 id="ji-toggler"><span>{{ revision.package.full_name }}</span></h3>
@@ -12,7 +14,7 @@
 				<span class="UI_OC"></span>
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a></h3>
-			<div class="UI_Sidebar_ItemCont">
+			<div class="UI_Sidebar_ItemCont UI_File_Listing">
 				{% with revision.get_main_module as module %}
 					{% include "_sidebar_revision_module.html" %}
 				{% endwith %}
@@ -44,9 +46,11 @@
 		</ul>
 	</div> <!-- /editor-menu-wrapper -->
 	<div id="editor-wrapper">
+		{% comment %}
 		<div id="package_description" class="UI_Editor_Area main">
 			{{ revision.get_full_rendered_description|safe }}
 		</div>
+		{% endcomment %}
 		{% with revision.get_main_module as module %}
 			{% include "_module_code_textarea.html" %}
 		{% endwith %}

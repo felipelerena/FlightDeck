@@ -225,8 +225,8 @@ class PackageRevision(models.Model):
 	def get_full_description(self):
 		" return joined description "
 		description = self.package.description
-		#if self.description:
-		#	description = "%s\n%s" % (description, self.description)
+		if self.message:
+			description = "%s\n%s" % (description, self.message)
 		return description
 		
 	def get_full_rendered_description(self):
