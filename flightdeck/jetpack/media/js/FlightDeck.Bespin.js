@@ -8,7 +8,7 @@ var FDBespin = new Class({
 	initialize: function(element, options) {
 		var self = this;
 		this.setOptions(options);
-		var embedded = tiki.require('embedded');
+		var embedded = tiki.require('Embedded');
 		this.element = embedded.useBespin($(element), {syntax: 'plain'});
 		$log('FD: bespin instantiated', embedded, this.element);
 		/*
