@@ -70,7 +70,10 @@ var Package = new Class({
 		var main_module;
 		this.options.modules.each(function(module) {
 			module.readonly = this.options.readonly;
-			if (!main_module) module.main = true;
+			if (!main_module) {
+				module.main = true;
+				main_module = module;
+			}
 			this.modules[module.filename] = new Module(module);
 		}, this);
 	}
@@ -89,7 +92,8 @@ var Module = new Class({
 			code_editor_suffix: '_textarea', // id of the textarea
 		readonly: false,
 		main: false,
-		executable: false
+		executable: false,
+		type: 'js'
 	},
 	initialize: function(options) {
 		this.setOptions(options);
@@ -100,14 +104,14 @@ var Module = new Class({
 			this.editor = new FDEditor({
 				element: this.get_editor_id(),
 				activate: this.options.main || this.options.executable,
-				type: 'js'
+				type: this.options.type
 			});
 			// connect trigger
 			this.trigger.addEvent('click', function(e) {
 				e.stop();
 				// placeholder for switching editors
-				$log('switch editor placeholder');
-			});
+				fd.switchBespinEditor(this.get_editor_id(), this.options.type); 
+			}.bind(this));
 			if (!this.options.readonly) {
 				// here special functionality for edit page
 			}

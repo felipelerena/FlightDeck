@@ -301,6 +301,18 @@
         }
     }, 
     {
+        "pk": 12, 
+        "model": "jetpack.module", 
+        "fields": {
+            "code": "// additional module", 
+            "revisions": [
+                8
+            ], 
+            "author": 2, 
+            "filename": "additional-module"
+        }
+    }, 
+    {
         "pk": 5, 
         "model": "jetpack.module", 
         "fields": {
