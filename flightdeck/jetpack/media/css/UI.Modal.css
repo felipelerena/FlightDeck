@@ -45,6 +45,24 @@ authors:
          -moz-border-radius-topleft: 5px;
          -moz-border-radius-topright: 5px;
       }
+
+	  .UI_Modal .UI_Modal_Section {
+	  	padding: 14px;
+	  }
+
+	  .UI_Modal .UI_Modal_Section p {
+         padding-bottom: 10px;
+		 padding-top: 10px; 
+         border-bottom: solid 1px #BEC5CC;
+	  }
+
+	  .UI_Modal .UI_Modal_Section p:first-child {
+	     padding-top: 0px;
+	  }
+	  .UI_Modal .UI_Modal_Section .description {
+		 padding-top: 10px; 
+	  }
+
                               
       .UI_Modal .UI_Modal_Actions {
          border-top: solid 1px #fff;
