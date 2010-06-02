@@ -103,8 +103,9 @@ def package_edit(r, id, type, revision_number=None, version_name=None):
 	revision = get_package_revision(id, type, revision_number, version_name)
 	if r.user.pk != revision.author.pk:
 		return HttpResponseForbidden('You are not the author of this Package')
-	return HttpResponse('EDIT: %s' % revision)
 		
+	return render_to_response("%s_edit.html" % revision.package.get_type_name(), locals(),
+				context_instance=RequestContext(r))
 
 @require_POST
 @login_required

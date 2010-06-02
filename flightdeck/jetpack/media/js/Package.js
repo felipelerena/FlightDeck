@@ -30,7 +30,7 @@ var Package = new Class({
 				// dependecies: [], // list of names and urls
 				// origin_url: '', // link to a revision used to created this one
 				// revision_author: '',
-			// modules: [], // a list of module filename, author pairs
+				// modules: [], // a list of module filename, author pairs
 		readonly: false,
 		package_info_el: 'package-info'
 	},
@@ -127,15 +127,16 @@ Package.View = new Class({
 	 * Method: showInfo
 	   display a window with info about current Package
 	 */
-	showInfo: function() {
-		$log(this.options.package_info);
+	showInfo: function(e) {
+		e.stop();
 		fd.displayModal(this.options.package_info);
 	},
 	/*
 	 * Method: copyPackage
 	 * create a new Package with the same name for the current user
 	 */
-	copyPackage: function() {
+	copyPackage: function(e) {
+		e.stop();
 		if (!settings.user) {
 			fd.alertNotAuthenticated();
 			return;
@@ -162,6 +163,22 @@ Package.Edit = new Class({
 
 		// Actions
 			// save_url: '',
-			// 
+			// delete_url: '',
 	},
+	initialize: function(options) {
+		this.setOptions(options);
+		this.parent(options);
+		$(this.options.package_info_el).addEvent('click', this.editInfo.bind(this));
+		$(this.options.save_el).addEvent('click', this.save.bind(this));
+	},
+	editInfo: function(e) {
+		e.stop();
+		fd.displayModal(this.options.package_info);
+	},
+	save: function(e) {
+		e.stop();
+		fd.notImplemented()
+	}
+	
+
 });
