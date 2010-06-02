@@ -13,9 +13,11 @@
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a></h3>
 			<div class="UI_Sidebar_ItemCont UI_File_Listing">
-				{% for module in modules %}
-					{% include "_sidebar_revision_module.html" %}
-				{% endfor %}
+				{% with "Module_file_readonly" as readonly %}
+					{% for module in modules %}
+						{% include "_sidebar_revision_module.html" %}
+					{% endfor %}
+				{% endwith %}
 			</div>
 		{% endwith %}
 	</section>

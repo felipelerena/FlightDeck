@@ -10,8 +10,8 @@ var FDBespin = new Class({
 		this.setOptions(options);
 		var embedded = tiki.require('Embedded');
 		this.element = embedded.useBespin($(element), {syntax: 'plain'});
-		$log('FD: bespin instantiated', embedded, this.element);
-		/*
+		$log('FD: bespin instantiated');
+		// hook onChange event
 		this.element._editorView.getPath('layoutManager.textStorage')
 			.addDelegate(SC.Object.create({
 				textStorageEdited: function() {
@@ -19,7 +19,6 @@ var FDBespin = new Class({
 				}
 			}));
 		$log('FD: bespin onChange hooked');
-		*/
 		window.addEvent('resize', function() {
 			self.element.dimensionsChanged();
 		});
