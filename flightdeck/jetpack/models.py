@@ -271,7 +271,7 @@ class PackageRevision(models.Model):
 			'name': name,
 			'description': self.get_full_description(),
 			'author': self.package.author.username,
-			'id': self.package.id_number,
+			'id': self.package.jid if self.package.is_addon() else self.package.id_number,
 			'version': version,
 			'dependencies': self.get_dependencies_list(),
 			'license': self.package.license,
