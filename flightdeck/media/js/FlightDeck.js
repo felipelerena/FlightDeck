@@ -96,7 +96,10 @@ var FlightDeck = new Class({
 Request = Class.refactor(Request, {
 	options: {
 		onFailure: function(xhr) {
-			fd.error.alert('Error {status}'.substitute(xhr), xhr.statusText);
+			fd.error.alert(
+				'Error {status}'.substitute(xhr), 
+				'{statusText}<br/>{responseText}'.substitute(xhr)
+				);
 		}
 	}
 });
