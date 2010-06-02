@@ -152,7 +152,21 @@ class Package(models.Model):
 		if not os.path.isdir('%s/%s' % (package_dir, self.get_data_dir())):
 			os.mkdir('%s/%s' % (package_dir, self.get_data_dir()))
 		return package_dir
-
+	
+	def copy(self, author):
+		new_p = Package(
+			full_name=self.full_name,
+			description=self.description,
+			type=self.type,
+			author=author,
+			public_permission=self.public_permission,
+			url=self.url,
+			license=self.license,
+			lib_dir=self.lib_dir
+		)
+		new_p.save()
+		return new_p
+		
 
 
 class PackageRevision(models.Model):
@@ -237,7 +251,7 @@ class PackageRevision(models.Model):
 			'jp_%s_revision_copy' % self.package.get_type_name(), 
 			args=[self.package.id_number, self.revision_number])
 
-
+	
 
 
 	######################
@@ -320,17 +334,16 @@ class PackageRevision(models.Model):
 		return super(PackageRevision, self).save(**kwargs)
 
 	
-	def save_new_revision(self, **kwargs):
+	def save_new_revision(self, package=None, **kwargs):
 		" save self as new revision with link to the origin. "
 		origin = deepcopy(self)
+		if package:
+			self.package = package
+			self.author = package.author
 		self.id = None
 		self.version_name = None
 		self.origin = origin
 		self.revision_number = self.get_next_revision_number()
-		# a hook for future "branching"
-		if kwargs.has_key('user'):
-			self.author = kwargs['user']
-			del kwargs['user']
 
 		save_return = super(PackageRevision, self).save(**kwargs)
 		# reassign all dependencies
@@ -345,6 +358,8 @@ class PackageRevision(models.Model):
 
 		self.package.latest = self
 		self.package.save()
+		if package:
+			self.set_version('copy')
 		return save_return
 
 
@@ -409,10 +424,13 @@ class PackageRevision(models.Model):
 			raise FilenameExistException(
 				'module with filename %s already exists' % mod.filename
 			)
+		"""
+		I think it's not necessary
+		TODO: check integration
 		for rev in mod.revisions.all():
 			if rev.package.id_number != self.package.id_number:
 				raise AddingModuleDenied('this module is already assigned to other Library - %s' % rev.package.get_unique_package_name())
-			
+		"""
 		self.save()
 		return self.modules.add(mod)
 		

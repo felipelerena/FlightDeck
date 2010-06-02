@@ -86,8 +86,13 @@ def package_copy(r, id, type, revision_number=None, version_name=None):
 		return HttpResponseForbidden('You already have a %s with that name' % revision.package.get_type_name())
 	except:
 		""
+	package = revision.package.copy(r.user)
+	revision.save_new_revision(package)
 
-	return HttpResponse('EDIT: %s' % revision)
+	return render_to_response("json/%s_copied.json" % package.get_type_name(), 
+				{'revision': revision},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
 	
 
 @login_required

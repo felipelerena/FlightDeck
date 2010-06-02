@@ -1,0 +1,5 @@
+{
+	"message": "Library \"{{ revision.package.full_name }}\" copied",
+	"edit_url": "{{ revision.get_edit_url }}"
+}
+

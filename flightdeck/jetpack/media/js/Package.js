@@ -143,11 +143,7 @@ Package.View = new Class({
 		new Request.JSON({
 			url: this.options.copy_url,
 			onSuccess: function(response) {
-				if (response.error) {
-					fd.error.alert('Copying failed', response.error);
-					return;
-				}
-				window.location.href = response.package_edit_url;
+				window.location.href = response.edit_url;
 			}
 		}).send();
 	}
