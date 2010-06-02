@@ -81,6 +81,11 @@ FlightDeck = Class.refactor(FlightDeck,{
 			e.stop();
 			fd.warning.alert('Not Implemented',this.get('rel') || 'This feature is under construction');
 		});
+	},
+	/* default messages and errors */
+	alertNotAuthenticated: function(msg){
+		var message = msg || 'You\'ve got to be <a href="{person_login_url}">signed in</a> to perfom this action'.substitute(settings);
+		this.error.alert('Not authenticated', message);
 	}
 
 });

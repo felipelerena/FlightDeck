@@ -69,9 +69,26 @@ def package_details(r, id, type, revision_number=None, version_name=None):
 	"""
 	revision = get_package_revision(id, type, revision_number, version_name)
 	readonly = True
-	return render_to_response("%s_view.html" % settings.PACKAGE_SINGULAR_NAMES[type], locals(),
+	return render_to_response("%s_view.html" % revision.package.get_type_name(), locals(),
 				context_instance=RequestContext(r))
 		
+
+@login_required
+def package_copy(r, id, type, revision_number=None, version_name=None):
+	"""
+	Edit package - only for the author
+	"""
+	revision = get_package_revision(id, type, revision_number, version_name)
+	if r.user.pk == revision.author.pk:
+		return HttpResponseForbidden('You are the author of this %s' % revision.package.get_type_name())
+	try:
+		package = Package.objects.get(name=revision.package.name, author__username=r.user.username)
+		return HttpResponseForbidden('You already have a %s with that name' % revision.package.get_type_name())
+	except:
+		""
+
+	return HttpResponse('EDIT: %s' % revision)
+	
 
 @login_required
 def package_edit(r, id, type, revision_number=None, version_name=None):

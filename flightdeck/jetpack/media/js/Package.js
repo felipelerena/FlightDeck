@@ -30,7 +30,9 @@ var Package = new Class({
 				// dependecies: [], // list of names and urls
 				// origin_url: '', // link to a revision used to created this one
 				// revision_author: '',
-			// modules: [] // a list of module filename, author pairs
+			// modules: [], // a list of module filename, author pairs
+		readonly: false,
+		package_info_el: 'package-info'
 	},
 	modules: {},
 	initialize: function(options) {
@@ -111,12 +113,15 @@ Package.View = new Class({
 	Extends: Package,
 	Implements: [Options, Events],
 	options: {
-		readonly: true
+		readonly: true,
+		copy_el: 'package-copy',
+		// copy_url: '',
 	},
 	initialize: function(options) {
 		this.setOptions(options);
 		this.parent(options);
-		$('package-info').addEvent('click', this.showInfo.bind(this));
+		$(this.options.package_info_el).addEvent('click', this.showInfo.bind(this));
+		$(this.options.copy_el).addEvent('click', this.copyPackage.bind(this));
 	},
 	/*
 	 * Method: showInfo
@@ -125,24 +130,42 @@ Package.View = new Class({
 	showInfo: function() {
 		$log(this.options.package_info);
 		fd.displayModal(this.options.package_info);
+	},
+	/*
+	 * Method: copyPackage
+	 * create a new Package with the same name for the current user
+	 */
+	copyPackage: function() {
+		if (!settings.user) {
+			fd.alertNotAuthenticated();
+			return;
+		}
+		new Request.JSON({
+			url: this.options.copy_url,
+			onSuccess: function(response) {
+				if (response.error) {
+					fd.error.alert('Copying failed', response.error);
+					return;
+				}
+				window.location.href = response.package_edit_url;
+			}
+		}).send();
 	}
 });
-/*
+
+
 Package.Edit = new Class({
 	Extends: Package,
 	Implements: [Options, Events],
 	options: {
 		// DOM elements
 			save_el: 'package-save',
-			copy_el: 'package-copy',
 			menu_el: 'UI_Editor_Menu',
 			add_dependency_el: 'add_dependency_action',
 			add_dependency_input: 'add_dependency_input',
 
 		// Actions
 			// save_url: '',
-			// copy_url: '',
 			// 
 	},
 });
-*/

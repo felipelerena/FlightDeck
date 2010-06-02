@@ -232,6 +232,14 @@ class PackageRevision(models.Model):
 		return reverse(	
 			'jp_addon_revision_xpi', args=[self.package.id_number, self.revision_number])
 
+	def get_copy_url(self):
+		return reverse(
+			'jp_%s_revision_copy' % self.package.get_type_name(), 
+			args=[self.package.id_number, self.revision_number])
+
+
+
+
 	######################
 	# Manifest
 
