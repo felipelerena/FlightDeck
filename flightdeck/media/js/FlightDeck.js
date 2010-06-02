@@ -29,15 +29,21 @@ var FlightDeck = new Class({
 				}
 			});
 		});
+		
 		this.tips = new Tips({
-			fixed: true,
-			className: 'tooltip'
+			fixed: false,
+			className: 'UI_tooltip',
+			offset: {
+				x: 0,
+				y: 16
+			}
 		});
-		$$('label.tip').each(function(tip){
-			tip.hide();
-			var target = $(tip.get('for'));
-			target.store('tip:title', tip.get('title'));
-			target.store('tip:text', tip.get('html'));
+		
+		$$('div.UI_tooltip_source').each(function(tipSource){
+			tipSource.hide();
+			var target = $(tipSource.get('data-tooltip-for'));
+			target.store('tip:title', tipSource.get('data-tooltip-title'));
+			target.store('tip:text', tipSource.get('html'));
 			this.tips.attach(target);
 		}, this);
 	},
