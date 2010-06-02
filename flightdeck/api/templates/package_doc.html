@@ -2,23 +2,24 @@
 {% load base_helpers markup %}
 
 {% block app_sidebar %}
-	<section id='subject-name'>
-		<h2>{{ package.name }}</h2>
-	</section>
-	<section id='modules'>
-		<h3>Modules:</h3>
-		{% include "_modules_list.html" %}
-	</section>
+	<h2 class="UI_Heading"><a title="{{ package_name}}" href="{% url api_package package_name %}">{{ package.name }}</a></h2>
+	
+	<h3>Modules</h3>
+	{% include "_modules_list.html" %}
 {% endblock %}
 
 {% block app_content %}
-	{% for module in package.modules %}
-		<h3>{{ module.name }}</h3>
-		{# I believe this should be hidden by default #}
-		<div class='module-info'>
-			{{ module.info|markdown }}
-			<a href='{% url api_module package_name module.name %}'>show {{ module.name }} page</a>
-		</div>
-	{% endfor %}
-{% endblock %}
+	<h2 class="UI_Heading">Modules</h2>
 
+	<div id="api-body">
+		{% for module in package.modules %}
+			<dl id="{{ module.name }}">
+				<dt class="ModuleInfo_"><a title="{{ module.name }}" href="#{{ module.name }}">{{ module.name }}</a></dt>
+				<dd>
+					{{ module.info|markdown }}
+					<a title="Go to {{ module.name }}" href="{% url api_module package_name module.name %}">Go to {{ module.name }}</a>
+				</dd>
+			</dl>
+		{% endfor %}
+	</div>
+{% endblock %}

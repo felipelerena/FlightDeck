@@ -2,27 +2,29 @@
 {% load base_helpers markup %}
 
 {% block app_sidebar %}
-	<section id='subject-name'>
-		<h2><a href='{% url api_package package_name %}'>{{ package_name}}</a>:{{ module.name }}</h2>
-	</section>
-	<section id='modules'>
-		<h3>Modules:</h3>
-		{% include "_modules_list.html" %}
-	</section>
+	<h2 class="UI_Heading"><a title="{{ package_name}}" href="{% url api_package package_name %}">{{ package_name}}</a><!-- : {{ module.name }} --></h2>
+	
+	<h3>Modules</h3>
+	{% include "_modules_list.html" %}
 {% endblock %}
 
 {% block app_content %}
-	<h3>Module {{ module_name }}</h3>
-	<div class='module-info'>
-		<p>{{ module.info|markdown }}</p>
-	</div>
-	{% for entity in module.data %}
-		<h3 class='{{ entity.type }}'>{{ entity.type }}: {{ entity.name }}</h3>
-		{# I believe this should be hidden by default #}
-		<div class='module-info'>
-			<p>{% include entity.template %}</p>
-		</div>
-	{% endfor %}
-	</dl>
-{% endblock %}
+	<h2 class="UI_Heading">Module {{ module_name }}</h2>
+	
+	<div id="api-body">
 
+		<div class="UI_ModuleInfo markdown">
+			{{ module.info|markdown }}
+		</div>
+		
+		{% for entity in module.data %}
+			<dl id="{{ entity.name }}">
+				<dt class="ModuleInfo_{{ entity.type }}">{{ entity.type }}: <a title="{{ entity.name }}" href="#{{ entity.name }}">{{ entity.name }}</a></dt>
+				<dd>
+					{% include entity.template %}
+				</dd>
+			</dl>
+		{% endfor %}
+		
+	</div>
+{% endblock %}

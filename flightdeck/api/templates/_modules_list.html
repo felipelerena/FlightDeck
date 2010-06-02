@@ -1,6 +1,6 @@
-<ul>
+<ul class="UI_Action_List">
 {% for module in package.modules %}
-	<li><a href='{% url api_module package_name module.name %}'>{{ module.name }}</a></li>
+	<li><a title="{{ module.name }}" href="{% url api_module package_name module.name %}">{{ module.name }}</a></li>
 {% endfor %}
 </ul>
 
