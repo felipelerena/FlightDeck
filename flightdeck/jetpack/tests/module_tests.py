@@ -411,11 +411,11 @@ class ManifestsTest(PackageTestCase):
 		'name': TEST_ADDON_NAME,
 		'description': '',
 		'author': TEST_USERNAME,
-		'id': str(settings.MINIMUM_PACKAGE_ID),
 		'version': settings.INITIAL_VERSION_NAME,
 		'dependencies': ['jetpack-core'],
 		'license': '',
 		'url': '',
+		'main': 'main',
 		'contributors': [],
 		'lib': 'lib'
 	}
@@ -423,20 +423,12 @@ class ManifestsTest(PackageTestCase):
 	def test_minimal_manifest(self):
 		" test if self.manifest is created for the clean addon "
 		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
+
 		manifest = deepcopy(self.manifest)
-		manifest['main'] = 'main'
-		self.assertEqual(manifest, first.get_manifest())
+		first_manifest = first.get_manifest()
+		del first_manifest['id']
+		self.assertEqual(manifest, first_manifest)
 
-
-	def test_manifest_tested(self):
-		first = PackageRevision.objects.filter(package__name=self.addon.name)[0]
-		
-		manifest = deepcopy(self.manifest)
-		manifest['main'] = 'main'
-		manifest['version'] = "%s - test" % settings.INITIAL_VERSION_NAME
-
-		self.assertEqual(manifest, first.get_manifest(True))
-		
 
 	def test_manifest_from_not_current_revision(self):
 		" test if the version in the manifest changes after 'updating' PackageRevision "
@@ -444,10 +436,11 @@ class ManifestsTest(PackageTestCase):
 		first.save()
 
 		manifest = deepcopy(self.manifest)
-		manifest['main'] = 'main'
 		manifest['version'] = "%s rev. 1" % settings.INITIAL_VERSION_NAME
 
-		self.assertEqual(manifest, first.get_manifest())
+		first_manifest = first.get_manifest()
+		del first_manifest['id']
+		self.assertEqual(manifest, first_manifest)
 
 
 	def test_manifest_with_dependency(self):
@@ -457,11 +450,12 @@ class ManifestsTest(PackageTestCase):
 		first.dependency_add(lib)
 
 		manifest = deepcopy(self.manifest)
-		manifest['main'] = 'main'
 		manifest['dependencies'].append('%s-%d' % (TEST_LIBRARY_NAME, settings.MINIMUM_PACKAGE_ID + 1))
 		manifest['version'] = "%s rev. 1" % settings.INITIAL_VERSION_NAME
 
-		self.assertEqual(manifest, first.get_manifest())
+		first_manifest = first.get_manifest()
+		del first_manifest['id']
+		self.assertEqual(manifest, first_manifest)
 
 	def test_contributors_list(self):
 		" test if the contributors list is exported properly "
@@ -470,11 +464,12 @@ class ManifestsTest(PackageTestCase):
 		first.save()
 
 		manifest = deepcopy(self.manifest)
-		manifest['main'] = 'main'
 		manifest['version'] = "%s rev. 1" % settings.INITIAL_VERSION_NAME
 		manifest['contributors'] = ['one', '12345', 'two words', 'no space']
 
-		self.assertEqual(manifest, first.get_manifest())
+		first_manifest = first.get_manifest()
+		del first_manifest['id']
+		self.assertEqual(manifest, first_manifest)
 		
 
 class XPIBuildTest(PackageTest):
