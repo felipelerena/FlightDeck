@@ -1,4 +1,5 @@
 /*
+ * DEPRECATED - will be removed
  * File: jetpack/CapDependency.js
  */
 

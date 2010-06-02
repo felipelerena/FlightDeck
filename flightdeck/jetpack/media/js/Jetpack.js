@@ -1,4 +1,5 @@
 /*
+ * DEPRECATED - will be removed
  * Class representing the Jetpack only 
  * Prepare the editor, save, update
  */
