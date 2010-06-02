@@ -113,6 +113,7 @@ then
 	ln -fs $V_ENV/src/jetpack-sdk/packages $V_ENV/packages
 	# link libs unable to install via pip
 	ln -fs $V_ENV/src/jetpack-sdk/python-lib/cuddlefish $SITE_PACKAGES/cuddlefish
+	ln -fs $V_ENV/src/jetpack-sdk/python-lib/ecdsa $SITE_PACKAGES/ecdsa
 	# link static files
 	ln -fs $V_ENV/src/jetpack-sdk/static-files $V_ENV/static-files
 fi

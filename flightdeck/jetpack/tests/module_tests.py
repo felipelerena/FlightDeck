@@ -604,6 +604,7 @@ class XPIBuildTest(PackageTest):
 					'%s/packages/%s' % (SDKDIR, self.addon.get_unique_package_name()))
 		# assert no error output
 		self.assertEqual('', out[1])
+		self.failUnless(out[0])
 		# assert xpi was created
 		self.failUnless(os.path.isfile('%s/packages/%s/%s.xpi' % (
 			SDKDIR, self.addon.get_unique_package_name(), self.addon.name)))

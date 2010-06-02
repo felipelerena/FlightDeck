@@ -74,6 +74,10 @@ class Package(models.Model):
 	version = models.ForeignKey('PackageRevision', blank=True, null=True, related_name='package_deprecated')
 	latest = models.ForeignKey('PackageRevision', blank=True, null=True, related_name='package_deprecated2')
 
+	private_key = models.TextField(blank=True, null=True)
+	public_key = models.TextField(blank=True, null=True)
+	jid = models.CharField(max_length=255, blank=True, null=True)
+	program_id = models.CharField(max_length=255, blank=True, null=True)
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	last_update = models.DateTimeField(auto_now=True)
@@ -121,6 +125,21 @@ class Package(models.Model):
 		all_packages = Package.objects.all().order_by('-id_number')
 		return str(int(all_packages[0].id_number) + 1) if all_packages else str(settings.MINIMUM_PACKAGE_ID)
 
+	def generate_key(self):
+		"""
+		create keypair, program_id and jid
+		"""
+		from ecdsa import SigningKey, NIST256p
+		from cuddlefish.preflight import vk_to_jid, jid_to_programid, my_b32encode
+
+		sk = SigningKey.generate(curve=NIST256p)
+		sk_text = "private-jid0-%s" % my_b32encode(sk.to_string())
+		vk = sk.get_verifying_key()
+		vk_text = "public-jid0-%s" % my_b32encode(vk.to_string())
+		self.jid = vk_to_jid(vk)
+		self.program_id = jid_to_programid(self.jid)
+		self.private_key = sk_text
+		self.public_key = vk_text
 
 	def make_dir(self, packages_dir):
 		"""
@@ -618,11 +637,14 @@ def set_package_id_number(instance, **kwargs):
 pre_save.connect(set_package_id_number, sender=Package)
 
 
-def make_name_on_create(instance, **kwargs):
+def make_name_and_keypair_on_create(instance, **kwargs):
 	if kwargs.get('raw',False): return
 	if not instance.name:
 		instance.set_name()
-pre_save.connect(make_name_on_create, sender=Package)
+		if instance.is_addon():
+			instance.generate_key()
+
+pre_save.connect(make_name_and_keypair_on_create, sender=Package)
 
 
 def save_first_revision(instance, **kwargs):
