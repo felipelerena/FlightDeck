@@ -43,30 +43,32 @@
 		<div class="UI_LE_Col">
 			{% if addons %}
 				<h2 class="UI_Heading">Recent Add-ons</h2>
+				
 				<ul class="UI_Browser">
 					{% for item in addons %}
 						<li class="UI_Item">{% include "_package_browser_addon.html" %}</li>
 					{% endfor %}
-				</ul>
-				<p>
-					<a class="UI_SeeMore" title="See more" href="{% url jp_browser_addons %}">Browse</a>
-				</p>
+				</ul> <!-- /UI_Browser -->
+				
+				<ul class="UI_SeeMore">
+					<li><a title="Browse add-ons" href="{% url jp_browser_addons %}">Browse add-ons</a></li>
+				</ul> <!-- /UI_SeeMore -->
 			{% endif %}
-		</div>
+		</div> <!-- /UI_LE_Col -->
 		<div class="UI_LE_Col">
 			{% if libraries %}
-				<h2 class="UI_Heading">Recent Libraries 
-				</h2>
+				<h2 class="UI_Heading">Recent Libraries</h2>
+				
 				<ul class="UI_Browser">
 					{% for item in libraries %}
 						<li class="UI_Item">{% include "_package_browser_library.html" %}</li>
 					{% endfor %}
-				</ul>
-				<p>
-					<a class="UI_SeeMore" title="See more" href="{% url jp_browser_libraries %}">Browse</a>
-				</p>
+				</ul> <!-- /UI_Browser -->
+				
+				<ul class="UI_SeeMore">
+					<li><a title="Browse libraries" href="{% url jp_browser_libraries %}">Browse libraries</a></li>
+				</ul> <!-- /UI_SeeMore -->
 			{% endif %}
-			
-		</div>
+		</div> <!-- /UI_LE_Col -->
 	</div>
 {% endblock %}

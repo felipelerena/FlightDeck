@@ -78,6 +78,7 @@
 	.UI_LE_Col {
 		width: 48.8%;
 		float: left;
+		margin-bottom: 30px;
 	}
 	
 	.UI_LE_Col:last-child {
