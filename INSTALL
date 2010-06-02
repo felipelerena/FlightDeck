@@ -15,6 +15,7 @@ these steps (some commands are specific to Ubuntu with Bash):
 2. Initiate configuration files
    $ cd /path/to/projects/FlightDeck
    $ ./scripts/initiate.sh
+   # edit all ./scripts/*_local.sh files so they will suit your system
 
 3. Install python-setuptools python-dev build-essential libmysqlclient-dev graphviz wget
    $ sudo apt-get install subversion mercurial python-setuptools python-dev build-essential libmysqlclient-dev wget
