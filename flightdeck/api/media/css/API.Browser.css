@@ -17,7 +17,7 @@ body {
 		font-weight: bold;
 		border-bottom: 1px solid #E9EDF0;
 		padding-bottom: 3px;
-		margin-bottom: 8px;
+		margin-bottom: 15px;
 	}
 	
 
@@ -45,7 +45,7 @@ body {
 			margin: 0 0 8px;
 			font-size: 1.0em;
 		}
-	
+			
 	#api-body em {
 		font-style: normal;
 	}
@@ -80,12 +80,19 @@ body {
 		
 			#api-body dd dl {
 				margin-left: 20px;
+				font-size: .9em;
 			}
 			
 				#api-body dd dl dt {
 					font-weight: bold;
+					color: #666;
 					margin: 0;
 				}
+				
+					#api-body h4 {
+						font-weight: bold;
+					}
+				
 		
 	#api-body pre {
 		border: solid 1px #ECEFF5;

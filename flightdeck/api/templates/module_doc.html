@@ -19,7 +19,7 @@
 		
 		{% for entity in module.data %}
 			<dl id="{{ entity.name }}">
-				<dt class="ModuleInfo_{{ entity.type }}">{{ entity.type }}: <a title="" href="#{{ entity.name }}">{{ entity.name }}</a></dt>
+				<dt class="ModuleInfo_{{ entity.type }}">{{ entity.type }}: <a title="{{ entity.name }}" href="#{{ entity.name }}">{{ entity.name }}</a></dt>
 				<dd>
 					{% include entity.template %}
 				</dd>
@@ -27,6 +27,4 @@
 		{% endfor %}
 		
 	</div>
-	
 {% endblock %}
-
