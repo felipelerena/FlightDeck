@@ -1,27 +1,101 @@
+body {
+	background-image: none;
+}
+
 #app-content a,
 #app-sidebar a {
 	color:#478CDE;
 }
-#app-content h3 { 
-	margin-left: 10px;
-	margin-top: 5px;
-	font-weight: bold;
-	cursor: pointer;
-}
-#app-content h3:hover { 
-	background: #E5E9EE;
-}
-#app-content .module-info {
-	margin-left: 10px;
-}
-#subject-name {
-	margin: 10px;
-	font-weight: bold;
-}
-#modules {
-	margin: 10px;
-}
-#modules h3 {
-	font-weight: bold;
+
+#app-sidebar {
+	border: none;
+	padding: 0 0 0 15px;
+	width: 200px;
 }
 
+	#app-sidebar h3 {
+		font-weight: bold;
+		border-bottom: 1px solid #E9EDF0;
+		padding-bottom: 3px;
+		margin-bottom: 8px;
+	}
+	
+
+#app-body {
+	margin-top: 20px;
+	margin-right: 20px;
+}
+
+#api-body {
+	
+}
+
+	#api-body .markdown {
+		
+	}
+	
+		#api-body .markdown h2 {
+			font-weight: bold;
+			margin: 10px 0 8px;
+			font-size: 1.2em;
+		}
+		
+		#api-body .markdown h3 {
+			font-weight: bold;
+			margin: 0 0 8px;
+			font-size: 1.0em;
+		}
+	
+	#api-body em {
+		font-style: normal;
+	}
+
+	#api-body p {
+		line-height: 20px;
+		color: #666;
+		margin: 10px 0;
+		font-size: .95em;
+	}
+
+		#api-body p code {
+			-moz-border-radius: 3px;
+			background: #ECEFF5;
+			padding: 2px 5px;
+			font-size: .85em;
+			font-family: 'Monaco', Courier, Monospace;
+		}
+		
+	#api-body dl {
+		margin: 10px 0 0;
+	}
+	
+		#api-body dt.ModuleInfo_method {
+			font-weight: bold;
+			margin: 0 0 10px;
+			font-size: 1.0em;
+		}
+		
+		#api-body dd {
+		}
+		
+			#api-body dd dl {
+				margin-left: 20px;
+			}
+			
+				#api-body dd dl dt {
+					font-weight: bold;
+					margin: 0;
+				}
+		
+	#api-body pre {
+		border: solid 1px #ECEFF5;
+		padding: 6px;
+		font-size: .85em;
+		font-family: 'Monaco', Courier, Monospace;
+		-moz-border-radius: 3px;
+		background: #ECEFF5;
+	}
+	
+		#api-body pre code {
+			font-family: 'Monaco', Courier, Monospace;
+		}
