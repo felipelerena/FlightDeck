@@ -165,7 +165,7 @@ a:hover {
 		cursor: pointer;
 	}
 
-		#package-info #ji-toggler span {
+		#package-info #ji-toggler a {
 			display: block;
 			background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
 			border-top: solid 1px #9CC7F8;

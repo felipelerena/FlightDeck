@@ -111,6 +111,9 @@ authors:
 		-moz-box-shadow: 0 -1px 0 #59A1F2;
 	}
 	
+		.UI_Editor_Menu_Button.Icon_new.Icon_new_extension a .UI_Editor_Icon {
+			background-position: 0 -17px;
+		}
 
 	.UI_Editor_Menu_Button.Icon_new a .UI_Editor_Icon {
 		background-position: 0 0;
