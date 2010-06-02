@@ -15,20 +15,23 @@
 
 	<div class="UI_Login">
 		
-	
 		<form class="UI_Forms" id="login_form" method="post" action="{% url django.contrib.auth.views.login %}" accept-charset="utf-8">
 			{% csrf_token %}
 			<fieldset>
 				<legend>Login</legend>
-				{% if settings.AMO_LIMITED_ACCESS %}
-					<p>
-						FlightDeck is currently limiting its userbase. <br/>
-						<strong>You will not be able to login if you're not on the list</strong>.
-					</p>
-				{% endif %}
-				<p>Log in to the Firefox Add-On Builder with your <a href="https://addons.mozilla.org">addons.mozilla.org</a>.</p>
-				<p>Don't have an account? <a href="">Get one</a>.</p>
-
+				
+				<div class="UI_Forms_info">
+					{% if settings.AMO_LIMITED_ACCESS %}
+						<p>
+							FlightDeck is currently limiting its userbase.<br />
+							<strong>You will not be able to login if you're not on the list</strong>.
+						</p>
+					{% endif %}
+					
+					<p>Log in to the Firefox Add-On Builder with your <a title="Go to addons.mozilla.org" href="https://addons.mozilla.org">addons.mozilla.org</a>.</p>
+					<p>Don't have an account? <a title="Create a new account" href="#">Get one</a>.</p>
+				</div>
+				
 				<p class="UI_Field">
 					<label for="id_username">Email</label>
 					{{ form.username }}
@@ -42,9 +45,9 @@
 
 			<div class="UI_Form_Actions">
 				<input type="hidden" name="next" value="{{ next }}" />
-			
+
 				<ul>
-					<li><input type="submit" name="save" value="Login" /></li>
+					<li><input type="submit" name="save" value="Sign in" /></li>
 				</ul>
 			</div> <!-- /UI_Form_Actions -->
 		</form> <!-- /UI_Forms -->
