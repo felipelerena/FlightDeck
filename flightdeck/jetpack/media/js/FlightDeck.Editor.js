@@ -31,10 +31,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 			file_el.switch_mode_off = switch_mode_off;
 		});
 		$$('.'+this.options.file_listing_class).each(function(container) { 
-			$log(container);
-			$log(container.getElements('li a'));
 			container.addEvent('click:relay(li a)', function(e, el) {
-				$log('click');
 				var li = $(el).getParent('li');
 				// assign switch_mode_on to newly created modules
 				if (!li.switch_mode_on) li.switch_mode_on = switch_mode_on;

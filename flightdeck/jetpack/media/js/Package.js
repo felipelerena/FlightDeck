@@ -82,10 +82,13 @@ var Module = new Class({
 			});
 			// connect trigger
 			this.trigger.addEvent('click', function(e) {
-				e.stop();
+				e.preventDefault();
 				// placeholder for switching editors
 				fd.switchBespinEditor(this.get_editor_id(), this.options.type); 
 			}.bind(this));
+			if (this.options.main || this.options.executable) {
+				this.trigger.getParent('li').switch_mode_on();
+			}
 			if (!this.options.readonly) {
 				// here special functionality for edit page
 			}
