@@ -165,7 +165,7 @@ a:hover {
 		cursor: pointer;
 	}
 
-		#package-info #ji-toggler span {
+		#package-info #ji-toggler a {
 			display: block;
 			background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
 			border-top: solid 1px #9CC7F8;
@@ -194,14 +194,41 @@ a:hover {
 	font-family: Helvetica, Arial, Tahoma, sans-serif;
 }
 
-	.UI_Heading .UI_SeeMore {
-		font-size: .7em;
+/*
+ =========================================================================== */
+.UI_SeeMore a {
+	font-size: .9em;
+	font-weight: bold;
+	color: #478CDE;
+	display: inline-block;
+	color: #478CDE;
+	padding-bottom: 1px;
+	border-bottom: solid 1px #E9EDF0;
+}
+
+.UI_SeeMore a:hover {
+	text-decoration: none;
+	color: #3E464D;
+	border-bottom: solid 1px #478CDE;
+}
+
+/*
+ =========================================================================== */
+.UI_tooltip {
+	padding: 6px;
+	background: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	font-size: .9em;
+	text-shadow: 0 1px 0 #000;
+	min-width: 120px;
+	-moz-border-radius: 3px;
+}
+
+	.UI_tooltip .tip-title {
 		font-weight: bold;
-		color: #478CDE;
-		margin: 0 0 0 5px;
-		text-transform: lowercase;
+		margin-bottom: 5px;
 	}
-	
+
 /*
  =========================================================================== */
 .UI_Action_List {
