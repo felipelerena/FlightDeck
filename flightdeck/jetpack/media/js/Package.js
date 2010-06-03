@@ -190,7 +190,6 @@ Package.Edit = new Class({
 		}.bind(this));
 		// XXX: hack to get the right data in the form
 		$each(this.data, function(value, key) {
-			$log(key, value)
 			if ($(key)) $(key).value = value;
 		})
 	},
@@ -221,7 +220,6 @@ Package.Edit = new Class({
 			onSuccess: function(response) {
 				// change the URL add #/path/to/saved/revision
 				fd.uri.setData({'redirect': response.edit_url}, false, 'fragment');
-				$log(fd.uri.toString());
 				fd.uri.go();
 				fd.message.alert(response.message_title, response.message);
 				// set data changed by save
@@ -231,7 +229,6 @@ Package.Edit = new Class({
 				this.options.package_info_form_elements.each(function(key) {
 					if ($defined(response[key])) {
 						this.data[key] = response[key]
-						$log(key, response[key])
 					}
 				}, this);
 				if (fd.editPackageInfoModal) fd.editPackageInfoModal.destroy();
