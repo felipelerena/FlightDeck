@@ -107,6 +107,59 @@ def package_edit(r, id, type, revision_number=None, version_name=None):
 	return render_to_response("%s_edit.html" % revision.package.get_type_name(), locals(),
 				context_instance=RequestContext(r))
 
+
+@require_POST
+@login_required
+def package_save(r, id, type, revision_number=None, version_name=None):
+	"""
+	Save package and modules
+	"""
+	revision = get_package_revision(id, type, revision_number, version_name)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this Package')
+
+	save_revision = False
+	save_package = False
+
+	response_data = {}
+
+	package_description = r.POST.get('package_description', False)
+	if package_description:
+		save_package = True
+		revision.package.description = package_description
+		response_data['package_description'] = package_description
+
+	revision_message = r.POST.get('revision_message', False)
+	if revision_message:
+		save_revision = True
+		revision.message = revision_message
+		response_data['revision_message'] = revision_message
+
+	for mod in revision.modules.all():
+		if r.POST.get(mod.filename, False):
+			mod.code = r.POST[mod.filename]
+			revision.module_update(mod)
+			save_revision = False
+
+	if save_revision:
+		revision.save()
+
+	version_name = r.POST.get('version_name', False)
+	if version_name and version_name != revision.version_name:
+		save_package = False
+		revision.set_version(version_name)
+
+	if save_package:
+		revision.package.save()
+	
+	response_data['version_name'] = revision.version_name if revision.version_name else ""
+
+	return render_to_response("package_saved.json", locals(),
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
+
+
 @require_POST
 @login_required
 def package_create(r, type):
@@ -126,7 +179,11 @@ def package_create(r, type):
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 
-	
+
+
+# ---------------------------- XPI ---------------------------------
+
+
 def package_test_xpi(r, id, revision_number=None, version_name=None):
 	"""
 	Test XPI from data saved in the database

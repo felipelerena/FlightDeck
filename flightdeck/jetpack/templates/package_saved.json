@@ -1,0 +1,8 @@
+{
+	{% for key, value in response_data.items %}"{{ key }}": "{{ value|escapejs }}",
+	{% endfor %}
+	"message_title": "{{ revision.package.get_type_name }} saved",
+	"message": "xxx",
+	"edit_url": "{{ revision.get_edit_url }}",
+	"save_url": "{{ revision.get_save_url }}"
+}

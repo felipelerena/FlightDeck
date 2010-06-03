@@ -11,6 +11,10 @@ var FlightDeck = new Class({
 		//user: ''
 	},
 	initialize: function() {
+		this.uri = new URI();
+		if (this.uri.getData('redirect','fragment')) {
+			window.location.href = this.uri.getData('redirect', 'fragment');
+		}
 		this.warning = this.error = this.message = {
 			'alert': function(title, message) {
 				alert(title+"\n"+message);

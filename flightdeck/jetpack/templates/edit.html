@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load base_helpers %}
 
 {% block head %}
 	<title>Edit {{ revision }} - {{ settings.SITE_TITLE }}</title>
@@ -18,4 +19,9 @@
 
 {# initialize package view #}
 {% block app_domready %}{% include "js/_edit_package_initiate.js" %}{% endblock %}
+
+{# get package_info_form_template #}
+{% block app_settings %}
+	edit_package_info_template: '{% escape_template "_edit_package_info.html" %}',
+{% endblock %}
 
