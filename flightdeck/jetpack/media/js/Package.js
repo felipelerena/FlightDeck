@@ -187,16 +187,17 @@ Package.Edit = new Class({
 		$('package-info_form').addEvent('submit', this.boundSubmit);
 		$('savenow').addEvent('click', function() {
 			this.savenow = true;
+		}.bind(this));
 		// XXX: hack to get the right data in the form
 		$each(this.data, function(value, key) {
+			$log(key, value)
 			if ($(key)) $(key).value = value;
 		})
-		}.bind(this));
 	},
 	submit: function(e) {
 		e.stop();
 		// collect data from the Modal
-		this.options.package_info_form_elements.each( function(key) {
+		this.options.package_info_form_elements.each(function(key) {
 			this.data[key] = $(key).value;
 		}, this);
 		// check if save should be called
@@ -227,12 +228,13 @@ Package.Edit = new Class({
 				this.save_url = response.save_url;
 				// clean data leaving package_info data
 				this.data = {};
-				$each(this.package_info_form_elements, function(key) {
-					if (response[key]) {
+				this.options.package_info_form_elements.each(function(key) {
+					if ($defined(response[key])) {
 						this.data[key] = response[key]
+						$log(key, response[key])
 					}
 				}, this);
-				fd.editPackageInfoModal.destroy();
+				if (fd.editPackageInfoModal) fd.editPackageInfoModal.destroy();
 			}.bind(this)
 		}).send();
 	}

@@ -120,6 +120,7 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 
 	save_revision = False
 	save_package = False
+	start_version_name = revision.version_name
 
 	response_data = {}
 
@@ -145,7 +146,7 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 		revision.save()
 
 	version_name = r.POST.get('version_name', False)
-	if version_name and version_name != revision.version_name:
+	if version_name and version_name != start_version_name:
 		save_package = False
 		revision.set_version(version_name)
 
