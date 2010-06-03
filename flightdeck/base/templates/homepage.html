@@ -40,6 +40,8 @@
 	</div> <!-- /feature-wrapper -->
 	
 	<div id="libs-and-extensions">
+		<h2 class="UI_Heading large">Get ideas <span>Browse <a title="Browse Add-ons" href="{% url jp_browser_addons %}">Add-ons</a> and <a title="Browse Libraries" href="{% url jp_browser_libraries %}">Libraries</a> (APIs)</span></h2>
+		
 		<div class="UI_LE_Col">
 			{% if addons %}
 				<h2 class="UI_Heading">Recent Add-ons</h2>
@@ -51,10 +53,11 @@
 				</ul> <!-- /UI_Browser -->
 				
 				<ul class="UI_SeeMore">
-					<li><a title="Browse add-ons" href="{% url jp_browser_addons %}">Browse add-ons</a></li>
+					<li><a title="Browse Add-ons" href="{% url jp_browser_addons %}">Browse Add-ons</a></li>
 				</ul> <!-- /UI_SeeMore -->
 			{% endif %}
 		</div> <!-- /UI_LE_Col -->
+		
 		<div class="UI_LE_Col">
 			{% if libraries %}
 				<h2 class="UI_Heading">Recent Libraries</h2>
@@ -66,9 +69,13 @@
 				</ul> <!-- /UI_Browser -->
 				
 				<ul class="UI_SeeMore">
-					<li><a title="Browse libraries" href="{% url jp_browser_libraries %}">Browse libraries</a></li>
+					<li><a title="Browse Libraries" href="{% url jp_browser_libraries %}">Browse Libraries</a></li>
 				</ul> <!-- /UI_SeeMore -->
 			{% endif %}
 		</div> <!-- /UI_LE_Col -->
 	</div>
+	
+	<h2 class="UI_Heading medium">Prefer the command-line? Want to work locally?</h2>
+	
+	<a id="download-sdk" title="Download Add-on Builder SDK" href="#">Download Add-on Builder SDK</a>
 {% endblock %}
