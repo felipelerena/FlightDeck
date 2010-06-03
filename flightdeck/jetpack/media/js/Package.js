@@ -170,6 +170,11 @@ Package.Edit = new Class({
 		this.parent(options);
 		$(this.options.package_info_el).addEvent('click', this.editInfo.bind(this));
 		$(this.options.save_el).addEvent('click', this.save.bind(this));
+		this.uri = window.location.href.toURI();
+		if (this.uri.getData('saved_url','fragment')) {
+			var uri = this.uri.getData('saved_url', 'fragment').toURI();
+			uri.go();
+		}
 	},
 	editInfo: function(e) {
 		e.stop();
@@ -177,7 +182,16 @@ Package.Edit = new Class({
 	},
 	save: function(e) {
 		e.stop();
-		fd.notImplemented()
+		var collected_data;
+		new Request.JSON({
+			url: this.options.save_url,
+			data: collected_data,
+			onSuccess: function(response) {
+				// change the URL add #/path/to/saved/revision
+				this.uri.setData({saved_url: response.edit_url}, false, 'fragment');
+				fd.message.alert(response.message_title, response.message);
+			}.bind(this)
+		}).send();
 	}
 	
 
