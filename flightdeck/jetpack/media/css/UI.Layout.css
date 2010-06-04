@@ -160,7 +160,6 @@ a:hover {
 	#package-info #ji-toggler {
 		background: -moz-linear-gradient(270deg, #3A86DA, #022052);
 		padding-right: 1px;
-		position: relative;
 		right: -1px;
 		cursor: pointer;
 	}
@@ -172,7 +171,19 @@ a:hover {
 			border-bottom: solid 1px #022052;
 			color: #fff;
 			text-shadow: 0 1px 0 #011E4F;
-			padding: 16px 0 16px 10px; 
+			padding: 16px 0 16px 10px;
+			position: relative;
+		}
+		
+		#package-info #ji-toggler a span {
+			display: block;
+			height: 12px;
+			width: 11px;
+			position: absolute;
+			top: 50%;
+			right: 8px;
+			margin-top: -5px;
+			background: url(../img/ico_info.png) 0 50% no-repeat;
 		}
 		
 /*
