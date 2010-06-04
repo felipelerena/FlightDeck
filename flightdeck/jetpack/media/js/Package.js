@@ -178,13 +178,35 @@ Package.Edit = new Class({
 			var uri = this.uri.getData('saved_url', 'fragment').toURI();
 			uri.go();
 		}
-		this.boundSubmit = this.submit.bind(this);
+		this.boundSubmitInfo = this.submitInfo.bind(this);
+		this.boundAssignLibraryAvtion = this.assignLibraryAction.bind(this);
+	},
+	assignLibraryAction: function(e) {
+		// get data
+		// assign Library by giving filename
+	},
+	assignLibrary: function(library_id) {
+		new Request({
+			url: this.assign_library_url,
+			data: {'library_id': library_id},
+			onSuccess: function(response) {
+				// set the redirect data to edit_url of the new revision
+				fd.setURIRedirect(response.edit_url);
+				// set data changed by save
+				this.save_url = response.save_url;
+				fd.message.alert(response.message_title, response.message);
+				this.appendLibrary(response);
+			}
+		}).send();
+	},
+	appendLibrary: function(lib) {
+		 
 	},
 	editInfo: function(e) {
 		e.stop();
 		this.savenow = false;
 		fd.editPackageInfoModal = fd.displayModal(settings.edit_package_info_template.substitute(this.data || this.options));
-		$('package-info_form').addEvent('submit', this.boundSubmit);
+		$('package-info_form').addEvent('submit', this.boundSubmitInfo);
 		$('savenow').addEvent('click', function() {
 			this.savenow = true;
 		}.bind(this));
@@ -193,7 +215,7 @@ Package.Edit = new Class({
 			if ($(key)) $(key).value = value;
 		})
 	},
-	submit: function(e) {
+	submitInfo: function(e) {
 		e.stop();
 		// collect data from the Modal
 		this.options.package_info_form_elements.each(function(key) {
@@ -218,12 +240,11 @@ Package.Edit = new Class({
 			url: this.save_url || this.options.save_url,
 			data: this.data,
 			onSuccess: function(response) {
-				// change the URL add #/path/to/saved/revision
-				fd.uri.setData({'redirect': response.edit_url}, false, 'fragment');
-				fd.uri.go();
-				fd.message.alert(response.message_title, response.message);
+				// set the redirect data to edit_url of the new revision
+				fd.setURIRedirect(response.edit_url);
 				// set data changed by save
 				this.save_url = response.save_url;
+				fd.message.alert(response.message_title, response.message);
 				// clean data leaving package_info data
 				this.data = {};
 				this.options.package_info_form_elements.each(function(key) {

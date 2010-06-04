@@ -51,6 +51,11 @@ var FlightDeck = new Class({
 			this.tips.attach(target);
 		}, this);
 	},
+	setURIRedirect: function(url) {
+		// change the URL add #/path/to/saved/revision
+		fd.uri.setData({'redirect': url}, false, 'fragment');
+		fd.uri.go();
+	},
 	/*
 	 * Method: testXPI
 	 */
