@@ -19,9 +19,8 @@ def sdk_copy(sdk_dir):
 	# create cfx.sh
 	handle = open('%s/bin/cfx.sh' % sdk_dir, 'w')
 	handle.write("""#!/bin/bash
+cd %s
 source %s/bin/activate
-#CUDDLEFISH_ROOT=%s
-#export CUDDLEFISH_ROOT
 cfx $*""" % (sdk_dir, sdk_dir))
 	handle.close()
 	os.chmod('%s/bin/cfx.sh' % sdk_dir, stat.S_IXUSR|stat.S_IRUSR)
