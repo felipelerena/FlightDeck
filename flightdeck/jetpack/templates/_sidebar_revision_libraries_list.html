@@ -1,0 +1,8 @@
+{% for library in libraries %}
+	<li class="UI_File_Normal UI_File_Listing">
+		<a title="" href="{{ library.get_absolute_url }}" target="{{ library.package.name }}" class="library_link">
+			{{ library.package.full_name }}
+		</a>
+	</li>
+{% endfor %}
+

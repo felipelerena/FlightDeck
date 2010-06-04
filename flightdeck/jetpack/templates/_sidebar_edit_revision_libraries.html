@@ -6,13 +6,7 @@
 	</a></h3>
 	<div class="UI_Sidebar_ItemCont">
 		{% if libraries %}
-			{% for library in libraries %}
-				<li class="UI_File_Normal UI_File_Listing">
-					<a title="" href="{{ library.get_absolute_url }}" target="{{ library.package.name }}" class="library_link">
-						{{ library.package.full_name }}
-					</a>
-				</li>
-			{% endfor %}
+			{% include "_sidebar_revision_libraries_list.html" %}
 		{% endif %}
 		<div class="UI_Field_Cont UI_New_Dependency">	
 			<label for="assign_library">Select existing library</label>

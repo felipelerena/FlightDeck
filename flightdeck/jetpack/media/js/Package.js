@@ -158,8 +158,10 @@ Package.Edit = new Class({
 		// DOM elements
 			save_el: 'package-save',
 			menu_el: 'UI_Editor_Menu',
-			add_dependency_el: 'add_dependency_action',
-			add_dependency_input: 'add_dependency_input',
+			add_library_el: 'add_dependency_action',
+			add_library_input: 'add_dependency_input',
+			add_module_el: 'add_module_action',
+			add_module_input: 'add_module',
 
 		// Actions
 			// save_url: '',
@@ -183,6 +185,7 @@ Package.Edit = new Class({
 	},
 	assignLibraryAction: function(e) {
 		// get data
+		
 		// assign Library by giving filename
 	},
 	assignLibrary: function(library_id) {
