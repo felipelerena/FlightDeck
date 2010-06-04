@@ -61,7 +61,7 @@ var FlightDeck = new Class({
 	 */
 	testXPI: function(response) {
 		if (response.stderr) {
-			fd.alert('Error in building Add-on XPI', response.stderr);
+			fd.error.alert('Error in building Add-on XPI', response.stderr);
 			return;
 		}
 		this.rm_xpi_url = response.rm_xpi_url;
