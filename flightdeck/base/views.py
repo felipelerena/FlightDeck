@@ -8,14 +8,12 @@ from jetpack import settings as jp_settings
 
 def homepage(r):
 	# one more for the main one 
-	addons_limit = jp_settings.HOMEPAGE_PACKAGES_NUMBER + 1
+	addons_limit = jp_settings.HOMEPAGE_PACKAGES_NUMBER
 
 	libraries = Package.objects.filter(type='l')[:jp_settings.HOMEPAGE_PACKAGES_NUMBER]
 	addons = Package.objects.filter(type='a')[:addons_limit]
 
 	addons = list(addons)
-	featured = addons.pop(0)
-
 	page = 'homepage'
 	
 	return render_to_response(
