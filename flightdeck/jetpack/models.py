@@ -390,6 +390,11 @@ class PackageRevision(models.Model):
 		update the PackageRevision obeying the overload save
 		Set current Package:version_name and Package:version if current
 		"""
+		# check if there isn't a version with such a name
+		revisions = PackageRevision.objects.filter(package__pk=self.package.pk)
+		for revision in revisions:
+			if revision.version_name == version_name:
+				raise Exception("There is already a revision with that name")
 		self.version_name = version_name
 		if current:
 			self.package.version_name = version_name

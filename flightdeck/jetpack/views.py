@@ -148,7 +148,10 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 	version_name = r.POST.get('version_name', False)
 	if version_name and version_name != start_version_name:
 		save_package = False
-		revision.set_version(version_name)
+		try:
+			revision.set_version(version_name)
+		except Exception as err:
+			return HttpResponseForbidden(err.__str__())
 
 	if save_package:
 		revision.package.save()
