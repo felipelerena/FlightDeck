@@ -164,9 +164,12 @@ Package.Edit = new Class({
 		// Actions
 			// save_url: '',
 			// delete_url: '',
+		package_info_form_elements: ['version_name', 'package_description', 'revision_message']
 	},
 	initialize: function(options) {
 		this.setOptions(options);
+		// this.data is a temporary holder of the data for the submit
+		this.data = {};
 		this.parent(options);
 		$(this.options.package_info_el).addEvent('click', this.editInfo.bind(this));
 		$(this.options.save_el).addEvent('click', this.save.bind(this));
@@ -175,24 +178,82 @@ Package.Edit = new Class({
 			var uri = this.uri.getData('saved_url', 'fragment').toURI();
 			uri.go();
 		}
+		this.boundSubmitInfo = this.submitInfo.bind(this);
+		this.boundAssignLibraryAvtion = this.assignLibraryAction.bind(this);
+	},
+	assignLibraryAction: function(e) {
+		// get data
+		// assign Library by giving filename
+	},
+	assignLibrary: function(library_id) {
+		new Request({
+			url: this.assign_library_url,
+			data: {'library_id': library_id},
+			onSuccess: function(response) {
+				// set the redirect data to edit_url of the new revision
+				fd.setURIRedirect(response.edit_url);
+				// set data changed by save
+				this.save_url = response.save_url;
+				fd.message.alert(response.message_title, response.message);
+				this.appendLibrary(response);
+			}
+		}).send();
+	},
+	appendLibrary: function(lib) {
+		 
 	},
 	editInfo: function(e) {
 		e.stop();
-		fd.displayModal(this.options.package_info);
+		this.savenow = false;
+		fd.editPackageInfoModal = fd.displayModal(settings.edit_package_info_template.substitute(this.data || this.options));
+		$('package-info_form').addEvent('submit', this.boundSubmitInfo);
+		$('savenow').addEvent('click', function() {
+			this.savenow = true;
+		}.bind(this));
+		// XXX: hack to get the right data in the form
+		$each(this.data, function(value, key) {
+			if ($(key)) $(key).value = value;
+		})
+	},
+	submitInfo: function(e) {
+		e.stop();
+		// collect data from the Modal
+		this.options.package_info_form_elements.each(function(key) {
+			this.data[key] = $(key).value;
+		}, this);
+		// check if save should be called
+		if (this.savenow) {
+			return this.save();
+		}
+		fd.editPackageInfoModal.destroy();
+	},
+	collectData: function() {
+		fd.saveCurrentEditor();
+		$each(this.modules, function(module, filename) {
+			this.data[filename] = fd.editor_contents[filename + module.options.code_editor_suffix]
+		}, this);
 	},
 	save: function(e) {
-		e.stop();
-		var collected_data;
+		if (e) e.stop();
+		this.collectData();
 		new Request.JSON({
-			url: this.options.save_url,
-			data: collected_data,
+			url: this.save_url || this.options.save_url,
+			data: this.data,
 			onSuccess: function(response) {
-				// change the URL add #/path/to/saved/revision
-				this.uri.setData({saved_url: response.edit_url}, false, 'fragment');
+				// set the redirect data to edit_url of the new revision
+				fd.setURIRedirect(response.edit_url);
+				// set data changed by save
+				this.save_url = response.save_url;
 				fd.message.alert(response.message_title, response.message);
+				// clean data leaving package_info data
+				this.data = {};
+				this.options.package_info_form_elements.each(function(key) {
+					if ($defined(response[key])) {
+						this.data[key] = response[key]
+					}
+				}, this);
+				if (fd.editPackageInfoModal) fd.editPackageInfoModal.destroy();
 			}.bind(this)
 		}).send();
 	}
-	
-
 });

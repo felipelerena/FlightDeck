@@ -1,6 +1,5 @@
 /*
  * Extending Flightdeck with Browser functionality 
- */
 
 FlightDeck = Class.refactor(FlightDeck,{
 	options: {
@@ -34,3 +33,4 @@ FlightDeck = Class.refactor(FlightDeck,{
 		}
 	}
 });
+*/

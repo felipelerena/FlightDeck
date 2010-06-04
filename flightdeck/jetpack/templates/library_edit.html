@@ -2,7 +2,7 @@
 
 {% block app_sidebar %}
 	<section id="package-info" class="UI_Sidebar_Item">
-		<h3 id="ji-toggler"><a title="{{ revision.package.full_name }}" href="#">{{ revision.package.full_name }}<span></span></a></h3>
+		<h3 id="ji-toggler"><a title="" href="#">{{ revision.package.full_name }}</a></h3>
 	</section>
 	<section id="modules">
 		{% with revision.modules.all as modules %}
@@ -12,14 +12,9 @@
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a></h3>
 			<div class="UI_Sidebar_ItemCont UI_File_Listing">
-				{% with "Module_file_readonly" as readonly %}
-					{% with revision.get_main_module as module %}
-						{% include "_sidebar_revision_module.html" %}
-					{% endwith %}
-					{% for module in modules %}{% if revision.module_main != module.filename %}
-						{% include "_sidebar_revision_module.html" %}
-					{% endif %}{% endfor %}
-				{% endwith %}
+				{% for module in modules %}
+					{% include "_sidebar_revision_module.html" %}
+				{% endfor %}
 				<div class="UI_Field_Cont UI_New_Dependency">	
 					<label for="add_module">New module filename:</label>
 					<input type="text" id="add_module" name="module_filename" value="" />
@@ -36,27 +31,14 @@
 {% block app_content %}
 	<div id="editor-menu-wrapper">
 		<ul class="UI_Editor_Menu">
-			<li class="UI_Editor_Menu_Button Icon_try XPI_test">
-				<a id="try_in_browser" title="" href="{{ revision.get_test_xpi_url }}">Test 
-					<span class="UI_Editor_Icon"></span>
-				</a>
-			</li>
-			<li class="UI_Editor_Menu_Button Icon_download">
-				<a id="download" title="" href="{{ revision.get_download_xpi_url }}">Download 
-					<span class="UI_Editor_Icon"></span>
-				</a>
-			</li>
 			{% include "_edit_app_menu_items.html" %}
 			{% include "_base_app_menu_items.html" %}
 		</ul>
 	</div> <!-- /editor-menu-wrapper -->
 	<div id="editor-wrapper">
-		{% with revision.get_main_module as module %}
+		{% for module in revision.modules.all %}
 			{% include "_module_code_textarea.html" %}
-		{% endwith %}
-		{% for module in revision.modules.all %}{% if module.filename != revision.module_main %}
-			{% include "_module_code_textarea.html" %}
-		{% endif %}{% endfor %}
+		{% endfor %}
 	</div>
 {% endblock %}
 

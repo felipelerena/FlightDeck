@@ -1,0 +1,26 @@
+{% with revision.dependencies.all as libraries %}
+	<h3 class="UI_Sidebar_Toggler libraries opened"><a title="Libraries" href="#">
+		Libraries <strong id="libraries-counter">({{ libraries|length }})</strong> 
+		<span class="UI_OC"></span>
+		<span class="UI_Sidebar_Toggler_Icon"></span>
+	</a></h3>
+	<div class="UI_Sidebar_ItemCont">
+		{% if libraries %}
+			{% for library in libraries %}
+				<li class="UI_File_Normal UI_File_Listing">
+					<a title="" href="{{ library.get_absolute_url }}" target="{{ library.package.name }}" class="library_link">
+						{{ library.package.full_name }}
+					</a>
+				</li>
+			{% endfor %}
+		{% endif %}
+		<div class="UI_Field_Cont UI_New_Dependency">	
+			<label for="assign_library">Select existing library</label>
+			<input type="hidden" id="library_full_name" name="library_full_name" value="" />
+			<input type="text" id="assign_library" name="assign_library" value="" />
+			<button title="Add existing library" id="assign_library_action">Add</button>
+		</div>
+	</div>
+{% endwith %}
+
+

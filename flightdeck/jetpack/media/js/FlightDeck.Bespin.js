@@ -68,11 +68,14 @@ Class.refactor(FlightDeck, {
 			self.fireEvent('bespinLoad')
 		}).delay(10);
 	},
-	switchBespinEditor: function(editor_id, syntax) {
-		$log('FD: switching Bespin to {e} with syntax {s}'.substitute({e:editor_id, s:syntax}));
+	saveCurrentEditor: function() {
 		if (this.current_editor) {
 			this.editor_contents[this.current_editor] = this.bespin.getContent();
 		}
+	},
+	switchBespinEditor: function(editor_id, syntax) {
+		$log('FD: switching Bespin to {e} with syntax {s}'.substitute({e:editor_id, s:syntax}));
+		this.saveCurrentEditor();
 		this.current_editor = editor_id;
 		this.bespin.setContent(this.editor_contents[editor_id]);
 		this.bespin.setSyntax(syntax);

@@ -232,6 +232,11 @@ class PackageRevision(models.Model):
 			'jp_%s_revision_edit' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
 			args=[self.package.id_number, self.revision_number])
 
+	def get_save_url(self):
+		return reverse(
+			'jp_%s_revision_save' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
+			args=[self.package.id_number, self.revision_number])
+
 
 	def get_test_xpi_url(self):
 		if self.package.type != 'a': 
@@ -385,6 +390,11 @@ class PackageRevision(models.Model):
 		update the PackageRevision obeying the overload save
 		Set current Package:version_name and Package:version if current
 		"""
+		# check if there isn't a version with such a name
+		revisions = PackageRevision.objects.filter(package__pk=self.package.pk)
+		for revision in revisions:
+			if revision.version_name == version_name:
+				raise Exception("There is already a revision with that name")
 		self.version_name = version_name
 		if current:
 			self.package.version_name = version_name

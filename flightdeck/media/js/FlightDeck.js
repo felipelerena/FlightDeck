@@ -11,6 +11,10 @@ var FlightDeck = new Class({
 		//user: ''
 	},
 	initialize: function() {
+		this.uri = new URI();
+		if (this.uri.getData('redirect','fragment')) {
+			window.location.href = this.uri.getData('redirect', 'fragment');
+		}
 		this.warning = this.error = this.message = {
 			'alert': function(title, message) {
 				alert(title+"\n"+message);
@@ -47,12 +51,17 @@ var FlightDeck = new Class({
 			this.tips.attach(target);
 		}, this);
 	},
+	setURIRedirect: function(url) {
+		// change the URL add #/path/to/saved/revision
+		fd.uri.setData({'redirect': url}, false, 'fragment');
+		fd.uri.go();
+	},
 	/*
 	 * Method: testXPI
 	 */
 	testXPI: function(response) {
 		if (response.stderr) {
-			fd.alert('Error in building Add-on XPI', response.stderr);
+			fd.error.alert('Error in building Add-on XPI', response.stderr);
 			return;
 		}
 		this.rm_xpi_url = response.rm_xpi_url;
