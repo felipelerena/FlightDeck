@@ -6,25 +6,6 @@
 	margin: 0;
 }
 
-.large {
-	font-size: 2.2em;
-	margin-bottom: 25px;
-	padding-top: 30px;
-}
-
-	.large span {
-		font-size: .45em;
-		position: relative;
-		top: -3px;
-		padding-left: 24px;
-		background: url(../img/toggle-arrows.png) 4px -45px no-repeat;
-		
-	}
-	
-		.large span a {
-			color: #478CDE;
-		}
-		
 .medium {
 	font-size: 1.5em;
 }
@@ -42,7 +23,7 @@
 	border-bottom: solid 1px #D0D5DB;
 	background: -moz-linear-gradient(270deg, #FFFFFE, #F3F5F7);
 	overflow: hidden;
-	height: 173px;
+	height: 100%;
 }
 
 .UI_Features {
@@ -54,7 +35,7 @@
 }
 
 	.UI_Features h3 {
-		font-size: 2.5em;
+		font-size: 2.2em;
 		display: block;
 		color: #478CDE;
 		text-shadow: 0 1px 0 #fff;
@@ -63,11 +44,15 @@
 	
 	.UI_Features p {
 		margin: 10px 0 0;
-		font-size: 1.08em;
+		font-size: 1em;
 		line-height: 1.6em;
 		text-shadow: 0 1px 0 #fff;
 		color: #666666;
 	}
+	
+		.UI_Features p a {
+			color: #478CDE;
+		}
 	
 	.UI_Features .UI_Cont {
 		float: left;
@@ -91,7 +76,7 @@
 		width: 170px;
 		border-right: solid 1px #D0D5DB;
 		-moz-box-shadow: 1px 0 0 #fff;
-		height: 173px;
+		height: 200px;
 		float: left;
 	}
 	
@@ -141,7 +126,7 @@
 /*
  ========================================================================= */
 #libs-and-extensions {
-	margin: 0 15px;
+	margin: 25px 15px 0;
 }
 
 	.UI_LE_Col {
@@ -150,7 +135,7 @@
 		margin-bottom: 30px;
 	}
 	
-	.UI_LE_Col:last-child {
+	.UI_LE_Col.libraries {
 		float: right;
 	}
 	
