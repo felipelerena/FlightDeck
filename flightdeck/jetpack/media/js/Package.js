@@ -123,12 +123,13 @@ var Module = new Class({
 						'<span class="File_close"></span>'+
 					'</a>';
 		var li = new Element('li',{
-			'className': 'UI_File_normal',
+			'class': 'UI_File_normal',
 			'html': html.substitute(this.options)
-		}).inject($('add_module_div'), 'before');
+		}).inject($('Modules_list'));
+		
 		var textarea = new Element('textarea', {
 			'id': this.options.filename + '_textarea',
-			'className': 'UI_Editor_Area',
+			'class': 'UI_Editor_Area',
 			'name': this.options.filename + '_textarea',
 			'html': this.options.code
 		}).inject('editor-wrapper');
@@ -272,14 +273,11 @@ Package.Edit = new Class({
 		}).send();
 	},
 	appendLibrary: function(lib) {
-		var html='<a title="" href="{library_url}" target="{library_name}" class="library_link">'+
-				'{full_name}'+
-			'</a>'
-		new Element('li',{
-			'className': 'UI_File_Normal UI_File_Listing',
+		var html='<a title="" href="{library_url}" target="{library_name}" class="library_link">{full_name}</a>';
+		new Element('li', {
+			'class': 'UI_File_Normal',
 			'html': html.substitute(lib)
-		}).inject('assign_library_div', 'before');
-		 
+		}).inject($('assign_library_div').getPrevious('ul'));
 	},
 	editInfo: function(e) {
 		e.stop();
