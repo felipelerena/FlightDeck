@@ -32,7 +32,7 @@ body {
 /*
 =========================================================================== */
 .UI_Browser {
-	margin: 15px 0 5px;
+	margin: 15px 0 0;
 }
 
 	.UI_Browser .UI_Item {
@@ -42,6 +42,10 @@ body {
 		border-bottom: solid 1px #E9EDF0;
 		position: relative;
 	}
+	
+		.UI_Browser .UI_Item:last-child {
+			border-bottom: none;
+		}
 
 		.UI_Browser .UI_Icon {
 			position: absolute;
