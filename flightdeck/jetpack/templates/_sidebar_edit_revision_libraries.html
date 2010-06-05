@@ -1,14 +1,18 @@
 {% with revision.dependencies.all as libraries %}
-	<h3 class="UI_Sidebar_Toggler libraries opened"><a title="Libraries" href="#">
-		Libraries <strong id="libraries-counter">({{ libraries|length }})</strong> 
-		<span class="UI_OC"></span>
-		<span class="UI_Sidebar_Toggler_Icon"></span>
-	</a></h3>
+	<h3 class="UI_Sidebar_Toggler libraries opened">
+		<a title="Libraries" href="#">
+			Libraries <strong id="libraries-counter">({{ libraries|length }})</strong> 
+			<span class="UI_OC"></span>
+			<span class="UI_Sidebar_Toggler_Icon"></span>
+		</a>
+	</h3>
 	<div class="UI_Sidebar_ItemCont">
 		{% if libraries %}
-			{% include "_sidebar_revision_libraries_list.html" %}
+			<ul class="UI_File_Listing">
+				{% include "_sidebar_revision_libraries_list.html" %}
+			</ul>
 		{% endif %}
-		<div class="UI_Field_Cont UI_New_Dependency" id="assign_library_div">	
+		<div class="UI_Field_Cont UI_New_Dependency" id="assign_library_div">
 			<label for="assign_library">Select existing library</label>
 			<input type="hidden" id="library_id_number" name="library_id_number" value="" />
 			<input type="text" id="assign_library" name="assign_library" value="" />
@@ -16,5 +20,3 @@
 		</div>
 	</div>
 {% endwith %}
-
-

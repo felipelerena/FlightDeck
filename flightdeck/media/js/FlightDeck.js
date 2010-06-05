@@ -46,6 +46,7 @@ var FlightDeck = new Class({
 		$$('div.UI_tooltip_source').each(function(tipSource){
 			tipSource.hide();
 			var target = $(tipSource.get('data-tooltip-for'));
+			target.set('title', '');
 			target.store('tip:title', tipSource.get('data-tooltip-title'));
 			target.store('tip:text', tipSource.get('html'));
 			this.tips.attach(target);
