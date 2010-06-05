@@ -185,8 +185,8 @@ Package.Edit = new Class({
 		// DOM elements
 			save_el: 'package-save',
 			menu_el: 'UI_Editor_Menu',
-			add_library_el: 'add_dependency_action',
-			add_library_input: 'add_dependency_input',
+			assign_library_el: 'assign_library_action',
+			assign_library_input: 'library_id_number',
 			add_module_el: 'add_module_action',
 			add_module_input: 'add_module',
 
@@ -204,15 +204,16 @@ Package.Edit = new Class({
 		this.parent(options);
 		$(this.options.package_info_el).addEvent('click', this.editInfo.bind(this));
 		$(this.options.save_el).addEvent('click', this.save.bind(this));
-		this.uri = window.location.href.toURI();
-		if (this.uri.getData('saved_url','fragment')) {
-			var uri = this.uri.getData('saved_url', 'fragment').toURI();
-			uri.go();
-		}
 		this.boundSubmitInfo = this.submitInfo.bind(this);
-		this.boundAssignLibraryAvtion = this.assignLibraryAction.bind(this);
-		this.boundaddModuleAction = this.addModuleAction.bind(this);
-		$(this.options.add_module_el).addEvent('click', this.boundaddModuleAction);
+		this.boundAssignLibraryAction = this.assignLibraryAction.bind(this);
+		this.boundAddModuleAction = this.addModuleAction.bind(this);
+		$(this.options.add_module_el).addEvent('click', 
+			this.boundAddModuleAction);
+		$(this.options.assign_library_el).addEvent('click',
+			this.boundAssignLibraryAction);
+		this.autocomplete = new FlightDeck.Autocomplete({
+			'url': settings.library_autocomplete_url
+		});
 	},
 	addModuleAction: function(e) {
 		e.stop();
@@ -252,24 +253,32 @@ Package.Edit = new Class({
 	},
 	assignLibraryAction: function(e) {
 		// get data
-		
+		library_id = $(this.options.assign_library_input).get('value');
 		// assign Library by giving filename
+		this.assignLibrary(library_id);
 	},
 	assignLibrary: function(library_id) {
-		new Request({
-			url: this.assign_library_url,
-			data: {'library_id': library_id},
+		new Request.JSON({
+			url: this.options.assign_library_url,
+			data: {'id_number': library_id},
 			onSuccess: function(response) {
 				// set the redirect data to edit_url of the new revision
 				fd.setURIRedirect(response.edit_url);
 				// set data changed by save
 				this.save_url = response.save_url;
-				fd.message.alert(response.message_title, response.message);
+				fd.message.alert('Library assigned', response.message);
 				this.appendLibrary(response);
-			}
+			}.bind(this)
 		}).send();
 	},
 	appendLibrary: function(lib) {
+		var html='<a title="" href="{library_url}" target="{library_name}" class="library_link">'+
+				'{full_name}'+
+			'</a>'
+		new Element('li',{
+			'className': 'UI_File_Normal UI_File_Listing',
+			'html': html.substitute(lib)
+		}).inject('assign_library_div', 'before');
 		 
 	},
 	editInfo: function(e) {

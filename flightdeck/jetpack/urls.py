@@ -67,6 +67,16 @@ urlpatterns = patterns('jetpack.views',
 		'package_add_module',{'type': 'l'},  name='jp_library_revision_add_module'),
 
 
+	# autocomplete library
+	url(r'^autocomplete/library/$', 
+		'library_autocomplete', name='jp_library_autocomplete'),
+	# assign library
+	url(r'^addon/assign_library/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_assign_library', {'type': 'a'}, name='jp_addon_revision_assign_library'),
+	url(r'^library/assign_library/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_assign_library',{'type': 'l'},  name='jp_library_revision_assign_library'),
+
+
 	# test Add-on's PackageRevision
 	url(r'^addon/test/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
 		'package_test_xpi', name='jp_addon_revision_test'),

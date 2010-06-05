@@ -215,9 +215,59 @@ def package_create(r, type):
 		)
 	item.save()
 
-	return render_to_response("json/%s_created.json" % settings.PACKAGE_SINGULAR_NAMES[type], {'item': item},
+	return render_to_response("json/%s_created.json" % item.get_type_name(), {'item': item},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+
+
+@login_required
+def library_autocomplete(r):
+	"""
+	'Live' search by name
+	"""
+	try:
+		query = r.GET.get('q')
+		limit = r.GET.get('limit', settings.LIBRARY_AUTOCOMPLETE_LIMIT)
+		found = Package.objects.filter(
+					Q(type='l') | \
+					Q(name__icontains=query) | \
+					Q(full_name__icontains=query)
+					)[:limit]
+	except:
+		found = []
+
+	return render_to_response('json/library_autocomplete.json',
+				{'libraries': found},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
+
+@require_POST
+@login_required
+def package_assign_library(r, id, type, revision_number=None, version_name=None):
+	" assign library to the package "
+	revision = get_package_revision(id, type, revision_number, version_name)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this Package')
+
+	library = get_object_or_404(Package, type='l', id_number=r.POST['id_number'])
+	if r.POST.get('use_latest_revision', False):
+		lib_revision = library.latest
+	else:
+		lib_revision = library.version
+
+	revision.dependency_add(lib_revision)
+
+	lib_revision_url = lib_revision.get_edit_url() \
+		if r.user.pk == lib_revision.pk \
+		else lib_revision.get_absolute_url()
+
+
+	return render_to_response('json/library_assigned.json',
+				locals(),
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
 
 
 

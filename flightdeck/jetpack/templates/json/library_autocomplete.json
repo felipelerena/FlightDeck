@@ -1,0 +1,7 @@
+[{% for lib in libraries %}{
+	"full_name": "{{ lib.full_name|escapejs }}",
+	"id_number": "{{ lib.id_number|escapejs }}",
+	"description": "{{ lib.package.description|truncatewords:10|escapejs }}"
+	}{% if not forloop.last %},{% endif %}{% endfor %}
+]
+
