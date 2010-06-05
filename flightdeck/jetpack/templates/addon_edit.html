@@ -2,7 +2,11 @@
 
 {% block app_sidebar %}
 	<section id="package-info" class="UI_Sidebar_Item">
-		<h3 id="ji-toggler"><a title="{{ revision.package.full_name }}" href="#">{{ revision.package.full_name }}<span></span></a></h3>
+		<h3 id="ji-toggler">
+			<a title="{{ revision.package.full_name }}" href="#">{{ revision.package.full_name }}
+				<span></span>
+			</a>
+		</h3>
 	</section>
 	<section id="modules">
 		{% with revision.modules.all as modules %}
