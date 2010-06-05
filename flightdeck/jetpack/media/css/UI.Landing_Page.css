@@ -1,5 +1,9 @@
 #app-body {
-	margin-left: 30px;
+	margin: 0;
+}
+
+#app-content {
+	margin: 0;
 }
 
 .large {
@@ -35,9 +39,8 @@
 }
 
 #features-wrapper {
-	-moz-box-shadow: 0 1px 0 #AFB6BD;
-	background: -moz-linear-gradient(270deg, #F3F6F9, #E5E9EE);
-	-moz-border-radius: 7px;
+	border-bottom: solid 1px #D0D5DB;
+	background: -moz-linear-gradient(270deg, #FFFFFE, #F3F5F7);
 	overflow: hidden;
 	height: 173px;
 }
@@ -46,30 +49,21 @@
 	padding: 0;
 	margin: 0 0 10px 0;
 	position: relative;
+	font-family: Helvetica, Arial, Tahoma, sans-serif;
+	
 }
 
 	.UI_Features h3 {
-		font-size: 1.8em;
+		font-size: 2.5em;
 		display: block;
 		color: #478CDE;
 		text-shadow: 0 1px 0 #fff;
 		line-height: .9em;
 	}
 	
-		.UI_Features h3 span {
-			font-weight: normal;
-			font-size: .5em;
-			color: #999;
-		}
-		
-			.UI_Features h3 span a {
-				font-weight: normal;
-				color: #478CDE;
-			}
-
 	.UI_Features p {
 		margin: 10px 0 0;
-		font-size: 1em;
+		font-size: 1.08em;
 		line-height: 1.6em;
 		text-shadow: 0 1px 0 #fff;
 		color: #666666;
@@ -130,14 +124,6 @@
 				text-shadow: 0 1px 0 #011E4F;
 				background: url(../img/UI_LandingPage/f-arr-active.png) 15px 50% no-repeat;
 			}
-			
-			.UI_Features .UI_Tabs li.selected:first-child {
-				-moz-border-radius-topleft: 7px;
-			}
-			
-			.UI_Features .UI_Tabs li.selected:last-child {
-				-moz-border-radius-bottomleft: 7px;
-			}
 	
 /*
  ========================================================================= */
@@ -155,7 +141,7 @@
 /*
  ========================================================================= */
 #libs-and-extensions {
-	margin: 25px 0 0;
+	margin: 0 15px;
 }
 
 	.UI_LE_Col {
