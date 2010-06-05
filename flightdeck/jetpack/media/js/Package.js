@@ -125,7 +125,7 @@ var Module = new Class({
 		var li = new Element('li',{
 			'class': 'UI_File_normal',
 			'html': html.substitute(this.options)
-		}).inject($('Modules_list'));
+		}).inject($('add_module_div').getPrevious('ul'));
 		
 		var textarea = new Element('textarea', {
 			'id': this.options.filename + '_textarea',
