@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
 from django.views.decorators.http import require_POST
+from django.template.defaultfilters import slugify
 
 from base.shortcuts import get_object_or_create, get_object_with_related_or_404, get_random_string
 from utils.os_utils import whereis
@@ -106,6 +107,37 @@ def package_edit(r, id, type, revision_number=None, version_name=None):
 		
 	return render_to_response("%s_edit.html" % revision.package.get_type_name(), locals(),
 				context_instance=RequestContext(r))
+
+
+@require_POST
+@login_required
+def package_add_module(r, id, type, revision_number=None, version_name=None):
+	"""
+	Edit package - only for the author
+	"""
+	revision = get_package_revision(id, type, revision_number, version_name)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this Package')
+
+	filename = slugify(r.POST.get('filename'))
+
+	mod = Module(
+		filename=filename,
+		author=r.user,
+		code="""// %s.js - %s's module
+// author: %s""" % (filename, revision.package.full_name, r.user.get_profile())
+	)
+	try:
+		mod.save()
+		revision.module_add(mod)
+	except Exception, err:
+		mod.delete()
+		return HttpResponseForbidden(err)
+		
+	return render_to_response("json/module_added.json", 
+				{'revision': revision, 'module': mod},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
 
 
 @require_POST

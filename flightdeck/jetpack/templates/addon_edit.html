@@ -11,7 +11,7 @@
 				<span class="UI_OC"></span>
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a></h3>
-			<div class="UI_Sidebar_ItemCont UI_File_Listing">
+			<div class="UI_Sidebar_ItemCont UI_File_Listing" id='Modules_list'>
 				{% with "Module_file_readonly" as readonly %}
 					{% with revision.get_main_module as module %}
 						{% include "_sidebar_revision_module.html" %}

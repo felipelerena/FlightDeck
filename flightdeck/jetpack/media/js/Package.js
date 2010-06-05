@@ -68,10 +68,15 @@ var Module = new Class({
 		readonly: false,
 		main: false,
 		executable: false,
-		type: 'js'
+		active: false,
+		type: 'js',
+		append: false
 	},
 	initialize: function(options) {
 		this.setOptions(options);
+		if (this.options.append) {
+			this.append();
+		}
 		// connect trigger with editor
 		if ($(this.get_trigger_id()) && $(this.get_editor_id())) {
 			this.textarea = $(this.get_editor_id());
@@ -84,12 +89,18 @@ var Module = new Class({
 			});
 			// connect trigger
 			this.trigger.addEvent('click', function(e) {
-				e.preventDefault();
+				if (e) e.preventDefault();
 				// placeholder for switching editors
 				fd.switchBespinEditor(this.get_editor_id(), this.options.type); 
 			}.bind(this));
 			if (this.options.main || this.options.executable) {
 				this.trigger.getParent('li').switch_mode_on();
+			} 
+			if (this.options.active) {
+				fd.switchBespinEditor(this.get_editor_id(), this.options.type); 
+				var li = this.trigger.getParent('li')
+				fd.assignModeSwitch(li);
+				li.switch_mode_on();
 			}
 			if (!this.options.readonly) {
 				// here special functionality for edit page
@@ -105,6 +116,23 @@ var Module = new Class({
 		if (!this._trigger_id) 
 			this._trigger_id = this.options.filename + this.options.code_trigger_suffix;
 		return this._trigger_id;
+	},
+	append: function() {
+		var html = '<a title="" href="#" class="Module_file" id="{filename}_switch">'+
+						'{filename}<span class="File_status"></span>'+
+						'<span class="File_close"></span>'+
+					'</a>';
+		var li = new Element('li',{
+			'className': 'UI_File_normal',
+			'html': html.substitute(this.options)
+		}).inject($('add_module_div'), 'before');
+		var textarea = new Element('textarea', {
+			'id': this.options.filename + '_textarea',
+			'className': 'UI_Editor_Area',
+			'name': this.options.filename + '_textarea',
+			'html': this.options.code
+		}).inject('editor-wrapper');
+		console.log(textarea);
 	}
 })
 
@@ -163,9 +191,11 @@ Package.Edit = new Class({
 			add_module_el: 'add_module_action',
 			add_module_input: 'add_module',
 
-		// Actions
+		// urls
 			// save_url: '',
 			// delete_url: '',
+			// add_module_url: '',
+			// assign_library_url: '',
 		package_info_form_elements: ['version_name', 'package_description', 'revision_message']
 	},
 	initialize: function(options) {
@@ -182,6 +212,44 @@ Package.Edit = new Class({
 		}
 		this.boundSubmitInfo = this.submitInfo.bind(this);
 		this.boundAssignLibraryAvtion = this.assignLibraryAction.bind(this);
+		this.boundaddModuleAction = this.addModuleAction.bind(this);
+		$(this.options.add_module_el).addEvent('click', this.boundaddModuleAction);
+	},
+	addModuleAction: function(e) {
+		e.stop();
+		// get data
+		var filename = $(this.options.add_module_input).value;
+		if (!filename) {
+			fd.error.alert('Filename can\'t be empty', 'Please provide the name of the module');
+			return;
+		}
+		if (this.options.modules.contains(filename)) {
+			fd.error.alert('Filename has to be unique', 'You already have the module with that name');
+			return;
+		}
+		this.addModule(filename);
+	},
+	addModule: function(filename) {
+		new Request.JSON({
+			url: this.options.add_module_url,
+			data: {'filename': filename},
+			onSuccess: function(response) {
+				// set the redirect data to edit_url of the new revision
+				fd.setURIRedirect(response.edit_url);
+				// set data changed by save
+				this.save_url = response.save_url;
+				fd.message.alert(response.message_title, response.message);
+				// initiate new Module
+				var mod = new Module({
+					append: true,
+					active: true,
+					filename: response.filename,
+					author: response.author,
+					code: response.code
+				});
+				this.modules[response.filename] = mod;
+			}.bind(this)
+		}).send();
 	},
 	assignLibraryAction: function(e) {
 		// get data
