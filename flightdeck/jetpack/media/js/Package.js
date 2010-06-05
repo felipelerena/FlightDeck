@@ -132,7 +132,6 @@ var Module = new Class({
 			'name': this.options.filename + '_textarea',
 			'html': this.options.code
 		}).inject('editor-wrapper');
-		console.log(textarea);
 	}
 })
 

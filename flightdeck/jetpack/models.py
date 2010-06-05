@@ -448,6 +448,7 @@ class PackageRevision(models.Model):
 		"""
 		self.save()
 		return self.modules.add(mod)
+
 		
 	def module_remove(self, mod):
 		" copy to new revision, remove module "
@@ -462,6 +463,17 @@ class PackageRevision(models.Model):
 		mod.id = None
 		mod.save()
 		self.modules.add(mod)
+
+
+	def modules_update(self, modules):
+		" update more than one module "
+		self.save()
+		for mod in modules:
+			self.modules.remove(mod)
+			mod.id = None
+			mod.save()
+			self.modules.add(mod)
+
 
 	def attachment_create(self, **kwargs):
 		" create attachment and add to attachments "

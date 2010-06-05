@@ -168,11 +168,15 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 		revision.message = revision_message
 		response_data['revision_message'] = revision_message
 
+	modules = []
 	for mod in revision.modules.all():
 		if r.POST.get(mod.filename, False):
-			mod.code = r.POST[mod.filename]
-			revision.module_update(mod)
-			save_revision = False
+			code = r.POST[mod.filename]
+			if mod.code != code:
+				modules.append(mod)
+	if modules:
+		revision.modules_update(modules)
+		save_revision = False
 
 	if save_revision:
 		revision.save()
