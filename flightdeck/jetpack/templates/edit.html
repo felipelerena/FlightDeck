@@ -10,6 +10,8 @@
 	<script src="/media/jetpack/js/Editor.js"></script>
 	<script src="/media/bespin/BespinEmbedded.js"></script>
 	<script src="/media/jetpack/js/Bespin.js"></script>
+	<script src="/media/js/lib/Meio.Autocomplete.js"></script>
+	<script src="/media/js/FlightDeck.Autocomplete.js"></script>
 	<script src="/media/jetpack/js/FlightDeck.Bespin.js"></script>
 	<script src="/media/jetpack/js/Package.js"></script>
 {% endblock %}
@@ -23,5 +25,8 @@
 {# get package_info_form_template #}
 {% block app_settings %}
 	edit_package_info_template: '{% escape_template "_edit_package_info.html" %}',
+	library_autocomplete_url: '{% url jp_library_autocomplete %}',
 {% endblock %}
 
+{# switch off the footer #}
+{% block footer %}{% endblock %}

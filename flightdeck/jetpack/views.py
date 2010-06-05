@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
 from django.views.decorators.http import require_POST
+from django.template.defaultfilters import slugify
 
 from base.shortcuts import get_object_or_create, get_object_with_related_or_404, get_random_string
 from utils.os_utils import whereis
@@ -110,6 +111,37 @@ def package_edit(r, id, type, revision_number=None, version_name=None):
 
 @require_POST
 @login_required
+def package_add_module(r, id, type, revision_number=None, version_name=None):
+	"""
+	Edit package - only for the author
+	"""
+	revision = get_package_revision(id, type, revision_number, version_name)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this Package')
+
+	filename = slugify(r.POST.get('filename'))
+
+	mod = Module(
+		filename=filename,
+		author=r.user,
+		code="""// %s.js - %s's module
+// author: %s""" % (filename, revision.package.full_name, r.user.get_profile())
+	)
+	try:
+		mod.save()
+		revision.module_add(mod)
+	except Exception, err:
+		mod.delete()
+		return HttpResponseForbidden(err)
+		
+	return render_to_response("json/module_added.json", 
+				{'revision': revision, 'module': mod},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
+
+@require_POST
+@login_required
 def package_save(r, id, type, revision_number=None, version_name=None):
 	"""
 	Save package and modules
@@ -136,11 +168,15 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 		revision.message = revision_message
 		response_data['revision_message'] = revision_message
 
+	modules = []
 	for mod in revision.modules.all():
 		if r.POST.get(mod.filename, False):
-			mod.code = r.POST[mod.filename]
-			revision.module_update(mod)
-			save_revision = False
+			code = r.POST[mod.filename]
+			if mod.code != code:
+				modules.append(mod)
+	if modules:
+		revision.modules_update(modules)
+		save_revision = False
 
 	if save_revision:
 		revision.save()
@@ -179,9 +215,59 @@ def package_create(r, type):
 		)
 	item.save()
 
-	return render_to_response("json/%s_created.json" % settings.PACKAGE_SINGULAR_NAMES[type], {'item': item},
+	return render_to_response("json/%s_created.json" % item.get_type_name(), {'item': item},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+
+
+@login_required
+def library_autocomplete(r):
+	"""
+	'Live' search by name
+	"""
+	try:
+		query = r.GET.get('q')
+		limit = r.GET.get('limit', settings.LIBRARY_AUTOCOMPLETE_LIMIT)
+		found = Package.objects.filter(
+					Q(type='l') | \
+					Q(name__icontains=query) | \
+					Q(full_name__icontains=query)
+					)[:limit]
+	except:
+		found = []
+
+	return render_to_response('json/library_autocomplete.json',
+				{'libraries': found},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
+
+@require_POST
+@login_required
+def package_assign_library(r, id, type, revision_number=None, version_name=None):
+	" assign library to the package "
+	revision = get_package_revision(id, type, revision_number, version_name)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this Package')
+
+	library = get_object_or_404(Package, type='l', id_number=r.POST['id_number'])
+	if r.POST.get('use_latest_revision', False):
+		lib_revision = library.latest
+	else:
+		lib_revision = library.version
+
+	revision.dependency_add(lib_revision)
+
+	lib_revision_url = lib_revision.get_edit_url() \
+		if r.user.pk == lib_revision.pk \
+		else lib_revision.get_absolute_url()
+
+
+	return render_to_response('json/library_assigned.json',
+				locals(),
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
 
 
 

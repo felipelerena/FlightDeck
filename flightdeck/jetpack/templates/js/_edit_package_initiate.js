@@ -22,7 +22,9 @@ fd.item = new Package.Edit({
 			revision_author: '{{ revision.author }}',
 			modules: {{ revision.get_modules_list_json|safe }},
 	// Actions
-		save_url: '{{ revision.get_save_url }}'
+		save_url: '{{ revision.get_save_url }}',
+		add_module_url: '{{ revision.get_add_module_url }}',
+		assign_library_url: '{{ revision.get_assign_library_url }}'
 });
 
 

@@ -237,6 +237,16 @@ class PackageRevision(models.Model):
 			'jp_%s_revision_save' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
 			args=[self.package.id_number, self.revision_number])
 
+	def get_add_module_url(self):
+		return reverse(
+			'jp_%s_revision_add_module' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
+			args=[self.package.id_number, self.revision_number])
+
+	def get_assign_library_url(self):
+		return reverse(
+			'jp_%s_revision_assign_library' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
+			args=[self.package.id_number, self.revision_number])
+
 
 	def get_test_xpi_url(self):
 		if self.package.type != 'a': 
@@ -443,6 +453,7 @@ class PackageRevision(models.Model):
 		"""
 		self.save()
 		return self.modules.add(mod)
+
 		
 	def module_remove(self, mod):
 		" copy to new revision, remove module "
@@ -457,6 +468,17 @@ class PackageRevision(models.Model):
 		mod.id = None
 		mod.save()
 		self.modules.add(mod)
+
+
+	def modules_update(self, modules):
+		" update more than one module "
+		self.save()
+		for mod in modules:
+			self.modules.remove(mod)
+			mod.id = None
+			mod.save()
+			self.modules.add(mod)
+
 
 	def attachment_create(self, **kwargs):
 		" create attachment and add to attachments "

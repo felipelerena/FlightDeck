@@ -1,0 +1,9 @@
+{
+	"message_title": "Success",
+	"message": "Module {{ module.filename }} added",
+	"code": "{{ module.code|escapejs }}",
+	"filename": "{{ module.filename }}",
+	"author": "{{ module.author.username }}",
+	"save_url": "{{ revision.get_save_url }}",
+	"edit_url": "{{ revision.get_edit_url }}"
+}

@@ -11,6 +11,20 @@ FlightDeck = Class.refactor(FlightDeck,{
 	initialize: function(options) {
 		this.setOptions(options);
 		this.previous(options);
+
+		this.assignModeSwitch('.{file_listing_class} li'.substitute(this.options));
+		$$('.'+this.options.file_listing_class).each(function(container) { 
+			container.addEvent('click:relay(li a)', function(e, el) {
+				var li = $(el).getParent('li');
+				// assign switch_mode_on to newly created modules
+				if (!li.switch_mode_on) li.switch_mode_on = switch_mode_on;
+				if (!li.switch_mode_off) li.switch_mode_off = switch_mode_off;
+				li.switch_mode_on();
+			});
+		});
+		this.enableMenuButtons();
+	},
+	assignModeSwitch: function(selector) {
 		// connect click to all children of all file_listing_classes
 		// also these which are gonna be added
 		var file_selected_class = this.options.file_selected_class;
@@ -26,20 +40,15 @@ FlightDeck = Class.refactor(FlightDeck,{
 			this.removeClass(file_selected_class)
 				.addClass(file_normal_class);
 		};
-		$$('.{file_listing_class} li'.substitute(this.options)).each(function(file_el) {
+		var assignToEl = function(file_el) {
 			file_el.switch_mode_on = switch_mode_on;
 			file_el.switch_mode_off = switch_mode_off;
-		});
-		$$('.'+this.options.file_listing_class).each(function(container) { 
-			container.addEvent('click:relay(li a)', function(e, el) {
-				var li = $(el).getParent('li');
-				// assign switch_mode_on to newly created modules
-				if (!li.switch_mode_on) li.switch_mode_on = switch_mode_on;
-				if (!li.switch_mode_off) li.switch_mode_off = switch_mode_off;
-				li.switch_mode_on();
-			});
-		});
-		this.enableMenuButtons();
+		}
+		if ($type(selector) == 'string') {
+			$$(selector).each(assignToEl);
+		} else {
+			assignToEl(selector);
+		}
 	},
 	/*
 	 * Method: getItem

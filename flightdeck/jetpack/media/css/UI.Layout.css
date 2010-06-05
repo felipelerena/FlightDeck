@@ -185,14 +185,6 @@ a:hover {
 			margin-top: -5px;
 			background: url(../img/ico_info.png) 0 50% no-repeat;
 		}
-		
-/*
- =========================================================================== */
-#app-footer {
-	background: #3F4652;
-	height: 30px;
-	display: none;
-}
 
 /*
  =========================================================================== */
@@ -406,3 +398,93 @@ a:hover {
 					color: #fff;
 					text-shadow: 0 1px 0 #011E4F;
 				}
+
+
+/*
+ =========================================================================== */
+#app-footer {
+	overflow: hidden;
+}
+
+
+/* From AMO */
+/* @group Footer */
+
+#footer {
+    background-image: url(../img/mozilla/footer.png);
+    background-repeat: repeat-x;
+    background-position: 0 50px;
+    clear: both;
+    padding-bottom: 1em;
+}
+#footer a {
+    color: #478CDE;
+}
+
+#footer .section {
+    min-height: 0;
+	overflow: hidden;
+	background-image: url(../img/mozilla/logo-mozilla.gif);
+    background-repeat: no-repeat;
+    background-position: 15px 70px;
+    padding: 0 15px;
+	
+}
+#footer .primary {
+    float: left;
+    padding-top: 70px;
+    clear: none;
+	width: 75%;
+}
+#footer .primary ul {
+    margin-top: 7px;
+}
+#footer .primary strong {
+    font-weight: bold;
+}
+#footer .secondary {
+    float: right;
+    text-align: right;
+    clear: none;
+}
+#footer .secondary img {
+    max-width: 190px;
+    width: 100%;
+}
+#footer p {
+    margin-bottom: 0;
+    margin-left: 60px;
+    margin-right: 1em;
+}
+#footer ul {
+    font-size: 0.846em;
+    line-height: 1.273;
+    margin-top: 0.3em;
+    padding: 0;
+    margin-left: 60px;
+    margin-right: 1.273em;
+}
+#footer ul li {
+    display: inline;
+    margin-right: 1em;
+}
+#footer .disclaimer {
+    font-size: 0.846em;
+    line-height: 1.273;
+    color: #666666;
+    margin-right: 1.273em;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+#footer .languages {
+    float: right;
+    margin: 0;
+	font-weight: bold;
+}
+
+	#footer .languages button {
+	    display: none;
+	}
+
+/* @end */
