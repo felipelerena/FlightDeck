@@ -3,28 +3,32 @@
  */
 
 FlightDeck.Autocomplete = new Class({
-	initialize: function() {
+	Implements: [Options],
+	options: {
+		value_el: 'library_id_number',
+		display_el: 'assign_library',
+		value_field: 'id_number',
+		url: '/autocomplete/library/'
+	},
+	initialize: function(options) {
+		this.setOptions(options);
 		this.create();
 		this.autocomplete;
 	},
 
 	create: function(content) {
-		
-		this.autocomplete = new Meio.Autocomplete.Select('add_dependency', '/autocomplete/', {
+		this.autocomplete = new Meio.Autocomplete.Select(
+			this.options.display_el, 
+			this.options.url, {
 			filter: {
 				type: 'contains',
-				path: 'name'
+				path: 'full_name'
 			},
-			onSelect: function(elements, library){
-				console.log(library);
-				$('dependency_slug').set('value', library.slug);
-			}
+			onSelect: function(elements, item){
+				$(this.options.value_el).set('value', 
+											item[this.options.value_field]);
+			}.bind(this)
 		});
-		
 		return this.autocomplete;
 	}
-});
-
-window.addEvent('domready', function(){
-	new FlightDeck.Autocomplete();
 });
