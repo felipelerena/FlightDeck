@@ -153,6 +153,7 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 	save_revision = False
 	save_package = False
 	start_version_name = revision.version_name
+	start_revision_message = revision.message
 
 	response_data = {}
 
@@ -163,7 +164,7 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 		response_data['package_description'] = package_description
 
 	revision_message = r.POST.get('revision_message', False)
-	if revision_message:
+	if revision_message and revision_message != start_revision_message:
 		save_revision = True
 		revision.message = revision_message
 		response_data['revision_message'] = revision_message
