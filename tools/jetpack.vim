@@ -93,7 +93,7 @@ badd +26 ~/Projects/FlightDeck/flightdeck/jetpack/templates/js/_view_package_ini
 badd +27 ~/Projects/FlightDeck/flightdeck/jetpack/templates/js/_edit_package_initiate.js
 badd +36 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/js/_edit_item_initiate.js
 badd +1 /private/tmp/---------JJavascript
-badd +263 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/Package.js
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/Package.js
 badd +242 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/Capability.js
 badd +37 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/Jetpack.js
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/CapDependency.js
@@ -179,12 +179,13 @@ badd +17 ~/Projects/FlightDeck/tools/git-exclude
 badd +30 ~/Projects/FlightDeck/apache/config_local-default.wsgi
 badd +1 /private/tmp/------------AMO
 badd +4 ~/Projects/FlightDeck/flightdeck/amo/default_settings.py
+badd +0 ~/Projects/FlightDeck/flightdeck/amo/authentication.py
 badd +1 tmp/-----------DOCS
 badd +15 ~/Projects/FlightDeck/Docs/mozillaaddonbuilderstyle.sty
 badd +22 ~/Projects/FlightDeck/README
 badd +18 ~/Projects/FlightDeck/INSTALL
 silent! argdel *
-edit ~/Projects/FlightDeck/flightdeck/jetpack/media/js/Package.js
+edit ~/Projects/FlightDeck/flightdeck/amo/authentication.py
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -192,3 +193,30 @@ wincmd t
 set winheight=1 winwidth=1
 argglobal
 setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 139 - ((52 * winheight(0) + 26) / 53)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+139
+normal! 011l
+if exists('s:wipebuf')
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=1 shortmess=aoO
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :
