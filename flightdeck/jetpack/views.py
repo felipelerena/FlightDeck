@@ -174,7 +174,9 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 		if r.POST.get(mod.filename, False):
 			code = r.POST[mod.filename]
 			if mod.code != code:
+				mod.code = code
 				modules.append(mod)
+
 	if modules:
 		revision.modules_update(modules)
 		save_revision = False
