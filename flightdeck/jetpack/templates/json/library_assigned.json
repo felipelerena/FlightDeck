@@ -1,6 +1,6 @@
 {
 	"message": "Library \"{{ library.full_name }}\" assigned",
-	"edit_url": "{{ revision.get_edit_url }}",
+	"edit_url": "{{ revision.package.get_edit_latest_url }}",
 	"save_url": "{{ revision.get_save_url }}",
 	"id_number": "{{ library.id_number }}",
 	"revision_number": "{{ lib_revision.revision_number }}",

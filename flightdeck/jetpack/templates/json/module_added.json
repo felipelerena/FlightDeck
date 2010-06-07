@@ -5,5 +5,5 @@
 	"filename": "{{ module.filename }}",
 	"author": "{{ module.author.username }}",
 	"save_url": "{{ revision.get_save_url }}",
-	"edit_url": "{{ revision.get_edit_url }}"
+	"edit_url": "{{ revision.package.get_edit_latest_url }}",
 }
