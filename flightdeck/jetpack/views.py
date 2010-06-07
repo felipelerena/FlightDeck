@@ -103,7 +103,11 @@ def package_edit(r, id, type, revision_number=None, version_name=None, latest=Fa
 	"""
 	revision = get_package_revision(id, type, revision_number, version_name, latest)
 	if r.user.pk != revision.author.pk:
-		return HttpResponseForbidden('You are not the author of this Package')
+		return HttpResponseRedirect(
+					reverse("jp_%s_revision_details" % revision.package.get_type_name(), 
+						args=[id, revision.revision_number])
+					)
+		#return HttpResponseForbidden('You are not the author of this Package')
 		
 	return render_to_response("%s_edit.html" % revision.package.get_type_name(), locals(),
 				context_instance=RequestContext(r))

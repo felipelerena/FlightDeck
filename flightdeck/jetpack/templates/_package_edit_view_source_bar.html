@@ -28,5 +28,11 @@
 		</li>
 	{% endif %}
 	{% endcomment %}
+{% else %}
+	{% if item.type == 'l' %}
+	{# a hack to get a rounded corner #}
+	<li class="UI_Edit_Version"><a>&nbsp;</a>
+	</li>
+	{% endif %}
 {% endif %}
 
