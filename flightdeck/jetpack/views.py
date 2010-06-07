@@ -64,11 +64,11 @@ def package_browser(r, page_number=1, type=None, username=None):
 
 
 
-def package_details(r, id, type, revision_number=None, version_name=None):
+def package_details(r, id, type, revision_number=None, version_name=None, latest=False):
 	"""
 	Show package - read only
 	"""
-	revision = get_package_revision(id, type, revision_number, version_name)
+	revision = get_package_revision(id, type, revision_number, version_name, latest)
 	readonly = True
 	return render_to_response("%s_view.html" % revision.package.get_type_name(), locals(),
 				context_instance=RequestContext(r))
@@ -97,11 +97,11 @@ def package_copy(r, id, type, revision_number=None, version_name=None):
 	
 
 @login_required
-def package_edit(r, id, type, revision_number=None, version_name=None):
+def package_edit(r, id, type, revision_number=None, version_name=None, latest=False):
 	"""
 	Edit package - only for the author
 	"""
-	revision = get_package_revision(id, type, revision_number, version_name)
+	revision = get_package_revision(id, type, revision_number, version_name, latest)
 	if r.user.pk != revision.author.pk:
 		return HttpResponseForbidden('You are not the author of this Package')
 		
@@ -254,10 +254,10 @@ def package_assign_library(r, id, type, revision_number=None, version_name=None)
 		return HttpResponseForbidden('You are not the author of this Package')
 
 	library = get_object_or_404(Package, type='l', id_number=r.POST['id_number'])
-	if r.POST.get('use_latest_revision', False):
-		lib_revision = library.latest
-	else:
+	if r.POST.get('use_latest_version', False):
 		lib_revision = library.version
+	else:
+		lib_revision = library.latest
 
 	revision.dependency_add(lib_revision)
 

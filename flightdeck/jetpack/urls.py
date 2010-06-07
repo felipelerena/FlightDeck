@@ -27,6 +27,10 @@ urlpatterns = patterns('jetpack.views',
 
 
 	# display details of the PackageRevision
+	url(r'^addon/(?P<id>[-\w]+)/latest/$', 
+		'package_details', {'type': 'a', 'latest': True}, name='jp_addon_latest'),
+	url(r'^library/(?P<id>[-\w]+)/latest/$', 
+		'package_details',{'type': 'l', 'latest': True},  name='jp_library_latest'),
 	url(r'^addon/(?P<id>[-\w]+)/$', 
 		'package_details', {'type': 'a'}, name='jp_addon_details'),
 	url(r'^library/(?P<id>[-\w]+)/$', 
@@ -45,6 +49,12 @@ urlpatterns = patterns('jetpack.views',
 		'package_copy', {'type': 'a'}, name='jp_addon_revision_copy'),
 	url(r'^library/copy/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
 		'package_copy',{'type': 'l'},  name='jp_library_revision_copy'),
+
+	# edit latest
+	url(r'^addon/edit/(?P<id>[-\w]+)/latest/$', 
+		'package_edit', {'type': 'a', 'latest': True}, name='jp_addon_edit_latest'),
+	url(r'^library/edit/(?P<id>[-\w]+)/latest/$', 
+		'package_edit',{'type': 'l', 'latest': True},  name='jp_library_edit_latest'),
 
 	# edit packagerevision
 	url(r'^addon/edit/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 

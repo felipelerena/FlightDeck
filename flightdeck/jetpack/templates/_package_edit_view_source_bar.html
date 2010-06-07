@@ -5,12 +5,12 @@
 {% endcomment %}
 
 <li class="UI_Edit_Version">
-	<a title="View {{ item.full_name }}" href="{{ item.latest.get_absolute_url }}">View Source</a>
+	<a title="View {{ item.full_name }}" href="{{ item.get_latest_url }}">View Source</a>
 </li>
 
 {% if user == item.author %}
 	<li class="UI_Edit_Version">
-		<a title="Edit" href="{{ item.latest.get_edit_url }}">
+		<a title="Edit" href="{{ item.get_edit_latest_url }}">
 			Edit
 		</a>
 	</li>

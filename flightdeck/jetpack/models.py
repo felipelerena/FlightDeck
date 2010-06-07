@@ -94,8 +94,18 @@ class Package(models.Model):
 		return '%s v. %s by %s' % (self.full_name, self.version_name, self.author)
 
 	def get_absolute_url(self):
-		return reverse('jp_%s_details' % settings.PACKAGE_SINGULAR_NAMES[self.type],
+		return reverse('jp_%s_details' % self.get_type_name(),
 						args=[self.id_number])
+
+	def get_latest_url(self):
+		return reverse('jp_%s_latest' % self.get_type_name(),
+						args=[self.id_number])
+
+	def get_edit_latest_url(self):
+		return reverse('jp_%s_edit_latest' % self.get_type_name(),
+						args=[self.id_number])
+
+
 
 	def is_addon(self):
 		return self.type == 'a'
