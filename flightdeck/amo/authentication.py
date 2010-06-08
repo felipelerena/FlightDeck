@@ -54,7 +54,7 @@ class AMOAuthentication:
 		
 		link = br.find_link(text='View Profile')
 		email = username
-		username = link.url.split('/')[-1]
+		username = link.url.split('/')[-2]
 		
 		try:
 			user = User.objects.get(username=username)
