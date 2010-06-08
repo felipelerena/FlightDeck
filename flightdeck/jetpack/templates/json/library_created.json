@@ -1,5 +1,5 @@
 {
 	"message": "Library \"{{ item.full_name }}\" created",
-	"edit_url": "{{ item.version.get_edit_url }}"
+	"edit_url": "{{ item.get_edit_latest_url }}"
 }
 
