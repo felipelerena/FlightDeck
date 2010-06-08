@@ -235,8 +235,7 @@ def library_autocomplete(r):
 	try:
 		query = r.GET.get('q')
 		limit = r.GET.get('limit', settings.LIBRARY_AUTOCOMPLETE_LIMIT)
-		found = Package.objects.filter(
-					Q(type='l') | \
+		found = Package.objects.filter(type='l').filter(
 					Q(name__icontains=query) | \
 					Q(full_name__icontains=query)
 					)[:limit]
