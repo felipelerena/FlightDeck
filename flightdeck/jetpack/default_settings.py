@@ -18,6 +18,7 @@ HOMEPAGE_PACKAGES_NUMBER = getattr(settings, 'HOMEPAGE_PACKAGES_NUMBER', 3)
 SDKDIR_PREFIX = '/tmp/SDK'
 LIBRARY_AUTOCOMPLETE_LIMIT = getattr(settings, 
 								'JETPACKLIBRARY_AUTOCOMPLETE_LIMIT', 20)
+KEYDIR = 'keydir'
 
 # ------------------------------------------------------------------------
 JETPACK_NEW_IS_BASE = False # it shouldn't be changed
