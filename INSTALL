@@ -15,7 +15,7 @@ these steps (some commands are specific to Ubuntu with Bash):
 2. Initiate configuration files
    $ cd /path/to/projects/FlightDeck
    $ ./scripts/initiate.sh
-   # edit all ./scripts/*_local.sh files so they will suit your system
+   # edit the ./scripts/config_local.sh file so it suits your system
 
 3. Install python-setuptools python-dev build-essential libmysqlclient-dev graphviz wget
    $ sudo apt-get install subversion mercurial python-setuptools python-dev build-essential libmysqlclient-dev wget
@@ -62,17 +62,14 @@ these steps (some commands are specific to Ubuntu with Bash):
 8. Configure the Django application
    $ vi flightdeck/settings_local.py # **
 
-9. Check local scripts configuration
-   $ vi scripts/config_local.sh
-
-10. Initiate database*
+9. Initiate database
    $ ./scripts/syncdb.sh
    # Choose your superadmin username and password
    # You may want to install test fixtures to save time
    $ ./scripts/manage.sh loaddata test_users.json test_basic_usecase.json
 
    
-11. Run Server*
+10. Run Server
    $ ./scripts/runserver.sh
    FlightDeck may be accessed by loading http://localhost:8090/
    Administration from http://localhost:8090/admin/
@@ -143,9 +140,6 @@ Updating environment
 
 
 ----
-*   Scripts assume one has installed the FlightDeck environment in 
-    /srv/python-environments/flightdeck/ if it is a different one
-    please edit the scripts/config_local.sh
 
 **  No *_local.py file should be shared between users, they contain
     informations relevant only to the local installation of FlightDeck.
