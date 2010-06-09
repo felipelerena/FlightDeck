@@ -1,29 +1,22 @@
 {% extends "view.html" %}
 
-{% block app_sidebar %}
-	<section id="package-info" class="UI_Sidebar_Item">
-		<h3 id="ji-toggler"><a title="{{ revision.package.full_name }}" href="#">{{ revision.package.full_name }}<span></span></a></h3>
-		{# here name and a INFO drop down #}
-	</section>
-	<section id="modules">
-		{% with revision.modules.all as modules %}
-			<h3 class="UI_Sidebar_Toggler modules opened"><a title="Modules" href="#">
-				Modules{% if modules %} <strong id="modules-counter">({{ modules|length }})</strong>{% endif %} 
-				<span class="UI_OC"></span>
-				<span class="UI_Sidebar_Toggler_Icon"></span>
-			</a></h3>
-			<div class="UI_Sidebar_ItemCont UI_File_Listing">
-				{% with "Module_file_readonly" as readonly %}
-					{% for module in modules %}
-						{% include "_sidebar_revision_module.html" %}
-					{% endfor %}
-				{% endwith %}
-			</div>
-		{% endwith %}
-	</section>
-	<section id="libraries">
-		{% include "_sidebar_view_revision_libraries.html" %}
-	</section>
+{% block modules_sidebar %}
+	{% with revision.modules.all as modules %}
+		<h3 class="UI_Sidebar_Toggler modules opened"><a title="Modules" href="#">
+			Modules{% if modules %} <strong id="modules-counter">({{ modules|length }})</strong>{% endif %} 
+			<span class="UI_OC"></span>
+			<span class="UI_Sidebar_Toggler_Icon"></span>
+		</a></h3>
+		<div class="UI_Sidebar_ItemCont UI_File_Listing">
+			<ul li="Modules_list" class="UI_File_Listing">
+			{% with "Module_file_readonly" as readonly %}
+				{% for module in modules %}
+					{% include "_sidebar_revision_module.html" %}
+				{% endfor %}
+			{% endwith %}
+			</ul>
+		</div>
+	{% endwith %}
 {% endblock %}
 
 {% block app_content %}
