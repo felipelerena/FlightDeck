@@ -24,8 +24,6 @@ Production uses following third-party software:
  * Markdown (http://www.freewisdom.org/projects/python-markdown/) [http://www.freewisdom.org/projects/python-markdown/License]
 
 Needed for Jetpack integration
- * mozrunner
- * simplejson
  * jetpack-sdk
 
 Following third-party software is used only for development:
