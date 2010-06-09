@@ -144,7 +144,7 @@ Updating environment
 
 ----
 *   Scripts assume one has installed the FlightDeck environment in 
-    /srv/python-envirenments/flightdeck/ if it is a different one
+    /srv/python-environments/flightdeck/ if it is a different one
     please edit the scripts/config_local.sh
 
 **  No *_local.py file should be shared between users, they contain
