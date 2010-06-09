@@ -24,11 +24,7 @@
 
 {% block app_sidebar %}
 	<section id="package-info" class="UI_Sidebar_Item">
-		<h3 id="ji-toggler">
-			<a title="{{ revision.package.full_name }}" href="#">
-				{{ revision.package.full_name }}<span></span>
-			</a>
-		</h3>
+		{% include "_package_info.html" %}
 	</section>
 	<section id="modules">
 		{% block modules_sidebar %}{% endblock %}
