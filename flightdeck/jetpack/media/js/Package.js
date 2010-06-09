@@ -38,7 +38,7 @@ var Package = new Class({
 	initialize: function(options) {
 		this.setOptions(options);
 		this.instantiate_modules();
-
+		$('revisions_list').addEvent('click', this.show_revision_list);
 	},
 	instantiate_modules: function() {
 		// iterate by modules and instantiate Module
@@ -51,6 +51,15 @@ var Package = new Class({
 			}
 			this.modules[module.filename] = new Module(module);
 		}, this);
+	},
+	show_revision_list: function(e) {
+		if (e) e.stop();
+		new Request({
+			url: settings.revisions_list_html_url,
+			onSuccess: function(html) {
+				fd.displayModal(html);
+			}
+		}).send();
 	}
 });
 

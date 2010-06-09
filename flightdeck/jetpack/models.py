@@ -630,7 +630,11 @@ class PackageRevision(models.Model):
 	def export_files_with_dependencies(self, packages_dir):
 		self.export_files(packages_dir)
 		self.export_dependencies(packages_dir)
-		
+
+
+	def get_version_name(self): 
+		name = '%s ' % self.version_name if self.version_name else ''
+		return '%srev. %s' % (name, self.revision_number)
 
 class Module(models.Model):
 	" the only way to 'change' the module is to assign it to different PackageRequest "

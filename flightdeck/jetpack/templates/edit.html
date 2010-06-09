@@ -26,7 +26,7 @@
 {% block app_settings %}
 	edit_package_info_template: '{% escape_template "_edit_package_info.html" %}',
 	library_autocomplete_url: '{% url jp_library_autocomplete %}',
-	{#revisions_list_html_url: '{% url jp_revisions_list_html revision.package.id %}',#}
+	revisions_list_html_url: '{% url jp_revisions_list_html revision.package.id_number %}',
 {% endblock %}
 
 {# switch off the footer #}

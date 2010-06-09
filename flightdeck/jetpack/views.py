@@ -276,6 +276,19 @@ def package_assign_library(r, id, type, revision_number=None, version_name=None)
 
 
 
+def get_revisions_list(id_number):
+	" provide a list of the Package's revsisions "
+	return PackageRevision.objects.filter(package__id_number=id_number)
+
+def get_revisions_list_html(r, id_number):
+	package = get_object_with_related_or_404(Package, id_number=id_number)
+	revisions = get_revisions_list(id_number)
+	return render_to_response(
+		'_package_revisions_list.html', locals(),
+		context_instance=RequestContext(r))
+
+
+
 
 # ---------------------------- XPI ---------------------------------
 

@@ -21,6 +21,9 @@
 {# switch off the footer #}
 {% block footer %}{% endblock %}
 
+{% block app_settings %}
+	revisions_list_html_url: '{% url jp_revisions_list_html revision.package.id_number %}',
+{% endblock %}
 
 {% block app_sidebar %}
 	<section id="package-info" class="UI_Sidebar_Item">

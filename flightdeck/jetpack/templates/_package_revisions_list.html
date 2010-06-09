@@ -1,0 +1,17 @@
+{% load jetpack_extras %}
+<div id='display-package-revisions'>
+	<h3>{{ package.full_name}} - Revisions</h3>
+	<div class="UI_Modal_Section">
+		<ul>
+			{% for revision in revisions %}
+				<li>
+					{{ revision.created_at|date:"Y-m-d" }}
+					<a href="{{ revision.get_absolute_url }}">{{ revision|version_name }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="UI_Modal_Actions">
+		<ul><li><input type="reset" value="Close" class='closeModal'/></li></ul>
+	</div>
+</div>
