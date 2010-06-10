@@ -8,16 +8,17 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 /private/tmp/------------Jetpack
-badd +295 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
-badd +247 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
+badd +315 ~/Projects/FlightDeck/flightdeck/jetpack/views.py
+badd +658 ~/Projects/FlightDeck/flightdeck/jetpack/models.py
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/tests/module_tests.py
 badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/managers.py
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/admin.py
-badd +71 ~/Projects/FlightDeck/flightdeck/jetpack/urls.py
+badd +65 ~/Projects/FlightDeck/flightdeck/jetpack/urls.py
 badd +16 ~/Projects/FlightDeck/flightdeck/jetpack/errors.py
-badd +20 ~/Projects/FlightDeck/flightdeck/jetpack/default_settings.py
-badd +15 ~/Projects/FlightDeck/flightdeck/jetpack/package_helpers.py
-badd +23 ~/Projects/FlightDeck/flightdeck/jetpack/xpi_utils.py
+badd +21 ~/Projects/FlightDeck/flightdeck/jetpack/default_settings.py
+badd +11 ~/Projects/FlightDeck/flightdeck/jetpack/package_helpers.py
+badd +68 ~/Projects/FlightDeck/flightdeck/jetpack/xpi_utils.py
+badd +60 ~/Projects/FlightDeck/flightdeck/jetpack/management.py
 badd +1 /private/tmp/---old
 badd +373 ~/Projects/FlightDeck/flightdeck/jetpack/views_old.py
 badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/managers_old.py
@@ -34,28 +35,30 @@ badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_addo
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_libraries_list.html
 badd +14 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_addon.html
 badd +11 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_browser_library.html
-badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_edit_view_source_bar.html
-badd +20 ~/Projects/FlightDeck/flightdeck/jetpack/templates/view.html
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/addon_view.html
-badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/templates/library_view.html
-badd +28 ~/Projects/FlightDeck/flightdeck/jetpack/templates/edit.html
-badd +28 ~/Projects/FlightDeck/flightdeck/jetpack/templates/addon_edit.html
-badd +17 ~/Projects/FlightDeck/flightdeck/jetpack/templates/library_edit.html
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_view_package_info.html
-badd +14 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_edit_package_info.html
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_view_app_menu_items.html
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_edit_app_menu_items.html
+badd +13 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_edit_view_source_bar.html
+badd +71 ~/Projects/FlightDeck/flightdeck/jetpack/templates/view.html
+badd +25 ~/Projects/FlightDeck/flightdeck/jetpack/templates/addon_view.html
+badd +26 ~/Projects/FlightDeck/flightdeck/jetpack/templates/library_view.html
+badd +77 ~/Projects/FlightDeck/flightdeck/jetpack/templates/edit.html
+badd +29 ~/Projects/FlightDeck/flightdeck/jetpack/templates/addon_edit.html
+badd +25 ~/Projects/FlightDeck/flightdeck/jetpack/templates/library_edit.html
+badd +0 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_core_library_item.html
+badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_editor_app_menu_items.html
+badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_view_package_info.html
+badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_info.html
+badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_edit_package_info.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_module_code_textarea.html
-badd +7 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_view_revision_libraries.html
-badd +12 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_edit_revision_libraries.html
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_view_revision_libraries.html
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_edit_revision_libraries.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_revision_libraries_list.html
 badd +2 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_revision_module.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_revision_add_module.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_edit_add_module.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_sidebar_revision_libraries.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_create.html
+badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/_package_revisions_list.html
 badd +1 /private/tmp/----------Jtemplates_old
-badd +37 ~/Projects/FlightDeck/flightdeck/jetpack/templatetags/jetpack_extras.py
+badd +9 ~/Projects/FlightDeck/flightdeck/jetpack/templatetags/jetpack_extras.py
 badd +25 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/editor.html
 badd +11 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/edit_item.html
 badd +11 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/_addnew_dependency_window.html
@@ -70,15 +73,15 @@ badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/_edit_recently_mo
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/_edit_editors.html
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/_dependency_add.html
 badd +1 /private/tmp/----------JJSON
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/library_created.json
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/addon_created.json
+badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/library_created.json
+badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/addon_created.json
 badd +5 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/test_xpi_created.json
-badd +5 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/addon_copied.json
-badd +2 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/library_copied.json
-badd +2 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_saved.json
-badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/module_added.json
-badd +4 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/library_autocomplete.json
-badd +9 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/library_assigned.json
+badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/addon_copied.json
+badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/library_copied.json
+badd +8 ~/Projects/FlightDeck/flightdeck/jetpack/templates/package_saved.json
+badd +9 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/module_added.json
+badd +3 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/library_autocomplete.json
+badd +5 ~/Projects/FlightDeck/flightdeck/jetpack/templates/json/library_assigned.json
 badd +1 /private/tmp/----------JJSON_old
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/json/capability_updated.json
 badd +11 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/json/dependency_added.json
@@ -93,7 +96,7 @@ badd +26 ~/Projects/FlightDeck/flightdeck/jetpack/templates/js/_view_package_ini
 badd +27 ~/Projects/FlightDeck/flightdeck/jetpack/templates/js/_edit_package_initiate.js
 badd +36 ~/Projects/FlightDeck/flightdeck/jetpack/templates_old/js/_edit_item_initiate.js
 badd +1 /private/tmp/---------JJavascript
-badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/Package.js
+badd +255 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/Package.js
 badd +242 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/Capability.js
 badd +37 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/Jetpack.js
 badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/CapDependency.js
@@ -103,7 +106,7 @@ badd +36 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/Bespin.js
 badd +79 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/CodeMirror.js
 badd +76 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/FlightDeck.Bespin.js
 badd +61 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/FlightDeck.Editor.js
-badd +6 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/FlightDeck.Browser.js
+badd +13 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/FlightDeck.Browser.js
 badd +1 /private/tmp/------------JCSS
 badd +16 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/UI.Base.css
 badd +54 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/UI.Browser.css
@@ -120,9 +123,9 @@ badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/edit.css
 badd +1 /private/tmp/-----------Base
 badd +3 ~/Projects/FlightDeck/flightdeck/base/views.py
 badd +11 ~/Projects/FlightDeck/flightdeck/base/templatetags/base_helpers.py
-badd +100 ~/Projects/FlightDeck/flightdeck/base/templates/base.html
+badd +42 ~/Projects/FlightDeck/flightdeck/base/templates/base.html
 badd +16 ~/Projects/FlightDeck/flightdeck/base/templates/_header.html
-badd +63 ~/Projects/FlightDeck/flightdeck/media/js/FlightDeck.js
+badd +71 ~/Projects/FlightDeck/flightdeck/media/js/FlightDeck.js
 badd +27 ~/Projects/FlightDeck/flightdeck/media/js/Clientcide.ModalWindow.js
 badd +71 ~/Projects/FlightDeck/flightdeck/media/js/FlightDeck.Roar.js
 badd +34 ~/Projects/FlightDeck/flightdeck/media/js/FlightDeck.Modal.js
@@ -135,13 +138,13 @@ badd +35 ~/Projects/FlightDeck/flightdeck/settings_local.py
 badd +1 ~/Projects/FlightDeck/flightdeck/utils/os_utils.py
 badd +2 ~/Projects/FlightDeck/flightdeck/base/shortcuts.py
 badd +27 ~/Projects/FlightDeck/flightdeck/base/templates/homepage.html
-badd +5 ~/Projects/FlightDeck/flightdeck/base/templates/_base_app_menu_items.html
+badd +2 ~/Projects/FlightDeck/flightdeck/base/templates/_base_app_menu_items.html
 badd +1 /private/tmp/------------Person
 badd +30 ~/Projects/FlightDeck/flightdeck/person/views.py
 badd +38 ~/Projects/FlightDeck/flightdeck/person/templates/dashboard.html
 badd +10 ~/Projects/FlightDeck/flightdeck/person/templates/profile.html
 badd +12 ~/Projects/FlightDeck/flightdeck/person/templates/_profile_info.html
-badd +29 ~/Projects/FlightDeck/flightdeck/person/templates/registration/login.html
+badd +43 ~/Projects/FlightDeck/flightdeck/person/templates/registration/login.html
 badd +9 ~/Projects/FlightDeck/flightdeck/person/urls.py
 badd +1 /private/tmp/------------API
 badd +61 ~/Projects/FlightDeck/flightdeck/api/views.py
@@ -173,19 +176,19 @@ badd +7 ~/Projects/FlightDeck/scripts/initiate.sh
 badd +1 ~/Projects/FlightDeck/scripts/runserver.sh
 badd +1 ~/Projects/FlightDeck/scripts/syncdb.sh
 badd +1 ~/Projects/FlightDeck/scripts/test.sh
-badd +15 ~/Projects/FlightDeck/tools/pip-requirements.txt
+badd +7 ~/Projects/FlightDeck/tools/pip-requirements.txt
 badd +1 ~/Projects/FlightDeck/scripts/cfx.sh
 badd +17 ~/Projects/FlightDeck/tools/git-exclude
 badd +30 ~/Projects/FlightDeck/apache/config_local-default.wsgi
 badd +1 /private/tmp/------------AMO
 badd +4 ~/Projects/FlightDeck/flightdeck/amo/default_settings.py
-badd +0 ~/Projects/FlightDeck/flightdeck/amo/authentication.py
+badd +57 ~/Projects/FlightDeck/flightdeck/amo/authentication.py
 badd +1 tmp/-----------DOCS
 badd +15 ~/Projects/FlightDeck/Docs/mozillaaddonbuilderstyle.sty
-badd +22 ~/Projects/FlightDeck/README
-badd +18 ~/Projects/FlightDeck/INSTALL
+badd +28 ~/Projects/FlightDeck/README
+badd +72 ~/Projects/FlightDeck/INSTALL
 silent! argdel *
-edit ~/Projects/FlightDeck/flightdeck/amo/authentication.py
+edit ~/Projects/FlightDeck/flightdeck/jetpack/templates/_core_library_item.html
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -201,12 +204,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 139 - ((52 * winheight(0) + 26) / 53)
+let s:l = 1 - ((0 * winheight(0) + 36) / 72)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-139
-normal! 011l
+1
+normal! 0
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

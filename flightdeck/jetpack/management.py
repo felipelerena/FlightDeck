@@ -57,6 +57,7 @@ def install_jetpack_core(sender, created_models, **kwargs):
 			author=core_author
 		)
 		core_revision.modules.add(mod)
+	print "Jetpack Core Library created successfully"
 
 signals.post_syncdb.connect(install_jetpack_core, sender=jetpack_models)
 
