@@ -43,8 +43,8 @@ var Package = new Class({
 
 		// testing
 		this.boundTestAddon = this.testAddon.bind(this);
-		this.test_url = $(this.options.test_el).get('href');
 		if (this.isAddon()) {
+			this.test_url = $(this.options.test_el).get('href');
 			$(this.options.test_el).addEvent('click', this.boundTestAddon)
 		}
 	},
@@ -179,7 +179,10 @@ Package.View = new Class({
 		this.setOptions(options);
 		this.parent(options);
 		$(this.options.package_info_el).addEvent('click', this.showInfo.bind(this));
-		$(this.options.copy_el).addEvent('click', this.copyPackage.bind(this));
+		this.copy_el = $(this.options.copy_el)
+		if (this.copy_el) {
+			this.copy_el.addEvent('click', this.copyPackage.bind(this));
+		}
 	},
 	/*
 	 * Method: showInfo
