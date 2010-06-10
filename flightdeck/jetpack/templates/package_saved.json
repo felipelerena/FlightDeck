@@ -1,5 +1,5 @@
 {
-	{% include "json/_edit_urls.html" %}
+	{% include "json/_edit_urls.json" %}
 	{% for key, value in response_data.items %}"{{ key }}": "{{ value|escapejs }}",
 	{% endfor %}
 	"message_title": "{{ revision.package.get_type_name }} saved",

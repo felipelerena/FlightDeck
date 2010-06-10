@@ -1,5 +1,5 @@
 {
-	{% include "json/_edit_urls.html" %}
+	{% include "json/_edit_urls.json" %}
 	"message": "Library \"{{ library.full_name }}\" assigned",
 	"id_number": "{{ library.id_number }}",
 	"revision_number": "{{ lib_revision.revision_number }}",
