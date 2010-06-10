@@ -25,6 +25,14 @@
 	revisions_list_html_url: '{% url jp_revisions_list_html revision.package.id_number %}',
 {% endblock %}
 
+{% block create_init %}
+	create.init(
+		['create_addon'],
+		['addon'],
+		'app-body'
+	);
+{% endblock %}
+
 {% block app_sidebar %}
 	<section id="package-info" class="UI_Sidebar_Item">
 		{% include "_package_info.html" %}
@@ -50,3 +58,20 @@
 	</section>
 {% endblock %}
 	
+
+{% block app_content %}
+	<div id="editor-menu-wrapper">
+		<ul class="UI_Editor_Menu">
+			{% block app_content_menu_items %}{% endblock %}
+			<li class="UI_Editor_Menu_Button Icon_copy">
+				<a id="package-copy" title="" href="#">Copy 
+					<span class="UI_Editor_Icon"></span>
+				</a>
+			</li>
+			{% include "_editor_app_menu_items.html" %}
+		</ul>
+	</div> <!-- /editor-menu-wrapper -->
+	<div id="editor-wrapper">
+		{% block editor_wrapper %}{% endblock %}
+	</div>
+{% endblock %}

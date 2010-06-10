@@ -19,16 +19,8 @@
 	{% endwith %}
 {% endblock %}
 
-{% block app_content %}
-	<div id="editor-menu-wrapper">
-		<ul class="UI_Editor_Menu">
-			{% include "_view_app_menu_items.html" %}
-			{% include "_base_app_menu_items.html" %}
-		</ul>
-	</div> <!-- /editor-menu-wrapper -->
-	<div id="editor-wrapper">
-		{% for module in revision.modules.all %}
-			{% include "_module_code_textarea.html" %}
-		{% endfor %}
-	</div>
+{% block editor_wrapper %}
+	{% for module in revision.modules.all %}
+		{% include "_module_code_textarea.html" %}
+	{% endfor %}
 {% endblock %}
