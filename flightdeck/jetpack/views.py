@@ -167,12 +167,20 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 	if r.user.pk != revision.author.pk:
 		return HttpResponseForbidden('You are not the author of this Package')
 
+	reload = False
 	save_revision = False
 	save_package = False
 	start_version_name = revision.version_name
 	start_revision_message = revision.message
 
 	response_data = {}
+
+	package_full_name = r.POST.get('full_name', False)
+	if package_full_name != revision.package.full_name:
+		save_package = True
+		reload = True
+		revision.package.full_name = package_full_name
+		response_data['reload'] = True
 
 	package_description = r.POST.get('package_description', False)
 	if package_description:

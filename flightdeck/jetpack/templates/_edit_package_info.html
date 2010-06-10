@@ -2,12 +2,16 @@
 	<h3>Edit {{ revision.package.full_name }} info</h3>
 	<fieldset>
 		<p class="UI_Field">
-			<label for="version_name">Version</label>
-			<input type="text" name="version_name" id="version_name" value="{% firstof revision.version_name "" %}"/>
+			<label for="full_name">{{ revision.package.get_type_name|capfirst }} Name</label>
+			<input type="text" name="full_name" id="full_name" value="{{ revision.package.full_name }}"/>
 		</p>
 		<p class="UI_Field">
-			<label for="package_description">{{ revision.package.get_type_name }} description</label>
+			<label for="package_description">{{ revision.package.get_type_name|capfirst }} description</label>
 			<textarea id="package_description" name="package_description" rows="8" cols="40">{{ revision.package.description }}</textarea>
+		</p>
+		<p class="UI_Field">
+			<label for="version_name">Version</label>
+			<input type="text" name="version_name" id="version_name" value="{% firstof revision.version_name "" %}"/>
 		</p>
 		<p class="UI_Field">
 			<label for="revision_message">Commit message</label>
@@ -16,8 +20,7 @@
 	</fieldset>
 	<div class="UI_Modal_Actions">
 		<ul>
-			<li><input type="submit" id='savenow' value="Save now" class="submitModal"/></li>
-			<li><input type="submit" value="OK" class="submitModal"/></li>
+			<li><input type="submit" id='savenow' value="Save" class="submitModal"/></li>
 			<li><input type="reset" value="Cancel" class="closeModal"/></li>
 		</ul>
 	</div>

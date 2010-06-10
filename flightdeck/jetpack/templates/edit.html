@@ -47,8 +47,20 @@
 	</section>
 
 	<section id="modules">
-		{# modules are different for addons and libraries #}
-		{% block modules_sidebar %}{% endblock %}
+		{% with revision.modules.all as modules %}
+			<h3 class="UI_Sidebar_Toggler modules opened"><a title="Modules" href="#">
+				Modules{% if modules %} <strong id="modules-counter">({{ modules|length }})</strong>{% endif %} 
+				<span class="UI_OC"></span>
+				<span class="UI_Sidebar_Toggler_Icon"></span>
+			</a></h3>
+			<div class="UI_Sidebar_ItemCont UI_File_Listing">
+				<ul id="Modules_list" class="UI_File_Listing">
+					{# modules are different for addons and libraries #}
+					{% block modules_sidebar %}{% endblock %}
+				</ul>
+				{% include "_sidebar_revision_add_module.html" %}
+			</div>
+		{% endwith %}
 	</section>
 	<section id="libraries">
 		<h3 class="UI_Sidebar_Toggler libraries opened">

@@ -229,7 +229,9 @@ Package.Edit = new Class({
 			// delete_url: '',
 			// add_module_url: '',
 			// assign_library_url: '',
-		package_info_form_elements: ['version_name', 'package_description', 'revision_message']
+		package_info_form_elements: [
+			'full_name', 'version_name', 'package_description', 'revision_message'
+			]
 	},
 	initialize: function(options) {
 		this.setOptions(options);
@@ -356,6 +358,9 @@ Package.Edit = new Class({
 			data: this.data,
 			onSuccess: function(response) {
 				// set the redirect data to edit_url of the new revision
+				if (response.reload) {
+					window.location.href = response.edit_url;
+				}
 				fd.setURIRedirect(response.edit_url);
 				// set data changed by save
 				this.setUrls(response);

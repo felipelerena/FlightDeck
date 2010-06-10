@@ -1,21 +1,9 @@
 {% extends "edit.html" %}
 
 {% block modules_sidebar %}
-	{% with revision.modules.all as modules %}
-		<h3 class="UI_Sidebar_Toggler modules opened"><a title="Modules" href="#">
-			Modules{% if modules %} <strong id="modules-counter">({{ modules|length }})</strong>{% endif %} 
-			<span class="UI_OC"></span>
-			<span class="UI_Sidebar_Toggler_Icon"></span>
-		</a></h3>
-		<div class="UI_Sidebar_ItemCont">
-			<ul id="Modules_list" class="UI_File_Listing">
-				{% for module in modules %}
-					{% include "_sidebar_revision_module.html" %}
-				{% endfor %}
-			</ul>
-			{% include "_sidebar_revision_add_module.html" %}
-		</div>
-	{% endwith %}
+	{% for module in modules %}
+		{% include "_sidebar_revision_module.html" %}
+	{% endfor %}
 {% endblock %}
 
 {% block editor_wrapper %}
