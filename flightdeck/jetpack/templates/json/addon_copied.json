@@ -1,5 +1,5 @@
 {
-	"message": "Add-on \"{{ revision.package.full_name }}\" copied",
-	"edit_url": "{{ revision.package.get_edit_latest_url }}"
+	{% include "json/_edit_urls.html" %}
+	"message": "Add-on \"{{ revision.package.full_name }}\" copied"
 }
 

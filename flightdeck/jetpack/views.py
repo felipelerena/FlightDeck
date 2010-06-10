@@ -275,7 +275,11 @@ def package_assign_library(r, id, type, revision_number=None, version_name=None)
 	else:
 		lib_revision = library.latest
 
-	revision.dependency_add(lib_revision)
+	try:
+		revision.dependency_add(lib_revision)
+	except Exception as err:
+		return HttpResponseForbidden(err.__str__())
+		
 
 	lib_revision_url = lib_revision.get_edit_url() \
 		if r.user.pk == lib_revision.pk \

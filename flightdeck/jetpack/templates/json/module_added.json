@@ -1,10 +1,8 @@
 {
+	{% include "json/_edit_urls.html" %}
 	"message_title": "Success",
 	"message": "Module {{ module.filename }} added",
 	"code": "{{ module.code|escapejs }}",
 	"filename": "{{ module.filename }}",
-	"author": "{{ module.author.username }}",
-	"save_url": "{{ revision.get_save_url }}",
-	"edit_url": "{{ revision.package.get_edit_latest_url }}",
-	"test_url": "{{ revision.get_test_xpi_url }}"
+	"author": "{{ module.author.username }}"
 }

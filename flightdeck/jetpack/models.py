@@ -535,6 +535,11 @@ class PackageRevision(models.Model):
 		# Library
 		if dep.package.id_number == self.package.id_number:
 			raise SelfDependencyException('A Library can not depend on itself!')
+		# dependency have to be unique in the PackageRevision
+		deps = self.dependencies.all()
+		for d in deps:
+			if d.package.pk == dep.package.pk:
+				raise Exception('This revision already depends on %s' % dep.package.name);
 		# save as new version
 		self.save()
 		return self.dependencies.add(dep)

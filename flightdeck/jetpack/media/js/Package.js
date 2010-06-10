@@ -265,7 +265,7 @@ Package.Edit = new Class({
 	},
 	addModule: function(filename) {
 		new Request.JSON({
-			url: this.options.add_module_url,
+			url: this.add_module_url || this.options.add_module_url,
 			data: {'filename': filename},
 			onSuccess: function(response) {
 				// set the redirect data to edit_url of the new revision
@@ -293,7 +293,7 @@ Package.Edit = new Class({
 	},
 	assignLibrary: function(library_id) {
 		new Request.JSON({
-			url: this.options.assign_library_url,
+			url: this.assign_library_url || this.options.assign_library_url,
 			data: {'id_number': library_id},
 			onSuccess: function(response) {
 				// set the redirect data to edit_url of the new revision
@@ -374,5 +374,7 @@ Package.Edit = new Class({
 	setUrls: function(urls) {
 		this.save_url = urls.save_url;
 		this.test_url = urls.test_url;
+		this.add_module_url = urls.add_module_url;
+		this.assign_library_url = this.assign_library_url;
 	}
 });

@@ -1,8 +1,6 @@
 {
+	{% include "json/_edit_urls.html" %}
 	"message": "Library \"{{ library.full_name }}\" assigned",
-	"edit_url": "{{ revision.package.get_edit_latest_url }}",
-	"save_url": "{{ revision.get_save_url }}",
-	"test_url": "{{ revision.get_test_xpi_url }}",
 	"id_number": "{{ library.id_number }}",
 	"revision_number": "{{ lib_revision.revision_number }}",
 	"version_name": "{{ lib_revision.version_name }}",
