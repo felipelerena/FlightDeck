@@ -176,11 +176,10 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 	response_data = {}
 
 	package_full_name = r.POST.get('full_name', False)
-	if package_full_name != revision.package.full_name:
+	if package_full_name and package_full_name != revision.package.full_name:
 		save_package = True
 		reload = True
 		revision.package.full_name = package_full_name
-		response_data['reload'] = True
 
 	package_description = r.POST.get('package_description', False)
 	if package_description:
@@ -221,6 +220,9 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 		revision.package.save()
 	
 	response_data['version_name'] = revision.version_name if revision.version_name else ""
+
+	if reload:
+		response_data['reload'] = "yes"
 
 	return render_to_response("package_saved.json", locals(),
 				context_instance=RequestContext(r),

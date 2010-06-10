@@ -359,7 +359,7 @@ Package.Edit = new Class({
 			onSuccess: function(response) {
 				// set the redirect data to edit_url of the new revision
 				if (response.reload) {
-					window.location.href = response.edit_url;
+				 	window.location.href = response.edit_url;
 				}
 				fd.setURIRedirect(response.edit_url);
 				// set data changed by save

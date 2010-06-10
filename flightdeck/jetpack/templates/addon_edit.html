@@ -1,5 +1,6 @@
 {% extends "edit.html" %}
 
+
 {% block modules_sidebar %}
 	{% with revision.get_main_module as module %}
 		{% include "_sidebar_revision_module.html" %}
@@ -8,6 +9,7 @@
 		{% include "_sidebar_revision_module.html" %}
 	{% endif %}{% endfor %}
 {% endblock %}
+
 
 {% block core_library %}
 	{% include "_core_library_item.html" %}
@@ -26,6 +28,7 @@
 		</a>
 	</li>
 {% endblock %}
+
 
 {% block editor_wrapper %}
 	{% with revision.get_main_module as module %}

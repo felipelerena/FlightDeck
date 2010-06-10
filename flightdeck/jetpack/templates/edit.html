@@ -58,7 +58,11 @@
 					{# modules are different for addons and libraries #}
 					{% block modules_sidebar %}{% endblock %}
 				</ul>
-				{% include "_sidebar_revision_add_module.html" %}
+				<div class="UI_Field_Cont UI_New_Dependency" id="add_module_div">	
+					<label for="add_module">Add module:</label>
+					<input type="text" id="add_module" name="module_filename" value="" />
+					<button title="Add new module" id="add_module_action">Add</button>
+				</div>
 			</div>
 		{% endwith %}
 	</section>
@@ -78,10 +82,10 @@
 				{% endif %}
 			</ul>
 			<div class="UI_Field_Cont UI_New_Dependency" id="assign_library_div">
-				<label for="assign_library">Select existing library</label>
+				<label for="assign_library">Use library:</label>
 				<input type="hidden" id="library_id_number" name="library_id_number" value="" />
 				<input type="text" id="assign_library" name="assign_library" value="" />
-				<button title="Add existing library" id="assign_library_action">Add</button>
+				<button title="Add existing library" id="assign_library_action">Use</button>
 			</div>
 		</div>
 	</section>
