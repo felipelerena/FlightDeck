@@ -302,7 +302,7 @@ Package.Edit = new Class({
 				fd.setURIRedirect(response.edit_url);
 				// set data changed by save
 				this.setUrls(response);
-				fd.message.alert('Library assigned', response.message);
+				//fd.message.alert('Library assigned', response.message);
 				this.appendLibrary(response);
 			}.bind(this)
 		}).send();
