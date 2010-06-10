@@ -304,7 +304,16 @@ Package.Edit = new Class({
 			fd.error.alert('Application error', 'Can not associate module to the trigger');
 			return;
 		}
-		this.removeModule(module);
+		this.question = fd.showQuestion({
+			title: 'Are you sure you want to remove {filename}.js?'.substitute(module),
+			message: 'You may always copy it from this revision',
+			ok: 'Remove',
+			id: 'remove_module_button',
+			callback: function() {
+				this.removeModule(module);
+				this.question.destroy();
+			}.bind(this)
+		});
 	},
 	removeModule: function(module) {
 		new Request.JSON({

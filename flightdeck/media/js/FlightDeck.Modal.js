@@ -43,5 +43,27 @@ FlightDeck = Class.refactor(FlightDeck,{
 	},
 	destroyModal: function(key) {
 		this.modals[key].destroy();
+	},
+	showQuestion: function(data) {
+		if (!data.cancel) data.cancel = 'Cancel';
+		if (!data.ok) data.ok = 'OK';
+		if (!data.id) data.id = '';
+		var template = '<div id="display-package-info">'+
+							'<h3>{title}</h3>'+
+							'<div class="UI_Modal_Section">'+
+								'<p>{message}</p>'+
+							'</div>'+
+							'<div class="UI_Modal_Actions">'+
+								'<ul>'+
+									'<li><input id="{id}" type="button" value="{ok}" class="submitModal"/></li>'+
+									'<li><input type="reset" value="{cancel}" class="closeModal"/></li>'+
+								'</ul>'+
+							'</div>'+
+						'</div>';
+		display = this.displayModal(template.substitute(data));
+		if (data.callback && data.id) {
+			$(data.id).addEvent('click', data.callback);
+		}
+		return display;
 	}
 });

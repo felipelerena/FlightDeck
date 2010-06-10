@@ -1,5 +1,5 @@
 {
-	{% include "json/_edit_urls.html" %}
+	{% include "json/_edit_urls.json" %}
 	"message_title": "Success",
 	"message": "Module {{ module.filename }} removed",
 	"filename": "{{ module.filename }}"
