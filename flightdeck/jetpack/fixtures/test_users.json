@@ -378,7 +378,7 @@
         }
     }, 
     {
-        "pk": 2, 
+        "pk": 4, 
         "model": "auth.user", 
         "fields": {
             "username": "7654321", 
@@ -419,7 +419,7 @@
         "fields": {
             "nickname": "johnd", 
             "location": "", 
-            "user": 2, 
+            "user": 4, 
             "photo": null, 
             "homepage": null, 
             "occupation": null
