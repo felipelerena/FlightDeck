@@ -1,10 +1,11 @@
 import os
+import simplejson
 
 from django.db.models import signals
 from django.contrib.auth.models import User
 
 from jetpack import models as jetpack_models
-from jetpack.models import Package, Module
+from jetpack.models import Package, Module, PackageRevision
 from jetpack import settings
 from person.models import Profile
 
@@ -24,15 +25,24 @@ def install_jetpack_core(sender, created_models, **kwargs):
 	Profile.objects.create(user=core_author)
 
 	# create Jetpack Core Library
+	handle = open('%s/packages/jetpack-core/package.json' % sdk_dir)
+	core_manifest = simplejson.loads(handle.read())
+	handle.close()
+	core_contributors = [core_manifest['author']]
+	core_contributors.extend(core_manifest['contributors'])
 	core = Package(
-		author=core_author,
+		author=core_author, # sorry Atul
 		full_name='Jetpack Core',
 		name='jetpack-core',
 		type='l',
-		public_permission=2
+		public_permission=2,
+		description=core_manifest['description']
 	)
 	core.save()
 	core_revision = core.latest
+	core_revision.set_version(core_manifest['version'])
+	core_revision.contributors = ', '.join(core_contributors)
+	super(PackageRevision, core_revision).save()
 	core_lib_dir = '%s/packages/jetpack-core/lib' % sdk_dir
 	core_modules = os.listdir(core_lib_dir)
 	for module_file in core_modules:
