@@ -21,18 +21,6 @@ var FlightDeck = new Class({
 			}
 		};
 		this.editors = [];
-		// loading XPI from saved objects
-		$$('.{try_in_browser_class} a'.substitute(this.options)).each(function(el) {
-			el.addEvent('click', function(e) {
-				e.stop();
-				if (fd.alertIfNoAddOn()) {
-					new Request.JSON({
-						url: this.get('href'),
-						onSuccess: fd.testXPI.bind(fd)
-					}).send();
-				}
-			});
-		});
 		
 		this.tips = new Tips({
 			fixed: false,

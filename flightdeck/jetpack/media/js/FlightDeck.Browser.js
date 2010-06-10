@@ -1,5 +1,7 @@
 /*
  * Extending Flightdeck with Browser functionality 
+ * loading XPI from saved objects
+ */ 
 
 FlightDeck = Class.refactor(FlightDeck,{
 	options: {
@@ -14,23 +16,10 @@ FlightDeck = Class.refactor(FlightDeck,{
 				if (fd.alertIfNoAddOn()) {
 					new Request.JSON({
 						url: el.get('href'),
-						onSuccess: function(response) {
-							if (response.stderr) {
-								fd.error.alert('Error',response.stderr);
-								return;
-							}
-							// now call the add-on
-							fd.install_xpi(response.get_xpi_url);
-						}
+						onSuccess: fd.testXPI.bind(fd)
 					}).send();
 				}
 			});
 		});
-	},
-	install_xpi: function(url) {
-		if (fd.alertIfNoAddOn()) {
-			window.mozFlightDeck.send({cmd: "install", path: url});
-		}
 	}
 });
-*/

@@ -16,7 +16,7 @@ var Package = new Class({
 				// full_name: '',
 				// name: '',
 				// description: '',
-				// type: ''
+				// type: '', // 'a'/'l'
 				// package_author: '',
 				// url: '',
 				// license: '',
@@ -32,13 +32,34 @@ var Package = new Class({
 				// revision_author: '',
 				// modules: [], // a list of module filename, author pairs
 		readonly: false,
-		package_info_el: 'package-info'
+		package_info_el: 'package-info',
+		test_el: 'try_in_browser'
 	},
 	modules: {},
 	initialize: function(options) {
 		this.setOptions(options);
 		this.instantiate_modules();
 		$('revisions_list').addEvent('click', this.show_revision_list);
+
+		// testing
+		this.boundTestAddon = this.testAddon.bind(this);
+		this.test_url = $(this.options.test_el).get('href');
+		if (this.isAddon()) {
+			$(this.options.test_el).addEvent('click', this.boundTestAddon)
+		}
+	},
+	testAddon: function(e){
+		if (e) e.stop();
+		if (fd.alertIfNoAddOn()) {
+			new Request.JSON({
+				url: this.test_url,
+				data: this.data || {},
+				onSuccess: fd.testXPI.bind(fd)
+			}).send();
+		}
+	},
+	isAddon: function() {
+		return (this.options.type == 'a');
 	},
 	instantiate_modules: function() {
 		// iterate by modules and instantiate Module
@@ -318,6 +339,10 @@ Package.Edit = new Class({
 		$each(this.modules, function(module, filename) {
 			this.data[filename] = fd.editor_contents[filename + module.options.code_editor_suffix]
 		}, this);
+	},
+	testAddon: function(e){
+		this.collectData();
+		this.parent(e);
 	},
 	save: function(e) {
 		if (e) e.stop();
