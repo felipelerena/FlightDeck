@@ -42,8 +42,10 @@ var FlightDeck = new Class({
 	},
 	setURIRedirect: function(url) {
 		// change the URL add #/path/to/saved/revision
-		fd.uri.setData({'redirect': url}, false, 'fragment');
-		fd.uri.go();
+		if (this.uri.get('directory') != url) {
+			this.uri.setData({'redirect': url}, false, 'fragment');
+			this.uri.go();
+		}
 	},
 	/*
 	 * Method: testXPI
