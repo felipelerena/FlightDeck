@@ -588,6 +588,37 @@ class PackageRevision(models.Model):
 				'%s/packages/%s' % (sdk_dir, self.package.get_unique_package_name()))
 				)
 
+	def build_xpi_test(self, modules):
+		" prepare and build XPI for test only (unsaved modules) "
+		if self.package.type == 'l':
+			raise Exception('only Add-ons may build a XPI')
+
+		sdk_dir = self.get_sdk_dir()
+		# TODO: consider SDK staying per PackageRevision...
+		if os.path.isdir(sdk_dir):
+			xpi_remove(sdk_dir)
+		sdk_copy(sdk_dir)
+		self.export_keys(sdk_dir)
+
+		packages_dir = '%s/packages' % sdk_dir
+		package_dir = self.package.make_dir(packages_dir)
+		self.export_manifest(package_dir)
+		# instead of export modules
+		lib_dir = '%s/%s' % (package_dir, self.package.get_lib_dir())
+		for mod in self.modules.all():
+			mod_edited = False
+			for e_mod in modules:
+				if e_mod.pk == mod.pk:
+					mod_edited = True
+					e_mod.export_code(lib_dir)
+			if not mod_edited:
+				mod.export_code(lib_dir)
+		self.export_attachments('%s/%s' % (package_dir, self.package.get_data_dir()))
+		self.export_dependencies(packages_dir)
+		return (xpi_build(sdk_dir, 
+				'%s/packages/%s' % (sdk_dir, self.package.get_unique_package_name()))
+				)
+
 
 	def export_keys(self, sdk_dir):
 		" export private and public keys "

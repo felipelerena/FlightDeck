@@ -268,7 +268,7 @@ Package.Edit = new Class({
 				// set the redirect data to edit_url of the new revision
 				fd.setURIRedirect(response.edit_url);
 				// set data changed by save
-				this.save_url = response.save_url;
+				this.setUrls(response);
 				fd.message.alert(response.message_title, response.message);
 				// initiate new Module
 				var mod = new Module({
@@ -296,7 +296,7 @@ Package.Edit = new Class({
 				// set the redirect data to edit_url of the new revision
 				fd.setURIRedirect(response.edit_url);
 				// set data changed by save
-				this.save_url = response.save_url;
+				this.setUrls(response);
 				fd.message.alert('Library assigned', response.message);
 				this.appendLibrary(response);
 			}.bind(this)
@@ -342,6 +342,7 @@ Package.Edit = new Class({
 	},
 	testAddon: function(e){
 		this.collectData();
+		this.data.live_data_testing = true;
 		this.parent(e);
 	},
 	save: function(e) {
@@ -354,7 +355,7 @@ Package.Edit = new Class({
 				// set the redirect data to edit_url of the new revision
 				fd.setURIRedirect(response.edit_url);
 				// set data changed by save
-				this.save_url = response.save_url;
+				this.setUrls(response);
 				fd.message.alert(response.message_title, response.message);
 				// clean data leaving package_info data
 				this.data = {};
@@ -366,5 +367,9 @@ Package.Edit = new Class({
 				if (fd.editPackageInfoModal) fd.editPackageInfoModal.destroy();
 			}.bind(this)
 		}).send();
+	},
+	setUrls: function(urls) {
+		this.save_url = urls.save_url;
+		this.test_url = urls.test_url;
 	}
 });

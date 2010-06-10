@@ -301,7 +301,20 @@ def package_test_xpi(r, id, revision_number=None, version_name=None):
 						package__id_number=id, package__type='a',
 						revision_number=revision_number)
 
-	(stdout, stderr) = revision.build_xpi()
+	
+	# support temporary data
+	if r.POST.get('live_data_testing', False):
+		modules = []
+		for mod in revision.modules.all():
+			if r.POST.get(mod.filename, False):
+				code = r.POST[mod.filename]
+				if mod.code != code:
+					mod.code = code
+					modules.append(mod)
+		(stdout, stderr) = revision.build_xpi_test(modules)
+
+	else:
+		(stdout, stderr) = revision.build_xpi()
 
 	if stderr and not settings.DEBUG:
 		xpi_remove(sdk_dir)

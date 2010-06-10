@@ -4,5 +4,6 @@
 	"message_title": "{{ revision.package.get_type_name }} saved",
 	"message": "xxx",
 	"edit_url": "{{ revision.package.get_edit_latest_url }}",
-	"save_url": "{{ revision.get_save_url }}"
+	"save_url": "{{ revision.get_save_url }}",
+	"test_url": "{{ revision.get_test_xpi_url }}"
 }
