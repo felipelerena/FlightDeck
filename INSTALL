@@ -66,8 +66,10 @@ these steps (some commands are specific to Ubuntu with Bash):
    # You may want to install test fixtures to save time
    $ ./scripts/manage.sh loaddata test_users.json test_basic_usecase.json
 
+10. Test FlightDeck applications
+	$ ./scripts/test.sh base person amo jetpack api
    
-10. Run Server
+11. Run Server
    $ ./scripts/runserver.sh
    FlightDeck may be accessed by loading http://localhost:8090/
    Administration from http://localhost:8090/admin/
