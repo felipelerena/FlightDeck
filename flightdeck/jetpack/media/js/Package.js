@@ -70,7 +70,7 @@ var Package = new Class({
 				module.main = true;
 				main_module = module;
 			}
-			this.modules[module.filename] = new Module(module);
+			this.modules[module.filename] = new Module(this,module);
 		}, this);
 	},
 	show_revision_list: function(e) {
@@ -102,8 +102,9 @@ var Module = new Class({
 		type: 'js',
 		append: false
 	},
-	initialize: function(options) {
+	initialize: function(pack, options) {
 		this.setOptions(options);
+		this.pack = pack;
 		if (this.options.append) {
 			this.append();
 		}
@@ -111,6 +112,7 @@ var Module = new Class({
 		if ($(this.get_trigger_id()) && $(this.get_editor_id())) {
 			this.textarea = $(this.get_editor_id());
 			this.trigger = $(this.get_trigger_id());
+			this.trigger.store('Module', this);
 			this.editor = new FDEditor({
 				element: this.get_editor_id(),
 				activate: this.options.main || this.options.executable,
@@ -134,6 +136,12 @@ var Module = new Class({
 			}
 			if (!this.options.readonly) {
 				// here special functionality for edit page
+				var rm_mod_trigger = this.trigger.getElement('span.File_close');
+				if (rm_mod_trigger) {
+					rm_mod_trigger.addEvent('click', function(e) {
+						this.pack.removeModuleAction(e);
+					}.bind(this));
+				}
 			}
 		}
 	},
@@ -243,6 +251,7 @@ Package.Edit = new Class({
 		this.boundSubmitInfo = this.submitInfo.bind(this);
 		this.boundAssignLibraryAction = this.assignLibraryAction.bind(this);
 		this.boundAddModuleAction = this.addModuleAction.bind(this);
+		this.boundRemoveModuleAction = this.removeModuleAction.bind(this);
 		$(this.options.add_module_el).addEvent('click', 
 			this.boundAddModuleAction);
 		$(this.options.assign_library_el).addEvent('click',
@@ -276,7 +285,7 @@ Package.Edit = new Class({
 				this.setUrls(response);
 				fd.message.alert(response.message_title, response.message);
 				// initiate new Module
-				var mod = new Module({
+				var mod = new Module(this,{
 					append: true,
 					active: true,
 					filename: response.filename,
@@ -284,6 +293,28 @@ Package.Edit = new Class({
 					code: response.code
 				});
 				this.modules[response.filename] = mod;
+			}.bind(this)
+		}).send();
+	},
+	removeModuleAction: function(e) {
+		e.stop();
+		var trigger = e.target.getParent('a');
+		var module = trigger.retrieve('Module');
+		if (!module) {
+			fd.error.alert('Application error', 'Can not associate module to the trigger');
+			return;
+		}
+		this.removeModule(module);
+	},
+	removeModule: function(module) {
+		new Request.JSON({
+			url: this.remove_module_url || this.options.remove_module_url,
+			data: module.options,
+			onSuccess: function(response) {
+				fd.setURIRedirect(response.edit_url);
+				this.setUrls(response);
+				$('{filename}_switch'.substitute(response)).getParent('li').destroy();
+				delete this.modules[response.filename];
 			}.bind(this)
 		}).send();
 	},
@@ -380,6 +411,7 @@ Package.Edit = new Class({
 		this.save_url = urls.save_url;
 		this.test_url = urls.test_url;
 		this.add_module_url = urls.add_module_url;
+		this.remove_module_url = urls.remove_module_url;
 		this.assign_library_url = this.assign_library_url;
 	}
 });

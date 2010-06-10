@@ -240,17 +240,22 @@ class PackageRevision(models.Model):
 
 	def get_edit_url(self):
 		return reverse(
-			'jp_%s_revision_edit' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
+			'jp_%s_revision_edit' % self.package.get_type_name(), 
 			args=[self.package.id_number, self.revision_number])
 
 	def get_save_url(self):
 		return reverse(
-			'jp_%s_revision_save' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
+			'jp_%s_revision_save' % self.package.get_type_name(), 
 			args=[self.package.id_number, self.revision_number])
 
 	def get_add_module_url(self):
 		return reverse(
-			'jp_%s_revision_add_module' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
+			'jp_%s_revision_add_module' % self.package.get_type_name(), 
+			args=[self.package.id_number, self.revision_number])
+
+	def get_remove_module_url(self):
+		return reverse(
+			'jp_%s_revision_remove_module' % self.package.get_type_name(), 
 			args=[self.package.id_number, self.revision_number])
 
 	def get_assign_library_url(self):

@@ -1,4 +1,5 @@
 {% load base_helpers %}
+// {{ revision }}
 fd.item = new Package.Edit({
 	// data
 		// package specific
@@ -24,6 +25,7 @@ fd.item = new Package.Edit({
 	// Actions
 		save_url: '{{ revision.get_save_url }}',
 		add_module_url: '{{ revision.get_add_module_url }}',
+		remove_module_url: '{{ revision.get_remove_module_url }}',
 		assign_library_url: '{{ revision.get_assign_library_url }}'
 });
 

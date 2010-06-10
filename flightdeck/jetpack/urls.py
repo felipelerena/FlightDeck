@@ -72,11 +72,15 @@ urlpatterns = patterns('jetpack.views',
 		'package_save',{'type': 'l'},  name='jp_library_revision_save'),
 
 
-	# add module
+	# add/remove module
 	url(r'^addon/add_module/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
 		'package_add_module', {'type': 'a'}, name='jp_addon_revision_add_module'),
 	url(r'^library/add_module/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
 		'package_add_module',{'type': 'l'},  name='jp_library_revision_add_module'),
+	url(r'^addon/remove_module/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_remove_module', {'type': 'a'}, name='jp_addon_revision_remove_module'),
+	url(r'^library/remove_module/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_remove_module',{'type': 'l'},  name='jp_library_revision_remove_module'),
 
 
 	# autocomplete library

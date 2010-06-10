@@ -83,7 +83,7 @@ def package_details(r, id, type, revision_number=None, version_name=None, latest
 @login_required
 def package_copy(r, id, type, revision_number=None, version_name=None):
 	"""
-	Edit package - only for the author
+	Copy package - create a duplicate of the Package, set author as current user
 	"""
 	revision = get_package_revision(id, type, revision_number, version_name)
 	if r.user.pk == revision.author.pk:
@@ -130,7 +130,7 @@ def package_edit(r, id, type, revision_number=None, version_name=None, latest=Fa
 @login_required
 def package_add_module(r, id, type, revision_number=None, version_name=None):
 	"""
-	Edit package - only for the author
+	Add new module to the PackageRevision
 	"""
 	revision = get_package_revision(id, type, revision_number, version_name)
 	if r.user.pk != revision.author.pk:
@@ -155,6 +155,39 @@ def package_add_module(r, id, type, revision_number=None, version_name=None):
 				{'revision': revision, 'module': mod},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+
+@require_POST
+@login_required
+def package_remove_module(r, id, type, revision_number):
+	"""
+	Remove module from PackageRevision
+	"""
+	revision = get_package_revision(id, type, revision_number)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this Package')
+
+	filename = r.POST.get('filename')
+
+	modules = revision.modules.all()
+
+	module_found = False
+
+	for mod in modules:
+		if mod.filename == filename:
+			module = mod
+			module_found = True
+
+	if not module_found:
+		return HttpResponseForbidden('There is no such module in %s' % revision.package.full_name)
+
+	revision.module_remove(module)
+
+	return render_to_response("json/module_removed.json", 
+				{'revision': revision, 'module': module},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
+
 
 
 @require_POST
