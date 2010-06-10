@@ -69,6 +69,12 @@ def package_details(r, id, type, revision_number=None, version_name=None, latest
 	Show package - read only
 	"""
 	revision = get_package_revision(id, type, revision_number, version_name, latest)
+	libraries = revision.dependencies.all()
+	library_counter = len(libraries)
+	if revision.package.is_addon():
+		corelibrary = Package.objects.get(id_number=settings.MINIMUM_PACKAGE_ID)
+		corelibrary = corelibrary.latest
+		library_counter += 1
 	readonly = True
 	return render_to_response("%s_view.html" % revision.package.get_type_name(), locals(),
 				context_instance=RequestContext(r))
@@ -109,6 +115,13 @@ def package_edit(r, id, type, revision_number=None, version_name=None, latest=Fa
 					)
 		#return HttpResponseForbidden('You are not the author of this Package')
 		
+	libraries = revision.dependencies.all()
+	library_counter = len(libraries)
+	if revision.package.is_addon():
+		corelibrary = Package.objects.get(id_number=settings.MINIMUM_PACKAGE_ID)
+		corelibrary = corelibrary.latest
+		library_counter += 1
+
 	return render_to_response("%s_edit.html" % revision.package.get_type_name(), locals(),
 				context_instance=RequestContext(r))
 

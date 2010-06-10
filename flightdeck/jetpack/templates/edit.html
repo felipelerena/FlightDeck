@@ -51,28 +51,27 @@
 		{% block modules_sidebar %}{% endblock %}
 	</section>
 	<section id="libraries">
-		{% with revision.dependencies.all as libraries %}
-			<h3 class="UI_Sidebar_Toggler libraries opened">
-				<a title="Libraries" href="#">
-					Libraries <strong id="libraries-counter">({{ libraries|length }})</strong> 
-					<span class="UI_OC"></span>
-					<span class="UI_Sidebar_Toggler_Icon"></span>
-				</a>
-			</h3>
-			<div class="UI_Sidebar_ItemCont">
-				<ul class="UI_File_Listing">
-					{% if libraries %}
-						{% include "_sidebar_revision_libraries_list.html" %}
-					{% endif %}
-				</ul>
-				<div class="UI_Field_Cont UI_New_Dependency" id="assign_library_div">
-					<label for="assign_library">Select existing library</label>
-					<input type="hidden" id="library_id_number" name="library_id_number" value="" />
-					<input type="text" id="assign_library" name="assign_library" value="" />
-					<button title="Add existing library" id="assign_library_action">Add</button>
-				</div>
+		<h3 class="UI_Sidebar_Toggler libraries opened">
+			<a title="Libraries" href="#">
+				Libraries <strong id="libraries-counter">({{ libraries|length }})</strong> 
+				<span class="UI_OC"></span>
+				<span class="UI_Sidebar_Toggler_Icon"></span>
+			</a>
+		</h3>
+		<div class="UI_Sidebar_ItemCont">
+			<ul class="UI_File_Listing">
+				{% block core_library %}{% endblock %}
+				{% if libraries %}
+					{% include "_sidebar_revision_libraries_list.html" %}
+				{% endif %}
+			</ul>
+			<div class="UI_Field_Cont UI_New_Dependency" id="assign_library_div">
+				<label for="assign_library">Select existing library</label>
+				<input type="hidden" id="library_id_number" name="library_id_number" value="" />
+				<input type="text" id="assign_library" name="assign_library" value="" />
+				<button title="Add existing library" id="assign_library_action">Add</button>
 			</div>
-		{% endwith %}
+		</div>
 	</section>
 {% endblock %}
 
