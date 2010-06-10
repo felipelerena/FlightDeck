@@ -22,7 +22,8 @@ from jetpack.xpi_utils import sdk_copy, xpi_build, xpi_remove
 PERMISSION_CHOICES = (
 	(0, 'private'),
 	(1, 'view'),
-	(2, 'edit')
+	(2, 'do not copy'),
+	(3, 'edit')
 )
 TYPE_CHOICES = (
 	('l', 'Library'), 
