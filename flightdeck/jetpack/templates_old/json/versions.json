@@ -1,6 +1,0 @@
-[{% for version in versions %}{
-	"version": "{{ version.fullname }}",
-	"edit_url": "{{ version.get_absolute_url }}",
-	"install_url": ""
-}{% if not forloop.last %},{% else %}
-{% endif %}{% endfor %}]

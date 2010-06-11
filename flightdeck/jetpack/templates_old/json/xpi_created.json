@@ -1,6 +1,0 @@
-{
-	"get_xpi_url": "{{ xpi_url }}", 
-	"rm_xpi_url": "{{ rm_url }}",
-	"stdout": "{{ out.0|escapejs }}", 
-	"stderr": "{{ out.1|escapejs }}"
-}

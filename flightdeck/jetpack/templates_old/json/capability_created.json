@@ -1,4 +1,0 @@
-{
-	"message": "capability \"{{ capability.name }}\" created",
-	"absolute_url": "{{ capability.get_absolute_url }}"
-}

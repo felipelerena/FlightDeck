@@ -1,9 +1,0 @@
-{ 
-	"version_absolute_url": "{{ version.get_absolute_url }}",
-	"version_identification": {
-		"type": "{{ item.type }}",
-		"slug": "{{ item.slug }}",
-		"version_name": "{{ version.name }}",
-		"version_counter": {{ version.counter }}
-	}
-}

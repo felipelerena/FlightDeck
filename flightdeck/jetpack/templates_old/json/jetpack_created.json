@@ -1,4 +1,0 @@
-{
-	"message": "jetpack \"{{ jetpack.name }}\" created",
-	"absolute_url": "{{ jetpack.get_absolute_url }}"
-}
