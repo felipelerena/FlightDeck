@@ -79,6 +79,9 @@ Class.refactor(FlightDeck, {
 		this.current_editor = editor_id;
 		this.bespin.setContent(this.editor_contents[editor_id]);
 		this.bespin.setSyntax(syntax);
+	},
+	cleanBespin: function() {
+		this.bespin.setContent('');
 	}
 });
 

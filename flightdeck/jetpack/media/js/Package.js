@@ -122,14 +122,13 @@ var Module = new Class({
 			// connect trigger
 			this.trigger.addEvent('click', function(e) {
 				if (e) e.preventDefault();
-				// placeholder for switching editors
-				fd.switchBespinEditor(this.get_editor_id(), this.options.type); 
+				this.switchBespin();
 			}.bind(this));
 			if (this.options.main || this.options.executable) {
 				this.trigger.getParent('li').switch_mode_on();
 			} 
 			if (this.options.active) {
-				fd.switchBespinEditor(this.get_editor_id(), this.options.type); 
+				this.switchBespin();
 				var li = this.trigger.getParent('li')
 				fd.assignModeSwitch(li);
 				li.switch_mode_on();
@@ -142,6 +141,37 @@ var Module = new Class({
 						this.pack.removeModuleAction(e);
 					}.bind(this));
 				}
+			}
+		}
+	},
+	switchBespin: function() {
+		fd.switchBespinEditor(this.get_editor_id(), this.options.type); 
+		if (fd.getItem()) {
+			$each(fd.getItem().modules, function(mod) {
+				mod.active = false;
+			});
+		}
+		this.active = true;
+	},
+	destroy: function() {
+		this.textarea.destroy();
+		this.trigger.destroy();
+		delete fd.getItem().modules[this.options.filename];
+		delete fd.editor_contents[this.get_editor_id()];
+		if (this.active) {
+			// switch editor!
+			mod = null;
+			// try to switch to first element
+			first = false;
+			$each(fd.getItem().modules, function(mod) {
+				if (!first) {
+					first = true;
+					mod.switchBespin();
+					mod.trigger.getParent('li').switch_mode_on();
+				}
+			});
+			if (!first) {
+				fd.cleanBespin();
 			}
 		}
 	},
@@ -322,8 +352,8 @@ Package.Edit = new Class({
 			onSuccess: function(response) {
 				fd.setURIRedirect(response.edit_url);
 				this.setUrls(response);
-				$('{filename}_switch'.substitute(response)).getParent('li').destroy();
-				delete this.modules[response.filename];
+				var mod = this.modules[response.filename];
+				mod.destroy();
 			}.bind(this)
 		}).send();
 	},
