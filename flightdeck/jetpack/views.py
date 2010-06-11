@@ -86,17 +86,24 @@ def package_copy(r, id, type, revision_number=None, version_name=None):
 	Copy package - create a duplicate of the Package, set author as current user
 	"""
 	revision = get_package_revision(id, type, revision_number, version_name)
+	""" it may be useful to copy your own package ...
 	if r.user.pk == revision.author.pk:
 		return HttpResponseForbidden('You are the author of this %s' % revision.package.get_type_name())
-	try:
-		package = Package.objects.get(name=revision.package.name, author__username=r.user.username)
-		return HttpResponseForbidden('You already have a %s with that name' % revision.package.get_type_name())
-	except:
-		""
-	package = revision.package.copy(r.user)
-	revision.save_new_revision(package)
+	"""
 
-	return render_to_response("json/%s_copied.json" % package.get_type_name(), 
+	try:
+		package = Package.objects.get(
+			full_name=revision.package.get_copied_full_name(), 
+			author__username=r.user.username
+			)
+		return HttpResponseForbidden(
+			'You already have a %s with that name' % revision.package.get_type_name()
+			)
+	except:
+		package = revision.package.copy(r.user)
+		revision.save_new_revision(package)
+
+		return render_to_response("json/%s_copied.json" % package.get_type_name(), 
 				{'revision': revision},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
@@ -210,9 +217,20 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 
 	package_full_name = r.POST.get('full_name', False)
 	if package_full_name and package_full_name != revision.package.full_name:
-		save_package = True
-		reload = True
-		revision.package.full_name = package_full_name
+		try:
+			package = Package.objects.get(
+				full_name=package_full_name, 
+				type=revision.package.type,
+				author__username=r.user.username,
+				)
+			return HttpResponseForbidden(
+				'You already have a %s with that name' % revision.package.get_type_name()
+				)
+		except:
+			save_package = True
+			reload = True
+			revision.package.full_name = package_full_name
+			revision.package.name = None
 
 	package_description = r.POST.get('package_description', False)
 	if package_description:

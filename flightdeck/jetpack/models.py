@@ -163,10 +163,20 @@ class Package(models.Model):
 		if not os.path.isdir('%s/%s' % (package_dir, self.get_data_dir())):
 			os.mkdir('%s/%s' % (package_dir, self.get_data_dir()))
 		return package_dir
+
+	def get_copied_full_name(self):
+		full_name = self.full_name
+		if not full_name.startswith('Copy of'):
+			full_name = "Copy of %s" % full_name
+		return full_name
+		
 	
 	def copy(self, author):
+		"""
+		create copy of the package
+		"""
 		new_p = Package(
-			full_name=self.full_name,
+			full_name=self.get_copied_full_name(),
 			description=self.description,
 			type=self.type,
 			author=author,
@@ -766,14 +776,19 @@ def set_package_id_number(instance, **kwargs):
 pre_save.connect(set_package_id_number, sender=Package)
 
 
-def make_name_and_keypair_on_create(instance, **kwargs):
+def make_name(instance, **kwargs):
 	if kwargs.get('raw',False): return
 	if not instance.name:
 		instance.set_name()
-		if instance.is_addon():
-			instance.generate_key()
+pre_save.connect(make_name, sender=Package)
 
-pre_save.connect(make_name_and_keypair_on_create, sender=Package)
+def make_keypair_on_create(instance, **kwargs):
+	if kwargs.get('raw',False): return
+	if instance.id: return
+	if instance.is_addon():
+		instance.generate_key()
+pre_save.connect(make_keypair_on_create, sender=Package)
+
 
 
 def save_first_revision(instance, **kwargs):
