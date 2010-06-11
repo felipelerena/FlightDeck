@@ -130,6 +130,14 @@ Configuring Apache
    $ chmod g+w ../FlightDeck dev.db
    # browse http://flightdeck.localhost
 
+3. Database
+   # If using sqlite3 please make the project directory writable by Apache as well as the 
+   # database
+   $ sudo chgrp www-data /path/to/projects/FlightDeck
+   $ sudo chgrp www-data /path/to/projects/FlightDeck/dev.db
+   $ sudo chmod g+w /path/to/projects/FlightDeck
+   $ sudo chmod g+w /path/to/projects/FlightDeck/dev.db
+
 
 #####################
 Updating environment
