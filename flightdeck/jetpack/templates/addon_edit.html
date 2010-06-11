@@ -18,12 +18,14 @@
 
 {% block app_content_menu_items %}
 	<li class="UI_Editor_Menu_Button Icon_try XPI_test">
-		<a id="try_in_browser" title="" href="{{ revision.get_test_xpi_url }}">Test 
+		<a id="try_in_browser" title="" href="{{ revision.get_test_xpi_url }}">
+			Test 
 			<span class="UI_Editor_Icon"></span>
 		</a>
 	</li>
 	<li class="UI_Editor_Menu_Button Icon_download">
-		<a id="download" title="" href="{{ revision.get_download_xpi_url }}">Download 
+		<a id="download" target="_new" title="" href="{{ revision.get_download_xpi_url }}">
+			Download 
 			<span class="UI_Editor_Icon"></span>
 		</a>
 	</li>
