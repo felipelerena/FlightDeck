@@ -36,13 +36,15 @@ a:hover {
  =========================================================================== */
 #app-header {
 	background: -moz-linear-gradient(270deg, #5A6776, #4E5861);
-	height: 75px;
+	height: 115px;
 }
 
 	#app-header nav {
 		float: right;
-		margin: 22px 15px 0 0;
+		margin: 0 15px 0 0;
 		padding: 1px;
+		position: relative;
+		top: -28px;
 	}
    
 	#app-header nav li {
@@ -86,13 +88,13 @@ a:hover {
 		#app-header nav li.active a {
 			color: #fff;
 		}
-
+		
 /*
  =========================================================================== */
 #flightdeck-logo {
 	display: block;
 	position: absolute;
-	top: 7px;
+	top: 47px;
 	left: 15px;
 	font-size: 2.0em;
 	width: 246px;
@@ -114,6 +116,23 @@ a:hover {
 	#mozillalabs-logo a {
 	}
    
+
+#brand {
+	height: 35px;
+	background: url(../img/mozilla/header-border.png) 0 0 repeat-x;
+	overflow: hidden;
+}
+
+	#brand a {
+		width: 90px;
+		height: 31px;
+		display: block;
+		background: url(../img/mozilla/tab-mozilla.png) 0 0 no-repeat;
+		text-indent: -900em;
+		margin-top: 4px;
+		margin-left: 15px;
+	}
+
 /*
  =========================================================================== */
 #app-body {
@@ -218,13 +237,14 @@ a:hover {
 /*
  =========================================================================== */
 .UI_tooltip {
-	padding: 6px;
+	padding: 8px;
 	background: rgba(0, 0, 0, 0.7);
 	color: #fff;
 	font-size: .9em;
 	text-shadow: 0 1px 0 #000;
 	min-width: 120px;
 	-moz-border-radius: 3px;
+	width: 220px;
 }
 
 	.UI_tooltip .tip-title {
