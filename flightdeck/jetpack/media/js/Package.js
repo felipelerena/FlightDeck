@@ -373,7 +373,6 @@ Package.Edit = new Class({
 		this.assignLibrary(library_id);
 	},
 	assignLibrary: function(library_id) {
-		$log(this.assign_library_url);
 		new Request.JSON({
 			url: this.assign_library_url || this.options.assign_library_url,
 			data: {'id_number': library_id},
