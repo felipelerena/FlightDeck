@@ -270,8 +270,14 @@ class PackageRevision(models.Model):
 
 	def get_assign_library_url(self):
 		return reverse(
-			'jp_%s_revision_assign_library' % settings.PACKAGE_SINGULAR_NAMES[self.package.type], 
+			'jp_%s_revision_assign_library' % self.package.get_type_name(), 
 			args=[self.package.id_number, self.revision_number])
+
+	def get_remove_library_url(self):
+		return reverse(
+			'jp_%s_revision_remove_library' % self.package.get_type_name(), 
+			args=[self.package.id_number, self.revision_number])
+
 
 
 	def get_test_xpi_url(self):
@@ -565,6 +571,14 @@ class PackageRevision(models.Model):
 		self.save()
 		return self.dependencies.remove(dep)
 
+
+	def dependency_remove_by_id_number(self, id_number):
+		" find dependency by its id_number call dependency_remove "
+		for dep in self.dependencies.all():
+			if dep.package.id_number == id_number:
+				self.dependency_remove(dep)
+				return True
+		raise Exception('There is no such library in this %s' % self.package.get_type_name())
 
 	def get_dependencies_list_json(self):
 		l = [{

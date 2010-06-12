@@ -276,16 +276,25 @@ Package.Edit = new Class({
 		// this.data is a temporary holder of the data for the submit
 		this.data = {};
 		this.parent(options);
+		// assign menu items
 		$(this.options.package_info_el).addEvent('click', this.editInfo.bind(this));
 		$(this.options.save_el).addEvent('click', this.save.bind(this));
+		// submit Info
 		this.boundSubmitInfo = this.submitInfo.bind(this);
-		this.boundAssignLibraryAction = this.assignLibraryAction.bind(this);
+		// add/remove module
 		this.boundAddModuleAction = this.addModuleAction.bind(this);
 		this.boundRemoveModuleAction = this.removeModuleAction.bind(this);
 		$(this.options.add_module_el).addEvent('click', 
 			this.boundAddModuleAction);
+		// assign/remove library
+		this.boundAssignLibraryAction = this.assignLibraryAction.bind(this);
+		this.boundRemoveLibraryAction = this.removeLibraryAction.bind(this);
 		$(this.options.assign_library_el).addEvent('click',
 			this.boundAssignLibraryAction);
+		$$('#libraries .UI_File_Listing .File_close').each(function(close) { 
+			close.addEvent('click', this.boundRemoveLibraryAction);
+		},this);
+		// autocomplete
 		this.autocomplete = new FlightDeck.Autocomplete({
 			'url': settings.library_autocomplete_url
 		});
@@ -364,6 +373,7 @@ Package.Edit = new Class({
 		this.assignLibrary(library_id);
 	},
 	assignLibrary: function(library_id) {
+		$log(this.assign_library_url);
 		new Request.JSON({
 			url: this.assign_library_url || this.options.assign_library_url,
 			data: {'id_number': library_id},
@@ -378,11 +388,33 @@ Package.Edit = new Class({
 		}).send();
 	},
 	appendLibrary: function(lib) {
-		var html='<a title="" href="{library_url}" target="{library_name}" class="library_link">{full_name}</a>';
+		var html='<a title="" id="library_{library_name}" href="{library_url}" target="{id_number}" class="library_link">'+
+					'{full_name}'+
+					'<span class="File_close"></span>'+
+				'</a>';
 		new Element('li', {
 			'class': 'UI_File_Normal',
 			'html': html.substitute(lib)
 		}).inject($('assign_library_div').getPrevious('ul'));
+		$$('#library_{library_name} .File_close'.substitute(lib)).each(function(close) { 
+			close.addEvent('click', this.boundRemoveLibraryAction);
+		},this);
+	},
+	removeLibraryAction: function(e) {
+		if (e) e.stop();
+		var id_number = e.target.getParent('a').get('target');
+		this.removeLibrary(id_number);
+	},
+	removeLibrary: function(id_number) {
+		new Request.JSON({
+			url: this.remove_library_url || this.options.remove_library_url,
+			data: {'id_number': id_number},
+			onSuccess: function(response) {
+				fd.setURIRedirect(response.edit_url);
+				this.setUrls(response);
+				$('library_{name}'.substitute(response)).destroy();
+			}.bind(this)
+		}).send();
 	},
 	editInfo: function(e) {
 		e.stop();
@@ -451,6 +483,7 @@ Package.Edit = new Class({
 		this.test_url = urls.test_url;
 		this.add_module_url = urls.add_module_url;
 		this.remove_module_url = urls.remove_module_url;
-		this.assign_library_url = this.assign_library_url;
+		this.assign_library_url = urls.assign_library_url;
+		this.remove_library_url = urls.remove_library_url;
 	}
 });

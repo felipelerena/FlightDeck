@@ -141,7 +141,7 @@ def package_add_module(r, id, type, revision_number=None, version_name=None):
 	"""
 	revision = get_package_revision(id, type, revision_number, version_name)
 	if r.user.pk != revision.author.pk:
-		return HttpResponseForbidden('You are not the author of this Package')
+		return HttpResponseForbidden('You are not the author of this %s' % revision.package.get_type_name())
 
 	filename = slugify(r.POST.get('filename'))
 
@@ -352,6 +352,30 @@ def package_assign_library(r, id, type, revision_number=None, version_name=None)
 				locals(),
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+
+
+@require_POST
+@login_required
+def package_remove_library(r, id, type, revision_number):
+	" remove dependency from the library provided via POST "
+	revision = get_package_revision(id, type, revision_number)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this %s' % revision.package.get_type_name())
+
+	id_number = r.POST.get('id_number')
+	library = get_object_or_404(Package, id_number=id_number)
+	
+	try:
+		revision.dependency_remove_by_id_number(id_number)
+	except Exception as err:
+		return HttpResponseForbidden(err.__unicode__())
+	
+	return render_to_response('json/dependency_removed.json',
+				{'revision': revision, 'library': library},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+				
+
 
 
 

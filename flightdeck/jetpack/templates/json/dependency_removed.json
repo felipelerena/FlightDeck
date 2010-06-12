@@ -1,0 +1,7 @@
+{
+	{% include "json/_edit_urls.json" %}
+	"message_title": "Success",
+	"message": "Dependency from {{ library.full_name }} removed",
+	"name": "{{ library.name }}"
+}
+

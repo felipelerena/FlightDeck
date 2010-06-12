@@ -6,6 +6,7 @@
 	"version_name": "{{ lib_revision.version_name }}",
 	"full_name": "{{ library.full_name }}",
 	"library_url": "{{ lib_revision_url }}",
-	"library_name": "{{ library.name }}"
+	"library_name": "{{ library.name }}",
+	"id_number": "{{ library.id_number }}"
 }
 

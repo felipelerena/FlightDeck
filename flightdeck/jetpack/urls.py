@@ -91,6 +91,11 @@ urlpatterns = patterns('jetpack.views',
 		'package_assign_library', {'type': 'a'}, name='jp_addon_revision_assign_library'),
 	url(r'^library/assign_library/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
 		'package_assign_library',{'type': 'l'},  name='jp_library_revision_assign_library'),
+	# remove library
+	url(r'^addon/remove_dependency/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_remove_library', {'type': 'a'}, name='jp_addon_revision_remove_library'),
+	url(r'^library/remove_dependency/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_remove_library',{'type': 'l'},  name='jp_library_revision_remove_library'),
 
 
 	# test Add-on's PackageRevision

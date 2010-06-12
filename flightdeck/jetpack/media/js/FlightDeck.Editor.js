@@ -13,15 +13,15 @@ FlightDeck = Class.refactor(FlightDeck,{
 		this.previous(options);
 
 		this.assignModeSwitch('.{file_listing_class} li'.substitute(this.options));
-		$$('.'+this.options.file_listing_class).each(function(container) { 
-			container.addEvent('click:relay(li a)', function(e, el) {
+		$('modules').addEvent('click:relay(.{file_listing_class} li a)'.substitute(this.options), 
+			function(e, el) {
 				var li = $(el).getParent('li');
 				// assign switch_mode_on to newly created modules
 				if (!li.switch_mode_on) li.switch_mode_on = switch_mode_on;
 				if (!li.switch_mode_off) li.switch_mode_off = switch_mode_off;
 				li.switch_mode_on();
-			});
-		});
+			}
+		);
 		this.enableMenuButtons();
 	},
 	assignModeSwitch: function(selector) {
