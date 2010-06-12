@@ -8,15 +8,7 @@
 
 .medium {
 	font-size: 1.5em;
-}
-
-#download-sdk {
-	width: 241px;
-	height: 31px;
-	display: block;
-	background: url(../img/UI_Buttons/button-download-sdk.png);
-	margin-bottom: 20px;
-	text-indent: -9000em;
+	clear: both;
 }
 
 #features-wrapper {
@@ -76,13 +68,15 @@
 		width: 170px;
 		border-right: solid 1px #D0D5DB;
 		-moz-box-shadow: 1px 0 0 #fff;
-		height: 200px;
+		height: 220px;
 		float: left;
 	}
 	
 		.UI_Features .UI_Tabs li {
 			border-bottom: solid 1px #D0D5DB;
 			-moz-box-shadow: 0 1px 0 #fff;
+			width: 170px;
+			
 		}
 		
 		.UI_Features .UI_Tabs li:last-child {
@@ -92,9 +86,9 @@
 		
 			.UI_Features .UI_Tabs li a {
 				display: block;
-				height: 57px;
+				height: 73px;
 				text-indent: 47px;
-				line-height: 4.4em;
+				line-height: 5.8em;
 				color: #666;
 				text-shadow: 0 1px 0 #fff;
 				background: url(../img/UI_LandingPage/f-arr-normal.png) 15px 50% no-repeat;
@@ -168,26 +162,46 @@
 				
 /*
  ========================================================================= */
-#install-jetpack {
-	background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
-	padding: 2px 1px 1px;
-	-moz-border-radius: 6px;
-	margin-top: 45px;
+
+.sdkInfo {
+	height: 100%;
+	overflow: hidden;
 }
 
-	#install-jetpack li {
-		background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
-		-moz-border-radius: 5px;
-		-moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.9);
-		overflow: hidden;
+	li {
+		float: left;
 	}
 
-		#install-jetpack li a {
+	#download-sdk {
+		background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
+		padding: 2px 1px 1px;
+		-moz-border-radius: 6px;
+		margin-top: 10px;
+	}
+
+		#download-sdk a {
+			background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
+			-moz-border-radius: 5px;
+			-moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.8);
+			overflow: hidden;
 			display: block;
-			padding: 11px 12px 11px 52px;
-			background: url(../img/UI_Landing_Page/install-jetpack-icon.png) 0 50% no-repeat;
-			color: #136B00;
-			text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
-			font-weight: bold;
 		}
-	
+
+			#download-sdk a span {
+				display: block;
+				padding: 7px 12px 8px 52px;
+				background: url(../img/UI_Buttons/button-download-sdk.png) 0 50% no-repeat;
+				color: #136B00;
+				text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
+				font-weight: bold;
+				-moz-border-radius: 5px;
+
+			}
+
+	.moreInfo {
+		margin: 19px 0 0 20px;
+	}
+
+		.moreInfo a {
+			color: #478CDE;
+		}
