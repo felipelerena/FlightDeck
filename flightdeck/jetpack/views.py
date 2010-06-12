@@ -238,12 +238,6 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 		revision.package.description = package_description
 		response_data['package_description'] = package_description
 
-	revision_message = r.POST.get('revision_message', False)
-	if revision_message and revision_message != start_revision_message:
-		save_revision = True
-		revision.message = revision_message
-		response_data['revision_message'] = revision_message
-
 	modules = []
 	for mod in revision.modules.all():
 		if r.POST.get(mod.filename, False):
@@ -258,6 +252,13 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 
 	if save_revision:
 		revision.save()
+
+	revision_message = r.POST.get('revision_message', False)
+	if revision_message and revision_message != start_revision_message:
+		revision.message = revision_message
+		" save revision message without changeing the revision "
+		super(PackageRevision, revision).save()
+		response_data['revision_message'] = revision_message
 
 	version_name = r.POST.get('version_name', False)
 	if version_name and version_name != start_version_name:

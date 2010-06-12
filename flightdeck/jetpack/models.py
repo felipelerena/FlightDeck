@@ -456,7 +456,7 @@ class PackageRevision(models.Model):
 		# validate if given filename is valid
 		if not self.validate_module_filename(kwargs['filename']):
 			raise FilenameExistException(
-				'module with filename %s already exists' % kwargs['filename']
+				'Sorry, there is already a module in your add-on with the name "%s". Each module in your add-on needs to have a unique name.' % kwargs['filename']
 			)
 		mod = Module.objects.create(**kwargs)
 		self.module_add(mod)
@@ -468,7 +468,7 @@ class PackageRevision(models.Model):
 		# validate if given filename is valid
 		if not self.validate_module_filename(mod.filename):
 			raise FilenameExistException(
-				'module with filename %s already exists' % mod.filename
+				'Sorry, there is already a module in your add-on with the name "%s". Each module in your add-on needs to have a unique name.' % mod.filename
 			)
 		"""
 		I think it's not necessary
@@ -554,7 +554,7 @@ class PackageRevision(models.Model):
 		deps = self.dependencies.all()
 		for d in deps:
 			if d.package.pk == dep.package.pk:
-				raise Exception('This revision already depends on %s' % dep.package.name);
+				raise Exception('Your add-on is already using "%s" by %s.' % (dep.package.full_name, dep.package.author.get_profile()));
 		# save as new version
 		self.save()
 		return self.dependencies.add(dep)
