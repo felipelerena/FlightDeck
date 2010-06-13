@@ -189,6 +189,7 @@ a:hover {
 		padding-right: 1px;
 		right: -1px;
 		cursor: pointer;
+		width: 230px;
 	}
 
 		#package-info #ji-toggler a {
