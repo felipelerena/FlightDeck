@@ -11,6 +11,10 @@
 	clear: both;
 }
 
+body .UI_middleWrapper.page {
+	max-width: 100%;
+}
+
 #features-wrapper {
 	border-bottom: solid 1px #D0D5DB;
 	background: -moz-linear-gradient(270deg, #FFFFFE, #F3F5F7);
