@@ -4,7 +4,7 @@
 </li>
 {% endcomment %}
 
-<li class="UI_Edit_Version">
+<li class="UI_Edit_Version {% if item.type == 'l' %}single{% endif %}">
 	<a title="View {{ item.full_name }}" href="{{ item.get_latest_url }}">View Source</a>
 </li>
 
@@ -28,11 +28,4 @@
 		</li>
 	{% endif %}
 	{% endcomment %}
-{% else %}
-	{% if item.type == 'l' %}
-	{# a hack to get a rounded corner #}
-	<li class="UI_Edit_Version"><a>&nbsp;</a>
-	</li>
-	{% endif %}
 {% endif %}
-

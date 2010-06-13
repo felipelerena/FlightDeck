@@ -346,6 +346,15 @@ a:hover {
 			-moz-border-radius-topleft: 0;
 			-moz-border-radius-bottomleft: 0;
 		}
+		
+	/* There's only one element */
+	.UI_Actions li.single {
+		-moz-border-radius: 6px;
+	}
+
+		.UI_Actions li.single a {
+			-moz-border-radius: 5px;
+		}
 
 		.UI_Actions li a:hover,
 		.UI_Actions li.UI_Pick_Version a {
