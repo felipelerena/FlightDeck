@@ -70,12 +70,18 @@
 			<div id="app-body">
 				{% block app_body %}
 				{% endblock %}
-				<aside id="app-sidebar" class="UI_Sidebar">
-					{% block app_sidebar %}{%endblock %}
-				</aside> <!-- /app-sidebar -->
-				<section id="app-content">
-					{% block app_content %}{% endblock %}
-				</section> <!-- /app-content -->
+				
+				<div class="UI_middleWrapper page"> <!-- TODO: this DIV to be applied on all non-landing page, and non-editor pages -->
+				
+					<aside id="app-sidebar" class="UI_Sidebar">
+						{% block app_sidebar %}{%endblock %}
+					</aside> <!-- /app-sidebar -->
+					<section id="app-content">
+						{% block app_content %}{% endblock %}
+					</section> <!-- /app-content -->
+				
+				</div> <!-- TODO: this DIV to be applied on all non-landing page, and non-editor pages -->
+				
 			</div> <!-- /app-body -->
 			{% block footer %}
 				<footer id="app-footer">

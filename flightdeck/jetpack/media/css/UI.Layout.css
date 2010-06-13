@@ -32,6 +32,14 @@ a:hover {
 	min-width: 800px;
 }
 
+.UI_middleWrapper {
+	max-width: 975px;
+}
+
+.UI_middleWrapper.page {
+	max-width: 775px;
+}
+
 /*
  =========================================================================== */
 #app-header {
@@ -44,7 +52,7 @@ a:hover {
 		margin: 0 15px 0 0;
 		padding: 1px;
 		position: relative;
-		top: -28px;
+		top: -20px;
 	}
    
 	#app-header nav li {
@@ -136,7 +144,8 @@ a:hover {
 /*
  =========================================================================== */
 #app-body {
-	margin-left: 230px;   
+	margin-left: 230px;
+	outline: solid 1px red;
 }
 
 /*

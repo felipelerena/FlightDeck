@@ -50,6 +50,7 @@
 		float: left;
 		width: 80%;
 		position: relative;
+		max-width: 795px;
 	}
 	
 		.UI_Features .UI_Cont li {
