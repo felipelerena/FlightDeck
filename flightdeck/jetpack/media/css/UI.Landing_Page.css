@@ -192,6 +192,11 @@ body .UI_middleWrapper.page {
 			overflow: hidden;
 			display: block;
 		}
+		
+		#download-sdk a:hover {
+			text-decoration: none;
+			background: -moz-linear-gradient(270deg, #DEF8C4, #A5DA7F);
+		}
 
 			#download-sdk a span {
 				display: block;
@@ -203,6 +208,11 @@ body .UI_middleWrapper.page {
 				-moz-border-radius: 5px;
 
 			}
+			
+			#download-sdk a:hover span {
+				opacity: 0.6;
+			}
+			
 
 	.moreInfo {
 		margin: 19px 0 0 20px;
@@ -242,7 +252,6 @@ body .UI_middleWrapper.page {
 		#home-buttons li a:hover {
 			text-decoration: none;
 			background: -moz-linear-gradient(270deg, #DEF8C4, #A5DA7F);
-			color: #58943D;
 		}
 
 			#home-buttons li a span {
