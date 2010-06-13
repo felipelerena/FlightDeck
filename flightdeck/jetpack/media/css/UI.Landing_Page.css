@@ -211,3 +211,68 @@ body .UI_middleWrapper.page {
 		.moreInfo a {
 			color: #478CDE;
 		}
+		
+		
+/*
+ ========================================================================= */
+
+#home-buttons {
+	margin-bottom: 25px;
+}
+
+	#home-buttons li {
+		float: left;
+		background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
+		padding: 2px 1px 1px;
+		-moz-border-radius: 6px;
+		margin-right: 10px;
+	}
+
+		#home-buttons li a {
+			background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
+			-moz-border-radius: 5px;
+			-moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.8);
+			overflow: hidden;
+			display: block;
+			color: #136B00;
+			font-family: Helvetica, Arial, Tahoma, sans-serif;
+			
+		}
+		
+		#home-buttons li a:hover {
+			text-decoration: none;
+			background: -moz-linear-gradient(270deg, #DEF8C4, #A5DA7F);
+			color: #58943D;
+		}
+
+			#home-buttons li a span {
+				display: block;
+				padding: 16px 31px 14px 76px;
+				background: url(../img/UI_Buttons/button-home-addon.png) 0 50% no-repeat;
+				text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
+				-moz-border-radius: 5px;
+				font-size: 1.3em;
+			}
+			
+			#home-buttons li a:hover span {
+				opacity: 0.6;
+			}
+			
+	
+	#home-buttons li.addLibrary {
+		background: -moz-linear-gradient(270deg, #D7DBE1, #A5ACB4);
+	}
+
+		#home-buttons li.addLibrary a {
+			background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+			color: #4D5860;
+		}
+
+		#home-buttons li.addLibrary a:hover {
+			background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+		}
+
+			#home-buttons li.addLibrary a span {
+				background: url(../img/UI_Buttons/button-home-lib.png) 0 50% no-repeat;
+			}
+

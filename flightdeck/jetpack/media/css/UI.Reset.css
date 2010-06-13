@@ -41,7 +41,8 @@ textarea {
 .UI_Field_Cont:after,
 .UI_Browser:after,
 .UI_Actions:after,
-#libs-and-extensions:after {
+#libs-and-extensions:after,
+#home-buttons:after {
    content: ' ';
    display: block;
    height: 0;
