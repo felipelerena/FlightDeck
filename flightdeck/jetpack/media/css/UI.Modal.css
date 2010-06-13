@@ -105,3 +105,22 @@ authors:
          border-top: solid 1px transparent;
          color: #6D7880;
       }
+
+#display-package-info {
+	width: 300px;
+}
+
+	#display-package-info  .UI_Modal_Section p {
+		
+	}
+	
+		#display-package-info .UI_Modal_Section p strong {
+			display: inline-block;
+			width: 110px;
+			font-weight: bold;
+		}
+	
+		#display-package-info .UI_Modal_Section p a {
+			color: #478CDE;
+		}
+		
