@@ -59,7 +59,7 @@ authors:
 		.UI_Modal .UI_Modal_Section .UI_Revisions li {
 			padding-bottom: 10px;
 			padding-top: 10px; 
-			border-bottom: solid 1px #BEC5CC;
+			border-bottom: 1px solid #EBEBEB;
 		}
 		
 			.UI_Modal .UI_Modal_Section .UI_Revisions li em.date {
