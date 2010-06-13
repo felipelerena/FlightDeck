@@ -2,6 +2,10 @@
 	{% include "json/_edit_urls.json" %}
 	{% for key, value in response_data.items %}"{{ key }}": "{{ value|escapejs }}",
 	{% endfor %}
-	"message_title": "{{ revision.package.get_type_name }} saved",
-	"message": "Your changes has been saved as revision {{ revision.revision_number }}"
+	"message_title": "{{ revision.package.get_type_name|capfirst }} saved",
+	{% if start_revision_number != revision.revision_number %}
+		"message": "Your changes has been saved as revision {{ revision.revision_number }}"
+	{% else %}
+		"message": "Your changes have been saved in current revision"
+	{% endif %}
 }

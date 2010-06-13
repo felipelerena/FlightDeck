@@ -27,7 +27,7 @@ PERMISSION_CHOICES = (
 )
 TYPE_CHOICES = (
 	('l', 'Library'), 
-	('a', 'Addon')
+	('a', 'Add-on')
 )
 
 

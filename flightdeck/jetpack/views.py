@@ -212,6 +212,7 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 	save_package = False
 	start_version_name = revision.version_name
 	start_revision_message = revision.message
+	start_revision_number = revision.revision_number
 
 	response_data = {}
 
