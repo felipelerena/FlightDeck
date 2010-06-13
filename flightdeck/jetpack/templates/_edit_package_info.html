@@ -13,14 +13,16 @@
 			<label for="version_name">Version</label>
 			<input type="text" name="version_name" id="version_name" value="{% firstof revision.version_name "" %}"/>
 		</p>
+		{% comment %}
 		<p class="UI_Field">
 			<label for="revision_message">Commit message</label>
 			<textarea id="revision_message" name="revision_message">{{ revision.message }}</textarea>
 		</p>
+		{% endcomment %}
 	</fieldset>
 	<div class="UI_Modal_Actions">
 		<ul>
-			<li><input type="submit" id='savenow' value="Save" class="submitModal"/></li>
+			<li><input type="submit" {#id='savenow'#} value="OK" class="submitModal"/></li>
 			<li><input type="reset" value="Cancel" class="closeModal"/></li>
 		</ul>
 	</div>

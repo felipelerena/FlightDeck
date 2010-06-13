@@ -278,7 +278,9 @@ Package.Edit = new Class({
 		this.parent(options);
 		// assign menu items
 		$(this.options.package_info_el).addEvent('click', this.editInfo.bind(this));
-		$(this.options.save_el).addEvent('click', this.save.bind(this));
+		// save
+		this.boundSaveAction = this.saveAction.bind(this);
+		$(this.options.save_el).addEvent('click', this.boundSaveAction);
 		// submit Info
 		this.boundSubmitInfo = this.submitInfo.bind(this);
 		// add/remove module
@@ -373,7 +375,6 @@ Package.Edit = new Class({
 		this.assignLibrary(library_id);
 	},
 	assignLibrary: function(library_id) {
-		$log(this.assign_library_url);
 		new Request.JSON({
 			url: this.assign_library_url || this.options.assign_library_url,
 			data: {'id_number': library_id},
@@ -416,24 +417,35 @@ Package.Edit = new Class({
 			}.bind(this)
 		}).send();
 	},
+	/*
+	 * Method: editInfo
+	 * display the EditInfoModalWindow
+	 */
 	editInfo: function(e) {
 		e.stop();
 		this.savenow = false;
 		fd.editPackageInfoModal = fd.displayModal(settings.edit_package_info_template.substitute(this.data || this.options));
 		$('package-info_form').addEvent('submit', this.boundSubmitInfo);
-		$('savenow').addEvent('click', function() {
-			this.savenow = true;
-		}.bind(this));
+		if ($('savenow')) {
+			$('savenow').addEvent('click', function() {
+				this.savenow = true;
+			}.bind(this));
+		}
 		// XXX: hack to get the right data in the form
 		$each(this.data, function(value, key) {
 			if ($(key)) $(key).value = value;
 		})
 	},
+	/*
+	 * Method: submitInfo
+	 * submit info from EditInfoModalWindow
+	 * if $('savenow') clicked - save the full info
+	 */
 	submitInfo: function(e) {
 		e.stop();
 		// collect data from the Modal
 		this.options.package_info_form_elements.each(function(key) {
-			this.data[key] = $(key).value;
+			if ($(key)) this.data[key] = $(key).value;
 		}, this);
 		// check if save should be called
 		if (this.savenow) {
@@ -452,8 +464,11 @@ Package.Edit = new Class({
 		this.data.live_data_testing = true;
 		this.parent(e);
 	},
-	save: function(e) {
+	saveAction: function(e) {
 		if (e) e.stop();
+		this.save();
+	},
+	save: function() {
 		this.collectData();
 		new Request.JSON({
 			url: this.save_url || this.options.save_url,

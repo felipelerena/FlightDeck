@@ -154,7 +154,10 @@ window.addEvent('load', function() {
 		window.mozFlightDeck.whenMessaged(function(data) {
 			// This gets called when one of our extensions has been installed
 			// successfully, or failed somehow.
-			fd.message.alert('Addon-builder', 'Add-on {msg}'.substitute(data));
+			fd.message.alert('Add-ons Builder', 'Add-on {msg}'.substitute(data));
+			// log to console result of isInstalled command
+			$log('sending isInstalled to window.mozFlightDeck');
+			$log(window.mozFlightDeck.send({cmd:'isInstalled'}));
 		});
 	}
 });
