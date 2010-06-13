@@ -13,6 +13,6 @@ authors:
 
 
 /* by Daniel */
-/*html, body, #wrapper, #app-content, #editor-wrapper, div.CodeMirror-wrapping {  height: 100%; }
+html, body, #wrapper, #app-content, #editor-wrapper, div.CodeMirror-wrapping {  height: 100%; }
 #app-body { bottom:51px; left:0; margin-left:230px; position:absolute; right:0; top:115px; }
-*//*#editor-wrapper  { -moz-box-shadow: 2px 2px  4px 0 #DDDDDD inset; }*/
+/*#editor-wrapper  { -moz-box-shadow: 2px 2px  4px 0 #DDDDDD inset; }*/

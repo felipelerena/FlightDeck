@@ -166,6 +166,7 @@
 .sdkInfo {
 	height: 100%;
 	overflow: hidden;
+	font-size: .9em;
 }
 
 	li {
