@@ -1,0 +1,10 @@
+#app-content h2 { margin-top: 1em; font-weight: bold; font-size: 1.8em; }
+#app-content h2,
+#app-content p, 
+#app-content ul { margin-left: 15px; margin-bottom: 1em; }
+
+#app-content li { list-style: circle; margin-left: 2em }
+
+#app-content a { color: #478cde; }
+
+
