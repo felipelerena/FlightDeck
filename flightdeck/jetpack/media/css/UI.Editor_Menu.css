@@ -150,4 +150,12 @@ authors:
 	.UI_Editor_Menu_Button.Icon_try a .UI_Editor_Icon {
 		background-position: -119px 0;
 		width: 20px;
+	}	
+	
+	.UI_Editor_Menu_Button.Icon_revisions a .UI_Editor_Icon {
+		background-position: -141px 0;
+	}
+		
+	.UI_Editor_Menu_Button.Icon_copy a .UI_Editor_Icon {
+		background-position: -161px 0;
 	}
