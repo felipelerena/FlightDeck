@@ -40,21 +40,23 @@
 	<section id="modules">
 		{% block modules_sidebar %}{% endblock %}
 	</section>
-	<section id="libraries">
-		<h3 class="UI_Sidebar_Toggler libraries opened"><a title="Libraries" href="#">
-			Libraries <strong id="libraries-counter">({{ library_counter }})</strong> 
-			<span class="UI_OC"></span>
-			<span class="UI_Sidebar_Toggler_Icon"></span>
-		</a></h3>
-		<div class="UI_Sidebar_ItemCont">
-			<ul class="UI_File_Listing">
-				{% block core_library %}{% endblock %}
-				{% if libraries %}
-					{% include "_sidebar_revision_libraries_list.html" %}
-				{% endif %}
-			</ul>
-		</div>
-	</section>
+	{% if libraries or revision.package.is_addon %}
+		<section id="libraries">
+			<h3 class="UI_Sidebar_Toggler libraries opened"><a title="Libraries" href="#">
+				Libraries <strong id="libraries-counter">({{ library_counter }})</strong> 
+				<span class="UI_OC"></span>
+				<span class="UI_Sidebar_Toggler_Icon"></span>
+			</a></h3>
+			<div class="UI_Sidebar_ItemCont">
+				<ul class="UI_File_Listing">
+					{% block core_library %}{% endblock %}
+					{% if libraries %}
+						{% include "_sidebar_revision_libraries_list.html" %}
+					{% endif %}
+				</ul>
+			</div>
+		</section>
+	{% endif %}
 {% endblock %}
 	
 
