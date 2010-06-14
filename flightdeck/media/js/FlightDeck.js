@@ -39,6 +39,8 @@ var FlightDeck = new Class({
 			target.store('tip:text', tipSource.get('html'));
 			this.tips.attach(target);
 		}, this);
+		
+		this.createSeparator();
 	},
 	setURIRedirect: function(url) {
 		// change the URL add #/path/to/saved/revision
@@ -91,6 +93,15 @@ var FlightDeck = new Class({
 		title = $pick(title, "Add on not installed");
 		fd.warning.alert(title, text);
 		return false;
+	},
+	/*
+	 * Method: createSeparator
+	 */	
+	createSeparator: function(){
+		$$('.UI_Editor_Menu_Separator').each(function(separator){
+			separator.getPrevious('li').addClass('UI_Section_Close');
+			separator.getNext('li').addClass('UI_Section_Open');
+		});
 	}
 });
 

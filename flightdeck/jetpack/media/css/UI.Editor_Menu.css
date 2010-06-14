@@ -10,11 +10,18 @@ authors:
 
 .UI_Editor_Menu {
 	-moz-user-select: none;
+	margin-left: 5px;
 }
 
 .UI_Editor_Menu.minimal {
 	width: 235px;
 	float: right;
+}
+
+.UI_Editor_Menu_Separator {
+	float: left;
+	width: 11px;
+	padding: 1px;
 }
 
 .UI_Editor_Menu_Button {
@@ -37,26 +44,30 @@ authors:
 	}
    
 	/* Starting element */
-	.UI_Editor_Menu_Button:first-child {
+	.UI_Editor_Menu_Button:first-child,
+	.UI_Section_Open {
 		-moz-border-radius: 6px;
 		-moz-border-radius-topright: 0;
 		-moz-border-radius-bottomright: 0;      
 	}
 
-		.UI_Editor_Menu_Button:first-child a {
+		.UI_Editor_Menu_Button:first-child a,
+		.UI_Section_Open a {
 			-moz-border-radius: 5px;
 			-moz-border-radius-topright: 0;
 			-moz-border-radius-bottomright: 0;
 		}
       
 	/* Ending element */
-	.UI_Editor_Menu_Button:last-child {
+	.UI_Editor_Menu_Button:last-child,
+	.UI_Section_Close {
 		-moz-border-radius: 6px;
 		-moz-border-radius-topleft: 0;
 		-moz-border-radius-bottomleft: 0;      
 	}
 
-		.UI_Editor_Menu_Button:last-child a {
+		.UI_Editor_Menu_Button:last-child a,
+		.UI_Section_Close a {
 			-moz-border-radius: 5px;
 			-moz-border-radius-topleft: 0;
 			-moz-border-radius-bottomleft: 0;
