@@ -93,7 +93,15 @@ var FlightDeck = new Class({
 	 */
 	installXPI: function(url) {
 		if (fd.alertIfNoAddOn()) {
-			window.mozFlightDeck.send({cmd: "install", path: url});
+			new Request({
+				url: url,
+				onSuccess: function(responseText) {
+					$log('FD: installing ' + url);
+					var result = window.mozFlightDeck.send({cmd: "install", contents: responseText});
+					$log('FD: response ' + JSON.stringify(result));
+					$log('FD: isInstalled ' + JSON.stringify(this.isXpiInstalled()));
+				}.bind(this)
+			}).send();
 		}
 	},
 	/*
@@ -115,8 +123,8 @@ var FlightDeck = new Class({
 	 * Method: alertIfNoAddOn
 	 */
 	alertIfNoAddOn: function(text, title) {
-		if (isAddonInstalled()) return true;
-		text = $pick(text, "Please install <a href='https://secure.toolness.com/xpi/flightdeck.xpi'>FlightDeck Add On</a>");
+		if (this.isAddonInstalled()) return true;
+		text = $pick(text, "Please install <a href='http://piotr.zalewa.info/downloads/addons-builder-helper.xpi'>FlightDeck Add On</a>");
 		title = $pick(title, "Add on not installed");
 		fd.warning.alert(title, text);
 		return false;
