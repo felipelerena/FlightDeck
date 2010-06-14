@@ -52,7 +52,7 @@
 		</script>
 		<style>.hidden { display: none; }</style>
 	</head>
-	<body id="{{ body_id }}">
+	<body id="{{ page }}">
 		<div id="wrapper">
 		
 			<header id="app-header">
@@ -71,14 +71,16 @@
 				{% block app_body %}
 				{% endblock %}
 				
-				<div class="UI_middleWrapper page">
-					<aside id="app-sidebar" class="UI_Sidebar">
-						{% block app_sidebar %}{%endblock %}
-					</aside> <!-- /app-sidebar -->
-					<section id="app-content">
-						{% block app_content %}{% endblock %}
-					</section> <!-- /app-content -->
-				</div> <!-- /UI_middleWrapper -->
+				{% block base_fluid_width %}
+					<div class="UI_middleWrapper page">
+						<aside id="app-sidebar" class="UI_Sidebar">
+							{% block app_sidebar %}{%endblock %}
+						</aside> <!-- /app-sidebar -->
+						<section id="app-content">
+							{% block app_content %}{% endblock %}
+						</section> <!-- /app-content -->
+					</div> <!-- /UI_middleWrapper -->
+				{% endblock %}
 				
 			</div> <!-- /app-body -->
 			{% block footer %}
