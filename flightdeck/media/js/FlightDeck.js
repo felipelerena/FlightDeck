@@ -104,8 +104,8 @@ var FlightDeck = new Class({
 		});
 		
 		var UI_Editor_Menu_Button = $$('.UI_Editor_Menu_Button');
-		
-		if (UI_Editor_Menu_Button.length <= 1){
+
+		if (UI_Editor_Menu_Button.length === 1){
 			UI_Editor_Menu_Button[0].addClass('UI_Single');
 		}
 	}
