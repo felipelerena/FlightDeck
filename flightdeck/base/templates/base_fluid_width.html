@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block base_fluid_width %}
+	<aside id="app-sidebar" class="UI_Sidebar">
+		{% block app_sidebar %}{%endblock %}
+	</aside> <!-- /app-sidebar -->
+	<section id="app-content">
+		{% block app_content %}{% endblock %}
+	</section> <!-- /app-content -->
+{% endblock %}
+
