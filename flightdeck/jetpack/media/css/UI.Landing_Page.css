@@ -23,8 +23,10 @@ body .UI_middleWrapper.page {
 }
 
 .UI_Features {
-	padding: 0;
-	margin: 0 0 10px 0;
+	max-width: 945px;
+	margin: 0 auto 10px;
+	
+	padding: 0 15px;
 	position: relative;
 	font-family: Helvetica, Arial, Tahoma, sans-serif;
 	
@@ -79,8 +81,8 @@ body .UI_middleWrapper.page {
 	
 		.UI_Features .UI_Tabs li {
 			border-bottom: solid 1px #D0D5DB;
-			-moz-box-shadow: 0 1px 0 #fff;
 			width: 170px;
+			border-left: solid 1px #D0D5DB;
 			
 		}
 		
@@ -256,7 +258,7 @@ body .UI_middleWrapper.page {
 
 			#home-buttons li a span {
 				display: block;
-				padding: 16px 31px 14px 76px;
+				padding: 14px 31px 12px 76px;
 				background: url(../img/UI_Buttons/button-home-addon.png) 0 50% no-repeat;
 				text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
 				-moz-border-radius: 5px;
