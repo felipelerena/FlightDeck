@@ -33,17 +33,20 @@
 			<ul class="UI_Cont">
 				<li class="active">
 					<h3>Welcome to Add-ons Builder!</h3>
-					<p>This site is the quickest and easiest way to build an add-on for Firefox using
-					common web technologies.  Building an add-on is as simple as pressing the
-					<b>Build an Addon</b> button and typing in your code!</p>
 
-					<p>You can use a <a href="{% url api_package "jetpack-core" %}">variety of APIs in the core library</a> to add
-					functionality to Firefox, including <a href="{% url api_module "jetpack-core" "widget" %}">widget</a> and <a
-					href="{% url api_module "jetpack-core" "context-menu" %}">context-menu</a>.  
-					Check out the add-ons listed below for inspiration
-					and take advantage of third-party libraries of additional APIs. And <a
-					href="">read the tutorial</a> for a step-by-step guide to building your first
-					add-on using this site.</p>
+					<p>Use Add-ons Builder to quickly and easily develop an extension for Firefox
+					using common web technologies.  Get started by simply pressing the
+					<strong>Build an Addon</strong> button and typing in your code!  </p>
+
+					<p>Don't want to start from scratch?  
+					Use a <a href="{% url api_package "jetpack-core" %}">variety of APIs in the core library</a> 
+					to add functionality to Firefox, including 
+					<a href="{% url api_module "jetpack-core" "widget" %}">widget</a> and 
+					<a href="{% url api_module "jetpack-core" "context-menu" %}">context-menu</a>.  
+					Check out <a href="i{% url jp_browser_addons %}">other add-ons</a> for
+					inspiration and take advantage of <a href="{% url jp_browser_libraries %}">third-party libraries</a> 
+					with additional APIs. Need more Help? <a href="">read the tutorial</a> for a
+					step-by-step guide	to building an add-on using this site.
 
 					<p>Happy hacking!</p>
 				</li>
