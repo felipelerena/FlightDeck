@@ -517,8 +517,9 @@ a:hover {
     line-height: 1.273;
     color: #666666;
     margin-right: 1.273em;
-	margin-top: 15px;
+	padding-top: 15px;
 	margin-bottom: 10px;
+	clear: both;
 }
 
 #footer .languages {
