@@ -9,6 +9,7 @@ authors:
 */
 
 .UI_File_Listing {
+	min-height: 75px;
 }
 
    .UI_File_Listing li {
