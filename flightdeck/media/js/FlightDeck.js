@@ -40,7 +40,7 @@ var FlightDeck = new Class({
 			this.tips.attach(target);
 		}, this);
 		
-		this.createSeparator();
+		this.createActionSections();
 	},
 	setURIRedirect: function(url) {
 		// change the URL add #/path/to/saved/revision
@@ -95,13 +95,19 @@ var FlightDeck = new Class({
 		return false;
 	},
 	/*
-	 * Method: createSeparator
+	 * Method: createActionSections
 	 */	
-	createSeparator: function(){
+	createActionSections: function(){
 		$$('.UI_Editor_Menu_Separator').each(function(separator){
 			separator.getPrevious('li').addClass('UI_Section_Close');
 			separator.getNext('li').addClass('UI_Section_Open');
 		});
+		
+		var UI_Editor_Menu_Button = $$('.UI_Editor_Menu_Button');
+		
+		if (UI_Editor_Menu_Button.length <= 1){
+			UI_Editor_Menu_Button[0].addClass('UI_Single');
+		}
 	}
 });
 

@@ -83,6 +83,14 @@ authors:
 		-moz-box-shadow: none;
 		color: #6D7880;
 	}
+	
+	.UI_Editor_Menu_Button.UI_Single {
+		-moz-border-radius: 6px;
+	}
+	
+		.UI_Editor_Menu_Button.UI_Single a {
+			-moz-border-radius: 5px;
+		}
    
 		/* Lighten the icon when active */
 		.UI_Editor_Menu_Button a:active .UI_Editor_Icon {
