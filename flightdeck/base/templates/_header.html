@@ -7,7 +7,7 @@
 	<nav>
 		<ul>
 			<!-- <li {% ifequal page "packages" %}class="active"{% endifequal %}><span><a title="Package Browser" href="{% url jp_browser_addons %}">Package Browser</a></span></li> -->
-			<li class="{% ifequal page "apibrowser" %}active{% endifequal %} "><span><a title="Documentation" href="{% url api_home %}" >Documentation</a></span></li>
+			<li class="{% ifequal page "apibrowser" %}active{% endifequal %}"><span><a title="Documentation" href="{% url api_home %}" >Documentation</a></span></li>
 			{% if user.is_authenticated %}
 				<li {% ifequal page "dashboard" %}class="active"{% endifequal %}>
 					<span>
