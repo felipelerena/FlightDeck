@@ -21,7 +21,12 @@ var FlightDeck = new Class({
 			}
 		};
 		this.editors = [];
-		
+		this.parseTooltips();
+		this.createActionSections();
+		this.parseTestButtons();
+	},
+
+	parseTooltips: function() {
 		this.tips = new Tips({
 			fixed: false,
 			className: 'UI_tooltip',
@@ -39,9 +44,8 @@ var FlightDeck = new Class({
 			target.store('tip:text', tipSource.get('html'));
 			this.tips.attach(target);
 		}, this);
-		
-		this.createActionSections();
 	},
+
 	setURIRedirect: function(url) {
 		// change the URL add #/path/to/saved/revision
 		if (this.uri.get('directory') != url) {
@@ -49,6 +53,19 @@ var FlightDeck = new Class({
 			this.uri.go();
 		}
 	},
+
+	parseTestButtons: function() {
+		var installed = (this.isAddonInstalled()) ? this.isXpiInstalled() : false;
+		
+		$$(this.options.try_in_browser_class).each(function(test_button){
+			if (installed && installed.id == test_button.get('target')) {
+				test_button.addClass('installed');
+			} else {
+				test_button.removeClass('installed');
+			}
+		}, this);
+	},
+
 	/*
 	 * Method: testXPI
 	 */
@@ -60,6 +77,11 @@ var FlightDeck = new Class({
 		this.rm_xpi_url = response.rm_xpi_url;
 		this.installXPI(response.test_xpi_url);
 	},
+
+	isXpiInstalled: function() {
+		return window.mozFlightDeck.send({cmd:'isInstalled'});
+	},
+
 	/*
 	 * Method: hideEditors
 	 */
@@ -84,11 +106,16 @@ var FlightDeck = new Class({
 			}
 		});
 	},
+
+	isAddonInstalled: function() {
+		return (window.mozFlightDeck) ? true : false;
+	},
+
 	/*
 	 * Method: alertIfNoAddOn
 	 */
 	alertIfNoAddOn: function(text, title) {
-		if (window.mozFlightDeck) return true;
+		if (isAddonInstalled()) return true;
 		text = $pick(text, "Please install <a href='https://secure.toolness.com/xpi/flightdeck.xpi'>FlightDeck Add On</a>");
 		title = $pick(title, "Add on not installed");
 		fd.warning.alert(title, text);
@@ -174,7 +201,7 @@ window.addEvent('load', function() {
 			fd.message.alert('Add-ons Builder', 'Add-on {msg}'.substitute(data));
 			// log to console result of isInstalled command
 			$log('sending isInstalled to window.mozFlightDeck');
-			$log(window.mozFlightDeck.send({cmd:'isInstalled'}));
+			$log(fd.isXpiInstalled());
 		});
 	}
 });
