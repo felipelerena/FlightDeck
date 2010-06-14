@@ -30,13 +30,13 @@
 {% endblock %}
 
 
-{% block create_init %}
+{% block create_init %}{% comment %}
 	create.init(
 		['create_addon'],
 		['addon'],
 		'app-body'
 	);
-{% endblock %}
+{% endcomment %}{% endblock %}
 
 {# switch off the footer #}
 {% block footer %}{% endblock %}

@@ -25,13 +25,13 @@
 	revisions_list_html_url: '{% url jp_revisions_list_html revision.package.id_number %}',
 {% endblock %}
 
-{% block create_init %}
+{% block create_init %}{% comment %}
 	create.init(
 		['create_addon'],
 		['addon'],
 		'app-body'
 	);
-{% endblock %}
+{% endcomment %}{% endblock %}
 
 {% block app_sidebar %}
 	<section id="package-info" class="UI_Sidebar_Item">
