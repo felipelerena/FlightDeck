@@ -11,9 +11,12 @@ authors:
 @import url('UI.Editor_Menu.css');
 @import url('UI.Editor_Area.css');
 
-body .UI_middleWrapper.page {
+.UI_middleWrapper,
+.centerSection p {
 	max-width: 100%;
+	position: relative;
 }
+
 
 /* by Daniel */
 html, body, #wrapper, #app-content, #editor-wrapper, div.CodeMirror-wrapping {  height: 100%; }

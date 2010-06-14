@@ -42,7 +42,8 @@ textarea {
 .UI_Browser:after,
 .UI_Actions:after,
 #libs-and-extensions:after,
-#home-buttons:after {
+#home-buttons:after,
+.UI_middleWrapper:after {
    content: ' ';
    display: block;
    height: 0;

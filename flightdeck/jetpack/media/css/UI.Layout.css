@@ -32,8 +32,11 @@ a:hover {
 	min-width: 800px;
 }
 
-.UI_middleWrapper {
+.UI_middleWrapper,
+.centerSection p {
 	max-width: 975px;
+	margin: 0 auto;
+	position: relative;
 }
 
 .UI_middleWrapper.page {
@@ -101,12 +104,12 @@ a:hover {
  =========================================================================== */
 #flightdeck-logo {
 	display: block;
-	position: absolute;
-	top: 47px;
-	left: 15px;
+	float: left;
 	font-size: 2.0em;
 	width: 246px;
 	height: 60px;
+	margin-left: 15px;
+	margin-top: 10px;
 }
 
 	#flightdeck-logo a {
@@ -130,6 +133,9 @@ a:hover {
 	background: url(../img/mozilla/header-border.png) 0 0 repeat-x;
 	overflow: hidden;
 }
+
+	#brand p {
+	}
 
 	#brand a {
 		width: 90px;
