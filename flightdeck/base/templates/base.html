@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{# Base HTML every page will use #}
+{# Base HTML, every page will use #}
 {% load base_helpers %}
 <html lang="en">
 	<head>
@@ -86,33 +86,31 @@
 			{% block footer %}
 				<footer id="app-footer">
 					<div id="footer" role="contentinfo">
-						<div class="section">
-							<div class="primary">
-								<p>
-									Except where otherwise <a href="http://www.mozilla.com/en-US/about/legal.html#site">noted</a>, 
-									content on this site is licensed under the
-									<strong><a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution Share-Alike License v3.0</a></strong> 
-									or any later version<span title="#">.</span>
-								</p>
-								<ul>
-									<li><a href="http://www.mozilla.com/en-US/privacy-policy.html">Privacy Policy</a></li>
-									<li><a href="http://www.mozilla.com/en-US/about/legal.html">Legal Notices</a></li>
-									<!-- <li><a href="#">About</a></li> -->
-									<li><a href="http://mozillalabs.com/jetpack">Blog</a></li>
-									<li><a href="https://addons.mozilla.org/en-US/developers">Developer Hub</a></li>
-									<!-- <li><a href="#"><abbr title="Frequently Asked Questions">FAQ</abbr></a></li> -->
-									<li><a href="http://groups.google.com/group/mozilla-labs-jetpack/topics">Forum</a></li>
-								</ul>
-								<p class="disclaimer">Mozilla is providing links to these applications as a courtesy, and makes no representations
-								regarding the applications or any information related thereto. Any questions, complaints or claims regarding the
-								applications must be directed to the appropriate software vendor.
-								</p>
-							</div> {# primary #}
-							<div class="secondary">
-								<img src="/media/jetpack/img/mozilla/fox-logo-footer.png" alt="" />
-							</div> {# secondary #}
-						</div> {# section #}
-					</div> {# footer #}
+						<div class="UI_middleWrapper">
+							<div class="section">
+								<div class="primary">
+									<p>
+										Except where otherwise <a href="http://www.mozilla.com/en-US/about/legal.html#site">noted</a>, 
+										content on this site is licensed under the
+										<strong><a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution Share-Alike License v3.0</a></strong> 
+										or any later version<span title="#">.</span>
+									</p>
+									<ul>
+										<li><a href="http://www.mozilla.com/en-US/privacy-policy.html">Privacy Policy</a></li>
+										<li><a href="http://www.mozilla.com/en-US/about/legal.html">Legal Notices</a></li>
+										<li><a href="http://mozillalabs.com/jetpack">Blog</a></li>
+										<li><a href="https://addons.mozilla.org/en-US/developers">Developer Hub</a></li>
+										<li><a href="http://groups.google.com/group/mozilla-labs-jetpack/topics">Forum</a></li>
+									</ul>
+									<p class="disclaimer">Mozilla is providing links to these applications as a courtesy, and makes no representations regarding the applications or any information related thereto. Any questions, complaints or claims regarding the applications must be directed to the appropriate software vendor.
+									</p>
+								</div> <!-- /primary -->
+								<div class="secondary">
+									<img src="/media/jetpack/img/mozilla/fox-logo-footer.png" alt="" />
+								</div> <!-- /secondary -->
+							</div> <!-- /section -->
+						</div> <!-- /UI_middleWrapper -->
+					</div> <!-- /footer -->
 				</footer> <!-- /page-info -->
 			{% endblock %}
 			
