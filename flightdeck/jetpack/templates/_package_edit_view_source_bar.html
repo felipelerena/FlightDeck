@@ -1,10 +1,4 @@
-{% comment %} work only on the latest revision
-<li class="UI_Edit_Version">
-	<a title="View {{ item.full_name }}" href="{{ item.get_absolute_url }}">View Source</a>
-</li>
-{% endcomment %}
-
-<li class="UI_Edit_Version {% if item.type == 'l' %}single{% endif %}">
+<li class="UI_Edit_Version {% if item.is_library and not user == item.author %}single{% endif %}">
 	<a title="View {{ item.full_name }}" href="{{ item.get_latest_url }}">View Source</a>
 </li>
 

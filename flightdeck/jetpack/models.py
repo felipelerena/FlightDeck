@@ -111,6 +111,9 @@ class Package(models.Model):
 	def is_addon(self):
 		return self.type == 'a'
 
+	def is_library(self):
+		return self.type == 'l'
+
 	def get_type_name(self):
 		return settings.PACKAGE_SINGULAR_NAMES[self.type]
 
