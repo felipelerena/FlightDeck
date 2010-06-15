@@ -53,7 +53,7 @@
 				<ul class="UI_File_Listing" id='attachments_ul'>
 					{% for attachment in attachments %}
 						<li class="UI_File_Normal">
-							<a title="" href="#" class="Module_file" id="{{ attachment.filename }}_display">
+							<a title="" href="{{ attachment.get_display_url }}" rel="{{ attachment.ext }}" class="Module_file" id="{{ attachment.filename }}_display">
 								{{ attachment.get_filename }}
 							</a>
 						</li>

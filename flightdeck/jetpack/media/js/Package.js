@@ -47,6 +47,30 @@ var Package = new Class({
 			this.test_url = $(this.options.test_el).get('href');
 			$(this.options.test_el).addEvent('click', this.boundTestAddon)
 		}
+		if ($('attachments')) $('attachments').addEvent(
+			'click:relay(.UI_File_Listing a)',
+			function(e, target) {
+				e.stop();
+				var url = target.get('href');
+				var ext = target.get('rel');
+				var filename = target.get('text');
+				var template_start = '<div id="attachment_view"><h3>'+filename+'</h3><div class="UI_Modal_Section">';
+				var template_end = '</div><div class="UI_Modal_Actions"><ul><li><input type="reset" value="Close" class="closeModal"/></li></ul></div></div>';
+				var template_middle = '<a href="'+url+'">'+filename+'</a>';
+				if (['jpg', 'gif', 'png'].contains(ext)) template_middle = '<img src="'+url+'"/>'; 
+				if (['css', 'js', 'css'].contains(ext)) {
+					new Request({
+						url: url,
+						onSuccess: function(response) {
+							template_middle = '<pre>'+response+'</pre>';
+							this.attachmentWindow = fd.displayModal(template_start+template_middle+template_end);
+						}
+					}).send();
+				} else {
+					this.attachmentWindow = fd.displayModal(template_start+template_middle+template_end);
+				}
+			}.bind(this)
+		)
 	},
 	testAddon: function(e){
 		if (e) e.stop();
@@ -320,30 +344,6 @@ Package.Edit = new Class({
 		$$('#attachments .UI_File_Listing .File_close').each(function(close) { 
 			close.addEvent('click', this.boundRemoveAttachmentAction);
 		},this);
-		$('attachments').addEvent(
-			'click:relay(.UI_File_Listing a)',
-			function(e, target) {
-				e.stop();
-				var url = target.get('href');
-				var ext = target.get('rel');
-				var filename = target.get('text');
-				var template_start = '<div id="attachment_view"><h3>'+filename+'</h3><div class="UI_Modal_Section">';
-				var template_end = '</div><div class="UI_Modal_Actions"><ul><li><input type="reset" value="Close" class="closeModal"/></li></ul></div></div>';
-				var template_middle = '<a href="'+url+'">'+filename+'</a>';
-				if (['jpg', 'gif', 'png'].contains(ext)) template_middle = '<img src="'+url+'"/>'; 
-				if (['css', 'js', 'css'].contains(ext)) {
-					new Request({
-						url: url,
-						onSuccess: function(response) {
-							template_middle = '<pre>'+response+'</pre>';
-							this.attachmentWindow = fd.displayModal(template_start+template_middle+template_end);
-						}
-					}).send();
-				} else {
-					this.attachmentWindow = fd.displayModal(template_start+template_middle+template_end);
-				}
-			}.bind(this)
-		)
 	},
 
 	get_add_attachment_url: function() {
