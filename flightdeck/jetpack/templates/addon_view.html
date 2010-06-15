@@ -28,7 +28,7 @@
 
 {% block app_content_menu_items %}
 	<li class="UI_Editor_Menu_Button Icon_try XPI_test">
-		<a id="try_in_browser" title="" href="{{ revision.get_test_xpi_url }}">
+		<a id="try_in_browser" title="" href="{{ revision.get_test_xpi_url }}" rel="{{ revision.package.jid }}">
 			Test 
 			<span class="UI_Editor_Icon"></span>
 		</a>

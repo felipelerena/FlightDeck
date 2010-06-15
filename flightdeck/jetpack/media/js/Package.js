@@ -56,7 +56,7 @@ var Package = new Class({
 				var filename = target.get('text');
 				var template_start = '<div id="attachment_view"><h3>'+filename+'</h3><div class="UI_Modal_Section">';
 				var template_end = '</div><div class="UI_Modal_Actions"><ul><li><input type="reset" value="Close" class="closeModal"/></li></ul></div></div>';
-				var template_middle = '<a href="'+url+'">'+filename+'</a>';
+				var template_middle = 'Download <a href="'+url+'">'+filename+'</a>';
 				if (['jpg', 'gif', 'png'].contains(ext)) template_middle = '<img src="'+url+'"/>'; 
 				if (['css', 'js', 'css'].contains(ext)) {
 					new Request({
@@ -75,11 +75,16 @@ var Package = new Class({
 	testAddon: function(e){
 		if (e) e.stop();
 		if (fd.alertIfNoAddOn()) {
-			new Request.JSON({
-				url: this.test_url,
-				data: this.data || {},
-				onSuccess: fd.testXPI.bind(fd)
-			}).send();
+			var el = e.target;
+			if (el.getParent('li').hasClass('pressed')) {
+				fd.uninstallXPI(el.get('rel'));
+			} else {
+				new Request.JSON({
+					url: this.test_url,
+					data: this.data || {},
+					onSuccess: fd.testXPI.bind(fd)
+				}).send();
+			}
 		}
 	},
 	isAddon: function() {
