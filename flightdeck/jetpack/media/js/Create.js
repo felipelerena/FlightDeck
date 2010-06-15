@@ -23,9 +23,25 @@ var create = {
 				} 
 				fd.addnewDependencyModal = fd.displayModal(settings.create_modal_template, wrapper_id);
 				if (create_item && create_item[idx]) {
-					$('create-'+create_item[idx]).set('checked', 'checked');
+					$('create-'+create_item[idx])
+						.set('checked', 'checked')
+				}
+				var setName = function(name) {
+					if (this.get('checked')) {
+						$('create-name').set('value', name);
+					}
+				}
+				if ($('create-addon')) {
+					$('create-addon').addEvent('change', function() { setName.bind(this)('My Add-on'); });
+					setName.bind($('create-addon'))('My Add-on');
+				} 
+				if ($('create-library')) {
+					$('create-library').addEvent('change', function() { setName.bind(this)('My Library'); });
+					setName.bind($('create-library'))('My Library');
 				} 
 				
+				/*
+				 * Button New removed from Edit
 				if (fd.getItem) {
 					$$('#create_form input[type=radio]').addEvent('change', function() {
 						if ($('create-library').checked) {
@@ -37,6 +53,7 @@ var create = {
 						}
 					});
 				} 
+				*/
 				$('create_form').addEvent('submit', boundSubmit);
 				// $('create_form_cancel').addEvent('click', function(e) {
 				// 	e.stop();
