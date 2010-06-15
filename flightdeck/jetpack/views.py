@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 from random import choice
 
 from django.core.urlresolvers import reverse
@@ -195,6 +196,73 @@ def package_remove_module(r, id, type, revision_number):
 				mimetype='application/json')
 
 
+@require_POST
+@login_required
+def package_add_attachment(r, id, type, revision_number=None, version_name=None):
+	"""
+	Add new attachment to the PackageRevision
+	"""
+	revision = get_package_revision(id, type, revision_number, version_name)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this %s' % revision.package.get_type_name())
+
+	content = r.raw_post_data
+	path = r.META.get('HTTP_X_FILE_NAME', False)
+
+	if not path:
+		return HttpResponseServerError
+
+	filename, ext = os.path.splitext(path)
+
+	upload_path = "%s_%s_%s%s" % (revision.package.id_number, time.strftime("%m-%d-%H-%M-%S"), filename, ext)
+
+	handle = open(os.path.join(settings.UPLOAD_DIR, upload_path), 'w')
+	handle.write(content)
+	handle.close()
+
+	attachment = revision.attachment_create(
+		author=r.user,
+		filename=filename,
+		ext=ext,
+		path=upload_path
+	)
+
+	return render_to_response("json/attachment_added.json", 
+				{'revision': revision, 'attachment': attachment},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
+@require_POST
+@login_required
+def package_remove_attachment(r, id, type, revision_number):
+	"""
+	Remove attachment from PackageRevision
+	"""
+	revision = get_package_revision(id, type, revision_number)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this Package')
+
+	filename = r.POST.get('filename')
+
+	attachments = revision.attachments.all()
+
+	attachment_found = False
+
+	for att in attachments:
+		if att.filename == filename:
+			attachment = att
+			attachment_found = True
+
+	if not attachment_found:
+		return HttpResponseForbidden('There is no such attachment in %s' % revision.package.full_name)
+
+	revision.attachment_remove(attachment)
+
+	return render_to_response("json/attachment_removed.json", 
+				{'revision': revision, 'attachment': attachment},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
 
 
 @require_POST
@@ -282,25 +350,57 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 				mimetype='application/json')
 
 
+def _get_full_name(full_name, username, type, i=0): 
 
-@require_POST
+	new_full_name = full_name
+
+	if i > 0:
+		new_full_name = "%s (%d)" % (full_name, i)
+
+	packages = Package.objects.filter(author__username=username, full_name=new_full_name, type=type)
+
+	if len(packages.all()) == 0:
+		return new_full_name
+
+	i = i + 1
+	return _get_full_name(full_name, username, type, i)
+	
+
+
 @login_required
 def package_create(r, type):
 	"""
 	Create new Package (Add-on or Library)
 	Target of the Popup window with basic metadata
 	"""
+
+	full_name = r.POST.get("full_name", False)
+
+	if full_name:
+		description = r.POST.get("description")
+		packages = Package.objects.filter(author__username=r.user.username, full_name=full_name, type=type)
+		if len(packages.all()) > 0:
+			return HttpResponseForbidden("You already have a %s with that name" % settings.PACKAGE_SINGULAR_NAMES[type])
+	else:
+		description = ""
+		full_name = 'My Add-on' if type == 'a' else 'My Library'
+		full_name = _get_full_name(full_name, r.user.username, type)
+
+
 	item = Package(
 		author=r.user,
-		full_name=r.POST.get("full_name"),
-		description=r.POST.get("description"),
+		full_name=full_name,
+		description=description,
 		type=type
 		)
 	item.save()
 
+	return HttpResponseRedirect(reverse('jp_%s_edit_latest' % item.get_type_name(), args=[item.id_number]))
+	"""
 	return render_to_response("json/%s_created.json" % item.get_type_name(), {'item': item},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+	"""
 
 
 @login_required
@@ -471,7 +571,9 @@ def test_xpi(r, sdk_name, pkg_name, filename):
 	"""
 	path = '%s-%s/packages/%s' % (settings.SDKDIR_PREFIX, sdk_name, pkg_name)
 	file = '%s.xpi' % filename 
-	return serve(r, file, path, show_indexes=False)
+	mimetype='text/plain; charset=x-user-defined'
+
+	return HttpResponse(open(os.path.join(path, file), 'rb').read(), mimetype=mimetype)
 
 
 

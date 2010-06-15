@@ -39,13 +39,13 @@
 			};
 			window.addEvent('domready', function() {
 				fd = new FlightDeck({'user': '{{ user.username }}'});
-				{% block create_init %}
+				{% block create_init %}{% comment %}
 					create.init(
 						['create_addon', 'create_library'],
 						['addon','library'],
 						'app-body'
 					);
-				{% endblock %}
+				{% endcomment %}{% endblock %}
 				{% block app_domready %}{% endblock %}
 				{% block page_domready %}{% endblock %}
 			});
@@ -59,13 +59,13 @@
 				{% block header %}{% include "_header.html" %}{% endblock %}
 			</header> <!-- /main-header -->
 
-			{% block app_menu %}
+			{% block app_menu %}{% comment %}
 				<div id="editor-menu-wrapper">
 					<ul class="UI_Editor_Menu minimal">
 						{% include "_base_app_menu_items.html" %}
 					</ul>
 				</div>
-			{% endblock %}
+			{% endcomment %}{% endblock %}
 
 			<div id="app-body">
 				{% block app_body %}

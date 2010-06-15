@@ -14,6 +14,7 @@
 	<script src="/media/js/FlightDeck.Autocomplete.js"></script>
 	<script src="/media/jetpack/js/FlightDeck.Bespin.js"></script>
 	<script src="/media/jetpack/js/Package.js"></script>
+	<script src="/media/js/lib/sendFile.js"></script>
 {% endblock %}
 
 {# switch off default menu bar #}
@@ -66,10 +67,36 @@
 			</div>
 		{% endwith %}
 	</section>
+	<section id="attachments">
+		{% with revision.attachments.all as attachments %}
+			<h3 class="UI_Sidebar_Toggler attachments opened{% if not attachments %} closed{% endif %}">
+				<a title="Attachments" href="#">
+					Attachments <strong id="attachments-counter">({{ attachments|length }})</strong> 
+					<span class="UI_OC"></span>
+					<span class="UI_Sidebar_Toggler_Icon"></span>
+				</a>
+			</h3>
+			<div class="UI_Sidebar_ItemCont">
+				<ul class="UI_File_Listing" id='attachments_ul'>
+					{% for attachment in attachments %}
+						<li class="UI_File_Normal">
+							<a title="" href="#" class="Module_file" id="{{ attachment.filename }}_display">
+								{{ attachment.filename }}{{ attachment.ext }}<span class="File_close"></span>
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+				<div class="UI_Field_Cont UI_New_Dependency" id="add_attachment_div">	
+					<label for="add_attachment">Add attachment:</label>
+					<input type="file" multiple="true" id="add_attachment" name="attachment_filename" value=""/>
+				</div>
+			</div>
+		{% endwith %}
+	</section>
 	<section id="libraries">
-		<h3 class="UI_Sidebar_Toggler libraries opened">
+		<h3 class="UI_Sidebar_Toggler libraries opened{% if not libraries %} closed{% endif %}">
 			<a title="Libraries" href="#">
-				Libraries <strong id="libraries-counter">({{ libraries|length }})</strong> 
+				Libraries <strong id="libraries-counter">({{ library_counter }})</strong> 
 				<span class="UI_OC"></span>
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a>

@@ -25,6 +25,18 @@ def _get_module_names(package_name):
 	modules.sort()
 	return modules
 
+
+def homepage(r, package_name='jetpack-core'):
+	page = 'apibrowser'
+
+	package = {'name': package_name, 'modules': _get_module_names(package_name)}
+
+	return render_to_response(
+		'api_homepage.html', 
+		locals(),
+		context_instance=RequestContext(r))
+
+
 def package(r, package_name='jetpack-core'):
 	"""
 	containing a listing of all modules docs

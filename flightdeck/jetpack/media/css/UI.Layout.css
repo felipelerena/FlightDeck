@@ -369,7 +369,8 @@ a:hover {
 		}
 
 		.UI_Actions li a:active,
-		.UI_Actions li.UI_Pick_Version a:active {
+		.UI_Actions li.UI_Pick_Version a:active,
+		.UI_Actions li.pressed a {
 			background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
 			-moz-box-shadow: none;
 			border-top: none;

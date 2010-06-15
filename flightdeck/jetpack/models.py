@@ -271,6 +271,16 @@ class PackageRevision(models.Model):
 			'jp_%s_revision_remove_module' % self.package.get_type_name(), 
 			args=[self.package.id_number, self.revision_number])
 
+	def get_add_attachment_url(self):
+		return reverse(
+			'jp_%s_revision_add_attachment' % self.package.get_type_name(), 
+			args=[self.package.id_number, self.revision_number])
+
+	def get_remove_attachment_url(self):
+		return reverse(
+			'jp_%s_revision_remove_attachment' % self.package.get_type_name(), 
+			args=[self.package.id_number, self.revision_number])
+
 	def get_assign_library_url(self):
 		return reverse(
 			'jp_%s_revision_assign_library' % self.package.get_type_name(), 
@@ -520,7 +530,7 @@ class PackageRevision(models.Model):
 		# validate if given filename is valid
 		if not self.validate_attachment_filename(kwargs['filename'], kwargs['ext']):
 			raise FilenameExistException(
-				'Attachment with filename %s.%s already exists' % (
+				'Sorry, there is already an attachment in your add-on with the name "%s.%s". Each attachment in your add-on needs to have a unique name.' % (
 					kwargs['filename'], kwargs['ext']
 				)
 			)
@@ -537,9 +547,11 @@ class PackageRevision(models.Model):
 			raise FilenameExistException(
 				'Attachment with filename %s.%s already exists' % (att.filename, att.ext)
 			)
+		"""
 		for rev in att.revisions.all():
 			if rev.package.id_number != self.package.id_number:
 				raise AddingAttachmentDenied('this attachment is already assigned to other Library - %s' % rev.package.get_unique_package_name())
+		"""
 		self.save()
 		return self.attachments.add(att)
 		
@@ -824,7 +836,8 @@ def save_first_revision(instance, **kwargs):
 		mod = Module.objects.create(
 			filename=revision.module_main,
 			author=instance.author,
-			code="// This is an active module of the %s Add-on" % instance.full_name
+			code="""// This is an active module of the %s Add-on
+exports.main = function() {};""" % instance.full_name
 		)
 		revision.modules.add(mod)
 	instance.save()

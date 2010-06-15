@@ -276,18 +276,31 @@ Package.Edit = new Class({
 		// this.data is a temporary holder of the data for the submit
 		this.data = {};
 		this.parent(options);
+
+		this.assignActions();
+
+		// autocomplete
+		this.autocomplete = new FlightDeck.Autocomplete({
+			'url': settings.library_autocomplete_url
+		});
+	},
+	assignActions: function() {
 		// assign menu items
 		$(this.options.package_info_el).addEvent('click', this.editInfo.bind(this));
+		
 		// save
 		this.boundSaveAction = this.saveAction.bind(this);
 		$(this.options.save_el).addEvent('click', this.boundSaveAction);
+		
 		// submit Info
 		this.boundSubmitInfo = this.submitInfo.bind(this);
+		
 		// add/remove module
 		this.boundAddModuleAction = this.addModuleAction.bind(this);
 		this.boundRemoveModuleAction = this.removeModuleAction.bind(this);
 		$(this.options.add_module_el).addEvent('click', 
 			this.boundAddModuleAction);
+		
 		// assign/remove library
 		this.boundAssignLibraryAction = this.assignLibraryAction.bind(this);
 		this.boundRemoveLibraryAction = this.removeLibraryAction.bind(this);
@@ -296,10 +309,53 @@ Package.Edit = new Class({
 		$$('#libraries .UI_File_Listing .File_close').each(function(close) { 
 			close.addEvent('click', this.boundRemoveLibraryAction);
 		},this);
-		// autocomplete
-		this.autocomplete = new FlightDeck.Autocomplete({
-			'url': settings.library_autocomplete_url
-		});
+		
+		// add attachments
+		this.add_attachment_el = $('add_attachment');
+		this.attachment_template = '<a title="" href="#" class="Module_file" id="{filename}_display">'+
+						'{filename}{ext}<span class="File_close"></span>'+
+					'</a>';
+		this.add_attachment_el.addEvent('change', function(e) {
+
+			sendMultipleFiles({
+				url: this.add_attachment_url || this.options.add_attachment_url,
+				
+				// list of files to upload
+				files: this.add_attachment_el.files,
+				
+				// clear the container
+				onloadstart:function(){
+					$log('loadstart')
+				},
+				
+				// do something during upload ...
+				onprogress:function(rpe){
+					$log('progress');
+				},
+
+				onpartialload: function(rpe, xhr) {
+					$log('file uploaded');
+					// here parse xhr.responseText and append a DOM Element
+					response = JSON.parse(xhr.responseText);
+					new Element('li',{
+						'class': 'UI_File_Normal',
+						'html': this.attachment_template.substitute(response)
+					}).inject($('attachments_ul'));
+				}.bind(this),
+				
+				// fired when last file has been uploaded
+				onload:function(rpe, xhr){
+					$log('loaded');
+					//$log("Server Response: " + xhr.responseText);
+				},
+				
+				// if something is wrong ... (from native instance or because of size)
+				onerror:function(){
+					$log('error');
+				}
+			});
+			
+		}.bind(this));
 	},
 	addModuleAction: function(e) {
 		e.stop();

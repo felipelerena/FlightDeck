@@ -26,4 +26,5 @@ flightdeck/jetpack/media/media
 *.aux
 *.log
 *.synctex.gz
+upload
 

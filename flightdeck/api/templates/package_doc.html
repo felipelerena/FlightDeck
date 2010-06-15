@@ -1,13 +1,6 @@
 {% extends "api.html" %}
 {% load base_helpers markup %}
 
-{% block app_sidebar %}
-	<h2 class="UI_Heading"><a title="{{ package_name}}" href="{% url api_package package_name %}">{{ package.name }}</a></h2>
-	
-	<h3>Modules</h3>
-	{% include "_modules_list.html" %}
-{% endblock %}
-
 {% block app_content %}
 	<h2 class="UI_Heading">Modules</h2>
 

@@ -1,0 +1,9 @@
+{
+	{% include "json/_edit_urls.json" %}
+	"message_title": "Success",
+	"message": "Attachment {{ attachment.filename }} removed",
+	"filename": "{{ attachment.filename }}",
+	"ext": "{{ attachment.ext }}"
+}
+
+
