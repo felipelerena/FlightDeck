@@ -5,11 +5,11 @@
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Browser.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Landing_Page.css" type="text/css" media="screen" />
 	<script src="/media/jetpack/js/FlightDeck.Browser.js"></script>
-	<script src="http://github.com/oskarkrawczyk/nuTabs/raw/master/Source/nuTabs.js"></script>
+	<!-- <script src="http://github.com/oskarkrawczyk/nuTabs/raw/master/Source/nuTabs.js"></script> -->
 	<script type="text/javascript" charset="utf-8">
 		window.addEvents({
 			domready: function(){
-				new nuTabs($$('#features-wrapper .UI_Tabs a'), $$('#features-wrapper .UI_Cont li'));
+				// new nuTabs($$('#features-wrapper .UI_Tabs a'), $$('#features-wrapper .UI_Cont li'));
 			}
 		});
 	</script>
@@ -22,60 +22,53 @@
 {% block app_content %}
 	
 	<div id="features-wrapper">
-		<div class="UI_Features">
-			<ul class="UI_Tabs">
-				<li class="selected"><a title=""About FlightDeck href="#">Welcome!</a></li>
-				<li><a title="Getting started" href="#">Getting started</a></li>
-				<li><a title="Tutorials" href="#">Tutorials</a></li>
-			</ul>
-	
-			<ul class="UI_Cont">
-				<li class="active">
-					<h3>Welcome to Add-ons Builder!</h3>
+		<div class="UI_middleWrapper">
+			<div class="UI_Feature_Copy">
+				<h3>Welcome to Add-ons Builder!</h3>
 
-					<p>Use Add-ons Builder to quickly and easily develop an extension for Firefox
-					using common web technologies. Get started by simply pressing the <strong>Create
-					Add-on</strong> button and typing in your code!</p>
+				<p>Use Add-ons Builder to quickly and easily develop an extension for Firefox
+				using common web technologies. Get started by simply pressing the <strong>Create
+				Add-on</strong> button and typing in your code!</p>
 
-					<p>Don't want to start from scratch?  
-					Use a <a href="{% url api_package "jetpack-core" %}">variety of APIs in the core library</a> 
-					to add functionality to Firefox, including 
-					<a href="{% url api_module "jetpack-core" "widget" %}">widget</a> and 
-					<a href="{% url api_module "jetpack-core" "context-menu" %}">context-menu</a>.  
-					Check out <a href="i{% url jp_browser_addons %}">other add-ons</a> for
-					inspiration. And take advantage of <a href="{% url jp_browser_libraries %}">third-party libraries</a> 
-					with additional APIs.</p> 
-					
-					<p>Need more Help? <a href="">read the tutorial</a> for a
-					step-by-step guide	to building an add-on using this site.
+				<p>Don't want to start from scratch?  
+				Use a <a href="{% url api_package "jetpack-core" %}">variety of APIs in the core library</a> 
+				to add functionality to Firefox, including 
+				<a href="{% url api_module "jetpack-core" "widget" %}">widget</a> and 
+				<a href="{% url api_module "jetpack-core" "context-menu" %}">context-menu</a>.  
+				Check out <a href="i{% url jp_browser_addons %}">other add-ons</a> for
+				inspiration. And take advantage of <a href="{% url jp_browser_libraries %}">third-party libraries</a> 
+				with additional APIs.</p> 
+			
+				<p>Need more Help? <a href="">read the tutorial</a> for a
+				step-by-step guide	to building an add-on using this site.
 
-					<p>Happy hacking!</p>
-				</li>
-				<li>
-					<h3>Getting started</h3>
-
-					<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				</li>
-				<li>
-					<h3>Tutorials</h3>
-
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				</li>
-			</ul>
-		</div> <!-- /UI_Feature -->
+				<p>Happy hacking!</p>
+			</div>
+			<div class="UI_Feature_Side">
+				<ul id="new-addon">
+					<li>
+						<a id="create_addon" title="" href="{% url jp_addon_create %}"><span>Create Add-on</span></a>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div> <!-- /feature-wrapper -->
+	
+	<!-- <li>
+		<h3>Getting started</h3>
+
+		<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	</li>
+	<li>
+		<h3>Tutorials</h3>
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	</li> -->
+	
 	
 	<div class="UI_middleWrapper">
 				
 		<div id="libs-and-extensions">
-			<ul id="home-buttons">
-				<li>
-					<a id="create_addon" title="" href="{% url jp_addon_create %}"><span>Create Add-on</span></a>
-				</li>
-				<li class="addLibrary">
-					<a id="create_library" title="" href="{% url jp_library_create %}"><span>Create Library</span></a>
-				</li>
-			</ul>
 			
 			<div class="UI_LE_Col">
 				{% if addons %}
@@ -108,16 +101,34 @@
 					</ul> <!-- /UI_SeeMore -->
 				{% endif %}
 			</div> <!-- /UI_LE_Col -->
-		
-			<h2 class="UI_Heading medium">Get the SDK</h2>
+			
+			<div class="UI_LE_Col_Group">
+				<div class="UI_LE_Col getSdk">
+					<div class="UI_Bottom_Info">
+						<h2 class="UI_Heading medium">Get the SDK</h2>
 
-			<p>Prefer the command-line? Want to work locally?</p>
+						<p>Prefer the command-line? Want to work locally?</p>
 
-			<ul class="sdkInfo">
-				<li id="download-sdk"><a title="Download Add-ons Builder SDK" href="https://ftp.mozilla.org/pub/mozilla.org/labs/jetpack/jetpack-sdk-latest.zip"><span>Download Add-ons Builder SDK</span></a></li>
-				<li class="moreInfo"><a title="More Info" href="https://jetpack.mozillalabs.com/sdk/latest/docs/">More Info</a></li>
-			</ul>
-		
+						<ul>
+							<li class="UI_Mini_Button"><a title="Download Add-ons Builder SDK" href="https://ftp.mozilla.org/pub/mozilla.org/labs/jetpack/jetpack-sdk-latest.zip"><span>Download Add-ons Builder SDK</span></a></li>
+							<li class="moreInfo"><a title="More Info" href="https://jetpack.mozillalabs.com/sdk/latest/docs/">More Info</a></li>
+						</ul>
+					</div>
+				</div> <!-- /UI_LE_Col -->
+				
+				<div class="UI_LE_Col createLibrary">
+					<div class="UI_Bottom_Info">
+						<h2 class="UI_Heading medium">Create a Library</h2>
+
+						<p>Want to make an API for add-ons to use?</p>
+
+						<ul>
+							<li class="UI_Mini_Button grey"><a title="Create Library" href="{% url jp_library_create %}"><span>Create Library</span></a></li>
+						</ul>
+					</div>
+				</div> <!-- /UI_LE_Col -->
+			</div> <!-- /UI_LE_Clear -->
+			
 		</div> <!-- /libs-and-extensions -->
 	
 	</div> <!-- /UI_middleWrapper -->
