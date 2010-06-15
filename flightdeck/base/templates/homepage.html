@@ -19,14 +19,6 @@
 
 {% block app_sidebar %}{% endblock %}
 
-{% block create_init %}
-	create.init(
-		['create_addon', 'create_library'],
-		['addon','library'],
-		'app-body'
-	);
-{% endblock %}
-	
 {% block app_content %}
 	
 	<div id="features-wrapper">
@@ -78,10 +70,10 @@
 		<div id="libs-and-extensions">
 			<ul id="home-buttons">
 				<li>
-					<a id="create_addon" title="" href="#"><span>Create Add-on</span></a>
+					<a id="create_addon" title="" href="{% url jp_addon_create %}"><span>Create Add-on</span></a>
 				</li>
 				<li class="addLibrary">
-					<a id="create_library" title="" href="#"><span>Create Library</span></a>
+					<a id="create_library" title="" href="{% url jp_library_create %}"><span>Create Library</span></a>
 				</li>
 			</ul>
 			
