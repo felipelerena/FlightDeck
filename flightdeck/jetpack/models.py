@@ -271,6 +271,16 @@ class PackageRevision(models.Model):
 			'jp_%s_revision_remove_module' % self.package.get_type_name(), 
 			args=[self.package.id_number, self.revision_number])
 
+	def get_add_attachment_url(self):
+		return reverse(
+			'jp_%s_revision_add_attachment' % self.package.get_type_name(), 
+			args=[self.package.id_number, self.revision_number])
+
+	def get_remove_attachment_url(self):
+		return reverse(
+			'jp_%s_revision_remove_attachment' % self.package.get_type_name(), 
+			args=[self.package.id_number, self.revision_number])
+
 	def get_assign_library_url(self):
 		return reverse(
 			'jp_%s_revision_assign_library' % self.package.get_type_name(), 

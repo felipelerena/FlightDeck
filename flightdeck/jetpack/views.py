@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 from random import choice
 
 from django.core.urlresolvers import reverse
@@ -194,6 +195,73 @@ def package_remove_module(r, id, type, revision_number):
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 
+
+@require_POST
+@login_required
+def package_add_attachment(r, id, type, revision_number=None, version_name=None):
+	"""
+	Add new attachment to the PackageRevision
+	"""
+	revision = get_package_revision(id, type, revision_number, version_name)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this %s' % revision.package.get_type_name())
+
+	content = r.raw_post_data
+	path = r.META.get('HTTP_X_FILE_NAME', False)
+
+	if not path:
+		return HttpResponseServerError
+
+	filename, ext = os.path.splitext(path)
+
+	upload_path = "%s_%s_%s%s" % (revision.package.id_number, time.strftime("%m-%d-%H-%M-%S"), filename, ext)
+
+	handle = open(os.path.join(settings.UPLOAD_DIR, upload_path), 'w')
+	handle.write(content)
+	handle.close()
+
+	attachment = revision.attachment_create(
+		author=r.user,
+		filename=filename,
+		ext=ext,
+		path=upload_path
+	)
+
+	return render_to_response("json/attachment_added.json", 
+				{'revision': revision, 'attachment': attachment},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
+
+@require_POST
+@login_required
+def package_remove_attachment(r, id, type, revision_number):
+	"""
+	Remove attachment from PackageRevision
+	"""
+	revision = get_package_revision(id, type, revision_number)
+	if r.user.pk != revision.author.pk:
+		return HttpResponseForbidden('You are not the author of this Package')
+
+	filename = r.POST.get('filename')
+
+	attachments = revision.attachments.all()
+
+	attachment_found = False
+
+	for att in attachments:
+		if att.filename == filename:
+			attachment = att
+			attachment_found = True
+
+	if not attachment_found:
+		return HttpResponseForbidden('There is no such attachment in %s' % revision.package.full_name)
+
+	revision.attachment_remove(attachment)
+
+	return render_to_response("json/attachment_removed.json", 
+				{'revision': revision, 'attachment': attachment},
+				context_instance=RequestContext(r),
+				mimetype='application/json')
 
 
 

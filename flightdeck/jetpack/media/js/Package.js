@@ -310,6 +310,52 @@ Package.Edit = new Class({
 			close.addEvent('click', this.boundRemoveLibraryAction);
 		},this);
 		
+		// add attachments
+		this.add_attachment_el = $('add_attachment');
+		this.attachment_template = '<a title="" href="#" class="Module_file" id="{filename}_display">'+
+						'{filename}{ext}<span class="File_close"></span>'+
+					'</a>';
+		this.add_attachment_el.addEvent('change', function(e) {
+
+			sendMultipleFiles({
+				url: this.add_attachment_url || this.options.add_attachment_url,
+				
+				// list of files to upload
+				files: this.add_attachment_el.files,
+				
+				// clear the container
+				onloadstart:function(){
+					$log('loadstart')
+				},
+				
+				// do something during upload ...
+				onprogress:function(rpe){
+					$log('progress');
+				},
+
+				onpartialload: function(rpe, xhr) {
+					$log('file uploaded');
+					// here parse xhr.responseText and append a DOM Element
+					response = JSON.parse(xhr.responseText);
+					new Element('li',{
+						'class': 'UI_File_Normal',
+						'html': this.attachment_template.substitute(response)
+					}).inject($('attachments_ul'));
+				}.bind(this),
+				
+				// fired when last file has been uploaded
+				onload:function(rpe, xhr){
+					$log('loaded');
+					//$log("Server Response: " + xhr.responseText);
+				},
+				
+				// if something is wrong ... (from native instance or because of size)
+				onerror:function(){
+					$log('error');
+				}
+			});
+			
+		}.bind(this));
 	},
 	addModuleAction: function(e) {
 		e.stop();

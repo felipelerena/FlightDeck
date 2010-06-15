@@ -83,6 +83,16 @@ urlpatterns = patterns('jetpack.views',
 		'package_remove_module',{'type': 'l'},  name='jp_library_revision_remove_module'),
 
 
+	# add/remove attachment
+	url(r'^addon/add_attachment/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_add_attachment', {'type': 'a'}, name='jp_addon_revision_add_attachment'),
+	url(r'^library/add_attachment/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_add_attachment',{'type': 'l'},  name='jp_library_revision_add_attachment'),
+	url(r'^addon/remove_attachment/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_remove_attachment', {'type': 'a'}, name='jp_addon_revision_remove_attachment'),
+	url(r'^library/remove_attachment/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
+		'package_remove_attachment',{'type': 'l'},  name='jp_library_revision_remove_attachment'),
+
 	# autocomplete library
 	url(r'^autocomplete/library/$', 
 		'library_autocomplete', name='jp_library_autocomplete'),
