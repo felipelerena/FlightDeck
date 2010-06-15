@@ -315,48 +315,88 @@ Package.Edit = new Class({
 		this.attachment_template = '<a title="" href="#" class="Module_file" id="{filename}_display">'+
 						'{filename}{ext}<span class="File_close"></span>'+
 					'</a>';
-		this.add_attachment_el.addEvent('change', function(e) {
-
-			sendMultipleFiles({
-				url: this.add_attachment_url || this.options.add_attachment_url,
-				
-				// list of files to upload
-				files: this.add_attachment_el.files,
-				
-				// clear the container
-				onloadstart:function(){
-					$log('loadstart')
-				},
-				
-				// do something during upload ...
-				onprogress:function(rpe){
-					$log('progress');
-				},
-
-				onpartialload: function(rpe, xhr) {
-					$log('file uploaded');
-					// here parse xhr.responseText and append a DOM Element
-					response = JSON.parse(xhr.responseText);
-					new Element('li',{
-						'class': 'UI_File_Normal',
-						'html': this.attachment_template.substitute(response)
-					}).inject($('attachments_ul'));
-				}.bind(this),
-				
-				// fired when last file has been uploaded
-				onload:function(rpe, xhr){
-					$log('loaded');
-					//$log("Server Response: " + xhr.responseText);
-				},
-				
-				// if something is wrong ... (from native instance or because of size)
-				onerror:function(){
-					$log('error');
-				}
-			});
-			
-		}.bind(this));
+		this.add_attachment_el.addEvent('change', this.sendMultipleFiles.bind(this));
+		this.boundRemoveAttachmentAction = this.removeAttachmentAction.bind(this);
+		$$('#attachments .UI_File_Listing .File_close').each(function(close) { 
+			close.addEvent('click', this.boundRemoveAttachmentAction);
+		},this);
 	},
+
+	get_add_attachment_url: function() {
+		return this.add_attachment_url || this.options.add_attachment_url;
+	},
+
+	sendMultipleFiles: function() {
+		sendMultipleFiles({
+			url: this.get_add_attachment_url.bind(this),
+			
+			// list of files to upload
+			files: this.add_attachment_el.files,
+			
+			// clear the container
+			//onloadstart:function(){
+			//	$log('loadstart')
+			//},
+			
+			// do something during upload ...
+			//onprogress:function(rpe){
+			//	$log('progress');
+			//},
+
+			onpartialload: function(rpe, xhr) {
+				$log('file uploaded');
+				// here parse xhr.responseText and append a DOM Element
+				response = JSON.parse(xhr.responseText);
+				new Element('li',{
+					'class': 'UI_File_Normal',
+					'html': this.attachment_template.substitute(response)
+				}).inject($('attachments_ul'));
+				$(response.filename+'_display').getElement('.File_close').addEvent('click', this.boundRemoveAttachmentAction);
+				fd.setURIRedirect(response.edit_url);
+				this.setUrls(response);
+			}.bind(this),
+			
+			// fired when last file has been uploaded
+			//onload:function(rpe, xhr){
+			//	$log('loaded');
+			//},
+			
+			// if something is wrong ... (from native instance or because of size)
+			onerror:function(){
+				fd.error.alert(
+					'Error {status}'.substitute(xhr), 
+					'{statusText}<br/>{responseText}'.substitute(xhr)
+					);
+			}
+		});
+	},
+	removeAttachmentAction: function(e) {
+		e.stop();
+		var trigger = e.target.getParent('a');
+		var filename = trigger.get('text');
+		this.question = fd.showQuestion({
+			title: 'Are you sure you want to remove "'+filename+'"?',
+			message: '',
+			ok: 'Remove',
+			id: 'remove_attachment_button',
+			callback: function() {
+				this.removeAttachment(filename);
+				this.question.destroy();
+			}.bind(this)
+		});
+	},
+	removeAttachment: function(filename) {
+		new Request.JSON({
+			url: this.remove_attachment_url || this.options.remove_attachment_url,
+			data: {filename: filename},
+			onSuccess: function(response) {
+				fd.setURIRedirect(response.edit_url);
+				this.setUrls(response);
+				$(response.filename+'_display').getParent('li').destroy();
+			}.bind(this)
+		}).send();
+	},
+
 	addModuleAction: function(e) {
 		e.stop();
 		// get data
@@ -460,7 +500,18 @@ Package.Edit = new Class({
 	removeLibraryAction: function(e) {
 		if (e) e.stop();
 		var id_number = e.target.getParent('a').get('target');
-		this.removeLibrary(id_number);
+		var name = e.target.getParent('a').get('text');
+
+		this.question = fd.showQuestion({
+			title: 'Are you sure you want to remove "'+name+'"?',
+			message: '',
+			ok: 'Remove',
+			id: 'remove_library_button',
+			callback: function() {
+				this.removeLibrary(id_number);
+				this.question.destroy();
+			}.bind(this)
+		});
 	},
 	removeLibrary: function(id_number) {
 		new Request.JSON({
@@ -554,6 +605,8 @@ Package.Edit = new Class({
 		this.test_url = urls.test_url;
 		this.add_module_url = urls.add_module_url;
 		this.remove_module_url = urls.remove_module_url;
+		this.add_attachment_url = urls.add_attachment_url;
+		this.remove_attachment_url = urls.remove_attachment_url;
 		this.assign_library_url = urls.assign_library_url;
 		this.remove_library_url = urls.remove_library_url;
 	}

@@ -51,7 +51,7 @@ sendFile = (function(toString, maxSize){
                 }, 15);
             }
         };
-        xhr.open("post", handler.url || "?upload=true", true);
+        xhr.open("post", handler.url(), true);
         xhr.setRequestHeader("If-Modified-Since", "Mon, 26 Jul 1997 05:00:00 GMT");
         xhr.setRequestHeader("Cache-Control", "no-cache");
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");

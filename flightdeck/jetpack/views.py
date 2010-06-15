@@ -242,14 +242,14 @@ def package_remove_attachment(r, id, type, revision_number):
 	if r.user.pk != revision.author.pk:
 		return HttpResponseForbidden('You are not the author of this Package')
 
-	filename = r.POST.get('filename')
+	filename = r.POST.get('filename','').strip()
 
 	attachments = revision.attachments.all()
 
 	attachment_found = False
 
 	for att in attachments:
-		if att.filename == filename:
+		if "%s%s" % (att.filename, att.ext) == filename:
 			attachment = att
 			attachment_found = True
 

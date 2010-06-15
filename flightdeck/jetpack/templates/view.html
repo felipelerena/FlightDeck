@@ -40,6 +40,28 @@
 	<section id="modules">
 		{% block modules_sidebar %}{% endblock %}
 	</section>
+	{% with revision.attachments.all as attachments %}{% if attachments %}
+	<section id="attachments">
+			<h3 class="UI_Sidebar_Toggler attachments opened">
+				<a title="Attachments" href="#">
+					Attachments <strong id="attachments-counter">({{ attachments|length }})</strong> 
+					<span class="UI_OC"></span>
+					<span class="UI_Sidebar_Toggler_Icon"></span>
+				</a>
+			</h3>
+			<div class="UI_Sidebar_ItemCont">
+				<ul class="UI_File_Listing" id='attachments_ul'>
+					{% for attachment in attachments %}
+						<li class="UI_File_Normal">
+							<a title="" href="#" class="Module_file" id="{{ attachment.filename }}_display">
+								{{ attachment.filename }}{{ attachment.ext }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</section>
+	{% endif %}{% endwith %}
 	{% if libraries or revision.package.is_addon %}
 		<section id="libraries">
 			<h3 class="UI_Sidebar_Toggler libraries opened"><a title="Libraries" href="#">
