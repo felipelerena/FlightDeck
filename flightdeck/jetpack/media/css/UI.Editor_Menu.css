@@ -78,7 +78,8 @@ authors:
 		text-decoration: none;
 	}
 
-	.UI_Editor_Menu_Button a:active {
+	.UI_Editor_Menu_Button a:active,
+	.UI_Editor_Menu_Button.pressed a {
 		background: -moz-linear-gradient(270deg, #BEC5CC, #D9DDE0);
 		-moz-box-shadow: none;
 		color: #6D7880;

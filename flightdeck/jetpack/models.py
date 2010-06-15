@@ -824,7 +824,8 @@ def save_first_revision(instance, **kwargs):
 		mod = Module.objects.create(
 			filename=revision.module_main,
 			author=instance.author,
-			code="// This is an active module of the %s Add-on" % instance.full_name
+			code="""// This is an active module of the %s Add-on
+exports.main = function() {};""" % instance.full_name
 		)
 		revision.modules.add(mod)
 	instance.save()

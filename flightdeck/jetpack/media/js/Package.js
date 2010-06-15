@@ -276,18 +276,31 @@ Package.Edit = new Class({
 		// this.data is a temporary holder of the data for the submit
 		this.data = {};
 		this.parent(options);
+
+		this.assignActions();
+
+		// autocomplete
+		this.autocomplete = new FlightDeck.Autocomplete({
+			'url': settings.library_autocomplete_url
+		});
+	},
+	assignActions: function() {
 		// assign menu items
 		$(this.options.package_info_el).addEvent('click', this.editInfo.bind(this));
+		
 		// save
 		this.boundSaveAction = this.saveAction.bind(this);
 		$(this.options.save_el).addEvent('click', this.boundSaveAction);
+		
 		// submit Info
 		this.boundSubmitInfo = this.submitInfo.bind(this);
+		
 		// add/remove module
 		this.boundAddModuleAction = this.addModuleAction.bind(this);
 		this.boundRemoveModuleAction = this.removeModuleAction.bind(this);
 		$(this.options.add_module_el).addEvent('click', 
 			this.boundAddModuleAction);
+		
 		// assign/remove library
 		this.boundAssignLibraryAction = this.assignLibraryAction.bind(this);
 		this.boundRemoveLibraryAction = this.removeLibraryAction.bind(this);
@@ -296,10 +309,7 @@ Package.Edit = new Class({
 		$$('#libraries .UI_File_Listing .File_close').each(function(close) { 
 			close.addEvent('click', this.boundRemoveLibraryAction);
 		},this);
-		// autocomplete
-		this.autocomplete = new FlightDeck.Autocomplete({
-			'url': settings.library_autocomplete_url
-		});
+		
 	},
 	addModuleAction: function(e) {
 		e.stop();

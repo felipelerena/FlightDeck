@@ -282,25 +282,57 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 				mimetype='application/json')
 
 
+def _get_full_name(full_name, username, type, i=0): 
 
-@require_POST
+	new_full_name = full_name
+
+	if i > 0:
+		new_full_name = "%s (%d)" % (full_name, i)
+
+	packages = Package.objects.filter(author__username=username, full_name=new_full_name, type=type)
+
+	if len(packages.all()) == 0:
+		return new_full_name
+
+	i = i + 1
+	return _get_full_name(full_name, username, type, i)
+	
+
+
 @login_required
 def package_create(r, type):
 	"""
 	Create new Package (Add-on or Library)
 	Target of the Popup window with basic metadata
 	"""
+
+	full_name = r.POST.get("full_name", False)
+
+	if full_name:
+		description = r.POST.get("description")
+		packages = Package.objects.filter(author__username=r.user.username, full_name=full_name, type=type)
+		if len(packages.all()) > 0:
+			return HttpResponseForbidden("You already have a %s with that name" % settings.PACKAGE_SINGULAR_NAMES[type])
+	else:
+		description = ""
+		full_name = 'My Add-on' if type == 'a' else 'My Library'
+		full_name = _get_full_name(full_name, r.user.username, type)
+
+
 	item = Package(
 		author=r.user,
-		full_name=r.POST.get("full_name"),
-		description=r.POST.get("description"),
+		full_name=full_name,
+		description=description,
 		type=type
 		)
 	item.save()
 
+	return HttpResponseRedirect(reverse('jp_%s_edit_latest' % item.get_type_name(), args=[item.id_number]))
+	"""
 	return render_to_response("json/%s_created.json" % item.get_type_name(), {'item': item},
 				context_instance=RequestContext(r),
 				mimetype='application/json')
+	"""
 
 
 @login_required
@@ -471,7 +503,9 @@ def test_xpi(r, sdk_name, pkg_name, filename):
 	"""
 	path = '%s-%s/packages/%s' % (settings.SDKDIR_PREFIX, sdk_name, pkg_name)
 	file = '%s.xpi' % filename 
-	return serve(r, file, path, show_indexes=False)
+	mimetype='text/plain; charset=x-user-defined'
+
+	return HttpResponse(open(os.path.join(path, file), 'rb').read(), mimetype=mimetype)
 
 
 
