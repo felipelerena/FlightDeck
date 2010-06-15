@@ -4,6 +4,7 @@
 	"message": "Attachment {{ attachment.filename }} added",
 	"filename": "{{ attachment.filename }}",
 	"ext": "{{ attachment.ext }}",
+	"display_url": "{{ attachment.get_display_url }}",
 	"author": "{{ attachment.author.username }}"
 }
 

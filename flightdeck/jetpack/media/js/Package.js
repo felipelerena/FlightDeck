@@ -312,14 +312,38 @@ Package.Edit = new Class({
 		
 		// add attachments
 		this.add_attachment_el = $('add_attachment');
-		this.attachment_template = '<a title="" href="#" class="Module_file" id="{filename}_display">'+
-						'{filename}{ext}<span class="File_close"></span>'+
+		this.attachment_template = '<a title="" rel="{ext}" href="{display_url}" class="Module_file" id="{filename}{ext}_display">'+
+						'{filename}.{ext}<span class="File_close"></span>'+
 					'</a>';
 		this.add_attachment_el.addEvent('change', this.sendMultipleFiles.bind(this));
 		this.boundRemoveAttachmentAction = this.removeAttachmentAction.bind(this);
 		$$('#attachments .UI_File_Listing .File_close').each(function(close) { 
 			close.addEvent('click', this.boundRemoveAttachmentAction);
 		},this);
+		$('attachments').addEvent(
+			'click:relay(.UI_File_Listing a)',
+			function(e, target) {
+				e.stop();
+				var url = target.get('href');
+				var ext = target.get('rel');
+				var filename = target.get('text');
+				var template_start = '<div id="attachment_view"><h3>'+filename+'</h3><div class="UI_Modal_Section">';
+				var template_end = '</div><div class="UI_Modal_Actions"><ul><li><input type="reset" value="Close" class="closeModal"/></li></ul></div></div>';
+				var template_middle = '<a href="'+url+'">'+filename+'</a>';
+				if (['jpg', 'gif', 'png'].contains(ext)) template_middle = '<img src="'+url+'"/>'; 
+				if (['css', 'js', 'css'].contains(ext)) {
+					new Request({
+						url: url,
+						onSuccess: function(response) {
+							template_middle = '<pre>'+response+'</pre>';
+							this.attachmentWindow = fd.displayModal(template_start+template_middle+template_end);
+						}
+					}).send();
+				} else {
+					this.attachmentWindow = fd.displayModal(template_start+template_middle+template_end);
+				}
+			}.bind(this)
+		)
 	},
 
 	get_add_attachment_url: function() {
@@ -351,7 +375,7 @@ Package.Edit = new Class({
 					'class': 'UI_File_Normal',
 					'html': this.attachment_template.substitute(response)
 				}).inject($('attachments_ul'));
-				$(response.filename+'_display').getElement('.File_close').addEvent('click', this.boundRemoveAttachmentAction);
+				$(response.filename+response.ext+'_display').getElement('.File_close').addEvent('click', this.boundRemoveAttachmentAction);
 				fd.setURIRedirect(response.edit_url);
 				this.setUrls(response);
 			}.bind(this),
@@ -392,7 +416,7 @@ Package.Edit = new Class({
 			onSuccess: function(response) {
 				fd.setURIRedirect(response.edit_url);
 				this.setUrls(response);
-				$(response.filename+'_display').getParent('li').destroy();
+				$(response.filename+response.ext+'_display').getParent('li').destroy();
 			}.bind(this)
 		}).send();
 	},

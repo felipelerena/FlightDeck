@@ -93,6 +93,10 @@ urlpatterns = patterns('jetpack.views',
 	url(r'^library/remove_attachment/(?P<id>[-\w]+)/revision/(?P<revision_number>\d+)/$', 
 		'package_remove_attachment',{'type': 'l'},  name='jp_library_revision_remove_attachment'),
 
+	# display attachment
+	url(r'^attachment/(?P<path>.*)$',
+		'download_attachment', name='jp_attachment'),
+
 	# autocomplete library
 	url(r'^autocomplete/library/$', 
 		'library_autocomplete', name='jp_library_autocomplete'),

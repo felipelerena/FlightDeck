@@ -54,7 +54,7 @@
 					{% for attachment in attachments %}
 						<li class="UI_File_Normal">
 							<a title="" href="#" class="Module_file" id="{{ attachment.filename }}_display">
-								{{ attachment.filename }}{{ attachment.ext }}
+								{{ attachment.get_filename }}
 							</a>
 						</li>
 					{% endfor %}
