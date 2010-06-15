@@ -47,15 +47,15 @@ a:hover {
  =========================================================================== */
 #app-header {
 	background: -moz-linear-gradient(270deg, #5A6776, #4E5861);
-	height: 115px;
+	height: 90px;
 }
 
 	#app-header nav {
 		float: right;
-		margin: 0 15px 0 0;
+		margin: 45px 15px 0 0;
 		padding: 1px;
-		position: relative;
-		top: -20px;
+		z-index: 20;
+		
 	}
    
 	#app-header nav li {
@@ -109,7 +109,7 @@ a:hover {
 	width: 246px;
 	height: 60px;
 	margin-left: 15px;
-	margin-top: 10px;
+	margin-top: 15px;
 }
 
 	#flightdeck-logo a {
@@ -132,19 +132,22 @@ a:hover {
 	height: 35px;
 	background: url(../img/mozilla/header-border.png) 0 0 repeat-x;
 	overflow: hidden;
+	position: absolute;
+	width: 100%;
 }
 
 	#brand p {
 	}
 
 	#brand a {
-		width: 90px;
+		float: right;
+		width: 82px;
 		height: 31px;
 		display: block;
 		background: url(../img/mozilla/tab-mozilla.png) 0 0 no-repeat;
 		text-indent: -900em;
 		margin-top: 4px;
-		margin-left: 15px;
+		margin-right: 15px;
 	}
 
 /*
