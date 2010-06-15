@@ -66,10 +66,32 @@
 			</div>
 		{% endwith %}
 	</section>
+	<section id="attachments">
+		{% with revision.attachments.all as attachments %}
+			<h3 class="UI_Sidebar_Toggler attachments opened{% if not attachments %} closed{% endif %}">
+				<a title="Attachments" href="#">
+					Attachments <strong id="attachments-counter">({{ attachments|length }})</strong> 
+					<span class="UI_OC"></span>
+					<span class="UI_Sidebar_Toggler_Icon"></span>
+				</a>
+			</h3>
+			<div class="UI_Sidebar_ItemCont">
+				<ul class="UI_File_Listing">
+					{% if attachments %}
+					{% endif %}
+				</ul>
+				<div class="UI_Field_Cont UI_New_Dependency" id="add_attachment_div">	
+					<label for="add_attachment">Add attachment:</label>
+					<input type="text" id="add_attachment" name="attachment_filename" value=""/>
+					<button title="Add new attachment" id="add_attachment_action">Add</button>
+				</div>
+			</div>
+		{% endwith %}
+	</section>
 	<section id="libraries">
-		<h3 class="UI_Sidebar_Toggler libraries opened">
+		<h3 class="UI_Sidebar_Toggler libraries opened{% if not libraries %} closed{% endif %}">
 			<a title="Libraries" href="#">
-				Libraries <strong id="libraries-counter">({{ libraries|length }})</strong> 
+				Libraries <strong id="libraries-counter">({{ library_counter }})</strong> 
 				<span class="UI_OC"></span>
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a>

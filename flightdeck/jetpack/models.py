@@ -520,7 +520,7 @@ class PackageRevision(models.Model):
 		# validate if given filename is valid
 		if not self.validate_attachment_filename(kwargs['filename'], kwargs['ext']):
 			raise FilenameExistException(
-				'Attachment with filename %s.%s already exists' % (
+				'Sorry, there is already an attachment in your add-on with the name "%s.%s". Each attachment in your add-on needs to have a unique name.' % (
 					kwargs['filename'], kwargs['ext']
 				)
 			)
@@ -537,9 +537,11 @@ class PackageRevision(models.Model):
 			raise FilenameExistException(
 				'Attachment with filename %s.%s already exists' % (att.filename, att.ext)
 			)
+		"""
 		for rev in att.revisions.all():
 			if rev.package.id_number != self.package.id_number:
 				raise AddingAttachmentDenied('this attachment is already assigned to other Library - %s' % rev.package.get_unique_package_name())
+		"""
 		self.save()
 		return self.attachments.add(att)
 		
