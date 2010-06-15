@@ -290,9 +290,15 @@ def package_create(r, type):
 	Create new Package (Add-on or Library)
 	Target of the Popup window with basic metadata
 	"""
+	full_name = r.POST.get("full_name")
+
+	packages = Package.objects.filter(author__username=r.user.username, full_name=full_name, type=type)
+	if len(packages.all()) > 0:
+		return HttpResponseForbidden("You already have a %s with that name" % settings.PACKAGE_SINGULAR_NAMES[type])
+
 	item = Package(
 		author=r.user,
-		full_name=r.POST.get("full_name"),
+		full_name=full_name,
 		description=r.POST.get("description"),
 		type=type
 		)
