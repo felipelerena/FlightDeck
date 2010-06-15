@@ -471,7 +471,9 @@ def test_xpi(r, sdk_name, pkg_name, filename):
 	"""
 	path = '%s-%s/packages/%s' % (settings.SDKDIR_PREFIX, sdk_name, pkg_name)
 	file = '%s.xpi' % filename 
-	return serve(r, file, path, show_indexes=False)
+	mimetype='text/plain; charset=x-user-defined'
+
+	return HttpResponse(open(os.path.join(path, file), 'rb').read(), mimetype=mimetype)
 
 
 

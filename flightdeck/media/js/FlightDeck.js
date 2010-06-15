@@ -95,6 +95,7 @@ var FlightDeck = new Class({
 		if (fd.alertIfNoAddOn()) {
 			new Request({
 				url: url,
+				headers: {'Content-Type': 'text/plain; charset=x-user-defined'},
 				onSuccess: function(responseText) {
 					$log('FD: installing ' + url);
 					var result = window.mozFlightDeck.send({cmd: "install", contents: responseText});
