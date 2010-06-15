@@ -1,13 +1,3 @@
-/*
----
-filename: UI.Sidebar.css
-decription: Provides base layout for FlightDeck
-license: MIT-style license.
-authors:
- - Oskar Krawczyk (http://nouincolor.com/)
-...
-*/
-
 .UI_Sidebar {
 }
 
@@ -28,16 +18,16 @@ authors:
 		text-shadow: 0 1px 0 #fff;
 		padding: 12px 0 12px 45px; 
 	}
+	
+	.UI_Sidebar_Toggler a strong {
+		color: #999;
+		font-size: .8em;
+		padding: 0 0 0 3px;
+	}
 
 	.UI_Sidebar_Toggler a:hover {
 		text-decoration: none;
 	}
-   
-		.UI_Sidebar_Toggler a #dependency-counter {
-			color: #999;
-			font-size: .8em;
-			padding: 0 0 0 2px;
-		}
 
 		.UI_Sidebar_Toggler a .UI_OC,
 		.UI_Sidebar_Toggler a .UI_Sidebar_Toggler_Icon {
