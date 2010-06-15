@@ -17,7 +17,14 @@
 
 {% block app_menu %}{% endblock %}
 
-{% block app_sidebar %}
+{% block app_sidebar %}{% endblock %}
+
+{% block create_init %}
+	create.init(
+		['create_addon', 'create_library'],
+		['addon','library'],
+		'app-body'
+	);
 {% endblock %}
 	
 {% block app_content %}
