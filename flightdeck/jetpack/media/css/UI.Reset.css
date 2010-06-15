@@ -1,13 +1,3 @@
-/*
----
-filename: UI.Reset.css
-decription: Sets default values for common elements
-license: MIT-style license.
-authors:
- - Oskar Krawczyk (http://nouincolor.com/)
-...
-*/
-
 body, form, fieldset, input, button, textarea, p, ul, ol, li, h1, h2, h3, h4, h5, h6, dd, dt, dl, strong {
    padding: 0;
    margin: 0;
