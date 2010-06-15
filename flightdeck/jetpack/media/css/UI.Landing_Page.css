@@ -15,115 +15,109 @@ body .UI_middleWrapper.page {
 	max-width: 100%;
 }
 
+/*
+ ========================================================================= */
 #features-wrapper {
-	border-bottom: solid 1px #D0D5DB;
+	border-bottom: solid 1px #fff;
 	background: -moz-linear-gradient(270deg, #FFFFFE, #F3F5F7);
 	overflow: hidden;
 	height: 100%;
+	padding: 1.5em 0;
+	-moz-box-shadow: 0 1px 0 #D0D5DB;
+	
+	
 }
 
-.UI_Features {
+#features-wrapper .UI_middleWrapper {
 	max-width: 945px;
-	margin: 0 auto 10px;
-	
-	padding: 0 15px;
-	position: relative;
 	font-family: Helvetica, Arial, Tahoma, sans-serif;
-	
+	position: relative;
 }
 
-	.UI_Features h3 {
-		font-size: 2.2em;
-		display: block;
-		color: #478CDE;
-		text-shadow: 0 1px 0 #fff;
-		line-height: .9em;
-	}
-	
-	.UI_Features p {
-		margin: 10px 0 0;
-		font-size: 1em;
-		line-height: 1.6em;
-		text-shadow: 0 1px 0 #fff;
-		color: #666666;
-	}
-	
-		.UI_Features p a {
-			color: #478CDE;
-		}
-	
-	.UI_Features .UI_Cont {
+	#features-wrapper .UI_Feature_Copy {
 		float: left;
-		width: 80%;
-		position: relative;
-		max-width: 795px;
-	}
-	
-		.UI_Features .UI_Cont li {
-			padding: 20px;
-			position: absolute;
-			top: 0;
-			left: 0;
-	        display: none;
-		}
-		
-		.UI_Features .UI_Cont li.active {
-	        display: block;
-		}
-	
-	.UI_Features .UI_Tabs {
-		width: 170px;
+		margin-right: 240px;
+		padding-right: 20px;
 		border-right: solid 1px #D0D5DB;
 		-moz-box-shadow: 1px 0 0 #fff;
-		height: 220px;
-		float: left;
 	}
+
+		#features-wrapper .UI_Feature_Copy h3 {
+			font-size: 2.1em;
+			display: block;
+			color: #478CDE;
+			text-shadow: 0 1px 0 #fff;
+			line-height: .9em;
+			margin-bottom: .5em;
+		}
 	
-		.UI_Features .UI_Tabs li {
-			border-bottom: solid 1px #D0D5DB;
-			width: 170px;
-			border-left: solid 1px #D0D5DB;
-			
+		#features-wrapper .UI_Feature_Copy p {
+			margin: 10px 0 0;
+			font-size: 1em;
+			line-height: 1.5em;
+			text-shadow: 0 1px 0 #fff;
+			color: #666666;
 		}
-		
-		.UI_Features .UI_Tabs li:last-child {
-			border-bottom: none;
-			-moz-box-shadow: none;
-		}
-		
-			.UI_Features .UI_Tabs li a {
-				display: block;
-				height: 73px;
-				text-indent: 47px;
-				line-height: 5.8em;
-				color: #666;
-				text-shadow: 0 1px 0 #fff;
-				background: url(../img/UI_LandingPage/f-arr-normal.png) 15px 50% no-repeat;
+	
+			#features-wrapper .UI_Feature_Copy p a {
+				color: #478CDE;
 			}
-			
-		.UI_Features .UI_Tabs li.selected {
-			background: -moz-linear-gradient(270deg, #59A1F2, #1C5AAB);
-		}
 		
-			.UI_Features .UI_Tabs li.selected a {
-				color: #fff;
-				text-shadow: 0 1px 0 #011E4F;
-				background: url(../img/UI_LandingPage/f-arr-active.png) 15px 50% no-repeat;
-			}
+	#features-wrapper .UI_Feature_Side {
+		width: 220px;
+		float: right;
+		position: absolute;
+		top: 50%;
+		right: 0;
+		margin-top: -22px;
+	}
 	
 /*
  ========================================================================= */
-.UI_Feature .UI_Actions {
+#new-addon {
 }
 
-	.UI_Feature .UI_Actions li {
+	#new-addon li {
+		float: right;
+		background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
+		padding: 2px 1px 1px;
+		-moz-border-radius: 6px;
+		width: 100%;
 	}
 
-		.UI_Feature .UI_Actions li a {
-			background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
-			-moz-box-shadow: 0 -1px 0 #fff;
+	#new-addon li:hover {
+		-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	}
+
+		#new-addon li a {
+			background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
+			-moz-border-radius: 5px;
+			-moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.8);
+			overflow: hidden;
+			display: block;
+			color: #136B00;
+			font-family: Helvetica, Arial, Tahoma, sans-serif;
 		}
-		
+
+		#new-addon li a:hover {
+			text-decoration: none;
+			background: -moz-linear-gradient(270deg, #DEF8C4, #A5DA7F);
+		}
+
+			#new-addon li a span {
+				display: block;
+				padding: 14px 31px 12px 76px;
+				background: url(../img/UI_Buttons/button-home-addon.png) 0 50% no-repeat;
+				text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
+				-moz-border-radius: 5px;
+				font-size: 1.3em;
+			}
+			
+			#new-addon li a:hover span {
+				/*opacity: 0.6;*/
+			}
+
+
 /*
  ========================================================================= */
 #libs-and-extensions {
@@ -136,8 +130,18 @@ body .UI_middleWrapper.page {
 		margin-bottom: 30px;
 	}
 	
+	.UI_LE_Col_Group {
+		clear: both;
+		padding-top: 15px;
+	}
+	
+	.UI_LE_Col.createLibrary,
 	.UI_LE_Col.libraries {
 		float: right;
+	}
+	
+	.UI_LE_Col.getSdk {
+		float: left;
 	}
 	
 		.UI_LE_Col .UI_Item {
@@ -169,25 +173,29 @@ body .UI_middleWrapper.page {
 				
 /*
  ========================================================================= */
+.UI_Bottom_Info {
+}
 
-.sdkInfo {
-	height: 100%;
-	overflow: hidden;
+.UI_Bottom_Info ul {
 	font-size: .9em;
 }
 
-	li {
-		float: left;
-	}
-
-	#download-sdk {
+	.UI_Mini_Button {
 		background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
 		padding: 2px 1px 1px;
 		-moz-border-radius: 6px;
 		margin-top: 10px;
 	}
+	
+	.UI_Mini_Button:hover {
+		-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	}
 
-		#download-sdk a {
+		.UI_Bottom_Info li {
+			float: left;
+		}
+
+		.UI_Mini_Button a {
 			background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
 			-moz-border-radius: 5px;
 			-moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.8);
@@ -195,12 +203,12 @@ body .UI_middleWrapper.page {
 			display: block;
 		}
 		
-		#download-sdk a:hover {
+		.UI_Mini_Button a:hover {
 			text-decoration: none;
 			background: -moz-linear-gradient(270deg, #DEF8C4, #A5DA7F);
 		}
 
-			#download-sdk a span {
+			.UI_Mini_Button a span {
 				display: block;
 				padding: 7px 12px 8px 52px;
 				background: url(../img/UI_Buttons/button-download-sdk.png) 0 50% no-repeat;
@@ -208,13 +216,30 @@ body .UI_middleWrapper.page {
 				text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
 				font-weight: bold;
 				-moz-border-radius: 5px;
+			}
+			
+			.UI_Mini_Button a:hover span {
+				/*opacity: 0.6;*/
+			}
 
-			}
+
+.UI_Mini_Button.grey {
+	background: -moz-linear-gradient(270deg, #D7DBE1, #A5ACB4);
+}
+
+	.UI_Mini_Button.grey a {
+		background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
+	}
+
+	.UI_Mini_Button.grey a:hover {
+		background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
+	}
+
+		.UI_Mini_Button.grey a span {
+			background: url(../img/UI_Buttons/button-home-lib.png) 0 50% no-repeat;
+			color: #4D5860;
 			
-			#download-sdk a:hover span {
-				opacity: 0.6;
-			}
-			
+		}
 
 	.moreInfo {
 		margin: 19px 0 0 20px;
@@ -225,65 +250,3 @@ body .UI_middleWrapper.page {
 		}
 		
 		
-/*
- ========================================================================= */
-
-#home-buttons {
-	margin-bottom: 25px;
-}
-
-	#home-buttons li {
-		float: left;
-		background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
-		padding: 2px 1px 1px;
-		-moz-border-radius: 6px;
-		margin-right: 10px;
-	}
-
-		#home-buttons li a {
-			background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
-			-moz-border-radius: 5px;
-			-moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.8);
-			overflow: hidden;
-			display: block;
-			color: #136B00;
-			font-family: Helvetica, Arial, Tahoma, sans-serif;
-			
-		}
-		
-		#home-buttons li a:hover {
-			text-decoration: none;
-			background: -moz-linear-gradient(270deg, #DEF8C4, #A5DA7F);
-		}
-
-			#home-buttons li a span {
-				display: block;
-				padding: 14px 31px 12px 76px;
-				background: url(../img/UI_Buttons/button-home-addon.png) 0 50% no-repeat;
-				text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
-				-moz-border-radius: 5px;
-				font-size: 1.3em;
-			}
-			
-			#home-buttons li a:hover span {
-				opacity: 0.6;
-			}
-			
-	
-	#home-buttons li.addLibrary {
-		background: -moz-linear-gradient(270deg, #D7DBE1, #A5ACB4);
-	}
-
-		#home-buttons li.addLibrary a {
-			background: -moz-linear-gradient(270deg, #EBEFF2, #D4D9DF);
-			color: #4D5860;
-		}
-
-		#home-buttons li.addLibrary a:hover {
-			background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
-		}
-
-			#home-buttons li.addLibrary a span {
-				background: url(../img/UI_Buttons/button-home-lib.png) 0 50% no-repeat;
-			}
-

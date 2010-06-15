@@ -43,7 +43,8 @@ textarea {
 .UI_Actions:after,
 #libs-and-extensions:after,
 #home-buttons:after,
-.UI_middleWrapper:after {
+.UI_middleWrapper:after,
+.UI_Bottom_Info ul:after {
    content: ' ';
    display: block;
    height: 0;
