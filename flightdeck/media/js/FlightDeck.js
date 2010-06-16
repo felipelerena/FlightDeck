@@ -23,7 +23,7 @@ var FlightDeck = new Class({
 		this.editors = [];
 		this.parseTooltips();
 		this.createActionSections();
-		this.parseTestButtons();
+		this.parseTestButtons.bind(this).delay(10);
 		this.addEvent('xpi_installed', this.parseTestButtons);
 		this.addEvent('xpi_uninstalled', this.parseTestButtons);
 	},
