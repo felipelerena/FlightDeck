@@ -20,14 +20,14 @@ FlightDeck.Autocomplete = new Class({
 		this.autocomplete = new Meio.Autocomplete.Select(
 			this.options.display_el, 
 			this.options.url, {
+			valueField: $(this.options.value_el),
+			valueFilter: function(data) {
+				return data.id_number
+			},
 			filter: {
 				type: 'contains',
 				path: 'full_name'
-			},
-			onSelect: function(elements, item){
-				$(this.options.value_el).set('value', 
-											item[this.options.value_field]);
-			}.bind(this)
+			}
 		});
 		return this.autocomplete;
 	}

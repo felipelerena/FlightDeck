@@ -1,7 +1,7 @@
 [{% for lib in libraries %}{
 	"full_name": "{{ lib.full_name|escapejs }} by {{ lib.author.get_profile|escapejs }}",
 	"id_number": "{{ lib.id_number|escapejs }}",
-	"description": "{{ lib.package.description|truncatewords:10|escapejs }}"
+	"html": "<strong>{{ lib.full_name|escapejs }}</strong> <span class=\"author\">by {{ lib.author.get_profile|escapejs }}</span>{% if lib.description %}<span class=\"description\">{{ lib.description|truncatewords:10|escapejs }}</span>{% endif %}"
 	}{% if not forloop.last %},{% endif %}{% endfor %}
 ]
 
