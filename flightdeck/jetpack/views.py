@@ -213,7 +213,7 @@ def package_add_attachment(r, id, type, revision_number=None, version_name=None)
 		return HttpResponseServerError
 
 	filename, ext = os.path.splitext(path)
-	ext = ext.split('.')[1]
+	ext = ext.split('.')[1].lower()
 
 	upload_path = "%s_%s_%s.%s" % (revision.package.id_number, time.strftime("%m-%d-%H-%M-%S"), filename, ext)
 
