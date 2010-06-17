@@ -342,7 +342,7 @@ Package.Edit = new Class({
 		// add attachments
 		this.add_attachment_el = $('add_attachment');
 		this.attachment_template = '<a title="" rel="{ext}" href="{display_url}" class="Module_file" id="{filename}{ext}_display">'+
-						'{filename}.{ext}<span class="File_close"></span>'+
+						'{basename}<span class="File_close"></span>'+
 					'</a>';
 		this.add_attachment_el.addEvent('change', this.sendMultipleFiles.bind(this));
 		this.boundRemoveAttachmentAction = this.removeAttachmentAction.bind(this);
@@ -356,6 +356,7 @@ Package.Edit = new Class({
 	},
 
 	sendMultipleFiles: function() {
+		self = this;
 		sendMultipleFiles({
 			url: this.get_add_attachment_url.bind(this),
 			
@@ -378,17 +379,18 @@ Package.Edit = new Class({
 				response = JSON.parse(xhr.responseText);
 				new Element('li',{
 					'class': 'UI_File_Normal',
-					'html': this.attachment_template.substitute(response)
+					'html': self.attachment_template.substitute(response)
 				}).inject($('attachments_ul'));
-				$(response.filename+response.ext+'_display').getElement('.File_close').addEvent('click', this.boundRemoveAttachmentAction);
+				$(response.filename+response.ext+'_display').getElement('.File_close').addEvent('click', self.boundRemoveAttachmentAction);
 				fd.setURIRedirect(response.edit_url);
-				this.setUrls(response);
-			}.bind(this),
+				self.setUrls(response);
+			},
 			
 			// fired when last file has been uploaded
-			//onload:function(rpe, xhr){
-			//	$log('loaded');
-			//},
+			onload:function(rpe, xhr){
+				$log('loaded');
+				$(self.add_attachment_el).set('value','')
+			},
 			
 			// if something is wrong ... (from native instance or because of size)
 			onerror:function(){
