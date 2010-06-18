@@ -77,10 +77,11 @@ MIDDLEWARE_CLASSES = (
 ) 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-	"django.core.context_processors.auth",
-	"django.core.context_processors.request",
-	"base.context_processors.settings",
-	"person.context_processors.profile",
+	'django.core.context_processors.auth',
+	'django.core.context_processors.request',
+	'base.context_processors.settings',
+	'django.contrib.messages.context_processors.messages',
+	'person.context_processors.profile',
 )
 
 ROOT_URLCONF = 'flightdeck.urls'
@@ -114,6 +115,7 @@ INSTALLED_APPS.extend([
 	'django.contrib.sessions',
 	'django.contrib.sites',
 	'django.contrib.markup',
+	'django.contrib.messages',
 	# extensions
 	'django_extensions',
 	'debug_toolbar',
