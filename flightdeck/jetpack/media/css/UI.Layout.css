@@ -3,6 +3,7 @@ body {
 	font-family: 'Lucida Grande', 'Lucida Sans', 'Lucida Sans Unicode', 'Myriad', Tahoma, Verdana, Arial, sans-serif;
 	font-size: .8em;
 	color: #4D5860;
+	overflow-x: hidden;
 }
 
 a,
