@@ -84,9 +84,13 @@
 						</li>
 					{% endfor %}
 				</ul>
-				<div class="UI_Field_Cont UI_New_Dependency" id="add_attachment_div">	
+				<div class="UI_Field_Cont UI_New_Dependency" id="add_attachment_div">
 					<label for="add_attachment">Add attachment:</label>
-					<input type="file" multiple="true" id="add_attachment" name="attachment_filename" value=""/>
+					<div class="UI_Field_Attachment_Cont">
+						<input type="file" class="realAttachmentInput" multiple="true" id="add_attachment" name="attachment_filename" value=""/>
+						<input type="text" id="add_attachment_fake" name="void" value="" />
+						<button title="Add new module" id="add_attachment_action_fake">Add</button>
+					</div>
 				</div>
 			</div>
 		{% endwith %}
@@ -94,7 +98,7 @@
 	<section id="libraries">
 		<h3 class="UI_Sidebar_Toggler libraries opened{% if not libraries %} closed{% endif %}">
 			<a title="Libraries" href="#">
-				Libraries <strong id="libraries-counter">({{ library_counter }})</strong> 
+				Libraries <strong id="libraries-counter">({{ library_counter }})</strong>
 				<span class="UI_OC"></span>
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a>

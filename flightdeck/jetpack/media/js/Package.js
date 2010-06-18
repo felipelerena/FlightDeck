@@ -352,6 +352,21 @@ Package.Edit = new Class({
 			close.addEvent('click', this.boundRemoveAttachmentAction);
 		},this);
 		this.attachments_counter = $('attachments-counter');
+		
+		var fakeFileInput = $('add_attachment_fake'), fakeFileSubmit = $('add_attachment_action_fake');
+		this.add_attachment_el.addEvents({
+			change: function(){
+				fakeFileInput.set('value', this.get('value'));
+			},
+			
+			mouseover: function(){
+				fakeFileSubmit.addClass('hover');
+			},
+			
+			mouseout: function(){
+				fakeFileSubmit.removeClass('hover');
+			}
+		});
 	},
 
 	get_add_attachment_url: function() {
@@ -394,7 +409,8 @@ Package.Edit = new Class({
 			// fired when last file has been uploaded
 			onload:function(rpe, xhr){
 				$log('FD: all files uploaded');
-				$(self.add_attachment_el).set('value','')
+				$(self.add_attachment_el).set('value','');
+				$('add_attachment_fake').set('value','')
 			},
 			
 			// if something is wrong ... (from native instance or because of size)

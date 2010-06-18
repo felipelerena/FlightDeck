@@ -34,7 +34,8 @@ textarea {
 #libs-and-extensions:after,
 #home-buttons:after,
 .UI_middleWrapper:after,
-.UI_Bottom_Info ul:after {
+.UI_Bottom_Info ul:after,
+.UI_Field_Attachment_Cont:after {
    content: ' ';
    display: block;
    height: 0;
