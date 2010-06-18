@@ -53,6 +53,12 @@
 		<style>.hidden { display: none; }</style>
 	</head>
 	<body id="{{ page }}">
+		{# mesages system http://docs.djangoproject.com/en/dev/ref/contrib/messages/#adding-a-message #}
+		{% if messages %}
+		    {% for message in messages %}
+			    <p{% if message.tags %} class="fd_{{ message.tags }}"{% endif %}>{{ message }}</p>
+			{% endfor %}
+		{% endif %}
 		<div id="wrapper">
 		
 			<header id="app-header">
