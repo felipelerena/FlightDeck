@@ -16,6 +16,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
 from django.views.decorators.http import require_POST
 from django.template.defaultfilters import slugify
+from django.contrib import messages
 
 from base.shortcuts import get_object_or_create, get_object_with_related_or_404, get_random_string
 from utils.os_utils import whereis

@@ -2,6 +2,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.conf import settings
 from django.template import RequestContext#,Template
+from django.contrib import messages
 
 from jetpack.models import Package
 from jetpack import settings as jp_settings
@@ -15,7 +16,7 @@ def homepage(r):
 
 	addons = list(addons)
 	page = 'homepage'
-	
+
 	return render_to_response(
 		'homepage.html', 
 		locals(),
