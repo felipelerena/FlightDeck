@@ -4,7 +4,6 @@ from django.template import RequestContext#,Template
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate, login
 
 from person.models import Profile
 #from person.default_settings import settings
