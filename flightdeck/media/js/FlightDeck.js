@@ -23,8 +23,9 @@ var FlightDeck = new Class({
 		this.editors = [];
 		this.parseTooltips();
 		this.createActionSections();
-		this.parseTestButtons();
-		this.addEvent('xpi_installed', this.parseTestButtons.bind(this));
+		this.parseTestButtons.bind(this).delay(10);
+		this.addEvent('xpi_installed', this.parseTestButtons);
+		this.addEvent('xpi_uninstalled', this.parseTestButtons);
 	},
 
 	parseTooltips: function() {
@@ -57,8 +58,7 @@ var FlightDeck = new Class({
 
 	parseTestButtons: function() {
 		var installed = (this.isAddonInstalled()) ? this.isXpiInstalled() : false;
-		if (installed && installed.isInstalled) {
-			$log('FD: checking if is installed {installedID}'.substitute(installed));
+		if (installed) {
 			$$('.{try_in_browser_class} a'.substitute(this.options)).each(function(test_button){
 				if (installed && installed.installedID == test_button.get('rel')) {
 					test_button.getParent('li').addClass('pressed');
@@ -102,12 +102,15 @@ var FlightDeck = new Class({
 				onSuccess: function(responseText) {
 					$log('FD: installing ' + url);
 					var result = window.mozFlightDeck.send({cmd: "install", contents: responseText});
-					$log('FD: response ' + JSON.stringify(result));
-					$log('FD: isInstalled ' + JSON.stringify(this.isXpiInstalled()));
-					this.fireEvent('xpi_installed');
+					if (result.success) this.fireEvent('xpi_installed');
 				}.bind(this)
 			}).send();
 		}
+	},
+	uninstallXPI: function(jid) {
+		$log('FD: uninstalling ' + jid);
+		var result = window.mozFlightDeck.send({cmd:'uninstall'});
+		if (result.success) this.fireEvent('xpi_uninstalled');
 	},
 	/*
 	 * Method: enableMenuButtons

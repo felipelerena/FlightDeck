@@ -6,18 +6,18 @@
 	<h1 id="flightdeck-logo"><a title="Mozilla Labs &minus; Add-ons Builder" href="{% url home %}">Mozilla Labs &minus; Add-ons Builder</a></h1>
 	<nav>
 		<ul>
-			<!-- <li {% ifequal page "packages" %}class="active"{% endifequal %}><span><a title="Package Browser" href="{% url jp_browser_addons %}">Package Browser</a></span></li> -->
+			{#<li {% ifequal page "packages" %}class="active"{% endifequal %}><span><a title="Package Browser" href="{% url jp_browser_addons %}">Package Browser</a></span></li>#}
 			<li class="{% ifequal page "apibrowser" %}active{% endifequal %}"><span><a title="Documentation" href="{% url api_home %}" >Documentation</a></span></li>
 			{% if user.is_authenticated %}
 				<li {% ifequal page "dashboard" %}class="active"{% endifequal %}>
 					<span>
-						<a title="My Account" href="/user/dashboard/">My Account</a>
-						(<a class="logout" title="Sign Out" href="/user/logout/">Sign Out</a>)
+						<a title="My Account" href="{% url person_dashboard %}">My Account</a>
+						(<a class="logout" title="Sign Out" href="{% url logout %}">Sign Out</a>)
 					</span>
 				</li>
 			{% else %}
 				<li {% if page == "signin" %}class="active"{% endif %}>
-					<span><a id="signin" title="Sign In" href="/user/login/">Sign In</a></span>
+					<span><a id="signin" title="Sign In" href="{% url login %}">Sign In</a></span>
 					<div class="UI_tooltip_source" data-tooltip-for="signin" data-tooltip-title="Sign In">Sign in with your addons.mozilla.org account.</div>
 				</li>
 			{% endif %}

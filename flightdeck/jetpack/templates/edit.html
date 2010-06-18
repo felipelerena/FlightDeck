@@ -10,7 +10,7 @@
 	<script src="/media/jetpack/js/Editor.js"></script>
 	<script src="/media/bespin/BespinEmbedded.js"></script>
 	<script src="/media/jetpack/js/Bespin.js"></script>
-	<script src="/media/js/lib/Meio.Autocomplete.js"></script>
+	<script src="/media/js/lib/Meio.Autocomplete.HTML.js"></script>
 	<script src="/media/js/FlightDeck.Autocomplete.js"></script>
 	<script src="/media/jetpack/js/FlightDeck.Bespin.js"></script>
 	<script src="/media/jetpack/js/Package.js"></script>
@@ -80,9 +80,7 @@
 				<ul class="UI_File_Listing" id='attachments_ul'>
 					{% for attachment in attachments %}
 						<li class="UI_File_Normal">
-							<a title="" href="#" class="Module_file" id="{{ attachment.filename }}_display">
-								{{ attachment.filename }}{{ attachment.ext }}<span class="File_close"></span>
-							</a>
+							<a title="" href="{{ attachment.get_display_url }}" rel="{{ attachment.ext }}" class="Module_file" id="{{ attachment.filename }}{{ attachment.ext }}_display">{{ attachment.get_filename }}<span class="File_close"></span></a>
 						</li>
 					{% endfor %}
 				</ul>

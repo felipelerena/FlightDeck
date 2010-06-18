@@ -14,10 +14,14 @@ FlightDeck = Class.refactor(FlightDeck,{
 			el.addEvent('click', function(e){
 				e.stop();
 				if (fd.alertIfNoAddOn()) {
-					new Request.JSON({
-						url: el.get('href'),
-						onSuccess: fd.testXPI.bind(fd)
-					}).send();
+					if (el.getParent('li').hasClass('pressed')) {
+						fd.uninstallXPI(el.get('rel'));
+					} else {
+						new Request.JSON({
+							url: el.get('href'),
+							onSuccess: fd.testXPI.bind(fd)
+						}).send();
+					}
 				}
 			});
 		});

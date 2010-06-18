@@ -45,7 +45,7 @@ MEDIA_ROOT = ''
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = ''
 
-LOGIN_URL = '/user/login/'
+LOGIN_URL = '/user/signin/'
 LOGIN_REDIRECT_URL = '/user/dashboard/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a

@@ -782,7 +782,10 @@ class Attachment(models.Model):
 		ordering = ('filename',)
 
 	def get_filename(self):
-		return "%s.%s" % (self.filename, self.ext)
+		name = self.filename
+		if self.ext:
+			name = "%s.%s" % (name, self.ext)
+		return name
 
 	def save(self, **kwargs):
 		if self.id:
@@ -792,6 +795,9 @@ class Attachment(models.Model):
 	def export_file(self, static_dir):
 		shutil.copy('%s/%s' % (settings.UPLOAD_DIR, self.path), 
 					'%s/%s.%s' % (static_dir, self.filename, self.ext))
+
+	def get_display_url(self):
+		return reverse('jp_attachment', args=[self.path])
 
 
 

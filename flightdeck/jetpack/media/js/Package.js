@@ -47,15 +47,44 @@ var Package = new Class({
 			this.test_url = $(this.options.test_el).get('href');
 			$(this.options.test_el).addEvent('click', this.boundTestAddon)
 		}
+		if ($('attachments')) $('attachments').addEvent(
+			'click:relay(.UI_File_Listing a)',
+			function(e, target) {
+				e.stop();
+				var url = target.get('href');
+				var ext = target.get('rel');
+				var filename = target.get('text');
+				var template_start = '<div id="attachment_view"><h3>'+filename+'</h3><div class="UI_Modal_Section">';
+				var template_end = '</div><div class="UI_Modal_Actions"><ul><li><input type="reset" value="Close" class="closeModal"/></li></ul></div></div>';
+				var template_middle = 'Download <a href="'+url+'">'+filename+'</a>';
+				if (['jpg', 'gif', 'png'].contains(ext)) template_middle = '<img src="'+url+'"/>'; 
+				if (['css', 'js', 'css'].contains(ext)) {
+					new Request({
+						url: url,
+						onSuccess: function(response) {
+							template_middle = '<pre>'+response+'</pre>';
+							this.attachmentWindow = fd.displayModal(template_start+template_middle+template_end);
+						}
+					}).send();
+				} else {
+					this.attachmentWindow = fd.displayModal(template_start+template_middle+template_end);
+				}
+			}.bind(this)
+		)
 	},
 	testAddon: function(e){
 		if (e) e.stop();
 		if (fd.alertIfNoAddOn()) {
-			new Request.JSON({
-				url: this.test_url,
-				data: this.data || {},
-				onSuccess: fd.testXPI.bind(fd)
-			}).send();
+			var el = e.target;
+			if (el.getParent('li').hasClass('pressed')) {
+				fd.uninstallXPI(el.get('rel'));
+			} else {
+				new Request.JSON({
+					url: this.test_url,
+					data: this.data || {},
+					onSuccess: fd.testXPI.bind(fd)
+				}).send();
+			}
 		}
 	},
 	isAddon: function() {
@@ -155,7 +184,8 @@ var Module = new Class({
 	},
 	destroy: function() {
 		this.textarea.destroy();
-		this.trigger.destroy();
+		this.trigger.getParent('li').destroy();
+		$('modules-counter').set('text', '('+ $('modules').getElements('.UI_File_Listing li').length +')')
 		delete fd.getItem().modules[this.options.filename];
 		delete fd.editor_contents[this.get_editor_id()];
 		if (this.active) {
@@ -194,6 +224,7 @@ var Module = new Class({
 			'class': 'UI_File_normal',
 			'html': html.substitute(this.options)
 		}).inject($('add_module_div').getPrevious('ul'));
+		$('modules-counter').set('text', '('+ $('modules').getElements('.UI_File_Listing li').length +')')
 		
 		var textarea = new Element('textarea', {
 			'id': this.options.filename + '_textarea',
@@ -312,14 +343,15 @@ Package.Edit = new Class({
 		
 		// add attachments
 		this.add_attachment_el = $('add_attachment');
-		this.attachment_template = '<a title="" href="#" class="Module_file" id="{filename}_display">'+
-						'{filename}{ext}<span class="File_close"></span>'+
+		this.attachment_template = '<a title="" rel="{ext}" href="{display_url}" class="Module_file" id="{filename}{ext}_display">'+
+						'{basename}<span class="File_close"></span>'+
 					'</a>';
 		this.add_attachment_el.addEvent('change', this.sendMultipleFiles.bind(this));
 		this.boundRemoveAttachmentAction = this.removeAttachmentAction.bind(this);
 		$$('#attachments .UI_File_Listing .File_close').each(function(close) { 
 			close.addEvent('click', this.boundRemoveAttachmentAction);
 		},this);
+		this.attachments_counter = $('attachments-counter');
 	},
 
 	get_add_attachment_url: function() {
@@ -327,6 +359,7 @@ Package.Edit = new Class({
 	},
 
 	sendMultipleFiles: function() {
+		self = this;
 		sendMultipleFiles({
 			url: this.get_add_attachment_url.bind(this),
 			
@@ -344,22 +377,25 @@ Package.Edit = new Class({
 			//},
 
 			onpartialload: function(rpe, xhr) {
-				$log('file uploaded');
+				$log('FD: file uploaded');
 				// here parse xhr.responseText and append a DOM Element
 				response = JSON.parse(xhr.responseText);
 				new Element('li',{
 					'class': 'UI_File_Normal',
-					'html': this.attachment_template.substitute(response)
+					'html': self.attachment_template.substitute(response)
 				}).inject($('attachments_ul'));
-				$(response.filename+'_display').getElement('.File_close').addEvent('click', this.boundRemoveAttachmentAction);
+				$(response.filename+response.ext+'_display').getElement('.File_close').addEvent('click', self.boundRemoveAttachmentAction);
 				fd.setURIRedirect(response.edit_url);
-				this.setUrls(response);
-			}.bind(this),
+				self.setUrls(response);
+				
+				self.attachments_counter.set('text', '('+ $('attachments').getElements('.UI_File_Listing li').length +')')
+			},
 			
 			// fired when last file has been uploaded
-			//onload:function(rpe, xhr){
-			//	$log('loaded');
-			//},
+			onload:function(rpe, xhr){
+				$log('FD: all files uploaded');
+				$(self.add_attachment_el).set('value','')
+			},
 			
 			// if something is wrong ... (from native instance or because of size)
 			onerror:function(){
@@ -386,14 +422,16 @@ Package.Edit = new Class({
 		});
 	},
 	removeAttachment: function(filename) {
+		var self = this;
 		new Request.JSON({
-			url: this.remove_attachment_url || this.options.remove_attachment_url,
+			url: self.remove_attachment_url || self.options.remove_attachment_url,
 			data: {filename: filename},
 			onSuccess: function(response) {
 				fd.setURIRedirect(response.edit_url);
-				this.setUrls(response);
-				$(response.filename+'_display').getParent('li').destroy();
-			}.bind(this)
+				self.setUrls(response);
+				$(response.filename+response.ext+'_display').getParent('li').destroy();
+				self.attachments_counter.set('text', '('+ $('attachments').getElements('.UI_File_Listing li').length +')')
+			}
 		}).send();
 	},
 
@@ -496,6 +534,7 @@ Package.Edit = new Class({
 		$$('#library_{library_name} .File_close'.substitute(lib)).each(function(close) { 
 			close.addEvent('click', this.boundRemoveLibraryAction);
 		},this);
+		$('libraries-counter').set('text', '('+ $('libraries').getElements('.UI_File_Listing li').length +')')
 	},
 	removeLibraryAction: function(e) {
 		if (e) e.stop();
@@ -520,7 +559,8 @@ Package.Edit = new Class({
 			onSuccess: function(response) {
 				fd.setURIRedirect(response.edit_url);
 				this.setUrls(response);
-				$('library_{name}'.substitute(response)).destroy();
+				$('library_{name}'.substitute(response)).getParent('li').destroy();
+				$('libraries-counter').set('text', '('+ $('libraries').getElements('.UI_File_Listing li').length +')')
 			}.bind(this)
 		}).send();
 	},

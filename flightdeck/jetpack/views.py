@@ -213,8 +213,9 @@ def package_add_attachment(r, id, type, revision_number=None, version_name=None)
 		return HttpResponseServerError
 
 	filename, ext = os.path.splitext(path)
+	ext = ext.split('.')[1].lower() if ext else ''
 
-	upload_path = "%s_%s_%s%s" % (revision.package.id_number, time.strftime("%m-%d-%H-%M-%S"), filename, ext)
+	upload_path = "%s_%s_%s.%s" % (revision.package.id_number, time.strftime("%m-%d-%H-%M-%S"), filename, ext)
 
 	handle = open(os.path.join(settings.UPLOAD_DIR, upload_path), 'w')
 	handle.write(content)
@@ -249,7 +250,7 @@ def package_remove_attachment(r, id, type, revision_number):
 	attachment_found = False
 
 	for att in attachments:
-		if "%s%s" % (att.filename, att.ext) == filename:
+		if att.get_filename() == filename:
 			attachment = att
 			attachment_found = True
 
@@ -263,6 +264,16 @@ def package_remove_attachment(r, id, type, revision_number):
 				context_instance=RequestContext(r),
 				mimetype='application/json')
 
+
+def download_attachment(r, path):
+	"""
+	Display attachment from PackageRevision
+	"""
+	
+	attachment = get_object_or_404(Attachment, path=path)
+	response = serve(r, path, settings.UPLOAD_DIR, show_indexes=False)
+	#response['Content-Type'] = 'application/octet-stream';
+	return response
 
 
 @require_POST
