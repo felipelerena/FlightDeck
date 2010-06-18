@@ -76,6 +76,14 @@
 		.UI_Sidebar_Toggler.info a .UI_Sidebar_Toggler_Icon {
 			background-position: 0 -54px;
 		}
+		
+		.UI_Sidebar_Toggler.attachments a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 -81px;
+		}
+		
+		.UI_Sidebar_Toggler.libraries a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 -108px;
+		}
          
 	.UI_Sidebar_Creator,
 	.UI_Sidebar_Author,
