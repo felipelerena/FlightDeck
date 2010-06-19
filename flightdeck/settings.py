@@ -45,7 +45,7 @@ MEDIA_ROOT = ''
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = ''
 
-LOGIN_URL = '/user/login/'
+LOGIN_URL = '/user/signin/'
 LOGIN_REDIRECT_URL = '/user/dashboard/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
@@ -77,10 +77,11 @@ MIDDLEWARE_CLASSES = (
 ) 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-	"django.core.context_processors.auth",
-	"django.core.context_processors.request",
-	"base.context_processors.settings",
-	"person.context_processors.profile",
+	'django.core.context_processors.auth',
+	'django.core.context_processors.request',
+	'base.context_processors.settings',
+	'django.contrib.messages.context_processors.messages',
+	'person.context_processors.profile',
 )
 
 ROOT_URLCONF = 'flightdeck.urls'
@@ -114,6 +115,7 @@ INSTALLED_APPS.extend([
 	'django.contrib.sessions',
 	'django.contrib.sites',
 	'django.contrib.markup',
+	'django.contrib.messages',
 	# extensions
 	'django_extensions',
 	'debug_toolbar',

@@ -76,6 +76,14 @@
 		.UI_Sidebar_Toggler.info a .UI_Sidebar_Toggler_Icon {
 			background-position: 0 -54px;
 		}
+		
+		.UI_Sidebar_Toggler.attachments a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 -81px;
+		}
+		
+		.UI_Sidebar_Toggler.libraries a .UI_Sidebar_Toggler_Icon {
+			background-position: 0 -108px;
+		}
          
 	.UI_Sidebar_Creator,
 	.UI_Sidebar_Author,
@@ -176,7 +184,9 @@
 	}
 
 	.UI_Sidebar_ItemCont .UI_New_Dependency button:hover,
-	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action:hover {
+	.UI_Sidebar_ItemCont .UI_New_Dependency button.hover,
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action:hover,
+	.UI_Sidebar_ItemCont .UI_New_Dependency #create_and_add_dependency_action.hover {
 		background: -moz-linear-gradient(270deg, #FBFBFB, #E6E8EB);
 		text-decoration: none;
 	}
@@ -193,4 +203,17 @@
 		width: 208px;
 		margin: 5px 0 0;
 		float: left;
+	}
+	
+	.UI_Field_Attachment_Cont {
+		background: #A8FFC9;
+		position: relative;
+	}
+	
+	.UI_Field_Attachment_Cont .realAttachmentInput {
+		opacity: 0.001;
+		position: absolute;
+		top: -3px;
+		left: -58px;
+		font-size: 1.3em;
 	}

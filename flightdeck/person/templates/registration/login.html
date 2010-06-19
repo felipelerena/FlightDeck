@@ -12,10 +12,17 @@
 
 {% block app_content %}
 	{% if form.errors %}
-		<p class="fd_error" title="Login error">
+		{% for sender,subject in form.errors.items %}
+			{% for error in subject %}
+				<p class="fd_error" title="Sign In Error">{{ error|escape }}</p>
+			{% endfor %}
+		{% endfor %}
+		{% comment %}
+		<p class="fd_error" title="Sign In error">
 			Your email and addons.mozilla.org password didn't match. 
 			Please try again.
 		</p>
+		{% endcomment %}
 	{% endif %}
 
 	<div class="UI_Login">

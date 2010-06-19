@@ -32,3 +32,5 @@ def dashboard(r):
 	libraries = r.user.packages_originated.filter(type='l')
 	return render_to_response("dashboard.html", locals(),
 				context_instance=RequestContext(r))
+
+

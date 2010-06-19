@@ -60,6 +60,10 @@ FlightDeck = Class.refactor(FlightDeck,{
 			className: 'roar message',
 			duration: 8000
 		});
+		// compatibility with Django messages 
+		// http://docs.djangoproject.com/en/dev/ref/contrib/messages/#message-tags
+		this.success = this.info = this.message;
+		this.debug = this.warning;
 		this.parseMessages();
 		this.parseNotImplemented();
 	},
@@ -69,7 +73,7 @@ FlightDeck = Class.refactor(FlightDeck,{
 	 * displays messages and removes elements from DOM
 	 */
 	parseMessages: function() {
-		['message', 'warning', 'error'].each(function(t) {
+		['message', 'warning', 'error', 'success', 'info', 'debug'].each(function(t) {
 			$$('.fd_'+t).each(function(el) {
 				this[t].alert(el.get('title') || t, el.get('text'));
 				el.destroy();

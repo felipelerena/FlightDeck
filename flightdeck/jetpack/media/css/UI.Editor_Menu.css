@@ -139,7 +139,8 @@ authors:
 		background-position: 0 0;
 	}
 
-	.UI_Editor_Menu_Button.Icon_saveNewVersion a .UI_Editor_Icon {
+	.UI_Editor_Menu_Button.Icon_saveNewVersion a .UI_Editor_Icon,
+	.UI_Editor_Menu_Button.Icon_save a .UI_Editor_Icon {
 		background-position: -17px 0;
 	}
 

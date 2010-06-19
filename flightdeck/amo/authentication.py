@@ -15,9 +15,10 @@ class AMOAuthentication:
 			Authenticate user by contacting with AMO
 		"""
 		
-		# Try to retrieve AMO session info from db
+		# check if username exists in database
 		try:
 			user = User.objects.get(username=username)
+			# was user signed up via AMO?
 			if user.password != DEFAULT_AMO_PASSWORD:
 				" standard authorisation "		
 				if user.check_password(password):
@@ -35,7 +36,7 @@ class AMOAuthentication:
 			if username not in [x.email for x in list(Limit.objects.all())]:
 				return None
 
-		# TODO: here contact AMO and receive authentication status
+		# here contact AMO and receive authentication status
 		br = Browser()
 		br.open("https://addons.mozilla.org/en-US/firefox/users/login?to=en-US")
 		
@@ -54,7 +55,19 @@ class AMOAuthentication:
 		
 		link = br.find_link(text='View Profile')
 		email = username
-		username = link.url.split('/')[-2]
+		# retrieve username from the View Profile link
+		# https://addons.mozilla.org/en-US/firefox/user/123456/
+		# AMO developers once removed the trailing slash which has broken the database
+		# all FD users had the username 'user'
+		# following is to prevent such failure in the future
+		if link.url[-1] != '/':
+			username = link.url.split('/')[-1]
+		else:
+			username = link.url.split('/')[-2]
+
+		if not username or username =='user':
+			raise Exception("Problems with View Profile link")
+			
 		
 		try:
 			user = User.objects.get(username=username)
@@ -67,10 +80,6 @@ class AMOAuthentication:
 				username=username,
 				email=email,
 				password=DEFAULT_AMO_PASSWORD,
-				# TODO: retrieve from AMO
-				# first_name="John",
-				# last_name="Doe",
-				# email='fake@email.com' 
 			)
 			user.save()
 		
