@@ -85,8 +85,9 @@ badd +76 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/FlightDeck.Bespin.js
 badd +26 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/FlightDeck.Editor.js
 badd +16 ~/Projects/FlightDeck/flightdeck/jetpack/media/js/FlightDeck.Browser.js
 badd +1 /private/tmp/------------JCSS
+badd +70 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/UI.Landing_Page.css
 badd +16 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/UI.Base.css
-badd +54 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/UI.Browser.css
+badd +55 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/UI.Browser.css
 badd +8 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/UI.Editor.css
 badd +11 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/UI.Editor_Area.css
 badd +82 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/UI.Editor_Menu.css
@@ -100,7 +101,7 @@ badd +1 ~/Projects/FlightDeck/flightdeck/jetpack/media/css/edit.css
 badd +1 /private/tmp/-----------Base
 badd +3 ~/Projects/FlightDeck/flightdeck/base/views.py
 badd +11 ~/Projects/FlightDeck/flightdeck/base/templatetags/base_helpers.py
-badd +88 ~/Projects/FlightDeck/flightdeck/base/templates/base.html
+badd +44 ~/Projects/FlightDeck/flightdeck/base/templates/base.html
 badd +16 ~/Projects/FlightDeck/flightdeck/base/templates/_header.html
 badd +1 ~/Projects/FlightDeck/flightdeck/media/js/FlightDeck.js
 badd +27 ~/Projects/FlightDeck/flightdeck/media/js/Clientcide.ModalWindow.js
@@ -115,7 +116,7 @@ badd +27 ~/Projects/FlightDeck/flightdeck/settings_local-default.py
 badd +29 ~/Projects/FlightDeck/flightdeck/settings_local.py
 badd +1 ~/Projects/FlightDeck/flightdeck/utils/os_utils.py
 badd +2 ~/Projects/FlightDeck/flightdeck/base/shortcuts.py
-badd +39 ~/Projects/FlightDeck/flightdeck/base/templates/homepage.html
+badd +8 ~/Projects/FlightDeck/flightdeck/base/templates/homepage.html
 badd +2 ~/Projects/FlightDeck/flightdeck/base/templates/_base_app_menu_items.html
 badd +10 ~/Projects/FlightDeck/flightdeck/base/templates/404.html
 badd +8 ~/Projects/FlightDeck/flightdeck/media/css/UI.HttpError.css
@@ -123,6 +124,7 @@ badd +1 /tmp/-----------Tutorial
 badd +5 ~/Projects/FlightDeck/flightdeck/tutorial/views.py
 badd +4 ~/Projects/FlightDeck/flightdeck/tutorial/templates/tutorial.html
 badd +5 ~/Projects/FlightDeck/flightdeck/tutorial/urls.py
+badd +59 flightdeck/tutorial/media/css/UI.Tutorial.css
 badd +1 /private/tmp/------------Person
 badd +30 ~/Projects/FlightDeck/flightdeck/person/views.py
 badd +38 ~/Projects/FlightDeck/flightdeck/person/templates/dashboard.html
@@ -147,7 +149,7 @@ badd +1 ~/Projects/FlightDeck/flightdeck/api/media/js/API.Browser.js
 badd +1 ~/Projects/FlightDeck/flightdeck/api/media/js/Browse.js
 badd +12 ~/Projects/FlightDeck/flightdeck/api/media/css/API.Browser.css
 badd +1 /private/tmp/------------scripts
-badd +107 ~/Projects/FlightDeck/scripts/install.sh
+badd +34 ~/Projects/FlightDeck/scripts/install.sh
 badd +85 ~/Projects/FlightDeck/scripts/upgrade.sh
 badd +12 ~/Projects/FlightDeck/scripts/environment.sh
 badd +1 ~/Projects/FlightDeck/scripts/setenv.sh
@@ -165,7 +167,7 @@ badd +7 ~/Projects/FlightDeck/scripts/admin.sh
 badd +7 ~/Projects/FlightDeck/scripts/manage.sh
 badd +7 ~/Projects/FlightDeck/tools/pip-requirements.txt
 badd +1 ~/Projects/FlightDeck/scripts/cfx.sh
-badd +29 ~/Projects/FlightDeck/tools/git-exclude
+badd +14 ~/Projects/FlightDeck/tools/git-exclude
 badd +30 ~/Projects/FlightDeck/apache/config_local-default.wsgi
 badd +1 /private/tmp/------------AMO
 badd +4 ~/Projects/FlightDeck/flightdeck/amo/default_settings.py
@@ -175,7 +177,7 @@ badd +15 ~/Projects/FlightDeck/Docs/mozillaaddonbuilderstyle.sty
 badd +28 ~/Projects/FlightDeck/README
 badd +72 ~/Projects/FlightDeck/INSTALL
 silent! argdel *
-edit ~/Projects/FlightDeck/flightdeck/base/templates/base.html
+edit ~/Projects/FlightDeck/flightdeck/tutorial/templates/tutorial.html
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -191,12 +193,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 52 - ((51 * winheight(0) + 29) / 59)
+let s:l = 63 - ((43 * winheight(0) + 43) / 87)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-52
-normal! 03l
+63
+normal! 0
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif
