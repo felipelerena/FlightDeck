@@ -34,7 +34,7 @@
 				jp_addon_create_url: '{% url jp_addon_create %}',
 				jp_library_create_url: '{% url jp_library_create %}',
 				create_modal_template: '{% escape_template "_create.html" %}',
-				user: '{{ user.username }}', // was request.user - TODO: check
+				user: '{{ user.username }}', 
 				DEBUG: {{ settings.DEBUG|yesno:"true,false" }}
 			};
 			window.addEvent('domready', function() {
@@ -57,14 +57,14 @@
 		
 			<header id="app-header">
 				{% block header %}{% include "_header.html" %}{% endblock %}
-			</header> <!-- /main-header -->
+			</header> <!-- /app-header -->
 
 			{% block app_menu %}{% comment %}
 				<div id="editor-menu-wrapper">
 					<ul class="UI_Editor_Menu minimal">
 						{% include "_base_app_menu_items.html" %}
 					</ul>
-				</div>
+				</div><!-- /editor-menu-wrapper -->
 			{% endcomment %}{% endblock %}
 
 			<div id="app-body">

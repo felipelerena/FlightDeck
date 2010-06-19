@@ -6,14 +6,11 @@
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Landing_Page.css" type="text/css" media="screen" />
 	<script src="/media/jetpack/js/FlightDeck.Browser.js"></script>
 	<!-- <script src="http://github.com/oskarkrawczyk/nuTabs/raw/master/Source/nuTabs.js"></script> -->
-	<script type="text/javascript" charset="utf-8">
-		window.addEvents({
-			domready: function(){
-				// new nuTabs($$('#features-wrapper .UI_Tabs a'), $$('#features-wrapper .UI_Cont li'));
-			}
-		});
-	</script>
 {% endblock %}
+
+<script type="text/javascript" charset="utf-8">{% block app_domready %}
+	// new nuTabs($$('#features-wrapper .UI_Tabs a'), $$('#features-wrapper .UI_Cont li'));
+{% endblock %}</script>
 
 {% block app_menu %}{% endblock %}
 
@@ -39,7 +36,7 @@
 				inspiration. And take advantage of <a href="{% url jp_browser_libraries %}">third-party libraries</a> 
 				with additional APIs.</p> 
 			
-				<p>Need more Help? <a href="">read the tutorial</a> for a
+				<p>Need more Help? <a href="{% url tutorial %}">read the tutorial</a> for a
 				step-by-step guide	to building an add-on using this site.
 
 				<p>Happy hacking!</p>

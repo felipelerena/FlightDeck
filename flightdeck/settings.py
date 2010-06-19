@@ -125,6 +125,7 @@ INSTALLED_APPS.extend([
 	'amo',				# addons.mozilla.org integration (authentication state updates)
 	'jetpack',			# Jetpack functionality
 	'api',				# API browser
+	'tutorial',			# Load tutorial templates
 ])
 
 # devserver is optional
