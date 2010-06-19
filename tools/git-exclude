@@ -11,6 +11,7 @@ dev.db
 pip-log.txt
 flightdeckenv
 flightdeck/media/jetpack
+flightdeck/media/tutorial
 flightdeck/media/bespin
 flightdeck/media/codemirror
 flightdeck/media/roar

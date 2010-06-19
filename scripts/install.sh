@@ -26,6 +26,13 @@ then
 	mkdir $PROJECT_DIR/$PROJECT_NAME/media/
 fi
 
+### link tutorial application 
+if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/tutorial ]
+then
+	ln -fs $PROJECT_DIR/$PROJECT_NAME/tutorial/media/ $PROJECT_DIR/$PROJECT_NAME/media/tutorial
+fi
+
+
 ### link jetpack application 
 if [ ! -e $PROJECT_DIR/$PROJECT_NAME/media/jetpack ]
 then

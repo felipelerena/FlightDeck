@@ -1,0 +1,108 @@
+/*
+---
+filename: UI.Tutorial.css
+decription: Provides tutorial layout for FlightDeck
+license: MIT-style license.
+authors:
+ - Oskar Krawczyk (http://nouincolor.com/)
+ - Piotr Zalewa (http://webdev.zalewa.info/)
+ - Atul Varma
+*/
+
+
+body {
+	background-image: none;
+}
+
+#app-sidebar {
+	display: none
+}
+
+#app-body {
+	margin-top: 20px;
+	margin-left: 0; /*245px;*/
+}
+
+#app-content {
+	margin: 0 15px;
+	width: auto;
+}
+	
+	#app-content a {
+		color: #478CDE;
+	}
+
+	#app-content p {
+		margin-top: 0.6em;
+	}
+
+.UI_middleWrapper.page {
+	max-width: 975px
+}
+
+h2.UI_Heading {
+	margin-top: 15px; 
+}
+
+pre { 
+	font-size: 1.2em 
+}
+
+
+/*
+ ========================================================================= */
+#new-addon {
+}
+
+	#new-addon li {
+		background: -moz-linear-gradient(270deg, #8CC472, #5E9045);
+		margin: 10px auto;
+		padding: 2px 1px 1px;
+		-moz-border-radius: 6px;
+		width: 250px;
+	}
+
+	#new-addon li:hover {
+		-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	}
+
+		#new-addon li a {
+			background: -moz-linear-gradient(270deg, #C5F3AE, #96CE79);
+			-moz-border-radius: 5px;
+			-moz-box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.8);
+			overflow: hidden;
+			display: block;
+			color: #136B00;
+			font-family: Helvetica, Arial, Tahoma, sans-serif;
+		}
+
+		#new-addon li a:hover {
+			text-decoration: none;
+			background: -moz-linear-gradient(270deg, #DEF8C4, #A5DA7F);
+		}
+
+			#new-addon li a span {
+				display: block;
+				padding: 14px 31px 12px 76px;
+				background: url(/media/jetpack/img/UI_Buttons/button-home-addon.png) 0 50% no-repeat;
+				text-shadow: 0 1px 0  rgba(255, 255, 255, 0.7);
+				-moz-border-radius: 5px;
+				font-size: 1.3em;
+			}
+			
+			#new-addon li a:hover span {
+				/*opacity: 0.6;*/
+			}
+
+
+/* // Copied from code proposal bu Atul \\ */
+
+.faded {
+	color: gray;
+}
+
+.highlighted {
+	color: black;
+}
+/* \\ Copied from code proposal bu Atul // */
+

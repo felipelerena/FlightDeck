@@ -1,84 +1,85 @@
 {% extends "base.html" %}
 
 {% block head %}
-	<link href="/media/api/css/API.Browser.css" rel="stylesheet" type="text/css" />
+	<link href="/media/tutorial/css/UI.Tutorial.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block app_content %}
-	<h2 class="UI_Heading">Woohoo</h3>
-{% endblock %}
+	<h2 class="UI_Heading">Your First Add-on</h3>
+
+	{% comment %}
+	  <style>
+	  /* TODO: These CSS definitions are specific to this document and should
+	   * somehow be migrated to Add-ons Builder's CSS, or something
+	   * appropriate from Add-ons Builder's CSS should replace them. */
+
+	  .faded {
+		color: gray;
+	  }
+
+	  .highlighted {
+		color: black;
+	  }
+
+	  #replace-with-new-button {
+		text-align: center;
+	  }
+	  </style>
+
+	  <style>
+	  /* TODO: These CSS definitions are just placeholders, and almost all of
+	   * them are replaceable by Add-ons Builder's CSS. */
+
+	  body {
+		background: #f0f0f0;
+		font-family: Helvetica Neue;
+		font-size: 10pt;
+	  }
+
+	  #container {
+		width: 40em;
+		margin: 0 auto;
+	  }
+
+	  a {
+		color: black;
+	  }
+
+	  a:hover {
+		background: yellow;
+	  }
+	  </style>
+
+	</head>
+	<body>
+	<div id="container">
+	<h2>Your First Add-on</h2>
+	{% endcomment %}
+
+	<p>Add-ons Builder makes it easy to write, test, and build add-ons
+	that extend the browser.</p>
+	 
+	<p>To get started, first press the <i>Create Add-on</i> button.</p>
+
+	<ul id="new-addon">
+		<li>
+			<a id="create_addon" title="" target="_new" href="{% url jp_addon_create %}"><span>Create Add-on</span></a>
+		</li>
+	</ul>
 
 
-{% block app_sidebar %}{% endblock %}
+	<p>Then Add-ons Builder will create a blank new add-on and take you to
+	an interface for building it.</p>
 
-{% comment %}
-  <style>
-  /* TODO: These CSS definitions are specific to this document and should
-   * somehow be migrated to Add-ons Builder's CSS, or something
-   * appropriate from Add-ons Builder's CSS should replace them. */
+	<p>Note: if you aren't signed in yet, you'll be asked to
+	sign in with your <a
+	 href="https://addons.mozilla.org/">addons.mozilla.org</a> account.
+	Don't have an account?  <a
+	 href="https://addons.mozilla.org/users/register">Get one!</a></p>
 
-  .faded {
-    color: gray;
-  }
+	<p>Now, type the following code into the editing area:</p>
 
-  .highlighted {
-    color: black;
-  }
-
-  #replace-with-new-button {
-    text-align: center;
-  }
-  </style>
-
-  <style>
-  /* TODO: These CSS definitions are just placeholders, and almost all of
-   * them are replaceable by Add-ons Builder's CSS. */
-
-  body {
-    background: #f0f0f0;
-    font-family: Helvetica Neue;
-    font-size: 10pt;
-  }
-
-  #container {
-    width: 40em;
-    margin: 0 auto;
-  }
-
-  a {
-    color: black;
-  }
-
-  a:hover {
-    background: yellow;
-  }
-  </style>
-
-</head>
-<body>
-<div id="container">
-<h2>Your First Add-on</h2>
-
-<p>Add-ons Builder makes it easy to write, test, and build add-ons
-that extend the browser.</p>
- 
-<p>To get started, first press the <i>Create Add-on</i> button.</p>
-
-<p id="replace-with-new-button"><a href="/addon/new"
-   title="TODO: This is a placeholder.">[Create Add-on Button]</a></p>
-
-<p>Then Add-ons Builder will create a blank new add-on and take you to
-an interface for building it.</p>
-
-<p>Note: if you aren't signed in yet, you'll be asked to
-sign in with your <a
- href="https://addons.mozilla.org/">addons.mozilla.org</a> account.
-Don't have an account?  <a
- href="https://addons.mozilla.org/users/register">Get one!</a></p>
-
-<p>Now, type the following code into the editing area:</p>
-
-<pre>
+	<pre>
   var widgets = require("widget");
 
   widgets.add(widgets.Widget({
@@ -86,103 +87,104 @@ Don't have an account?  <a
     image: "http://www.mozilla.org/favicon.ico"
   }));
 
-</pre>
+	</pre>
 
-<p>Then click <i>Test</i>. You may now be asked to install the <i>Add-ons
-  Builder Helper</i> extension; this is a small extension that lets
-  Add-ons Builder integrate seamlessly with Firefox, so go ahead and
-  install it and click <i>Test</i> again.</p>
+	<p>Then click <i>Test</i>. You may now be asked to install the <i>Add-ons
+	  Builder Helper</i> extension; this is a small extension that lets
+	  Add-ons Builder integrate seamlessly with Firefox, so go ahead and
+	  install it and click <i>Test</i> again.</p>
 
-<p>At this point, a Mozilla logo (<img
-src="http://www.mozilla.org/favicon.ico" style="width: 1em; height: 1em">)
-should appear at the bottom-left corner of your browser.</p>
+	<p>At this point, a Mozilla logo (<img
+	src="http://www.mozilla.org/favicon.ico" style="width: 1em; height: 1em">)
+	should appear at the bottom-left corner of your browser.</p>
 
-<h2>Oh Noes!</h2>
+	<h2 class="UI_Heading">Oh Noes!</h2>
 
-<p>Of course, you may have made a typo, in which case nothing new appears
-in your browser and you are confused. If this is the case, go to
-Firefox's <i>Tools</i> menu and select <i>Error Console</i>. Make sure that the
-<i>All</i> button appears pressed down in this window, and any errors in
-your code should be logged there.</p>
+	<p>Of course, you may have made a typo, in which case nothing new appears
+	in your browser and you are confused. If this is the case, go to
+	Firefox's <i>Tools</i> menu and select <i>Error Console</i>. Make sure that the
+	<i>All</i> button appears pressed down in this window, and any errors in
+	your code should be logged there.</p>
 
-<h2>How Does The Code Work?</h2>
+	<h2 class="UI_Heading">How Does The Code Work?</h2>
 
-<p>In the code you just wrote, <tt>require</tt> is a global function
-that brings you functionality from another <i>module</i>, or reusable
-piece of code. It's through this mechanism that you'll access all of
-the browser's awesomeness, be it <a
- href="/api/jetpack-core/module/context-menu/">context menus</a>, <a
- href="/api/jetpack-core/module/simple-storage/">persistent
-storage</a>, or something else entirely. In our case, we want to use
-the <a href="/api/jetpack-core/module/widget/">widget</a> module,
-which provides a consistent, unified way for add-ons to expose their
-user interface.</p>
+	<p>In the code you just wrote, <tt>require</tt> is a global function
+	that brings you functionality from another <i>module</i>, or reusable
+	piece of code. It's through this mechanism that you'll access all of
+	the browser's awesomeness, be it <a
+	 href="{% url api_module "jetpack-core" "context-menu" %}">context menus</a>, <a
+	 href="{% url api_module "jetpack-core" "simple-storage" %}">persistent
+	storage</a>, or something else entirely. In our case, we want to use
+	the <a href="{% url api_module "jetpack-core" "widget" %}">widget</a> module,
+	which provides a consistent, unified way for add-ons to expose their
+	user interface.</p>
 
-<h2>Making It Useful</h2>
+	<h2 class="UI_Heading">Making It Useful</h2>
 
-<p>Clicking on the widget doesn't do anything, though, so let's change
-that by making the Mozilla website open in a new tab when the
-user clicks on it:</p>
+	<p>Clicking on the widget doesn't do anything, though, so let's change
+	that by making the Mozilla website open in a new tab when the
+	user clicks on it:</p>
 
-<pre class="faded">
+	<pre class="faded">
   var widgets = require("widget");
 
   widgets.add(widgets.Widget({
     label: <span class="highlighted">"Visit The Mozilla Website"</span>,
-    image: "http://www.mozilla.org/favicon.ico",
-    <span class="highlighted">onClick: function(event) {
+	image: "http://www.mozilla.org/favicon.ico",
+	<span class="highlighted">onClick: function(event) {
       require("tabs").open(require("url").URL("http://www.mozilla.org"));
     }</span>}));
-</pre>
+	</pre>
 
-<p>The <tt>onClick</tt> property is an example of an <i>event
-handler</i>, which you may be familiar with if you've done any coding
-on the Web. Many modules in the add-ons platform reuse this convention
-to provide a consistent API, making learning how to do cool new things
-a breeze.</p>
+	<p>The <tt>onClick</tt> property is an example of an <i>event
+	handler</i>, which you may be familiar with if you've done any coding
+	on the Web. Many modules in the add-ons platform reuse this convention
+	to provide a consistent API, making learning how to do cool new things
+	a breeze.</p>
 
-<h2>Checkpointing</h2>
+	<h2 class="UI_Heading">Checkpointing</h2>
 
-<p>Whenever you've reached a stopping point in your development, click
-the <i>Save</i> button. This actually saves a snapshot of your code as
-a new revision, and you can go back to it whenever you want by
-clicking the <i>Revisions</i> button. This allows you to play around
-with an idea and simply restore your code to an old revision if you
-decide you don't like the changes. It's just like a wiki this way:
-feel free to play around and don't worry about making
-mistakes&mdash;that's how you learn.</p>
+	<p>Whenever you've reached a stopping point in your development, click
+	the <i>Save</i> button. This actually saves a snapshot of your code as
+	a new revision, and you can go back to it whenever you want by
+	clicking the <i>Revisions</i> button. This allows you to play around
+	with an idea and simply restore your code to an old revision if you
+	decide you don't like the changes. It's just like a wiki this way:
+	feel free to play around and don't worry about making
+	mistakes&mdash;that's how you learn.</p>
 
-<h2>Making It Real</h2>
+	<h2 class="UI_Heading">Making It Real</h2>
 
-<p>So far you've just been hacking around on Add-ons Builder
-website, but have no way of sharing your work with your friends and
-family. Fortunately, that's really easy to do: Add-ons Builder, as
-its name suggests, lets you create add-ons that work with the latest
-version of Firefox, no strings attached.</p>
+	<p>So far you've just been hacking around on Add-ons Builder
+	website, but have no way of sharing your work with your friends and
+	family. Fortunately, that's really easy to do: Add-ons Builder, as
+	its name suggests, lets you create add-ons that work with the latest
+	version of Firefox, no strings attached.</p>
 
-<p>First you need to give your add-on a real name, a description, and
-a version number. Just click on the text "My Add-on" on the left side
-of the page and fill in the fields; we suggest starting at version
-0.1.</p>
+	<p>First you need to give your add-on a real name, a description, and
+	a version number. Just click on the text "My Add-on" on the left side
+	of the page and fill in the fields; we suggest starting at version
+	0.1.</p>
 
-<p>Then just click <i>Download</i> to get the XPI file that
-constitutes your add-on. You can send this to friends and family, or
-upload it to <a
- href="https://addons.mozilla.org/">addons.mozilla.org</a> for all the
-world to see and benefit from.</p>
+	<p>Then just click <i>Download</i> to get the XPI file that
+	constitutes your add-on. You can send this to friends and family, or
+	upload it to <a
+	 href="https://addons.mozilla.org/">addons.mozilla.org</a> for all the
+	world to see and benefit from.</p>
 
-<h2>Keep On Hacking!</h2>
+	<h2 class="UI_Heading">Keep On Hacking!</h2>
 
-<p>From here, you can check out the <a href="/api/jetpack-core/">core
-library documentation</a> to discover new ways to extend the
-browser. Alternatively, you can browse <a href="/addons/">other
-people's add-ons</a>, view their source code and see how they work.</p>
+	<p>From here, you can check out the <a href="{% url api_package "jetpack-core" %}">core
+	library documentation</a> to discover new ways to extend the
+	browser. Alternatively, you can browse <a href="{% url jp_browser_addons %}">other
+	people's add-ons</a>, view their source code and see how they work.</p>
 
-<p>Whatever you choose, we hope you enjoy making add-ons! Don't forget
-to visit the <a
-href="http://groups.google.com/group/mozilla-labs-jetpack/">Jetpack
-Google Group</a> if you have any questions or want to share something
-with the rest of the community.</p>
-</div>
-</body>
-{% endcomment %}
+	<p>Whatever you choose, we hope you enjoy making add-ons! Don't forget
+	to visit the <a
+	href="http://groups.google.com/group/mozilla-labs-jetpack/">Jetpack
+	Google Group</a> if you have any questions or want to share something
+	with the rest of the community.</p>
+	{% endblock %}
+
+
+{% block app_sidebar %}{% endblock %}
