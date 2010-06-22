@@ -24,8 +24,8 @@ var FlightDeck = new Class({
 		this.parseTooltips();
 		this.createActionSections();
 		this.parseTestButtons.bind(this).delay(10);
-		this.addEvent('xpi_installed', this.parseTestButtons);
-		this.addEvent('xpi_uninstalled', this.parseTestButtons);
+		this.addEvent('xpi_installed', this.whenXpiInstalled);
+		this.addEvent('xpi_uninstalled', this.whenXpiUninstalled);
 	},
 
 	parseTooltips: function() {
@@ -54,6 +54,16 @@ var FlightDeck = new Class({
 			this.uri.setData({'redirect': url}, false, 'fragment');
 			this.uri.go();
 		}
+	},
+
+	whenXpiInstalled: function() {
+		this.parseTestButtons();
+		this.message.alert('Add-ons Builder', 'Add-on installed');
+	},
+
+	whenXpiUninstalled: function() {
+		this.parseTestButtons();
+		this.message.alert('Add-ons Builder', 'Add-on uninstalled');
 	},
 
 	parseTestButtons: function() {
@@ -102,7 +112,14 @@ var FlightDeck = new Class({
 				onSuccess: function(responseText) {
 					$log('FD: installing ' + url);
 					var result = window.mozFlightDeck.send({cmd: "install", contents: responseText});
-					if (result.success) this.fireEvent('xpi_installed');
+					if (result && result.success) {
+						this.fireEvent('xpi_installed');
+					} else {
+						this.warning.alert(
+							'Add-ons Builder', 
+							'Wrong response from Add-ons Helper. Please <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=573778">let us know</a>'
+						);
+					}
 				}.bind(this)
 			}).send();
 		}
@@ -208,7 +225,7 @@ Class.Mutators.$name = function(name){ this.implement('$family', {name: name}); 
 
 /*
 	Listen to an event fired when Extension is installed
- */
+	This wasn't working
 window.addEvent('load', function() {
 	if (window.mozFlightDeck) {
 		window.mozFlightDeck.whenMessaged(function(data) {
@@ -221,3 +238,4 @@ window.addEvent('load', function() {
 		});
 	}
 });
+ */
