@@ -31,6 +31,7 @@
 			var fd;
 			var settings = {
 				{% block app_settings %}{% endblock %}{% block page_settings %}{% endblock %}
+				addons_helper: '{{ settings.ADDONS_HELPER_URL }}',
 				person_login_url: '{{ settings.LOGIN_URL }}',
 				jp_addon_create_url: '{% url jp_addon_create %}',
 				jp_library_create_url: '{% url jp_library_create %}',
