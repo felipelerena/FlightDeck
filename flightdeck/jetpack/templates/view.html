@@ -1,7 +1,8 @@
 {% extends "base_fluid_width.html" %}
 
+{% block title %}{{ revision }} - {% endblock %}
+
 {% block head %}
-	<title>{{ revision }} - {{ settings.SITE_TITLE }}</title>
 	<link rel="stylesheet" href="/media/jetpack/css/UI.Editor.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="/media/bespin/BespinEmbedded.css" type="text/css" media="screen" />
 	<script src="/media/jetpack/js/FlightDeck.Editor.js"></script>

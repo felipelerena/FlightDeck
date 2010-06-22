@@ -1,6 +1,8 @@
 {% extends "api.html" %}
 {% load base_helpers markup %}
 
+{% block title %}Module "{{ module.name }}" ({{ package.name }}) - Documentation - {% endblock %}
+
 {% block app_content %}
 	<h2 class="UI_Heading">Module {{ module_name }}</h2>
 	
