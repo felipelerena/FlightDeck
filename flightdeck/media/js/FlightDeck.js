@@ -149,8 +149,8 @@ var FlightDeck = new Class({
 	 */
 	alertIfNoAddOn: function(text, title) {
 		if (this.isAddonInstalled()) return true;
-		text = $pick(text, "Please install <a href='{addons_helper}'>FlightDeck Add On</a>".substitute(settings));
-		title = $pick(title, "Add on not installed");
+		text = $pick(text, "To test this add-on, please install the <a href='{addons_helper}'>Add-ons Builder Helper add-on</a>".substitute(settings));
+		title = $pick(title, "Install Add-ons Builder Helper");
 		fd.warning.alert(title, text);
 		return false;
 	},
