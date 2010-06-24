@@ -33,6 +33,7 @@ these steps (some commands are specific to Ubuntu with Bash):
 
 6. Install via pip from requirements.txt and custom packages
    $ ./scripts/install.sh 
+   # change upload directory preferences so it will be writable by webserver
 
 7. Check if everything is working
    * activate flightdeck environment

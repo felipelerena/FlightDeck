@@ -449,7 +449,8 @@ class PackageRevision(models.Model):
 		revisions = PackageRevision.objects.filter(package__pk=self.package.pk)
 		for revision in revisions:
 			if revision.version_name == version_name:
-				raise Exception("There is already a revision with that name")
+				version_name = ''
+				#raise Exception("There is already a revision with that name")
 		self.version_name = version_name
 		if current:
 			self.package.version_name = version_name
