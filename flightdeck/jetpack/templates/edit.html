@@ -51,7 +51,7 @@
 	<section id="modules">
 		{% with revision.modules.all as modules %}
 			<h3 class="UI_Sidebar_Toggler modules opened"><a title="Modules" href="#">
-				Modules{% if modules %} <strong id="modules-counter">({{ modules|length }})</strong>{% endif %} 
+				Modules <strong id="modules-counter">({% if modules %}{{ modules|length }}{% else %}0{% endif %})</strong> 
 				<span class="UI_OC"></span>
 				<span class="UI_Sidebar_Toggler_Icon"></span>
 			</a></h3>
