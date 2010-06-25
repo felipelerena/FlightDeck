@@ -299,7 +299,7 @@ def package_save(r, id, type, revision_number=None, version_name=None):
 	package_full_name = r.POST.get('full_name', False)
 	if package_full_name and package_full_name != revision.package.full_name:
 		try:
-			package = Package.objects.get(
+			package = Package.objects.exclude(pk=package.pk).get(
 				full_name=package_full_name, 
 				type=revision.package.type,
 				author__username=r.user.username,
