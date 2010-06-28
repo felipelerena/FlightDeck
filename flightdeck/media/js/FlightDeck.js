@@ -59,6 +59,16 @@ var FlightDeck = new Class({
 	whenXpiInstalled: function() {
 		this.parseTestButtons();
 		this.message.alert('Add-ons Builder', 'Add-on installed');
+		// remove SDK from disk
+		if (this.rm_xpi_url) {
+			new Request.JSON({
+				url: this.rm_xpi_url,
+				onSuccess: function() {
+					this.fireEvent('sdk_removed');
+				}.bind(this)
+			}).send();
+			this.rm_xpi_url = undefined;
+		}
 	},
 
 	whenXpiUninstalled: function() {

@@ -604,5 +604,6 @@ def download_xpi(r, sdk_name, pkg_name, filename):
 
 def remove_xpi(r, sdk_name):
 	xpi_remove('%s-%s' % (settings.SDKDIR_PREFIX, sdk_name))
+	return HttpResponse('{}', mimetype='application/json')
 
 
