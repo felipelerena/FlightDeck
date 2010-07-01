@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm as ContribAuthenticatio
 from django.utils.translation import ugettext_lazy as _
 
 class AuthenticationForm(ContribAuthenticationForm):
+	username = forms.CharField(label=_("Email address"), max_length=255)
 	
 	def clean(self):
 		username = self.cleaned_data.get('username')
