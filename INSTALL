@@ -10,7 +10,7 @@ these steps (some commands are specific to Ubuntu with Bash):
 1. Clone FlightDeck from github
    $ sudo apt-get install git-core
    $ cd /path/to/projects/
-   $ git clone git@github.com:zalun/FlightDeck.git
+   $ git clone git://github.com/zalun/FlightDeck.git
 
 2. Initiate configuration files
    $ cd /path/to/projects/FlightDeck
