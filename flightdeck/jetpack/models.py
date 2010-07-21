@@ -220,7 +220,6 @@ class PackageRevision(models.Model):
 
 	created_at = models.DateTimeField(auto_now_add=True)
 
-	#contributors for Manifest
 	contributors = models.CharField(max_length=255, blank=True, default='')
 
 	# main for the Manifest
@@ -801,6 +800,18 @@ class Attachment(models.Model):
 		return reverse('jp_attachment', args=[self.path])
 
 
+class SDK(models.Model):
+	"""
+	Placeholder for the Jetpack SDK
+	Add-ons have to depend on an SDK, by default on latest one.
+	"""
+	version = models.CharField(max_length=10, unique=True)
+	# It has to be accompanied with a jetpack-core version - needs to exist before SDK is created
+	core_lib = models.ForeignKey(PackageRevision)
+	# placement in the filesystem
+	dir = models.CharField(max_length=255, unique=True)
+	
+	
 
 #################################################################################
 ## Catching Signals
