@@ -10,6 +10,11 @@ these steps (some commands are specific to Ubuntu with Bash):
 1. Clone FlightDeck from github
    $ sudo apt-get install git-core
    $ cd /path/to/projects/
+   # If cloning for development please first refer to 
+   # https://wiki.mozilla.org/Labs/Jetpack/FlightDeck/Contribution#How_to_start
+   # Please your repository in edit mode
+   $ git clone git@github.com:{your_username}/FlightDeck.git
+   # or if only viewing
    $ git clone git://github.com/zalun/FlightDeck.git
 
 2. Initiate configuration files
