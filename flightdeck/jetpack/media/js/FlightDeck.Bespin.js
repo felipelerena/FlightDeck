@@ -8,10 +8,16 @@ var FDBespin = new Class({
 	initialize: function(element, options) {
 		var self = this;
 		this.setOptions(options);
-		var embedded = tiki.require('Embedded');
-		this.element = embedded.useBespin($(element), {syntax: 'plain'});
+		//var embedded = tiki.require('Embedded');
+		bespin.useBespin($(element), {
+			stealFocus: true
+		}).then(function(env){
+				self.element = env;
+				$log(env)
+			});
 		$log('FD: bespin instantiated');
 		// hook onChange event
+		/*
 		this.element._editorView.getPath('layoutManager.textStorage')
 			.addDelegate(SC.Object.create({
 				textStorageEdited: function() {
@@ -19,6 +25,7 @@ var FDBespin = new Class({
 				}
 			}));
 		$log('FD: bespin onChange hooked');
+		*/
 		window.addEvent('resize', function() {
 			self.element.dimensionsChanged();
 		});
@@ -60,13 +67,15 @@ Class.refactor(FlightDeck, {
 			'class': 'UI_Editor_Area'
 		}).inject($('editor-wrapper'), 'top');
 		var self = this;
-		(function() {
+		window.onBespinLoad = function() {
+			$log('FD: bespin loaded');
 			self.bespin = new FDBespin(self.bespin_editor);
 			self.bespin.addEvent('change', function() {
 				self.fireEvent('bespinChange');
 			});
-			self.fireEvent('bespinLoad')
-		}).delay(10);
+			self.fireEvent('bespinLoad');
+		};
+		$log('FD: onBespinLoad set');
 	},
 	saveCurrentEditor: function() {
 		if (this.current_editor) {

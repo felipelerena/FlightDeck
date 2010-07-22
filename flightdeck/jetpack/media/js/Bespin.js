@@ -2,8 +2,8 @@
  * Bespin wrapper
  */
 /*
- * Class: CodeMirror.js
- * Extension for Editor to use CodeMirror
+ * Class: Bespin.js
+ * Extension for Editor to use Bespin
  */
 
 Class.refactor(FDEditor, {
