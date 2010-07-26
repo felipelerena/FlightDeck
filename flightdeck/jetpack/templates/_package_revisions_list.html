@@ -6,7 +6,7 @@
 			{% for revision in revisions %}
 				<li>
 					<em class="date">{{ revision.created_at|date:"Y-m-d" }}</em>
-					<a href="{{ revision.get_absolute_url }}">{{ revision|version_name }}</a>
+					<a href="{{ revision.get_absolute_url }}">{{ revision.get_version_name }}</a>
 				</li>
 			{% endfor %}
 		</ul>

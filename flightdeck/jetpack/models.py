@@ -715,8 +715,7 @@ class PackageRevision(models.Model):
 
 
 	def get_version_name(self): 
-		name = '%s ' % self.version_name if self.version_name else ''
-		return '%srev. %s' % (name, self.revision_number)
+		return self.version_name if self.version_name else "%s.rev%s" % (self.package.version_name, self.revision_number)
 
 class Module(models.Model):
 	" the only way to 'change' the module is to assign it to different PackageRequest "
